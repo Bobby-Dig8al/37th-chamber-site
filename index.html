@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>37th Chamber — Being Developed</title>
+<meta name="description" content="The 37th Chamber is under construction. Something is taking shape. The Woodlands, TX.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="37th Chamber — Being Developed">
+<meta property="og:description" content="Something is taking shape. Follow the build.">
+<meta property="og:type" content="website">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One+SC&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=Yellowtail&family=JetBrains+Mono&display=swap');
+
+:root{
+  --gold:#FFD700;
+  --gold-bright:#FFEC4A;
+  --gold-muted:#C9A800;
+  --black:#000;
+  --charge:#0E44FF; /* electric-blue — CHARGE / highlight ONLY, never text or fill */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--black);
+  color:var(--gold);
+  font-family:'Source Sans 3',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:2rem 1.25rem;overflow-x:hidden;position:relative;
+}
+/* faint blueprint grid — "under construction" texture */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,215,0,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,215,0,0.035) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+.wrap{position:relative;z-index:1;max-width:680px;width:100%;
+  animation:rise .9s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.eyebrow{
+  font-family:'Bebas Neue',Impact,sans-serif;letter-spacing:0.32em;
+  font-size:clamp(0.7rem,2.6vw,0.95rem);color:var(--gold-muted);
+  text-transform:uppercase;margin-bottom:2rem;
+}
+.mark{display:inline-flex;align-items:baseline;justify-content:center;
+  gap:0.32em;line-height:0.9;margin-bottom:1.75rem}
+.mark .script{font-family:'Yellowtail',cursive;
+  font-size:clamp(4.5rem,20vw,9rem);color:var(--gold);position:relative}
+.mark .script .th{font-size:0.4em;vertical-align:0.6em;margin-left:0.22em}
+.mark .chunky{font-family:'Bowlby One SC',Impact,sans-serif;
+  font-size:clamp(2rem,9vw,4rem);color:var(--gold);
+  text-transform:uppercase;letter-spacing:0.03em}
+
+.headline{font-family:'Bebas Neue',Impact,sans-serif;
+  font-size:clamp(1.6rem,7vw,2.8rem);letter-spacing:0.18em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:1.25rem;
+  display:flex;align-items:center;justify-content:center;gap:0.18em}
+/* the lone electric-blue spark: a pulsing build-caret (a charge, not a letterform) */
+.caret{display:inline-block;width:0.42em;height:1em;background:var(--charge);
+  box-shadow:0 0 10px rgba(14,68,255,0.8),0 0 22px rgba(14,68,255,0.45);
+  transform:translateY(0.08em);animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.subline{font-size:clamp(1rem,3.4vw,1.18rem);line-height:1.6;
+  color:rgba(255,215,0,0.78);max-width:30rem;margin:0 auto 2.5rem}
+
+.cta{display:inline-block;font-family:'Bebas Neue',Impact,sans-serif;
+  font-size:clamp(1.05rem,4vw,1.3rem);letter-spacing:0.14em;text-transform:uppercase;
+  background:var(--gold);color:var(--black);padding:0.9rem 2rem;
+  border:2px solid var(--gold);text-decoration:none;
+  transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.cta:hover{background:var(--gold-bright);transform:translate(-2px,-2px);
+  box-shadow:5px 5px 0 0 var(--gold-muted)}
+.cta .at{font-family:'JetBrains Mono',monospace;letter-spacing:0;font-size:0.82em}
+
+/* HST epigraph — the gonzo sign-off at the base */
+.epigraph{max-width:30rem;margin:2.75rem auto 0;
+  font-family:'Source Sans 3',serif;font-style:italic;
+  font-size:clamp(0.98rem,3vw,1.12rem);letter-spacing:0.02em;line-height:1.5;
+  color:rgba(255,215,0,0.72)}
+.epigraph .attr{display:block;margin-top:0.55rem;font-style:normal;
+  font-family:'JetBrains Mono',monospace;font-size:0.74em;letter-spacing:0.12em;
+  color:var(--gold-muted)}
+/* wu-glow: WHITE-cored letter + Wu-gold halo (white core makes the glow read) */
+.wuglow{color:#fff;
+  text-shadow:0 0 6px rgba(255,215,0,0.95),0 0 14px rgba(255,215,0,0.6),0 0 26px rgba(255,215,0,0.4)}
+/* blue-law: WHITE letter + blue glow (blue never becomes the letter) */
+.hst{color:#fff;
+  text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,0.7),0 0 22px rgba(14,68,255,0.42)}
+
+.foot{margin-top:1.75rem;font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;letter-spacing:0.08em;color:var(--gold-muted);opacity:0.8}
+
+@media (max-width:560px){.mark{flex-direction:column;gap:0}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Est. at the base of the AI tsunami</div>
+    <div class="mark">
+      <span class="script">37<span class="th">th</span></span>
+      <span class="chunky">Chamber</span>
+    </div>
+    <div class="headline">Being Developed <span class="caret" aria-hidden="true"></span></div>
+    <p class="subline">Something is taking shape here. Follow the build — the doors open soon.</p>
+    <a class="cta" href="https://instagram.com/krsullivan512" target="_blank" rel="noopener">Follow the build · <span class="at">@krsullivan512</span></a>
+    <p class="epigraph">&ldquo;Buy the <span class="wuglow">ticket</span>, take the <span class="wuglow">ride</span>.&rdquo;<span class="attr">&mdash;<span class="hst">H.S.Thompson</span></span></p>
+    <div class="foot">© 2026 · 37th Chamber · The Woodlands, TX</div>
+  </div>
+</body>
+</html>
