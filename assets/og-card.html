@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<title>37th Chamber — OG card (1200x630 source for og.png)</title>
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{background:var(--bg);color:var(--gold);font-family:var(--font);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+body::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,214,10,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.04) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:radial-gradient(circle at 50% 42%,#000 30%,transparent 80%)}
+.sigil{width:170px;height:170px;margin-bottom:34px;filter:drop-shadow(0 0 14px rgba(255,214,10,.2));position:relative;z-index:1}
+.sigil .ring-charge{filter:drop-shadow(0 0 7px #0E44FF) drop-shadow(0 0 20px rgba(14,68,255,.9)) drop-shadow(0 0 46px rgba(14,68,255,.55))}
+.title{position:relative;z-index:1;font-size:96px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);line-height:.95;
+  text-shadow:0 2px 0 #b88e00,0 4px 0 #8f6f00,0 6px 10px rgba(0,0,0,.55)}
+.baseline{position:relative;z-index:1;width:300px;height:4px;background:var(--electric);border-radius:2px;margin:26px 0 30px;
+  box-shadow:0 0 8px rgba(14,68,255,1),0 0 22px rgba(14,68,255,.85),0 0 44px rgba(14,68,255,.5)}
+.creed{position:relative;z-index:1;font-size:30px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-soft)}
+.url{position:relative;z-index:1;font-size:21px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:40px}
+</style></head>
+<body>
+<svg class="sigil" viewBox="0 0 200 200" aria-hidden="true">
+  <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
+  <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
+  <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
+    <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
+    <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
+    <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
+    <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
+  </g>
+  <g fill="#FFD500">
+    <circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>
+    <circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>
+    <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
+    <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
+  </g>
+  <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
+  <circle cx="100" cy="100" r="4" fill="#FFD500"/>
+</svg>
+<div class="title">37th&nbsp;Chamber</div>
+<div class="baseline"></div>
+<div class="creed">Knowledge is free · forever</div>
+<div class="url">37th-chamber.com</div>
+</body></html>
