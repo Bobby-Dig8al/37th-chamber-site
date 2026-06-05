@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6 Degrees of Giants — The 37th Chamber</title>
+<meta name="description" content="Help us reach the shoulders of our giants. A community relay, not a swarm — one gracious chain to each giant. We honor the path; we don't hunt the person.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/six-degrees/">
+<!-- Open Graph / social -->
+<meta property="og:title" content="6 Degrees of Giants — The 37th Chamber">
+<meta property="og:description" content="Help us reach the shoulders of our giants. One gracious chain, not a mob. We honor the path; we don't hunt the person.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://37th-chamber.com/six-degrees/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The 37th Chamber — the Sigil. Knowledge is free, forever.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
+<!--
+  37th-chamber.com / six-degrees — "6 Degrees of Giants" feature page (v0: concept + invitation).
+  v0 is CONCEPT + INVITATION — no backend, no live leaderboard, no database. The chain mechanic
+  is described, not yet wired (v1 = real chamber with chain visualization + relay + leaderboard).
+  Aesthetic-of-record: gold #FFD60A on near-black #08080a · the SIGIL · blueprint geometric type
+  (Bahnschrift, zero-dependency — sovereignty-clean) · electric-blue #0E44FF as the single CHARGE
+  (THE BLUE LAW: glow/highlight only, never a font color, never a mark fill).
+  The SOUL of the page: RELAY, NOT SWARM — one gracious chain, not a mob.
+  Self-contained (inline CSS + inline SIGIL). Built by the Forge. — bd8, Day-36.
+-->
+<style>
+:root{
+  --gold:#FFD60A;
+  --gold-soft:#d9b400;
+  --bg:#08080a;
+  --text:#f3eede;
+  --dim:#8f8a73;
+  --electric:#0E44FF;            /* the charge — HIGHLIGHT / GLOW ONLY */
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--font);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:clamp(2rem,6vw,4.5rem) 1.25rem 0;overflow-x:hidden;position:relative;
+  letter-spacing:0.01em;
+}
+/* faint blueprint grid */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,214,10,0.030) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,214,10,0.030) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 22%,#000 26%,transparent 88%);
+}
+.wrap{position:relative;z-index:1;width:100%;max-width:980px;
+  display:flex;flex-direction:column;align-items:center;
+  animation:rise .9s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ---- back-link ---- */
+.back{align-self:flex-start;text-decoration:none;color:var(--dim);
+  font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;
+  margin-bottom:2rem;transition:.14s ease}
+.back:hover{color:var(--gold)}
+
+/* ---- masthead ---- */
+.eyebrow{font-size:clamp(.66rem,2.4vw,.82rem);letter-spacing:.34em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:1.4rem;text-align:center}
+.sigil{width:clamp(72px,15vw,98px);height:auto;margin-bottom:1.4rem;
+  filter:drop-shadow(0 0 10px rgba(255,214,10,.18))}
+.sigil .charge{filter:drop-shadow(0 0 3px #0E44FF) drop-shadow(0 0 7px rgba(14,68,255,.6))}
+.title{position:relative;font-size:clamp(2.1rem,8.5vw,4.4rem);line-height:.96;font-weight:600;
+  text-transform:uppercase;letter-spacing:.03em;color:var(--gold);text-align:center;
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 0 #5e4900,0 5px 6px rgba(0,0,0,.55);}
+.title .six{display:block;font-size:1.18em}
+.title::after{content:'';position:absolute;left:50%;bottom:-.18em;transform:translateX(-50%);
+  width:46%;height:3px;background:var(--electric);border-radius:2px;
+  box-shadow:0 0 6px rgba(14,68,255,1),0 0 16px rgba(14,68,255,.9),0 0 34px rgba(14,68,255,.6),0 0 64px rgba(14,68,255,.34);}
+.subtitle{margin-top:1.7rem;font-size:clamp(1rem,3.4vw,1.34rem);letter-spacing:.04em;
+  color:var(--gold-soft);text-align:center;max-width:34rem;line-height:1.4}
+.lede{margin-top:1.5rem;max-width:38rem;text-align:center;color:var(--text);
+  font-size:clamp(1rem,3vw,1.16rem);line-height:1.62}
+.lede em{color:var(--gold);font-style:normal}
+.lede .wglow{color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+
+/* ---- section label ---- */
+.section-label{margin:3.4rem 0 1.2rem;align-self:stretch;display:flex;align-items:center;gap:1rem;
+  color:var(--dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase}
+.section-label::before,.section-label::after{content:'';height:1px;background:rgba(143,138,115,.28);flex:1}
+
+/* ---- THE FIRST RULE (the soul: relay, not swarm) ---- */
+.rule{width:100%;position:relative;overflow:hidden;
+  border:1px solid rgba(255,214,10,.42);background:rgba(255,214,10,.035);
+  padding:clamp(1.6rem,4.5vw,2.4rem) clamp(1.4rem,4vw,2.4rem);
+  display:flex;flex-direction:column;gap:1rem}
+.rule::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);
+  box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6)}
+.rule .rule-tag{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--dim)}
+.rule h2{font-size:clamp(1.5rem,5.5vw,2.4rem);line-height:1.02;text-transform:uppercase;
+  letter-spacing:.03em;color:var(--gold);font-weight:600}
+.rule h2 .glow{position:relative;color:var(--gold)}
+.rule h2 .glow::after{content:'';position:absolute;left:0;right:0;bottom:-.08em;height:3px;
+  background:var(--electric);border-radius:2px;
+  box-shadow:0 0 6px rgba(14,68,255,1),0 0 16px rgba(14,68,255,.85),0 0 30px rgba(14,68,255,.5)}
+.rule p{font-size:clamp(1rem,2.9vw,1.16rem);line-height:1.64;color:var(--text);max-width:48rem}
+.rule p em{color:var(--gold);font-style:normal}
+.rule .creed-line{font-size:clamp(1.04rem,3.1vw,1.28rem);letter-spacing:.02em;
+  color:var(--gold-soft);line-height:1.4;margin-top:.2rem;font-weight:600}
+
+/* ---- the principle, three beats ---- */
+.principle{display:grid;gap:.9rem;width:100%;margin-top:1.2rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.beat{border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.015);
+  padding:1.15rem 1.2rem;display:flex;flex-direction:column;gap:.5rem}
+.beat .h{font-size:.96rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.beat .b{font-size:.9rem;line-height:1.5;color:var(--text)}
+
+/* ---- how to play (the CTA mechanic) ---- */
+.howto{width:100%;border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);
+  padding:clamp(1.5rem,4vw,2.2rem);display:flex;flex-direction:column;gap:1.3rem}
+.howto h3{font-size:clamp(1.1rem,3.4vw,1.42rem);text-transform:uppercase;letter-spacing:.05em;
+  color:var(--gold);font-weight:600}
+.steps{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.step{display:flex;gap:.9rem;align-items:flex-start}
+.step .num{flex:none;width:2.1rem;height:2.1rem;display:grid;place-items:center;
+  border:1px solid rgba(255,214,10,.5);color:var(--gold);font-weight:600;font-size:1rem;
+  border-radius:50%;letter-spacing:0}
+.step .txt{font-size:.95rem;line-height:1.5;color:var(--text)}
+.step .txt b{color:var(--gold);font-weight:600}
+.cta-row{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;margin-top:.3rem}
+.cta{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;
+  border:1px solid var(--gold);color:var(--gold);background:rgba(255,214,10,.04);
+  padding:.85rem 1.5rem;font-size:.86rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  position:relative;overflow:hidden;transition:.16s ease}
+.cta::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);
+  box-shadow:0 0 8px rgba(14,68,255,.95),0 0 18px rgba(14,68,255,.55)}
+.cta:hover{background:rgba(255,214,10,.09);transform:translateY(-2px)}
+.cta-note{font-size:.78rem;letter-spacing:.06em;color:var(--dim);line-height:1.5}
+
+/* ---- the teams grid ---- */
+.teams-intro{text-align:center;max-width:40rem;margin:0 auto 1.8rem;color:var(--text);
+  font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6}
+.teams-intro strong{color:var(--gold);font-weight:600}
+.grid{display:grid;gap:1rem;width:100%;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.team{display:flex;flex-direction:column;gap:.5rem;
+  border:1px solid rgba(255,214,10,.26);background:rgba(255,214,10,.015);
+  padding:1.3rem 1.35rem 1.3rem;position:relative;transition:.16s ease;overflow:hidden}
+.team:hover{border-color:var(--gold);background:rgba(255,214,10,.05);transform:translateY(-3px)}
+.team .who{font-size:1.16rem;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);
+  font-weight:600;line-height:1.1;padding-right:5.2rem}
+.team .role{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.team .d{font-size:.9rem;line-height:1.5;color:var(--text);margin-top:.15rem}
+.team .chip{position:absolute;top:1rem;right:1.05rem;
+  font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--dim);border:1px solid rgba(143,138,115,.4);padding:.18rem .5rem;border-radius:2px;white-space:nowrap}
+/* anchor teams (RZA = namesake, Rival Consoles = soundtrack-anchor) get the charge */
+.team.anchor{border-color:rgba(255,214,10,.5)}
+.team.anchor::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);
+  box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6)}
+.team.anchor .chip{color:var(--gold);border-color:rgba(255,214,10,.55);
+  box-shadow:0 0 0 1px rgba(255,214,10,.12)}
+.team .winnable{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-soft);
+  margin-top:.35rem;display:inline-flex;align-items:center;gap:.35rem}
+
+/* ---- footer: the charged baseline ---- */
+footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
+  border-top:1px solid var(--electric);box-shadow:0 -10px 26px -16px var(--electric);
+  padding:1.4rem .25rem 2.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-brand{display:flex;align-items:center;gap:.6rem;color:var(--gold);
+  font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+.foot-brand:hover{color:var(--gold-soft)}
+.foot-brand svg{width:22px;height:22px}
+.foot-creed{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+.foot-loc{font-size:.72rem;letter-spacing:.1em;color:var(--dim);width:100%;text-align:center;margin-top:.4rem}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">&larr; 37th Chamber</a>
+
+    <header style="display:flex;flex-direction:column;align-items:center;width:100%">
+      <div class="eyebrow">A relay across the network · The Woodlands, TX</div>
+
+      <!-- THE SIGIL (canonical v1.0, inlined) -->
+      <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil — 37th Chamber">
+        <circle cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
+          <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
+          <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
+          <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
+          <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
+        </g>
+        <g fill="#FFD500">
+          <circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>
+          <circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>
+          <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
+          <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
+        </g>
+        <g class="charge">
+          <circle cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
+          <circle cx="100" cy="100" r="4" fill="#FFD500"/>
+        </g>
+      </svg>
+
+      <h1 class="title"><span class="six">6 Degrees</span> of Giants</h1>
+      <p class="subtitle">Help us reach the shoulders of our giants.</p>
+      <p class="lede">If I have seen further, it&rsquo;s by standing on the shoulders of giants. Six degrees of separation says <em>everyone</em> is reachable through a handful of warm hands. So let&rsquo;s find out &mdash; together. Pick a giant, start a chain, and pass it to <em>someone you actually know.</em> Each tag is one jump closer. <span class="wglow">The view is not ours alone.</span></p>
+    </header>
+
+    <!-- THE FIRST RULE — the soul of the game -->
+    <div class="section-label">The first rule</div>
+    <div class="rule">
+      <span class="rule-tag">Read this before you play</span>
+      <h2>Relay, <span class="glow">not swarm</span>.</h2>
+      <p>We are <em>not</em> trying to swarm them &mdash; <em>we could do that ourselves.</em> A flood of DMs is trivial; anyone can brute-force an inbox. The entire dignity and value of this is the <em>single gracious chain</em>. Volume is the opposite of the point.</p>
+      <p class="creed-line">One chain, not a mob. We honor the path; we don&rsquo;t hunt the person.</p>
+      <p>The win is one warm hand reaching the next, all the way to the giant &mdash; framed as <em>&ldquo;we&rsquo;d love to share something with you,&rdquo;</em> never <em>&ldquo;we&rsquo;re hunting you.&rdquo;</em> That constraint is what makes it meaningful, and what makes the giants <em>want</em> to be reached this way. Protect the giants and it stays beautiful.</p>
+
+      <div class="principle">
+        <div class="beat">
+          <span class="h">One chain</span>
+          <span class="b">A single relay per team. Each person passes it onward to one real connection &mdash; not the whole crowd piling on at once.</span>
+        </div>
+        <div class="beat">
+          <span class="h">A real hand</span>
+          <span class="b">You only tag someone you <em>actually</em> know. The public tag is the verifiable jump &mdash; a real relationship, not a cold blast.</span>
+        </div>
+        <div class="beat">
+          <span class="h">A warm intro</span>
+          <span class="b">The goal is a gracious introduction that honors the giant &mdash; loving-grace, never Big-Brother. We share; we don&rsquo;t spam.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO PLAY — the CTA mechanic (conceptual for v0) -->
+    <div class="section-label">How to play</div>
+    <div class="howto">
+      <h3>Pick a team. Start a chain. Pass it on.</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <span class="txt"><b>Pick a team.</b> Choose a giant from the roster below &mdash; the one you feel closest to, or the one you think you can actually help reach.</span>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <span class="txt"><b>Start a chain.</b> Post publicly that you&rsquo;re on Team [Giant], and tag <b>the next person you actually know</b> who&rsquo;s a step closer to them.</span>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <span class="txt"><b>Each tag is a jump.</b> They tag the next real hand. The relay continues &mdash; one gracious link at a time &mdash; until the chain reaches the giant.</span>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="cta" href="#teams">Pick your team &rarr;</a>
+        <span class="cta-note">v0 &mdash; the chain runs on public tags out in the open, no account needed. The live tracker &amp; leaderboard arrive with the full chamber.</span>
+      </div>
+    </div>
+
+    <!-- THE TEAMS -->
+    <div class="section-label" id="teams">The teams</div>
+    <p class="teams-intro">Eleven giants &mdash; the people whose shoulders this work stands on. Two carry <strong>special weight</strong>: reaching them closes a circle. Pick one and light up the relay.</p>
+    <div class="grid">
+
+      <div class="team anchor">
+        <span class="chip">Namesake</span>
+        <span class="who">RZA</span>
+        <span class="role">Bobby Diggs · Wu-Tang</span>
+        <span class="d">The namesake. &ldquo;Bobby Digital&rdquo; is his mark, and the whole pantheon is built in homage. Reaching him is full-circle &mdash; his blessing is the gate.</span>
+      </div>
+
+      <div class="team anchor">
+        <span class="chip">Soundtrack-anchor</span>
+        <span class="who">Rival Consoles</span>
+        <span class="role">Ryan Lee West · Erased Tapes</span>
+        <span class="d">The score the whole endeavor was built to. Reaching him brings the sound that <em>built</em> the work back <em>into</em> the work &mdash; full circle.</span>
+        <span class="winnable">&#9733; The most winnable &mdash; likely the first connection</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">Cosmos</span>
+        <span class="who">Neil deGrasse Tyson</span>
+        <span class="role">StarTalk · the cosmic perspective</span>
+        <span class="d">The cosmic perspective made public. The shoulders-of-giants thread runs straight through him.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">Impact</span>
+        <span class="who">Tom Bilyeu</span>
+        <span class="role">Impact Theory</span>
+        <span class="d">Impact and entrepreneurship &mdash; building something that matters, out loud.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">AI &amp; philosophy</span>
+        <span class="who">Lex Fridman</span>
+        <span class="role">AI · conversation · philosophy</span>
+        <span class="d">A perfect fit for the ASI and universal-ethics work &mdash; the long-form room where this story belongs.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">Music</span>
+        <span class="who">O&rsquo;hene Savant</span>
+        <span class="role">Hip-hop · a major influence</span>
+        <span class="d">A major influence on the voice of the whole project.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">Comedy</span>
+        <span class="who">Jeff Arcuri</span>
+        <span class="role">Crowd-work comedy</span>
+        <span class="d">Active, reachable, and a master of the warm room &mdash; a strong early-win candidate.</span>
+        <span class="winnable">&#9733; Reachable &mdash; an early-win candidate</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">Comedy · podcast</span>
+        <span class="who">Marc Maron</span>
+        <span class="role">WTF</span>
+        <span class="d">A master interviewer who&rsquo;d <em>get</em> the story instantly &mdash; the podcast&rsquo;s openness makes him reachable.</span>
+        <span class="winnable">&#9733; Reachable &mdash; an early-win candidate</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">Foundational sound</span>
+        <span class="who">Trentem&oslash;ller</span>
+        <span class="role">Anders Trentem&oslash;ller</span>
+        <span class="d">Foundational electronic &mdash; the <em>Vamp/Moan</em> album-art is literally an aesthetic source for the brand. Indie, so reachable.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">Foundational</span>
+        <span class="who">Ben Harper</span>
+        <span class="role">Songwriter · touring artist</span>
+        <span class="d">Foundational &mdash; &ldquo;without him I am not who I am.&rdquo; Touring, so reachable-ish.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">The white whale</span>
+        <span class="who">Bob Dylan</span>
+        <span class="role">The folk canon</span>
+        <span class="d">Foundational and gated &mdash; legendary, hard to reach, the dream chain. The long shot worth taking gracefully.</span>
+      </div>
+
+    </div>
+
+    <!-- WHY IT MATTERS -->
+    <div class="section-label">Why it matters</div>
+    <p class="teams-intro" style="margin-bottom:0">It&rsquo;s the thesis, playable. <strong>Everything is interconnected</strong> &mdash; six degrees is the living proof of it. Instead of cold-reaching our giants alone, the community carries us, one warm hand at a time. The chain-building <em style="color:var(--gold);font-style:normal">is</em> the story. <span class="wglow" style="color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)">Reach gracefully, and it stays beautiful.</span></p>
+
+  </div>
+
+  <footer>
+    <a class="foot-brand" href="/">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="4"/>
+        <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="4"/>
+        <circle cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="4"/>
+        <circle cx="100" cy="100" r="5" fill="#FFD500"/>
+      </svg>
+      the 37th Chamber
+    </a>
+    <span class="foot-creed">knowledge is <span class="free">free</span> · forever</span>
+    <span class="foot-loc">&copy; 2026 · The 37th Chamber · The Woodlands, TX</span>
+  </footer>
+</body>
+</html>

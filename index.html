@@ -7,6 +7,9 @@
 <meta name="description" content="The 36 chambers were the training. The 37th is the room you build to give it away. AI literacy, the sciences, the games — taught honestly and given away free. The Woodlands, TX.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/">
+<!-- Favicon: THE SIGIL (gold on near-black) — its canonical Tier-1 job. -->
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <!-- Open Graph / social (viral-ready) -->
 <meta property="og:title" content="The 37th Chamber">
 <meta property="og:description" content="The 36 chambers were the training. The 37th is the room you build to give it away. Knowledge is free — forever.">
@@ -62,7 +65,9 @@ body::before{
   text-transform:uppercase;color:var(--dim);margin-bottom:1.6rem;text-align:center}
 .sigil{width:clamp(78px,16vw,104px);height:auto;margin-bottom:1.4rem;
   filter:drop-shadow(0 0 10px rgba(255,214,10,.18))}
-.sigil .charge{filter:drop-shadow(0 0 3px #0E44FF) drop-shadow(0 0 7px rgba(14,68,255,.6))}
+/* THE BLUE LAW — the charge is a GLOW only (never a fill, never a font color).
+   Matches assets/og-card.html: applied to the outer circle + inner ring; the mark stays gold. */
+.sigil .ring-charge{filter:drop-shadow(0 0 7px #0E44FF) drop-shadow(0 0 20px rgba(14,68,255,.9)) drop-shadow(0 0 46px rgba(14,68,255,.55))}
 .title{position:relative;font-size:clamp(2.6rem,11vw,5.6rem);line-height:.92;font-weight:600;
   text-transform:uppercase;letter-spacing:.04em;color:var(--gold);text-align:center;
   text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 0 #5e4900,0 5px 6px rgba(0,0,0,.55);}
@@ -147,6 +152,8 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 .foot-brand{display:flex;align-items:center;gap:.6rem;color:var(--gold);
   font-size:.82rem;letter-spacing:.1em;text-transform:uppercase}
 .foot-brand svg{width:22px;height:22px}
+/* THE BLUE LAW at footer scale — same charge, glow tightened so a 22px mark doesn't bloom. */
+.foot-brand svg .ring-charge{filter:drop-shadow(0 0 3px #0E44FF) drop-shadow(0 0 7px rgba(14,68,255,.85)) drop-shadow(0 0 14px rgba(14,68,255,.5))}
 .foot-creed{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-loc{font-size:.72rem;letter-spacing:.1em;color:var(--dim);width:100%;text-align:center;margin-top:.4rem}
@@ -159,7 +166,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 
       <!-- THE SIGIL (canonical v1.0, inlined) -->
       <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil — 37th Chamber">
-        <circle cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
         <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
         <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
           <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
@@ -173,10 +180,8 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
           <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
           <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
         </g>
-        <g class="charge">
-          <circle cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
-          <circle cx="100" cy="100" r="4" fill="#FFD500"/>
-        </g>
+        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <circle cx="100" cy="100" r="4" fill="#FFD500"/>
       </svg>
 
       <h1 class="title">37th&nbsp;Chamber</h1>
@@ -295,9 +300,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   <footer>
     <span class="foot-brand">
       <svg viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="4"/>
+        <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="4"/>
         <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="4"/>
-        <circle cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="4"/>
+        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="4"/>
         <circle cx="100" cy="100" r="5" fill="#FFD500"/>
       </svg>
       the 37th Chamber
