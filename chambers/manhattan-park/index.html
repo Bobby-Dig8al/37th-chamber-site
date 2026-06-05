@@ -62,6 +62,11 @@ body {
 header {
   display: flex; align-items: baseline; justify-content: space-between;
   margin-bottom: 20px; padding-bottom: 14px;
+  /* QA-fix (Day-36, U-God): reserve top clearance for the FIXED back-link
+     (a[aria-label="Back to the 37th Chamber"] sits top:.6rem left:.6rem, ~30px tall).
+     Without this the back-link overlapped the SIGIL + the first word of the H1 at
+     both 1280px and 390px. 44px clears the link's 40px bottom edge with a small gap. */
+  padding-top: 44px;
   /* footer-mirror: bd8-blue as a charged UNDERLINE baseline (highlight only, never fill).
      The footer carries the same electric bar on top; together they bracket the chamber. */
   border-bottom: 2px solid var(--electric);
