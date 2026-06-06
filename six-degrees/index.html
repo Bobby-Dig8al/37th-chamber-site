@@ -165,6 +165,42 @@ body::before{
 .team .winnable{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-soft);
   margin-top:.35rem;display:inline-flex;align-items:center;gap:.35rem}
 
+/* ---- v1: chain-starter (per-card button + shared aside) ---- */
+.team-chain-btn{margin-top:.7rem;align-self:flex-start;font-family:inherit;font-size:.7rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid rgba(255,214,10,.45);
+  padding:.46rem .8rem;border-radius:2px;cursor:pointer;transition:.16s ease;font-weight:600;line-height:1}
+.team-chain-btn:hover, .team-chain-btn:focus-visible{border-color:var(--gold);background:rgba(255,214,10,.06);outline:none}
+.team-started-mark{margin-top:.4rem;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold-soft);display:inline-flex;align-items:center;gap:.32rem}
+.chainstarter{width:100%;margin:1.2rem 0 .4rem;border:1px solid rgba(14,68,255,.55);background:rgba(14,68,255,.05);
+  padding:1.3rem 1.4rem;display:flex;flex-direction:column;gap:.85rem;position:relative;
+  box-shadow:0 0 0 1px rgba(14,68,255,.08), 0 0 24px rgba(14,68,255,.18) inset}
+.chainstarter[hidden]{display:none}
+.cs-close{position:absolute;top:.55rem;right:.7rem;background:transparent;border:none;color:var(--dim);
+  font-size:1.45rem;line-height:1;cursor:pointer;padding:.2rem .4rem;font-family:inherit;transition:.16s ease}
+.cs-close:hover, .cs-close:focus-visible{color:var(--gold);outline:none}
+.cs-head{display:flex;align-items:baseline;gap:.55rem;flex-wrap:wrap;padding-right:2rem}
+.cs-eyebrow{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.cs-team{font-size:clamp(1rem,2.8vw,1.12rem);color:var(--gold);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.cs-team strong{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.7)}
+.cs-label{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:.1rem}
+.cs-text{width:100%;font-family:inherit;font-size:clamp(.92rem,2.5vw,1rem);line-height:1.55;color:var(--text);
+  background:rgba(0,0,0,.42);border:1px solid rgba(255,214,10,.2);padding:.85rem 1rem;border-radius:2px;
+  resize:vertical;min-height:7rem;letter-spacing:0;font-weight:400}
+.cs-text:focus{outline:none;border-color:rgba(255,214,10,.5);box-shadow:0 0 0 1px rgba(255,214,10,.18)}
+.cs-actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.1rem}
+.cs-share, .cs-copy{font-family:inherit;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);background:transparent;border:1px solid rgba(255,214,10,.45);padding:.55rem 1rem;
+  border-radius:2px;cursor:pointer;text-decoration:none;transition:.16s ease;font-weight:600;line-height:1.1}
+.cs-share:hover, .cs-copy:hover, .cs-share:focus-visible, .cs-copy:focus-visible{border-color:var(--gold);background:rgba(255,214,10,.06);outline:none}
+.cs-copy.is-copied{color:#fff;border-color:rgba(14,68,255,.7);background:rgba(14,68,255,.15)}
+.cs-note{font-size:.8rem;color:var(--dim);line-height:1.55;letter-spacing:.02em;margin-top:.1rem}
+.cs-note em{color:var(--gold-soft);font-style:normal;font-weight:600}
+.chain-counter{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);
+  margin:.4rem 0 .8rem;text-align:center;display:none}
+.chain-counter.show{display:block}
+.chain-counter strong{color:var(--gold);font-weight:700}
+
 /* ---- footer: the charged baseline ---- */
 footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   border-top:1px solid var(--electric);box-shadow:0 -10px 26px -16px var(--electric);
@@ -176,10 +212,20 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 .foot-creed{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-loc{font-size:.72rem;letter-spacing:.1em;color:var(--dim);width:100%;text-align:center;margin-top:.4rem}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
 </style>
 </head>
 <body>
-  <div class="wrap">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main class="wrap" id="main">
     <a class="back" href="/">&larr; 37th Chamber</a>
 
     <header style="display:flex;flex-direction:column;align-items:center;width:100%">
@@ -264,6 +310,24 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     <!-- THE TEAMS -->
     <div class="section-label" id="teams">The teams</div>
     <p class="teams-intro">Eleven giants &mdash; the people whose shoulders this work stands on. Two carry <strong>special weight</strong>: reaching them closes a circle. Pick one and light up the relay.</p>
+
+    <!-- v1: chain-starter (revealed on team-card click; JS-enhanced, falls back gracefully) -->
+    <aside class="chainstarter" id="chainstarter" hidden>
+      <button class="cs-close" type="button" aria-label="Close">&times;</button>
+      <div class="cs-head">
+        <span class="cs-eyebrow">Start your chain</span>
+        <span class="cs-team">for <strong></strong></span>
+      </div>
+      <label class="cs-label" for="cs-text">Your post (edit freely):</label>
+      <textarea class="cs-text" id="cs-text" rows="6" spellcheck="true"></textarea>
+      <div class="cs-actions">
+        <a class="cs-share" target="_blank" rel="noopener noreferrer" data-platform="x">Share to X &rarr;</a>
+        <a class="cs-share" target="_blank" rel="noopener noreferrer" data-platform="linkedin">Share to LinkedIn &rarr;</a>
+        <button class="cs-copy" type="button">Copy to clipboard</button>
+      </div>
+      <div class="cs-note">Relay, <em>not</em> swarm. Tag the next real hand you know &mdash; one gracious link at a time. The chain belongs to everyone who passes it on.</div>
+    </aside>
+
     <div class="grid">
 
       <div class="team anchor">
@@ -352,7 +416,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     <div class="section-label">Why it matters</div>
     <p class="teams-intro" style="margin-bottom:0">It&rsquo;s the thesis, playable. <strong>Everything is interconnected</strong> &mdash; six degrees is the living proof of it. Instead of cold-reaching our giants alone, the community carries us, one warm hand at a time. The chain-building <em style="color:var(--gold);font-style:normal">is</em> the story. <span class="wglow" style="color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)">Reach gracefully, and it stays beautiful.</span></p>
 
-  </div>
+  </main>
 
   <footer>
     <a class="foot-brand" href="/">
@@ -367,5 +431,160 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     <span class="foot-creed">knowledge is <span class="free">free</span> · forever</span>
     <span class="foot-loc">&copy; 2026 · The 37th Chamber · The Woodlands, TX</span>
   </footer>
+
+  <!--
+    v1 chain-starter (vanilla JS, zero deps, progressive enhancement).
+    - Adds a "Start your chain" button to every .team card
+    - Reveals the #chainstarter aside above the grid when clicked, pre-fills
+      a chamber-style social-post template with the giant's name, wires
+      X / LinkedIn share-intent URLs + a copy-to-clipboard button
+    - Honest local-only chain-tracking via localStorage (key "37chain.started")
+      - shows "Chain started" mark on cards the visitor has already shared from
+      - shows total count above the grid ("Chains you've started: N")
+    - No network calls; no remote state. Real interactivity, no backend.
+    - Falls back gracefully when JS is disabled (v0 informational layout still renders).
+  -->
+  <script>
+  (function () {
+    var STORAGE_KEY = '37chain.started';
+    var SITE_URL = 'https://37th-chamber.com/six-degrees/';
+    function template(giant) {
+      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\n" + SITE_URL;
+    }
+
+    var cs = document.getElementById('chainstarter');
+    if (!cs) return;
+    var teamSpan = cs.querySelector('.cs-team strong');
+    var textArea = cs.querySelector('.cs-text');
+    var shareX = cs.querySelector('[data-platform="x"]');
+    var shareLi = cs.querySelector('[data-platform="linkedin"]');
+    var copyBtn = cs.querySelector('.cs-copy');
+    var closeBtn = cs.querySelector('.cs-close');
+
+    function readStarted() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+      catch (e) { return []; }
+    }
+    function writeStarted(list) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+      catch (e) { /* private mode etc - quietly skip */ }
+    }
+    function markStarted(name) {
+      if (!name) return;
+      var list = readStarted();
+      if (list.indexOf(name) === -1) {
+        list.push(name);
+        writeStarted(list);
+        renderCounter();
+        // re-apply the "Chain started" mark to that card if visible
+        decorateCards();
+      }
+    }
+
+    function refreshShareUrls() {
+      var text = textArea.value;
+      shareX.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+      shareLi.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(SITE_URL) + '&summary=' + encodeURIComponent(text);
+    }
+
+    function openFor(name) {
+      teamSpan.textContent = name;
+      textArea.value = template(name);
+      refreshShareUrls();
+      cs.hidden = false;
+      try { cs.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      catch (e) { cs.scrollIntoView(); }
+      // focus the textarea so editing is one keystroke away (after the scroll)
+      setTimeout(function () { try { textArea.focus(); } catch (e) {} }, 320);
+    }
+
+    textArea.addEventListener('input', refreshShareUrls);
+
+    closeBtn.addEventListener('click', function () { cs.hidden = true; });
+
+    copyBtn.addEventListener('click', function () {
+      var ok = false;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textArea.value).then(function () { signalCopied(); }, function () { execFallback(); });
+        ok = true;
+      } else {
+        execFallback();
+        ok = true;
+      }
+      if (ok) markStarted(teamSpan.textContent);
+    });
+    function execFallback() {
+      try { textArea.select(); document.execCommand('copy'); signalCopied(); }
+      catch (e) { copyBtn.textContent = 'Select & copy'; }
+    }
+    function signalCopied() {
+      copyBtn.textContent = 'Copied ✓';
+      copyBtn.classList.add('is-copied');
+      setTimeout(function () {
+        copyBtn.textContent = 'Copy to clipboard';
+        copyBtn.classList.remove('is-copied');
+      }, 1700);
+    }
+
+    shareX.addEventListener('click', function () { markStarted(teamSpan.textContent); });
+    shareLi.addEventListener('click', function () { markStarted(teamSpan.textContent); });
+
+    // Inject a button into every team card + decorate previously-started cards
+    function decorateCards() {
+      var started = readStarted();
+      var cards = document.querySelectorAll('.team');
+      cards.forEach(function (card) {
+        var whoEl = card.querySelector('.who');
+        if (!whoEl) return;
+        var name = whoEl.textContent.trim();
+        // button (idempotent)
+        if (!card.querySelector('.team-chain-btn')) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'team-chain-btn';
+          btn.textContent = 'Start your chain →';
+          btn.setAttribute('aria-label', 'Start a chain for ' + name);
+          btn.addEventListener('click', function () { openFor(name); });
+          card.appendChild(btn);
+        }
+        // started mark (idempotent — remove + re-add if status changes)
+        var existing = card.querySelector('.team-started-mark');
+        if (started.indexOf(name) !== -1) {
+          if (!existing) {
+            var mark = document.createElement('span');
+            mark.className = 'team-started-mark';
+            mark.textContent = '★ Chain started';
+            card.appendChild(mark);
+          }
+        } else if (existing) {
+          existing.remove();
+        }
+      });
+    }
+
+    // Counter above the grid
+    function renderCounter() {
+      var grid = document.querySelector('.grid');
+      if (!grid) return;
+      var counter = document.getElementById('chain-counter');
+      var count = readStarted().length;
+      if (!counter) {
+        counter = document.createElement('div');
+        counter.id = 'chain-counter';
+        counter.className = 'chain-counter';
+        grid.parentNode.insertBefore(counter, grid);
+      }
+      if (count > 0) {
+        counter.innerHTML = 'Chains you’ve started: <strong>' + count + '</strong>';
+        counter.classList.add('show');
+      } else {
+        counter.classList.remove('show');
+      }
+    }
+
+    decorateCards();
+    renderCounter();
+  })();
+  </script>
 </body>
 </html>
