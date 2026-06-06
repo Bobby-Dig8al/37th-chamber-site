@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Surrounding Game (Go) · 37th Chamber</title>
+<meta name="description" content="Train to play Go like a master. The AlphaGo parable: AI didn't end the game — it deepened it. One of the many ways AI can help humanity reach the stars — if we align it, and put our acts together.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/chambers/go/">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="The Surrounding Game — Go · 37th Chamber">
+<meta property="og:description" content="The AlphaGo parable: AI didn't end Go — it deepened it. AI can help us reach the stars — if we align it and put our acts together.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://37th-chamber.com/chambers/go/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#ece7d6;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;line-height:1.7;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.5rem,5vw,3rem) 1.25rem 0;overflow-x:hidden;position:relative;letter-spacing:.006em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 16%,#000 28%,transparent 86%)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+.back{align-self:flex-start;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.5rem;z-index:1;
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.3);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:1rem}
+.title{font-size:clamp(2.1rem,8vw,3.6rem);line-height:1;text-transform:uppercase;letter-spacing:.03em;color:var(--gold);font-weight:600;text-align:center;
+  text-shadow:0 1px 0 #b88e00,0 2px 5px rgba(0,0,0,.5)}
+.names{margin-top:.8rem;text-align:center;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-soft)}
+.hook{margin:1.4rem auto 0;max-width:34rem;text-align:center;font-size:clamp(1.05rem,3vw,1.3rem);line-height:1.5;color:#fff;font-weight:600}
+.hook .glow{text-shadow:0 0 6px rgba(14,68,255,.9),0 0 16px rgba(14,68,255,.5)}
+.chip{display:inline-block;margin:1.3rem auto 0;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,214,10,.5);padding:.2rem .6rem;border-radius:2px}
+.section-label{margin:3rem 0 1.1rem;display:flex;align-items:center;gap:1rem;color:var(--dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase}
+.section-label::before,.section-label::after{content:'';height:1px;background:rgba(143,138,115,.28);flex:1}
+.parable p{margin:0 0 1.2rem;font-size:clamp(1rem,2.6vw,1.1rem)}
+.parable strong{color:#fff;font-weight:600}
+.parable .gold{color:var(--gold);font-weight:600}
+.parable .move{color:var(--gold-soft);font-weight:600;letter-spacing:.02em}
+.close{border:1px solid rgba(255,214,10,.4);background:rgba(255,214,10,.03);position:relative;overflow:hidden;padding:clamp(1.4rem,4vw,2rem);margin-top:1rem}
+.close::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6)}
+.close p{margin:0 0 .9rem;font-size:clamp(1rem,2.7vw,1.12rem)}
+.close p:last-child{margin:0}
+.close .stars{color:var(--gold);font-weight:600}
+.close .cond{color:#fff;font-weight:600;text-shadow:0 0 6px rgba(14,68,255,.85),0 0 14px rgba(14,68,255,.45)}
+.vision{margin-top:2.4rem;font-size:clamp(1rem,2.6vw,1.08rem);line-height:1.6;color:var(--text)}
+.vision .soon{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,214,10,.5);padding:.12rem .45rem;border-radius:2px;margin-left:.4rem;white-space:nowrap}
+.xlink{margin-top:1.4rem;font-size:.95rem;color:var(--dim)}
+.xlink a{color:var(--gold);text-decoration:none;font-weight:600}.xlink a:hover{text-decoration:underline}
+.record{margin-top:2.2rem;font-size:.85rem;line-height:1.7;color:var(--dim)}
+.record a{color:var(--gold-soft);text-decoration:none}.record a:hover{text-decoration:underline}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);box-shadow:0 -10px 24px -16px var(--electric);padding:1.5rem .25rem 2.4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
+  <main class="wrap" id="main">
+    <div class="eyebrow">Chamber · the games</div>
+    <h1 class="title">The Surrounding Game</h1>
+    <div class="names">Go &middot; 圍棋 &middot; 바둑 &middot; 囲碁</div>
+    <p class="hook">Train to play like a 9-dan master &mdash; <span class="glow">like Lee Sedol.</span></p>
+    <div style="text-align:center"><span class="chip">&#9679; The parable</span></div>
+
+    <div class="parable" style="margin-top:1.6rem">
+      <p>In March 2016, the best Go player alive sat down across from a machine.</p>
+      <p>His name is <span class="gold">Lee Sedol</span> &mdash; 9-dan, one of the greatest ever to play. The machine was <span class="gold">AlphaGo</span>, built by <span class="gold">Demis Hassabis</span> and his team at DeepMind. Five games, Seoul, more than 200 million people watching.</p>
+      <p>Two human acts of nerve made that moment. Lee Sedol staked his legacy to face the thing. Demis and his team staked years on a bet most called fantasy &mdash; that a machine could learn the most <em>intuitive</em> game humans ever invented. <strong>Both dared. Both risked.</strong></p>
+      <p>Game 2, <span class="move">Move 37.</span> AlphaGo set a stone where no master would &mdash; out on the fifth line, a spot a thousand years of wisdom called wrong. The commentators thought it was a mistake. It was a one-in-ten-thousand move. It was genius &mdash; and it rewrote centuries of theory with a single stone.</p>
+      <p>Game 4, <span class="move">Move 78.</span> Lee Sedol answered with a one-in-ten-thousand move of his own &mdash; the <strong>"God's Touch,"</strong> a wedge so beautiful it broke the machine's certainty. He won that game. <strong>The man beat the machine, and the whole world saw it.</strong></p>
+      <p>AlphaGo took the match, 4&ndash;1. But here is what did <em>not</em> happen: <span class="gold">Go did not die. People did not quit.</span> More of us wanted to learn than ever before &mdash; because Lee Sedol was willing to face the machine, and we all learned from what the two of them found together. <strong>This was not a defeat for man.</strong></p>
+      <p>And now the machine <em>teaches.</em> It shows you how to play like a master. It shows you moves that look <em>insane</em> &mdash; until you see, for yourself, that they're beautiful. Players at every level are testing moves no human had dared, re-reading thousands of years of received wisdom. The student finally has a teacher that never tires.</p>
+    </div>
+
+    <div class="section-label">Eyes open</div>
+    <div class="close">
+      <p>This is one of the many ways AI can help humanity <span class="stars">reach the stars</span> &mdash; not by replacing the player, but by making the player greater than they could have been alone.</p>
+      <p><span class="cond">Can. Not will.</span> The stars are conditional: only if we build the machine for <em>loving grace</em>, and only if we put our acts together. Eyes open &mdash; then up.</p>
+    </div>
+
+    <p class="vision">The chamber will teach you Go from the first stone, and let you train against an AI that isn't here to <em>beat</em> you &mdash; it's here to make you a master.<span class="soon">In build</span></p>
+    <p class="xlink">The first game chamber is already live &mdash; <a href="/chambers/manhattan-park/">Manhattan Park</a> (chess), with a real engine that explains every move.</p>
+
+    <p class="record"><strong style="color:var(--gold-soft)">The record:</strong>
+      <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol" target="_blank" rel="noopener">AlphaGo vs. Lee Sedol</a> ·
+      <a href="https://deepmind.google/research/alphago/" target="_blank" rel="noopener">DeepMind: AlphaGo</a> ·
+      <a href="https://www.technologyreview.com/2026/02/27/1133624/ai-is-rewiring-how-the-worlds-best-go-players-think/" target="_blank" rel="noopener">How AI rewired the way the best play Go</a>.
+      We cite to honor the root.
+    </p>
+  </main>
+
+  <footer>
+    <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+    <a class="foot-back" href="/">&larr; back to the chambers</a>
+  </footer>
+</body>
+</html>
