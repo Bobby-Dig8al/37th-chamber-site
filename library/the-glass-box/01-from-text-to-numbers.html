@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 1 · From Text to Numbers — The Glass Box · 37th Chamber</title>
+<meta name="description" content="Chapter 1 of The Glass Box. How language becomes number — character tokenization, then byte-pair encoding from scratch. The first algorithm in a language model, built and round-trip-tested.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/library/the-glass-box/01-from-text-to-numbers/">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="Ch 1 · From Text to Numbers — The Glass Box">
+<meta property="og:description" content="How language becomes number. Tokenization, BPE from scratch, the first algorithm a language model runs.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://37th-chamber.com/library/the-glass-box/01-from-text-to-numbers/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Consolas','SFMono-Regular','Menlo','Liberation Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem 0;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:760px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav{display:flex;gap:.45rem;flex-wrap:wrap}
+.chnav a, .chnav span{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid rgba(255,214,10,.22);padding:.36rem .62rem;border-radius:2px;transition:.16s ease}
+.chnav a:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav span{color:var(--dim);border-color:rgba(143,138,115,.22);cursor:default}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.78rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.85rem,6.4vw,2.85rem);line-height:1.05;font-weight:600;text-transform:uppercase;letter-spacing:.025em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1.2rem}
+.epigraph{margin:1rem 0 2rem;padding:.85rem 1rem .85rem 1.1rem;border-left:2px solid var(--gold-soft);background:rgba(255,214,10,.025);
+  font-style:italic;color:var(--gold-soft);font-size:clamp(.94rem,2.6vw,1.02rem);line-height:1.6}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2.2rem 0}
+h2{margin:2.4rem 0 1rem;font-size:clamp(1.18rem,3.6vw,1.42rem);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h3{margin:1.8rem 0 .8rem;font-size:clamp(1.02rem,2.9vw,1.14rem);color:var(--gold-soft);font-weight:600;letter-spacing:.01em}
+p, ul, ol{font-size:clamp(.98rem,2.55vw,1.05rem);line-height:1.72;margin:.95rem 0;color:var(--text)}
+ul, ol{padding-left:1.4rem}
+li{margin:.42rem 0}
+strong{color:var(--gold)}
+em{color:var(--gold-soft);font-style:italic}
+a.inline{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+a.inline:hover{border-bottom-style:solid}
+code{font-family:var(--mono);font-size:.92em;color:var(--gold-soft);background:rgba(255,214,10,.05);padding:.08em .35em;border-radius:2px;letter-spacing:0}
+pre{font-family:var(--mono);font-size:clamp(.78rem,2.1vw,.86rem);line-height:1.55;color:var(--text);
+  background:rgba(255,214,10,.018);border:1px solid rgba(255,214,10,.13);border-left:2px solid var(--electric);
+  padding:.85rem 1rem;margin:1.1rem 0;overflow-x:auto;border-radius:0;
+  box-shadow:inset 0 0 0 0 transparent}
+pre code{font-size:1em;color:inherit;background:none;padding:0;border-radius:0;letter-spacing:0}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.6);background:rgba(14,68,255,.04);color:var(--text);font-size:clamp(.95rem,2.55vw,1.02rem);line-height:1.62}
+blockquote em{color:#cfe0ff}
+.takeaway{margin:1.4rem 0;padding:1rem 1.15rem;border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.025)}
+.takeaway h3{margin-top:0}
+.next-up{margin:2.6rem 0 1.4rem;padding:1.1rem 1.2rem;border:1px solid rgba(14,68,255,.45);background:rgba(14,68,255,.05);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.next-up .label{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.next-up .target{font-size:clamp(1rem,2.7vw,1.1rem);color:var(--gold);font-weight:600}
+.next-up a{color:var(--gold);text-decoration:none}
+.next-up a:hover{text-decoration:underline}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);
+  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.note-source{margin-top:2rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a class="back" href="/library/">&larr;&nbsp;The Library</a>
+  <div class="chnav">
+    <span>&larr; Ch&nbsp;0</span>
+    <a href="/library/the-glass-box/02-words-as-directions.html">Ch&nbsp;2 &rarr;</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="eyebrow">The Glass Box · Chapter 1</div>
+  <h1 class="title">From Text to Numbers: Tokenization</h1>
+
+  <blockquote class="epigraph">A model does arithmetic. It has never seen a letter in its life. Before anything else can happen, language has to become number — and exactly how you do that conversion quietly decides what the model can and can&rsquo;t learn.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s1-1">1.1&nbsp;&nbsp;The core problem</h2>
+  <p>A neural network is a pile of multiplications and additions over numbers. It cannot multiply the word <em>&ldquo;Shaolin.&rdquo;</em> So step zero of building a language model is a translation layer that turns a string into a list of integers, and turns a list of integers back into a string:</p>
+<pre><code>"Shaolin"  --encode--&gt;  [31, 47, 12, 5, 31, 9, 14]  --model--&gt;  ...  --decode--&gt;  "..."</code></pre>
+  <p>That translation layer is the <strong>tokenizer</strong>. A <em>token</em> is the atomic unit the model sees &mdash; it might be a character, a word-piece, or a whole word. The set of all possible tokens is the <strong>vocabulary</strong>, and each token has a fixed integer <strong>ID</strong>.</p>
+  <p>Two operations, always paired and always inverse:</p>
+  <ul>
+    <li><code>encode(text) -&gt; [ids]</code></li>
+    <li><code>decode([ids]) -&gt; text</code></li>
+  </ul>
+  <p>If <code>decode(encode(x)) != x</code>, your tokenizer is broken. That round-trip is the first test we&rsquo;ll write.</p>
+
+  <hr class="rule">
+
+  <h2 id="s1-2">1.2&nbsp;&nbsp;The simplest tokenizer that works: character-level</h2>
+  <p>Start with the most honest possible scheme: <strong>every distinct character is a token.</strong> Let&rsquo;s build it on a real corpus. Grab any plain-text file &mdash; say a chunk of text in <code>corpus.txt</code> &mdash; and:</p>
+<pre><code># char_tokenizer.py
+with open("corpus.txt", "r", encoding="utf-8") as f:
+    text = f.read()
+
+# the vocabulary is just the sorted set of characters that appear
+chars = sorted(set(text))
+vocab_size = len(chars)
+print(f"{vocab_size} unique characters")
+print("".join(chars))
+
+# two lookup tables: string-&gt;int and int-&gt;string
+stoi = {ch: i for i, ch in enumerate(chars)}
+itos = {i: ch for ch, i in stoi.items()}
+
+def encode(s: str) -&gt; list[int]:
+    return [stoi[ch] for ch in s]
+
+def decode(ids: list[int]) -&gt; str:
+    return "".join(itos[i] for i in ids)
+
+# the round-trip test — this MUST pass
+sample = "Shaolin"
+assert decode(encode(sample)) == sample, "round-trip failed"
+print(encode(sample))
+print(decode(encode(sample)))</code></pre>
+  <p>That&rsquo;s a complete, working tokenizer. Run it. You now have <code>encode</code>/<code>decode</code> and a <code>vocab_size</code> (probably 60&ndash;100 for English prose).</p>
+
+  <h3 id="s1-2a">Why character-level is a real choice, not a toy</h3>
+  <ul>
+    <li><strong>Tiny vocabulary</strong> (tens, not tens-of-thousands). Cheap.</li>
+    <li><strong>No &ldquo;unknown token&rdquo; problem</strong> &mdash; any text made of seen characters encodes perfectly. New word? Still just characters.</li>
+  </ul>
+
+  <h3 id="s1-2b">Why we don&rsquo;t stop here</h3>
+  <p>Look at what the model must learn. To &ldquo;understand&rdquo; the word <code>the</code>, a character model must learn the <em>sequence</em> <code>t &rarr; h &rarr; e</code> from scratch, across every context, using up positions in its limited attention window. A 256-character context is only ~50 English words. The model spends enormous capacity just re-discovering that letters clump into words. We&rsquo;re making it learn spelling before it can learn meaning.</p>
+  <p>We want a middle ground: units bigger than a character (so sequences are short and word-structure comes for free) but smaller than a word (so we never hit a word we can&rsquo;t represent). That middle ground is <strong>subword tokenization</strong>, and the workhorse algorithm is <strong>byte-pair encoding</strong>.</p>
+
+  <hr class="rule">
+
+  <h2 id="s1-3">1.3&nbsp;&nbsp;Byte-pair encoding (BPE), from scratch</h2>
+  <p>BPE (adapted to NLP by Sennrich, Haddow &amp; Birch, 2016; used by GPT-2, Radford et al. 2019) has one idea, applied repeatedly:</p>
+  <blockquote><strong>Find the most frequent adjacent pair of tokens in the data, and merge it into a single new token. Repeat until you have the vocabulary size you want.</strong></blockquote>
+  <p>You start with the smallest possible alphabet and <em>grow</em> the vocabulary by gluing together pairs that occur a lot. Common chunks like <code>th</code>, <code>the</code>, <code>&nbsp;and</code> become single tokens; rare stuff stays in small pieces. Nothing is ever unrepresentable, because the foundation is always there underneath.</p>
+
+  <h3 id="s1-3a">Start from bytes, not characters</h3>
+  <p>A subtle, important choice GPT-2 makes: start not from Unicode characters but from <strong>raw bytes</strong>. There are exactly 256 possible byte values (0&ndash;255), and <em>any</em> text in any language &mdash; emoji, Chinese, control characters &mdash; is just a sequence of bytes in UTF-8. So a byte-level base vocabulary of 256 can represent <em>literally anything</em> with zero unknown tokens, ever. We build on that.</p>
+<pre><code># step 1: text -&gt; raw byte ids (base vocabulary is 0..255)
+text = "the theme of the theatre"
+ids = list(text.encode("utf-8"))   # e.g. [116, 104, 101, 32, ...]
+print(ids)</code></pre>
+
+  <h3 id="s1-3b">Counting pairs</h3>
+<pre><code>def get_pair_counts(ids: list[int]) -&gt; dict[tuple[int, int], int]:
+    """Count how often each adjacent pair appears."""
+    counts = {}
+    for pair in zip(ids, ids[1:]):       # (ids[0],ids[1]), (ids[1],ids[2]), ...
+        counts[pair] = counts.get(pair, 0) + 1
+    return counts
+
+counts = get_pair_counts(ids)
+top_pair = max(counts, key=counts.get)
+print(top_pair, counts[top_pair])        # the most frequent adjacent pair</code></pre>
+
+  <h3 id="s1-3c">Merging a pair into a new token</h3>
+<pre><code>def merge(ids: list[int], pair: tuple[int, int], new_id: int) -&gt; list[int]:
+    """Replace every occurrence of `pair` with the single token `new_id`."""
+    out = []
+    i = 0
+    while i &lt; len(ids):
+        if i &lt; len(ids) - 1 and ids[i] == pair[0] and ids[i + 1] == pair[1]:
+            out.append(new_id)
+            i += 2          # skip both members of the pair
+        else:
+            out.append(ids[i])
+            i += 1
+    return out</code></pre>
+
+  <h3 id="s1-3d">Training the tokenizer</h3>
+  <p>Training a tokenizer just means: decide which merges to make, in order. We do <code>num_merges</code> rounds; each round finds the top pair and assigns it the next free ID (starting at 256, after the byte range).</p>
+<pre><code>def train_bpe(text: str, vocab_size: int):
+    assert vocab_size &gt;= 256
+    num_merges = vocab_size - 256
+    ids = list(text.encode("utf-8"))
+
+    merges: dict[tuple[int, int], int] = {}   # the learned rules, in order
+    for i in range(num_merges):
+        counts = get_pair_counts(ids)
+        if not counts:
+            break
+        pair = max(counts, key=counts.get)
+        new_id = 256 + i
+        ids = merge(ids, pair, new_id)
+        merges[pair] = new_id
+    return merges
+
+# train on a real corpus string
+merges = train_bpe(open("corpus.txt", encoding="utf-8").read(), vocab_size=512)
+print(f"learned {len(merges)} merges")</code></pre>
+
+  <h3 id="s1-3e">Encoding with the trained merges</h3>
+  <p>To encode new text, apply the learned merges in the same order they were learned (earliest merges are the most general and must go first):</p>
+<pre><code>def encode_bpe(text: str, merges: dict[tuple[int, int], int]) -&gt; list[int]:
+    ids = list(text.encode("utf-8"))
+    # apply merges in learned order
+    for pair, new_id in merges.items():
+        ids = merge(ids, pair, new_id)
+    return ids</code></pre>
+
+  <h3 id="s1-3f">Decoding &mdash; rebuild the byte strings</h3>
+  <p>To decode, we need to know what bytes each token ID expands to. Build a <code>vocab</code> table: IDs 0&ndash;255 are single bytes; each merged ID is the concatenation of its two parents.</p>
+<pre><code>def build_vocab(merges: dict[tuple[int, int], int]) -&gt; dict[int, bytes]:
+    vocab = {i: bytes([i]) for i in range(256)}     # base: each byte
+    for (a, b), new_id in merges.items():           # in insertion order
+        vocab[new_id] = vocab[a] + vocab[b]
+    return vocab
+
+def decode_bpe(ids: list[int], vocab: dict[int, bytes]) -&gt; str:
+    raw = b"".join(vocab[i] for i in ids)
+    return raw.decode("utf-8", errors="replace")    # 'replace' guards mid-char splits
+
+vocab = build_vocab(merges)
+sample = "the theatre theme"
+assert decode_bpe(encode_bpe(sample, merges), vocab) == sample
+print(encode_bpe(sample, merges))</code></pre>
+  <p>You just built &mdash; from raw bytes &mdash; the same family of tokenizer that GPT-2 and GPT-3 use. It compresses text (fewer tokens than characters), never chokes on unknown input, and round-trips perfectly. <strong>This is not a simplified stand-in. It is the real algorithm.</strong></p>
+
+  <hr class="rule">
+
+  <h2 id="s1-4">1.4&nbsp;&nbsp;Special tokens</h2>
+  <p>Real models need a few tokens that aren&rsquo;t text &mdash; control signals. The most important:</p>
+  <ul>
+    <li><strong><code>&lt;|endoftext|&gt;</code></strong> &mdash; marks a boundary between documents. During training it tells the model &ldquo;a new, unrelated stream starts here,&rdquo; so it doesn&rsquo;t try to predict the start of one document from the end of another. At generation time it&rsquo;s the model&rsquo;s way of saying <em>&ldquo;I&rsquo;m done.&rdquo;</em></li>
+  </ul>
+  <p>Special tokens get IDs <em>above</em> the learned vocabulary and are inserted by hand, never produced by BPE merges:</p>
+<pre><code>END_OF_TEXT = len(vocab)          # next free ID after all merges
+vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-decoded literally</code></pre>
+  <p>We&rsquo;ll wire these in properly in Chapter 7 when we assemble training data from many documents.</p>
+
+  <hr class="rule">
+
+  <h2 id="s1-5">1.5&nbsp;&nbsp;The thing to actually understand</h2>
+  <div class="takeaway">
+    <ol>
+      <li><strong>The model&rsquo;s &ldquo;atoms&rdquo; are tokens, not words or letters.</strong> When people are surprised a model can&rsquo;t spell or count letters in a word, this is why &mdash; it often never sees the letters; it sees a chunk like <code>&nbsp;theatre</code> as one indivisible symbol. The glass box explains the magic <em>and</em> the limits in the same breath.</li>
+      <li><strong>Vocabulary size is a tradeoff.</strong> Bigger vocab &rarr; shorter sequences (good, more text per context window) but a larger embedding table and output layer (costly). GPT-2 chose ~50,257. We&rsquo;ll use a small vocab so our model trains fast.</li>
+    </ol>
+  </div>
+
+  <hr class="rule">
+
+  <h2 id="s1-6">1.6&nbsp;&nbsp;Exercises</h2>
+  <ol>
+    <li><strong>Round-trip stress test.</strong> Run <code>decode_bpe(encode_bpe(s, merges), vocab) == s</code> on text containing emoji and a non-English script. Does it hold? Why does starting from <em>bytes</em> (not characters) make this work?</li>
+    <li><strong>Compression ratio.</strong> For a held-out paragraph, compute <code>len(encode_bpe(text)) / len(text.encode("utf-8"))</code> at <code>vocab_size</code> = 300, 500, 1000. Plot tokens-vs-vocab. Where do the gains flatten?</li>
+    <li><strong>Watch the merges.</strong> Print the first 20 merged tokens (decode each <code>new_id</code> to bytes). Do they match your intuition about common English chunks?</li>
+    <li><strong>Break it.</strong> Remove the <code>errors="replace"</code> from <code>decode_bpe</code>, then decode a <em>truncated</em> token list that cuts a multi-byte character in half. What happens, and what does that teach you about why generation works at the token level but display happens at the character level?</li>
+    <li><strong>Efficiency (stretch).</strong> Our <code>encode_bpe</code> re-scans the whole list once per merge &mdash; O(vocab &times; length). Sketch a faster encoder that, for a given text, repeatedly applies only the <em>earliest-learned applicable</em> merge. Why does merge <em>order</em> matter for correctness?</li>
+  </ol>
+
+  <div class="next-up">
+    <div>
+      <div class="label">What&rsquo;s next</div>
+      <div class="target">Ch 2 &mdash; Words as Directions: embeddings &amp; the input pipeline</div>
+    </div>
+    <a href="/library/the-glass-box/02-words-as-directions.html">Read Ch&nbsp;2 &rarr;</a>
+  </div>
+
+  <p class="note-source">A 37th-Chamber original. Methods cited (Sennrich, Haddow &amp; Birch 2016; Radford et al. 2019); all prose and code written fresh.</p>
+</div>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/library/">&larr; back to the library</a>
+</footer>
+</body>
+</html>
