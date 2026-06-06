@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Note 001 · How to read your AI — Dispatches · 37th Chamber</title>
+<meta name="description" content="A confident bluffer is more dangerous than an obvious liar. Three concrete grading moves you can run on any AI output in under two minutes — before you ship it to a client, a regulator, or yourself.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/dispatches/001-how-to-read-your-ai.html">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="Field Note 001 · How to read your AI">
+<meta property="og:description" content="A confident bluffer is more dangerous than an obvious liar. Three grading moves under two minutes — before you ship.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-06-06">
+<meta property="og:url" content="https://37th-chamber.com/dispatches/001-how-to-read-your-ai.html">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem 0;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
+.meta-pill .num{color:var(--gold-soft);font-weight:600}
+.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.8rem,6vw,2.7rem);line-height:1.06;font-weight:600;letter-spacing:.015em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
+.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
+h2{margin:2.2rem 0 .9rem;font-size:clamp(1.18rem,3.6vw,1.4rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
+p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
+p strong{color:var(--gold);font-weight:600}
+p em{color:var(--gold-soft);font-style:italic}
+ol, ul{padding-left:1.4rem;font-size:clamp(.98rem,2.55vw,1.05rem);line-height:1.72;margin:.85rem 0}
+ol li, ul li{margin:.45rem 0}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.6);background:rgba(14,68,255,.04);
+  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62}
+blockquote em{color:#cfe0ff}
+.move{margin:1.6rem 0;padding:1.15rem 1.3rem;border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);
+  display:flex;flex-direction:column;gap:.45rem}
+.move h3{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-weight:600;margin:0}
+.move h3 .num{color:var(--gold);font-weight:700;margin-right:.55rem}
+.move .h{font-size:clamp(1.06rem,3vw,1.18rem);color:var(--gold);font-weight:600;letter-spacing:.01em;line-height:1.3}
+.move p{font-size:clamp(.96rem,2.55vw,1.04rem);line-height:1.65;margin:.4rem 0 0}
+.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
+  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
+.signoff strong{color:var(--gold-soft)}
+.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+.signoff a:hover{border-bottom-style:solid}
+footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid var(--electric);
+  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="topnav" aria-label="Dispatch navigation">
+  <a class="back" href="/dispatches/">&larr;&nbsp;Dispatches</a>
+  <span class="meta-pill"><span class="num">Field Note 001</span> &middot; 2026&middot;06&middot;06 &middot; AI &middot; practice</span>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">Dispatches &middot; The 37th Chamber</div>
+  <h1 class="title">How to read your AI</h1>
+  <p class="dek">A confident bluffer is more dangerous than an obvious liar. Three concrete grading moves you can run on any AI output in under two minutes &mdash; before you ship it to a client, a regulator, or yourself.</p>
+
+  <hr class="rule">
+
+  <p>An AI gave you something. A summary, an email, a chunk of code, a research brief. It looks clean. Maybe even <em>elegant</em>. The temptation is to act on it.</p>
+  <p><strong>Don&rsquo;t. Not yet.</strong></p>
+  <p>The thing about modern language models is they speak the same language whether they&rsquo;re right or wrong. Confidence is a vibe, not a signal. The same paragraph that nailed a tricky derivation can, a sentence later, invent a citation that doesn&rsquo;t exist &mdash; in the same calm voice. That&rsquo;s not a flaw to be patched out next quarter; it&rsquo;s the medium itself. If you&rsquo;re going to use these tools, the work of <em>reading</em> the output is part of using them. It&rsquo;s not optional.</p>
+  <p>Here&rsquo;s the operating principle:</p>
+
+  <blockquote>You don&rsquo;t use what you can&rsquo;t see into. <em>The glass-box rule.</em> If the output can&rsquo;t be inspected &mdash; if you can&rsquo;t check it without re-reading it through your own brain &mdash; it isn&rsquo;t ready to ship.</blockquote>
+
+  <p>Two minutes. Three moves. You&rsquo;ll catch most of the trouble.</p>
+
+  <hr class="rule">
+
+  <h2>The three moves</h2>
+
+  <div class="move">
+    <h3><span class="num">01</span>Independent re-derivation of one claim</h3>
+    <div class="h">Pick a specific fact. Find it yourself, in one click, from a primary source.</div>
+    <p>Not all of the claims &mdash; <em>one</em>. The one a real reader would push back on. If the AI says &ldquo;Sennrich et&nbsp;al. introduced BPE to NLP in 2016&rdquo;, open a tab, search the title, read the abstract. If the AI says &ldquo;the law in Texas requires X&rdquo;, open the statute. If it says &ldquo;the patient&rsquo;s LDL was 132&rdquo;, open the chart.</p>
+    <p>If the one you randomly tested holds, the rest probably does too. If it doesn&rsquo;t &mdash; if the citation is fabricated, the statute is misnamed, the number is wrong &mdash; <strong>treat the whole output as untrusted</strong> and start over. One bad claim in confident prose is a signal about the whole pour, not a stray.</p>
+  </div>
+
+  <div class="move">
+    <h3><span class="num">02</span>Read the code, not just the comment</h3>
+    <div class="h">For code: ignore the explanation. Read the body.</div>
+    <p>AI-written code comes with a story: &ldquo;This function does X by doing Y.&rdquo; The story is often correct and pleasant. It is also <em>generated separately from the code itself</em>. The two can drift. The story can describe behavior the code doesn&rsquo;t implement, or paper over a subtle bug the code has.</p>
+    <p>The move is simple: <strong>cover the comments and explanations and read what the code actually does, line by line.</strong> Trace one input through it by hand. If it does what the story says, fine. If it doesn&rsquo;t, you&rsquo;ve just caught the drift &mdash; before production caught it for you.</p>
+  </div>
+
+  <div class="move">
+    <h3><span class="num">03</span>Check the meta-claims about what the AI did</h3>
+    <div class="h">When the AI tells you what it did, verify the doing &mdash; not the report.</div>
+    <p>&ldquo;I ran the tests and they pass.&rdquo; &ldquo;I searched the database and found three matches.&rdquo; &ldquo;I read the file and updated section 3.&rdquo; These are <em>claims about actions</em> &mdash; and an AI describing actions is just as prone to confident error as an AI describing facts. Maybe more.</p>
+    <p>If the AI says it ran tests, look for the test output. If it says it searched, look at the search results. If it says it edited a file, open the file and look at the diff. The minute and a half this costs is the cheapest insurance you&rsquo;ll buy that day.</p>
+  </div>
+
+  <hr class="rule">
+
+  <h2>The honest limit</h2>
+  <p>These three moves do not catch everything. They catch <em>most</em> of the trouble &mdash; the confident hallucination, the drifted comment, the falsely reported action &mdash; in under two minutes per artifact, every time. That&rsquo;s the trade. If the work matters more than two minutes&rsquo; worth of trouble, the moves pay for themselves immediately. If it doesn&rsquo;t matter that much, you&rsquo;re probably not reading this dispatch.</p>
+  <p>The point isn&rsquo;t suspicion. The point is <strong>partnership</strong>. AI is a tool that&rsquo;s vastly more useful when you can see into it &mdash; and a tool you should not use, on anything that matters, until you&rsquo;ve built the habit of looking. The work of looking is the work. There&rsquo;s no shortcut, but there&rsquo;s also no excuse for not doing it.</p>
+  <p>If you&rsquo;re using AI on anything regulated, anything published, anything that costs someone money or reputation, you don&rsquo;t need a vendor; you need a discipline. The three moves above are the floor. Everything else is upholstery.</p>
+
+  <div class="signoff">
+    Filed from the 37th Chamber &middot; The Woodlands, TX &middot; <strong>2026.06.06</strong><br>
+    <a href="/dispatches/">More dispatches &rarr;</a> &nbsp;|&nbsp; <a href="/work/">Work with me &rarr;</a>
+  </div>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/dispatches/">&larr; back to Dispatches</a>
+</footer>
+</body>
+</html>

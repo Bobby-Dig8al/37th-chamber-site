@@ -27,7 +27,7 @@
   (Bahnschrift, zero-dependency — no external fonts, sovereignty-clean) · electric-blue #0E44FF as the
   single CHARGE (THE BLUE LAW: glow/highlight only, never a font color, never a mark fill).
   The 36 chambers list is OUR vision — built by us, never crowdsourced.
-  Staged on branch feat/site-live-day36 for operator review + push. — bd8 + BD82, Day-36.
+  Built by bd8 + AI.
 -->
 <style>
 :root{
@@ -189,6 +189,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p class="lede">The 36 chambers were the training. The <em>37th</em> is the one you build to give the training away. This is that room — <em>the view is not ours alone.</em></p>
     </header>
 
+    <!-- THE DAILY: five good people, every day -->
+    <section id="the-daily"></section>
+
     <!-- FLAGSHIP: the live chamber -->
     <div class="section-label">Open now</div>
     <a class="flagship" href="chambers/manhattan-park/">
@@ -207,9 +210,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(2rem,7vw,2.9rem);font-weight:600;color:var(--gold);line-height:1">1</div><div style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">consumer PC</div></div>
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(2rem,7vw,2.9rem);font-weight:600;color:var(--gold);line-height:1">0</div><div style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">data centers</div></div>
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(2rem,7vw,2.9rem);font-weight:600;color:var(--gold);line-height:1">12</div><div style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">AI agents</div></div>
-      <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(1.5rem,5vw,2.1rem);font-weight:600;color:var(--gold);line-height:1.05">57.9&deg;C</div><div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">peak &middot; full load &middot; zero throttling</div></div>
+      <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(1.5rem,5vw,2.1rem);font-weight:600;color:var(--gold);line-height:1.05">57.9&deg;C</div><div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">OCCT 1-hr max &middot; zero throttle</div></div>
     </div>
-    <p style="text-align:center;font-size:.7rem;letter-spacing:.07em;color:var(--dim);margin-top:1rem;opacity:.85">STS-87 &middot; Ryzen&nbsp;7 9700X &middot; RTX&nbsp;4070&nbsp;Ti&nbsp;Super &middot; verified: OCCT combined CPU+GPU, 1&nbsp;hour sustained.</p>
+    <p style="text-align:center;font-size:.7rem;letter-spacing:.07em;color:var(--dim);margin-top:1rem;opacity:.85">STS-87 &middot; Ryzen&nbsp;7 9700X &middot; RTX&nbsp;4070&nbsp;Ti&nbsp;Super &middot; verified: OCCT combined CPU+GPU, 1&nbsp;hour sustained, zero throttle. Live real-world peaks ~65&deg;C &mdash; also throttle-free.</p>
 
     <!-- 6 DEGREES — the participatory feature (primetime launch) -->
     <div class="section-label">Join in</div>
@@ -288,14 +291,14 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     <!-- THE OTHER ROOMS + THE DOORS -->
     <div class="section-label">The Library &amp; the Dispatches</div>
     <div class="grid">
-      <a class="card" href="#library">
-        <span class="chip">Opening</span>
+      <a class="card" href="library/">
+        <span class="chip live">&#9679; Live</span>
         <span class="k">The Library</span>
         <span class="d">Long-form books, read free. First on the shelf: <em>The Glass Box</em> — build a language model from first principles, so you know exactly what you&rsquo;re talking to.</span>
         <span class="go">Read →</span>
       </a>
-      <a class="card" href="#dispatch">
-        <span class="chip">Soon</span>
+      <a class="card" href="dispatches/">
+        <span class="chip live">&#9679; New</span>
         <span class="k">Dispatches</span>
         <span class="d">The writing — gonzo, research, and field notes from the base of the wave.</span>
         <span class="go">Read →</span>
@@ -304,8 +307,8 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 
     <div class="section-label">The Doors</div>
     <div class="grid">
-      <a class="card" href="#work">
-        <span class="chip">Soon</span>
+      <a class="card" href="work/">
+        <span class="chip live">&#9679; Open</span>
         <span class="k">Work With Me</span>
         <span class="d">AI-integration consulting — compliance-aware, with forensic audits of AI output. One operator, a twelve-agent architecture under the hood.</span>
         <span class="go">Begin →</span>
@@ -330,6 +333,16 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </span>
     <span class="foot-creed">knowledge is <span class="free">free</span> · forever</span>
     <span class="foot-loc">© 2026 · The 37th Chamber · The Woodlands, TX</span>
+    <nav style="width:100%;display:flex;flex-wrap:wrap;justify-content:center;gap:.45rem 1.1rem;margin-top:1.1rem;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase">
+      <a href="about/" style="color:var(--gold);text-decoration:none">About</a>
+      <a href="work/" style="color:var(--gold);text-decoration:none">Work</a>
+      <a href="library/" style="color:var(--gold);text-decoration:none">Library</a>
+      <a href="dispatches/" style="color:var(--gold);text-decoration:none">Dispatches</a>
+      <a href="references/" style="color:var(--gold);text-decoration:none">References</a>
+      <a href="gratitude/" style="color:var(--gold);text-decoration:none">Gratitude</a>
+      <a href="six-degrees/" style="color:var(--gold);text-decoration:none">6&nbsp;Degrees</a>
+    </nav>
   </footer>
+  <script src="/daily.js" defer></script>
 </body>
 </html>

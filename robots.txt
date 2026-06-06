@@ -1,0 +1,10 @@
+# 37th-chamber.com — robots
+# Knowledge is free, forever. Everything here is meant to be read.
+
+User-agent: *
+Allow: /
+
+# Crawl-delay isn't honored by Google but is by some others; be a polite neighbor.
+Crawl-delay: 1
+
+Sitemap: https://37th-chamber.com/sitemap.xml
