@@ -71,11 +71,21 @@ footer{margin-top:4rem;width:100%;max-width:860px;position:relative;z-index:1;bo
 .foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
 .foot-back{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .foot-back:hover{text-decoration:underline}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
 </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
-  <div class="wrap">
+  <div class="wrap" id="main" role="main">
     <div class="eyebrow">The Library · free, forever</div>
     <svg class="sigil" viewBox="0 0 200 200" aria-label="The Sigil">
       <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>

@@ -78,10 +78,20 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
 .foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .foot-back:hover{text-decoration:underline}
 .note-source{margin-top:2rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
 </style>
 </head>
 <body>
-<nav class="topnav">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="topnav" aria-label="Chapter navigation">
   <a class="back" href="/library/">&larr;&nbsp;The Library</a>
   <div class="chnav">
     <span>&larr; Ch&nbsp;0</span>
@@ -89,7 +99,7 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   </div>
 </nav>
 
-<div class="wrap">
+<main class="wrap" id="main">
   <div class="eyebrow">The Glass Box · Chapter 1</div>
   <h1 class="title">From Text to Numbers: Tokenization</h1>
 
@@ -280,7 +290,7 @@ vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-d
   </div>
 
   <p class="note-source">A 37th-Chamber original. Methods cited (Sennrich, Haddow &amp; Birch 2016; Radford et al. 2019); all prose and code written fresh.</p>
-</div>
+</main>
 
 <footer>
   <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
