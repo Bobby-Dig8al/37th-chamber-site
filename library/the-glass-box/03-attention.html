@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 3 · Attention, the Whole Game — The Glass Box · 37th Chamber</title>
+<meta name="description" content="Chapter 3 of The Glass Box. Self-attention from the dot product up — queries, keys, values, scaled scores, causal mask. Build one head from scratch.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/library/the-glass-box/03-attention/">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="Ch 3 · Attention, the Whole Game — The Glass Box">
+<meta property="og:description" content="Self-attention from the dot product up. Queries, keys, values, scaled scores, causal mask. One head, from scratch.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://37th-chamber.com/library/the-glass-box/03-attention/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Consolas','SFMono-Regular','Menlo','Liberation Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem 0;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:760px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav{display:flex;gap:.45rem;flex-wrap:wrap}
+.chnav a, .chnav span{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid rgba(255,214,10,.22);padding:.36rem .62rem;border-radius:2px;transition:.16s ease}
+.chnav a:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav span{color:var(--dim);border-color:rgba(143,138,115,.22);cursor:default}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.78rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.85rem,6.4vw,2.85rem);line-height:1.05;font-weight:600;text-transform:uppercase;letter-spacing:.025em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1.2rem}
+.epigraph{margin:1rem 0 2rem;padding:.85rem 1rem .85rem 1.1rem;border-left:2px solid var(--gold-soft);background:rgba(255,214,10,.025);
+  font-style:italic;color:var(--gold-soft);font-size:clamp(.94rem,2.6vw,1.02rem);line-height:1.6}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2.2rem 0}
+h2{margin:2.4rem 0 1rem;font-size:clamp(1.18rem,3.6vw,1.42rem);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h3{margin:1.8rem 0 .8rem;font-size:clamp(1.02rem,2.9vw,1.14rem);color:var(--gold-soft);font-weight:600;letter-spacing:.01em}
+p, ul, ol{font-size:clamp(.98rem,2.55vw,1.05rem);line-height:1.72;margin:.95rem 0;color:var(--text)}
+ul, ol{padding-left:1.4rem}
+li{margin:.42rem 0}
+strong{color:var(--gold)}
+em{color:var(--gold-soft);font-style:italic}
+a.inline{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+a.inline:hover{border-bottom-style:solid}
+code{font-family:var(--mono);font-size:.92em;color:var(--gold-soft);background:rgba(255,214,10,.05);padding:.08em .35em;border-radius:2px;letter-spacing:0}
+pre{font-family:var(--mono);font-size:clamp(.78rem,2.1vw,.86rem);line-height:1.55;color:var(--text);
+  background:rgba(255,214,10,.018);border:1px solid rgba(255,214,10,.13);border-left:2px solid var(--electric);
+  padding:.85rem 1rem;margin:1.1rem 0;overflow-x:auto;border-radius:0}
+pre code{font-size:1em;color:inherit;background:none;padding:0;border-radius:0;letter-spacing:0}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.6);background:rgba(14,68,255,.04);color:var(--text);font-size:clamp(.95rem,2.55vw,1.02rem);line-height:1.62}
+blockquote em{color:#cfe0ff}
+.takeaway{margin:1.4rem 0;padding:1rem 1.15rem;border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.025)}
+.takeaway h3{margin-top:0}
+.next-up{margin:2.6rem 0 1.4rem;padding:1.1rem 1.2rem;border:1px solid rgba(14,68,255,.45);background:rgba(14,68,255,.05);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.next-up .label{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.next-up .target{font-size:clamp(1rem,2.7vw,1.1rem);color:var(--gold);font-weight:600}
+.next-up .soon{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);
+  border:1px solid rgba(255,214,10,.32);padding:.36rem .7rem;border-radius:2px}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);
+  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.note-source{margin-top:2rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="topnav" aria-label="Chapter navigation">
+  <a class="back" href="/library/">&larr;&nbsp;The Library</a>
+  <div class="chnav">
+    <a href="/library/the-glass-box/02-words-as-directions.html">&larr; Ch&nbsp;2</a>
+    <span>Ch&nbsp;4 &mdash; soon</span>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">The Glass Box · Chapter 3</div>
+  <h1 class="title">Attention, the Whole Game</h1>
+
+  <blockquote class="epigraph">Until now each token has been an island: embedded, positioned, but alone. Attention is the bridge &mdash; the mechanism that lets every token reach back across the sequence, decide which earlier tokens matter to it, and pull their information into itself. It is the one idea that made modern language models possible. Underneath the name, it is three dot products and a weighted average.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s3-1">3.1&nbsp;&nbsp;The one thing that&rsquo;s missing</h2>
+  <p>At the end of Chapter 2 we had a tensor of shape <code>(B, T, C)</code> &mdash; a batch of sequences, each token a 384-dimensional vector that knows <em>what</em> it is and <em>where</em> it sits. But every vector still sits in isolation. Nothing has let <code>"bites"</code> look back at <code>"dog"</code> to work out who is doing the biting.</p>
+  <p>That&rsquo;s the hole. Language is contextual: the meaning of a word depends on the words around it. <em>&ldquo;bank&rdquo;</em> near <em>&ldquo;river&rdquo;</em> is a shoreline; <em>&ldquo;bank&rdquo;</em> near <em>&ldquo;money&rdquo;</em> is a vault. For the model to disambiguate, each token must be able to <strong>gather information from the other tokens</strong> &mdash; and not equally, but <em>selectively</em>, weighting the ones that matter to it and ignoring the rest.</p>
+  <p>That selective gathering is <strong>attention</strong>. The version we build &mdash; where a sequence attends to <em>itself</em> &mdash; is <strong>self-attention</strong> (Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017). The idea has older roots in machine translation, where Bahdanau et al. (2014) first let a decoder &ldquo;attend&rdquo; to different parts of a source sentence; Vaswani&rsquo;s contribution was to throw away everything <em>else</em> (the recurrence, the convolutions) and show that attention alone was enough.</p>
+
+  <hr class="rule">
+
+  <h2 id="s3-2">3.2&nbsp;&nbsp;The library analogy: query, key, value</h2>
+  <p>Here is the whole mechanism in one image. Imagine each token walks into a library and does three things at once:</p>
+  <ul>
+    <li>It writes down what it&rsquo;s <strong>looking for</strong> &mdash; a <strong>query</strong> (<code>q</code>). <em>&ldquo;I&rsquo;m a verb; I want my subject.&rdquo;</em></li>
+    <li>It puts a label on the shelf advertising what it <strong>offers</strong> &mdash; a <strong>key</strong> (<code>k</code>). <em>&ldquo;I&rsquo;m a noun, singular, animate.&rdquo;</em></li>
+    <li>It keeps, behind the desk, the actual information it will <strong>hand over</strong> if someone attends to it &mdash; a <strong>value</strong> (<code>v</code>).</li>
+  </ul>
+  <p>To figure out where to look, a token compares <strong>its own query</strong> against <strong>every token&rsquo;s key</strong>. Where a query and a key are aligned &mdash; pointing the same direction &mdash; that&rsquo;s a match, a high score. The token then collects the <strong>values</strong> of the tokens it matched, weighted by how strong each match was, and adds that blend into itself.</p>
+  <p>The crucial move: <strong>query, key, and value are all computed from the token&rsquo;s own vector</strong>, each by a <em>different</em> learned projection. The token decides what to look for, what to advertise, and what to share &mdash; and training shapes all three. That&rsquo;s why it&rsquo;s &ldquo;self&rdquo;-attention: one sequence, generating its own queries, keys, and values.</p>
+<pre><code>q (what I want)  ─┐
+                  ├─ dot product → score → softmax → weights ─┐
+k (what I offer) ─┘                                           ├─ weighted sum → output
+v (what I'll give) ──────────────────────────────────────────┘</code></pre>
+
+  <hr class="rule">
+
+  <h2 id="s3-3">3.3&nbsp;&nbsp;The score: a query against every key</h2>
+  <p>Take a single token at position <code>t</code>. Its query is a vector <code>q_t</code>. Every token <code>i</code> in the sequence has a key <code>k_i</code>. The <strong>attention score</strong> of <code>t</code> looking at <code>i</code> is just their dot product:</p>
+<pre><code>score(t, i) = q_t · k_i</code></pre>
+  <p>A dot product is an alignment meter: large and positive when the two vectors point the same way, near zero when they&rsquo;re perpendicular, negative when opposed. So <code>score(t, i)</code> measures <em>&ldquo;how much does what token t is looking for match what token i is advertising?&rdquo;</em></p>
+  <p>Do this for <strong>all</strong> pairs at once and you get a <code>T &times; T</code> table of scores &mdash; row <code>t</code>, column <code>i</code> = how much <code>t</code> attends to <code>i</code>. In matrix form, if <code>Q</code> and <code>K</code> are <code>(T, head_size)</code> matrices (one row per token):</p>
+<pre><code>scores = Q @ Kᵀ        # (T, head_size) @ (head_size, T) = (T, T)</code></pre>
+
+  <hr class="rule">
+
+  <h2 id="s3-4">3.4&nbsp;&nbsp;From scores to weights: softmax</h2>
+  <p>Raw scores are arbitrary real numbers. We want, for each token, a set of <strong>weights that are positive and sum to 1</strong> &mdash; a proper mixture saying &ldquo;spend 70% of my attention here, 20% there, 10% there.&rdquo; That&rsquo;s exactly what <strong>softmax</strong> does, applied across each row:</p>
+<pre><code>weights[t] = softmax(scores[t])     # over the columns i</code></pre>
+  <p>Softmax exponentiates (making everything positive, and amplifying the biggest scores) then normalizes (so the row sums to 1). After softmax, row <code>t</code> is a probability distribution over which tokens <code>t</code> is paying attention to.</p>
+
+  <hr class="rule">
+
+  <h2 id="s3-5">3.5&nbsp;&nbsp;The output: a weighted sum of values</h2>
+  <p>Now use those weights to blend the <strong>values</strong>:</p>
+<pre><code>output[t] = Σ_i  weights[t, i] · v_i</code></pre>
+  <p>Token <code>t</code>&rsquo;s output is a weighted average of every value, weighted by how much it attended to each. In matrix form:</p>
+<pre><code>output = weights @ V        # (T, T) @ (T, head_size) = (T, head_size)</code></pre>
+  <p>That&rsquo;s it. That&rsquo;s attention: <strong><code>softmax(Q @ Kᵀ) @ V</code></strong>, with two adjustments still to add &mdash; a scale factor (3.6) and a mask (3.7).</p>
+
+  <hr class="rule">
+
+  <h2 id="s3-6">3.6&nbsp;&nbsp;Why we divide by &radic;(head_size)</h2>
+  <p>There&rsquo;s a subtle problem. Each score is a dot product summed over <code>head_size</code> dimensions. If the query and key components are roughly independent with variance ~1 (which they are at initialization), then the <em>variance of the dot product grows with <code>head_size</code></em> &mdash; a 16-dim dot product has a standard deviation around <code>&radic;16 = 4</code>; a 64-dim one around 8.</p>
+  <p>Large scores are poison for softmax. When the inputs to softmax are large in magnitude, it <strong>saturates</strong>: it returns something nearly one-hot (&asymp; 1 on the max, &asymp; 0 everywhere else). A near-one-hot attention at the <em>start</em> of training is bad &mdash; gradients through softmax vanish where it&rsquo;s saturated, and the model can barely learn <em>where</em> to look.</p>
+  <p>The fix (Vaswani et al. 2017, §3.2.1) is to scale the scores back down before the softmax, by exactly the standard deviation we expect:</p>
+<pre><code>scores = (Q @ Kᵀ) / head_size**0.5</code></pre>
+  <p>This is why it&rsquo;s called <strong>scaled</strong> dot-product attention. Now the scores start with variance ~1, softmax starts gentle and diffuse, and the model is free to <em>sharpen</em> its attention as it learns. (Exercise 4 has you delete the scaling and watch softmax saturate.)</p>
+
+  <hr class="rule">
+
+  <h2 id="s3-7">3.7&nbsp;&nbsp;Causal masking: no peeking at the future</h2>
+  <p>Our model&rsquo;s job is to <strong>predict the next token</strong>. During training we show it a whole sequence at once (Chapter 2&rsquo;s sliding window) and ask it to predict the next token at <em>every</em> position simultaneously. That&rsquo;s efficient &mdash; but it creates a trap: when computing the prediction <em>at</em> position <code>t</code>, the token must <strong>not</strong> be allowed to attend to positions <code>t+1, t+2, &hellip;</code>. Those are the answers. If <code>t</code> could see the future, training would be a fraud &mdash; the model would learn to cheat by copying the next token, and at generation time (when there is no future yet) it would collapse.</p>
+  <p>So we <strong>mask</strong>: before the softmax, we force every score where <code>i &gt; t</code> (a token looking <em>ahead</em>) to <code>&minus;&infin;</code>. After softmax, <code>e^(&minus;&infin;) = 0</code>, so those positions get exactly zero weight. Each token can attend only to itself and the tokens <strong>before</strong> it. This is <strong>causal</strong> (a.k.a. masked) self-attention &mdash; the defining feature of a <em>decoder-only</em> model like GPT.</p>
+  <p>The mask is a lower-triangular matrix of ones (<code>tril</code>): keep the diagonal and everything below it, zero out everything above.</p>
+<pre><code>allowed (T=4):          token 0 sees: [0]
+  1 0 0 0               token 1 sees: [0,1]
+  1 1 0 0               token 2 sees: [0,1,2]
+  1 1 1 0               token 3 sees: [0,1,2,3]
+  1 1 1 1</code></pre>
+
+  <hr class="rule">
+
+  <h2 id="s3-8">3.8&nbsp;&nbsp;One head, from scratch</h2>
+  <p>Let&rsquo;s build a single attention <strong>head</strong> end-to-end with raw tensors, so every shape is visible. Type it and run it.</p>
+<pre><code>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+torch.manual_seed(1337)
+
+B, T, C = 4, 8, 384      # batch, time (tokens), channels (d_model) — the river from Ch2
+x = torch.randn(B, T, C) # stand-in for the (B, T, C) coming out of GPTFrontEnd
+
+head_size = 16           # the width of THIS head's q/k/v space (a hyperparameter)
+
+# three SEPARATE learned projections — no bias, by convention
+key   = nn.Linear(C, head_size, bias=False)
+query = nn.Linear(C, head_size, bias=False)
+value = nn.Linear(C, head_size, bias=False)
+
+k = key(x)               # (B, T, head_size) — what each token advertises
+q = query(x)             # (B, T, head_size) — what each token is looking for
+v = value(x)             # (B, T, head_size) — what each token will hand over
+
+# 1) scores: every query against every key
+wei = q @ k.transpose(-2, -1)        # (B,T,hs) @ (B,hs,T) = (B, T, T)
+wei = wei * head_size**-0.5          # 2) scale (section 3.6)
+
+# 3) causal mask: zero out the future
+tril = torch.tril(torch.ones(T, T))
+wei = wei.masked_fill(tril == 0, float('-inf'))   # (B, T, T)
+
+# 4) softmax → weights that sum to 1 across the allowed positions
+wei = F.softmax(wei, dim=-1)         # (B, T, T)
+
+# 5) weighted sum of values
+out = wei @ v                        # (B,T,T) @ (B,T,hs) = (B, T, head_size)
+
+print(wei[0])        # look at one example's (T, T) attention matrix
+print(out.shape)     # torch.Size([4, 8, 16])</code></pre>
+  <p>Run it and <strong>read <code>wei[0]</code></strong>. You&rsquo;ll see a lower-triangular matrix where every row sums to 1 and the upper triangle is exactly 0 &mdash; token 0&rsquo;s row is <code>[1, 0, 0, &hellip;]</code> (it can only attend to itself), token 7&rsquo;s row is a full distribution over all 8 positions. That picture <em>is</em> causal attention. Stare at it until it&rsquo;s boring.</p>
+  <blockquote><strong>Note the head shrinks the width.</strong> Input channels <code>C = 384</code>, but this head projects down to <code>head_size = 16</code>. Each head works in a smaller subspace. In Chapter 4 we&rsquo;ll run several heads in parallel and concatenate them back up to <code>C</code> &mdash; that&rsquo;s <em>multi-head</em> attention. One head learns one <em>kind</em> of looking (maybe &ldquo;verbs seeking subjects&rdquo;); many heads look in many ways at once.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s3-9">3.9&nbsp;&nbsp;Wrapping it as a module</h2>
+  <p>Now the reusable version, in the <code>nn.Module</code> form the rest of the book builds on. Two upgrades: it stores its mask as a <strong>buffer</strong>, and it adds <strong>dropout</strong> (regularization we&rsquo;ll motivate in Ch7).</p>
+<pre><code>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class SelfAttentionHead(nn.Module):
+    """One head of causal self-attention. Input (B,T,C) -&gt; output (B,T,head_size)."""
+    def __init__(self, d_model, head_size, context_length, dropout=0.0):
+        super().__init__()
+        self.key   = nn.Linear(d_model, head_size, bias=False)
+        self.query = nn.Linear(d_model, head_size, bias=False)
+        self.value = nn.Linear(d_model, head_size, bias=False)
+        # tril isn't learned, but it must travel with the module (.to(device), state_dict).
+        # register_buffer is how you attach non-parameter tensors to an nn.Module.
+        self.register_buffer("tril", torch.tril(torch.ones(context_length, context_length)))
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):                       # x: (B, T, C)
+        B, T, C = x.shape
+        k = self.key(x)                         # (B, T, head_size)
+        q = self.query(x)                       # (B, T, head_size)
+        wei = q @ k.transpose(-2, -1) * k.shape[-1]**-0.5    # (B, T, T), scaled
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, float('-inf'))  # causal
+        wei = F.softmax(wei, dim=-1)            # (B, T, T)
+        wei = self.dropout(wei)
+        v = self.value(x)                       # (B, T, head_size)
+        out = wei @ v                           # (B, T, head_size)
+        return out
+
+# sanity check
+head = SelfAttentionHead(d_model=384, head_size=16, context_length=256)
+x = torch.randn(4, 8, 384)        # (B, T, C)
+print(head(x).shape)              # torch.Size([4, 8, 16])</code></pre>
+  <p>The slice <code>self.tril[:T, :T]</code> is the small detail that makes this robust: the buffer is built at full <code>context_length</code>, but we only ever use the top-left <code>T &times; T</code> corner, so the same head works for any sequence length up to the ceiling &mdash; including the single growing sequence we&rsquo;ll feed it during generation in Ch8.</p>
+
+  <hr class="rule">
+
+  <h2 id="s3-10">3.10&nbsp;&nbsp;The thing to actually understand</h2>
+  <div class="takeaway">
+    <ul>
+      <li><strong>Attention is routing, not transformation (yet).</strong> A head doesn&rsquo;t invent new content; it <em>moves existing content around</em> &mdash; each token&rsquo;s output is a weighted average of other tokens&rsquo; values. The &ldquo;thinking&rdquo; (nonlinear transformation) happens in the feed-forward net in Ch5. Attention decides <em>what talks to what</em>; the MLP decides <em>what to make of it</em>.</li>
+      <li><strong>Q, K, V are three opinions a token has about itself</strong>, each a learned projection: what I seek, what I offer, what I&rsquo;ll share. Splitting them is what gives attention its expressive power &mdash; a token can advertise something different from what it&rsquo;s hunting for.</li>
+      <li><strong>The mask is the difference between a language model and a cheat.</strong> Lower-triangular <code>tril</code> &rarr; <code>&minus;&infin;</code> &rarr; <code>softmax</code> &rarr; zero weight on the future. Causality is one line of code, and it&rsquo;s load-bearing.</li>
+      <li><strong><code>(B, T, C)</code> in, <code>(B, T, head_size)</code> out.</strong> The river from Ch2 flows in; a head returns a narrower stream. Ch4 stitches the streams back to width <code>C</code>.</li>
+    </ul>
+  </div>
+
+  <hr class="rule">
+
+  <h2 id="s3-11">3.11&nbsp;&nbsp;Exercises</h2>
+  <ol>
+    <li><strong>Read the matrix.</strong> Run the §3.8 code and print <code>wei[0]</code>. Confirm by eye: lower-triangular, rows sum to 1, upper triangle all 0. For token 3&rsquo;s row, hand-check that the weights sum to 1.</li>
+    <li><strong>Attention as a moving average.</strong> Replace the learned <code>q @ kᵀ</code> scores with a matrix of all zeros <em>before</em> masking + softmax. What does each token&rsquo;s output become? (Hint: a uniform average over all <em>past</em> tokens. This is the &ldquo;bag of the past&rdquo; baseline attention improves on &mdash; implement it and confirm <code>out[:, t]</code> equals the mean of <code>v[:, :t+1]</code>.)</li>
+    <li><strong>Order now matters.</strong> In Ch2, Exercise 2 showed embeddings without positions are order-blind. Feed this head two sequences that are token-permutations of each other (with position embeddings from Ch2 added first) and show the outputs now differ. Attention + positions = order-aware.</li>
+    <li><strong>Break the scaling.</strong> Delete the <code>* head_size**-0.5</code> term and set <code>head_size = 256</code>. Print <code>wei[0]</code> &mdash; watch the rows collapse toward one-hot (one weight &asymp; 1, the rest &asymp; 0) before any training. Explain in one sentence why that kills gradient flow.</li>
+    <li><strong>Break the mask.</strong> Replace <code>tril</code> with <code>torch.ones(T, T)</code> (no masking). This is now a <em>bidirectional</em> encoder head (BERT-style), useful for classification but <strong>wrong</strong> for next-token prediction. Explain precisely what the model could &ldquo;cheat&rdquo; at during training if you trained a GPT with this head.</li>
+  </ol>
+
+  <div class="next-up">
+    <div>
+      <div class="label">What&rsquo;s next</div>
+      <div class="target">Ch 4 &mdash; Many eyes: multi-head attention</div>
+    </div>
+    <span class="soon">Coming soon</span>
+  </div>
+
+  <p class="note-source">A 37th-Chamber original. Methods cited (Bahdanau et al. 2014; Vaswani et al. 2017); all prose and code written fresh.</p>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/library/">&larr; back to the library</a>
+</footer>
+</body>
+</html>

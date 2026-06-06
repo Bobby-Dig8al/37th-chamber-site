@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 2 · Words as Directions — The Glass Box · 37th Chamber</title>
+<meta name="description" content="Chapter 2 of The Glass Box. Embeddings, position embeddings, and the input pipeline. How token IDs become directions in space, and how the model is fed batches of next-token predictions.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/library/the-glass-box/02-words-as-directions/">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="Ch 2 · Words as Directions — The Glass Box">
+<meta property="og:description" content="Embeddings, position, and the input pipeline. Tokens become directions in space and the model gets fed batches it can learn from.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://37th-chamber.com/library/the-glass-box/02-words-as-directions/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Consolas','SFMono-Regular','Menlo','Liberation Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem 0;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:760px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav{display:flex;gap:.45rem;flex-wrap:wrap}
+.chnav a, .chnav span{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid rgba(255,214,10,.22);padding:.36rem .62rem;border-radius:2px;transition:.16s ease}
+.chnav a:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav span{color:var(--dim);border-color:rgba(143,138,115,.22);cursor:default}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.78rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.85rem,6.4vw,2.85rem);line-height:1.05;font-weight:600;text-transform:uppercase;letter-spacing:.025em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1.2rem}
+.epigraph{margin:1rem 0 2rem;padding:.85rem 1rem .85rem 1.1rem;border-left:2px solid var(--gold-soft);background:rgba(255,214,10,.025);
+  font-style:italic;color:var(--gold-soft);font-size:clamp(.94rem,2.6vw,1.02rem);line-height:1.6}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2.2rem 0}
+h2{margin:2.4rem 0 1rem;font-size:clamp(1.18rem,3.6vw,1.42rem);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h3{margin:1.8rem 0 .8rem;font-size:clamp(1.02rem,2.9vw,1.14rem);color:var(--gold-soft);font-weight:600;letter-spacing:.01em}
+p, ul, ol{font-size:clamp(.98rem,2.55vw,1.05rem);line-height:1.72;margin:.95rem 0;color:var(--text)}
+ul, ol{padding-left:1.4rem}
+li{margin:.42rem 0}
+strong{color:var(--gold)}
+em{color:var(--gold-soft);font-style:italic}
+a.inline{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+a.inline:hover{border-bottom-style:solid}
+code{font-family:var(--mono);font-size:.92em;color:var(--gold-soft);background:rgba(255,214,10,.05);padding:.08em .35em;border-radius:2px;letter-spacing:0}
+pre{font-family:var(--mono);font-size:clamp(.78rem,2.1vw,.86rem);line-height:1.55;color:var(--text);
+  background:rgba(255,214,10,.018);border:1px solid rgba(255,214,10,.13);border-left:2px solid var(--electric);
+  padding:.85rem 1rem;margin:1.1rem 0;overflow-x:auto;border-radius:0}
+pre code{font-size:1em;color:inherit;background:none;padding:0;border-radius:0;letter-spacing:0}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.6);background:rgba(14,68,255,.04);color:var(--text);font-size:clamp(.95rem,2.55vw,1.02rem);line-height:1.62}
+blockquote em{color:#cfe0ff}
+.takeaway{margin:1.4rem 0;padding:1rem 1.15rem;border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.025)}
+.takeaway h3{margin-top:0}
+.next-up{margin:2.6rem 0 1.4rem;padding:1.1rem 1.2rem;border:1px solid rgba(14,68,255,.45);background:rgba(14,68,255,.05);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.next-up .label{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.next-up .target{font-size:clamp(1rem,2.7vw,1.1rem);color:var(--gold);font-weight:600}
+.next-up a{color:var(--gold);text-decoration:none}
+.next-up a:hover{text-decoration:underline}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);
+  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.note-source{margin-top:2rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="topnav" aria-label="Chapter navigation">
+  <a class="back" href="/library/">&larr;&nbsp;The Library</a>
+  <div class="chnav">
+    <a href="/library/the-glass-box/01-from-text-to-numbers.html">&larr; Ch&nbsp;1</a>
+    <a href="/library/the-glass-box/03-attention.html">Ch&nbsp;3 &rarr;</a>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">The Glass Box · Chapter 2</div>
+  <h1 class="title">Words as Directions: Embeddings &amp; the Input Pipeline</h1>
+
+  <blockquote class="epigraph">An integer ID is a name tag, nothing more. Token 257 is not bigger or closer to token 256 than to token 9. Before the model can reason, each token has to become a point in space &mdash; a direction it can measure angles and distances against. That&rsquo;s an embedding, and it&rsquo;s where meaning starts to live.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s2-1">2.1&nbsp;&nbsp;Why an ID isn&rsquo;t enough</h2>
+  <p>After Chapter 1, <code>"the"</code> might be token <code>256</code>. But if we feed the raw integer <code>256</code> into the network, we&rsquo;ve told it a lie: that <code>256</code> is &ldquo;more&rdquo; than <code>255</code> and &ldquo;half of&rdquo; <code>512</code>. Integers carry an ordering and a magnitude that token IDs do not have. The IDs are <em>categorical</em> &mdash; arbitrary labels.</p>
+  <p>The fix: give every token its own <strong>vector</strong> &mdash; a list of <code>d_model</code> real numbers (we&rsquo;ll use 384). Now a token isn&rsquo;t a scalar with a fake magnitude; it&rsquo;s a <em>direction</em> in a 384-dimensional space, and the model is free to <em>learn</em> where each token should sit. Tokens used in similar ways drift to similar directions. This is the famous result where <em>&ldquo;king &minus; man + woman &asymp; queen&rdquo;</em> &mdash; relationships become geometry. We don&rsquo;t hand-build that; we give each token a learnable vector and let training move it.</p>
+
+  <hr class="rule">
+
+  <h2 id="s2-2">2.2&nbsp;&nbsp;The embedding table</h2>
+  <p>An embedding layer is just a lookup table: a matrix of shape <code>(vocab_size, d_model)</code>. Row <code>i</code> is the vector for token <code>i</code>. &ldquo;Embedding a token&rdquo; = &ldquo;select its row.&rdquo; In PyTorch:</p>
+<pre><code>import torch
+import torch.nn as nn
+
+vocab_size = 512      # from our Ch1 tokenizer
+d_model = 384         # the width of each token's vector ("embedding dimension")
+
+token_embedding = nn.Embedding(vocab_size, d_model)
+
+# a tiny batch of token IDs (we'll explain the shape below)
+ids = torch.tensor([[256, 257, 9, 14]])   # shape (1, 4): 1 sequence, 4 tokens
+vectors = token_embedding(ids)            # shape (1, 4, 384)
+print(vectors.shape)                      # torch.Size([1, 4, 384])</code></pre>
+  <p><code>nn.Embedding(vocab_size, d_model)</code> creates that <code>(512, 384)</code> matrix, initialized randomly. Those 512&times;384 = 196,608 numbers are <strong>parameters</strong> &mdash; they get <em>learned</em> during training. The embedding table is usually one of the largest single pieces of a small model.</p>
+  <blockquote>Mechanically, <code>nn.Embedding</code> is a <code>(vocab_size, d_model)</code> matrix indexed by token ID. It is equivalent to multiplying a one-hot vector by that matrix &mdash; but indexing is what actually happens, because it&rsquo;s vastly cheaper. Knowing the equivalence matters in Chapter 9, where the embedding and the output layer can <em>share</em> this matrix (weight tying).</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s2-3">2.3&nbsp;&nbsp;The problem of order</h2>
+  <p>Here&rsquo;s something that trips everyone up the first time. The attention mechanism we build in Chapter 3 is, by itself, <strong>order-blind</strong>. Feed it <code>"dog bites man"</code> and <code>"man bites dog"</code> as bags of token-vectors and &mdash; astonishingly &mdash; it computes the same thing for each word regardless of where the word sits. There is no built-in notion of &ldquo;first&rdquo; or &ldquo;next.&rdquo; (This is a real property of self-attention, not a simplification; it&rsquo;s called permutation equivariance.)</p>
+  <p>But order is the entire game in language. <em>&ldquo;man bites dog&rdquo;</em> is news; <em>&ldquo;dog bites man&rdquo;</em> is Tuesday. So we have to <em>inject</em> position information ourselves.</p>
+  <p>The simplest effective method (and what GPT-2 uses): a <strong>second learnable embedding table, indexed by position instead of by token.</strong></p>
+<pre><code>context_length = 256                  # the most tokens the model ever sees at once
+position_embedding = nn.Embedding(context_length, d_model)
+
+T = ids.shape[1]                      # number of tokens in this sequence (4 above)
+positions = torch.arange(T)           # tensor([0, 1, 2, 3])
+pos_vectors = position_embedding(positions)   # shape (T, 384) -&gt; (4, 384)</code></pre>
+  <p>Position 0 has a learned vector, position 1 has another, and so on up to <code>context_length - 1</code>. The model learns what &ldquo;being third&rdquo; should mean.</p>
+
+  <h3 id="s2-3a">Combining token + position</h3>
+  <p>We simply <strong>add</strong> the two:</p>
+<pre><code># token vectors:    (B, T, d_model)  -- B sequences, T tokens each, d_model-wide
+# position vectors: (   T, d_model)
+# they add by broadcasting over the batch dimension B:
+x = token_embedding(ids) + position_embedding(torch.arange(T))
+print(x.shape)        # (1, 4, 384)</code></pre>
+  <p>Each token&rsquo;s final input vector is &ldquo;what token I am&rdquo; + &ldquo;where I am.&rdquo; That sum is the actual input to the transformer. Addition feels almost too simple &mdash; but it works because the model has 384 dimensions to spread these two signals across, and training sorts out how to keep them legible.</p>
+
+  <hr class="rule">
+
+  <h2 id="s2-4">2.4&nbsp;&nbsp;The shape that runs through everything</h2>
+  <p>Three letters will follow you for the rest of this book. Learn them now:</p>
+  <ul>
+    <li><strong><code>B</code></strong> &mdash; batch size: how many independent sequences we process at once (e.g., 32).</li>
+    <li><strong><code>T</code></strong> &mdash; time / sequence length: how many tokens in each sequence (&le; <code>context_length</code>).</li>
+    <li><strong><code>C</code></strong> &mdash; channels: the vector width, our <code>d_model</code> (384). (PyTorch convention calls it <code>C</code>.)</li>
+  </ul>
+  <p>The input to the model is an integer tensor of shape <strong><code>(B, T)</code></strong>. The moment it hits the embeddings it becomes a float tensor of shape <strong><code>(B, T, C)</code></strong>, and it <em>stays</em> <code>(B, T, C)</code> through every transformer block until the very end. If you ever get lost in later chapters, print <code>.shape</code> &mdash; almost every bug is a shape bug.</p>
+
+  <hr class="rule">
+
+  <h2 id="s2-5">2.5&nbsp;&nbsp;The input pipeline: making &ldquo;predict the next token&rdquo; concrete</h2>
+  <p>How does a model <em>learn</em>? We give it a sequence and ask it to predict the next token at every position. The training signal is free &mdash; it&rsquo;s already in the text. We just slide a window across the token stream and pair each chunk with the same chunk shifted one token to the right.</p>
+<pre><code>tokens:  [ 256, 257,  9,  14,  88,  12, ... ]
+                  context_length = 4
+
+x (input):   [256, 257,  9,  14]
+y (target):  [257,   9, 14,  88]   &lt;- x shifted left by one</code></pre>
+  <p>Read it as four predictions packed together: given <code>256</code> predict <code>257</code>; given <code>256,257</code> predict <code>9</code>; given <code>256,257,9</code> predict <code>14</code>; and so on. One window trains the model on <code>T</code> next-token predictions at once.</p>
+
+  <h3 id="s2-5a">A Dataset and DataLoader</h3>
+<pre><code>import torch
+from torch.utils.data import Dataset, DataLoader
+
+class NextTokenDataset(Dataset):
+    def __init__(self, token_ids: list[int], context_length: int):
+        self.ids = token_ids
+        self.context_length = context_length
+
+    def __len__(self):
+        # every start position that leaves room for a full window + its shifted target
+        return len(self.ids) - self.context_length
+
+    def __getitem__(self, idx):
+        chunk = self.ids[idx : idx + self.context_length + 1]   # one extra for the shift
+        x = torch.tensor(chunk[:-1])     # (context_length,)
+        y = torch.tensor(chunk[1:])      # (context_length,) — shifted by one
+        return x, y
+
+# build it from a corpus encoded with our Ch1 tokenizer
+# token_ids = encode_bpe(open("corpus.txt", encoding="utf-8").read(), merges)
+context_length = 256
+dataset = NextTokenDataset(token_ids, context_length)
+loader = DataLoader(dataset, batch_size=32, shuffle=True, drop_last=True)
+
+xb, yb = next(iter(loader))
+print(xb.shape, yb.shape)    # (32, 256) (32, 256)  -&gt; this is (B, T)</code></pre>
+  <p><code>shuffle=True</code> means each batch is a random grab of windows from all over the corpus &mdash; the model shouldn&rsquo;t learn the order the windows happen to sit in memory. <code>drop_last=True</code> discards a final ragged batch so every batch is exactly <code>(B, T)</code>.</p>
+
+  <hr class="rule">
+
+  <h2 id="s2-6">2.6&nbsp;&nbsp;Putting the front end together</h2>
+  <p>Here&rsquo;s the complete &ldquo;front end&rdquo; of our model &mdash; everything from token IDs to the <code>(B, T, C)</code> tensor the transformer blocks will consume. We&rsquo;ll grow this class through the rest of the book.</p>
+<pre><code>import torch
+import torch.nn as nn
+
+class GPTFrontEnd(nn.Module):
+    def __init__(self, vocab_size, context_length, d_model):
+        super().__init__()
+        self.token_embedding = nn.Embedding(vocab_size, d_model)
+        self.position_embedding = nn.Embedding(context_length, d_model)
+
+    def forward(self, idx):                 # idx: (B, T) integer token IDs
+        B, T = idx.shape
+        tok = self.token_embedding(idx)                          # (B, T, C)
+        pos = self.position_embedding(torch.arange(T, device=idx.device))  # (T, C)
+        x = tok + pos                                            # (B, T, C) via broadcast
+        return x
+
+model = GPTFrontEnd(vocab_size=512, context_length=256, d_model=384)
+xb, yb = next(iter(loader))
+out = model(xb)
+print(out.shape)        # (32, 256, 384)  == (B, T, C)</code></pre>
+  <p>Run it. If you get <code>(32, 256, 384)</code>, your tokens are now living in 384-dimensional space <em>with</em> a sense of position, batched and ready. The hard part &mdash; what the model <em>does</em> with these vectors to mix information between tokens &mdash; is Chapter 3.</p>
+
+  <hr class="rule">
+
+  <h2 id="s2-7">2.7&nbsp;&nbsp;The thing to actually understand</h2>
+  <div class="takeaway">
+    <ul>
+      <li><strong>Meaning is a location, learned not given.</strong> We don&rsquo;t tell the model what <em>&ldquo;Shaolin&rdquo;</em> means. We hand it a random vector and let next-token prediction <em>push</em> that vector somewhere useful. Embeddings are the model&rsquo;s first opinion about the world, and they start as noise.</li>
+      <li><strong>Position is a separate, added signal</strong> because attention is natively order-blind. Token identity and token position are two answers (&ldquo;what&rdquo; and &ldquo;where&rdquo;) summed into one vector.</li>
+      <li><strong><code>(B, T, C)</code> is the river.</strong> Integers in (<code>B, T</code>), vectors out (<code>B, T, C</code>), and that shape is preserved by every block until the output head. Hold onto it.</li>
+    </ul>
+  </div>
+
+  <hr class="rule">
+
+  <h2 id="s2-8">2.8&nbsp;&nbsp;Exercises</h2>
+  <ol>
+    <li><strong>Untrained geometry.</strong> Before any training, take your <code>token_embedding</code>, grab the vectors for two tokens, and compute their cosine similarity (<code>torch.nn.functional.cosine_similarity</code>). Why is it meaningless right now? Write a note predicting what you expect <em>after</em> training (we&rsquo;ll check it in Ch7).</li>
+    <li><strong>Order-blindness, felt.</strong> Embed <code>[256, 257]</code> and <code>[257, 256]</code> <em>without</em> position embeddings, sum each sequence&rsquo;s vectors, and compare. Then redo it <em>with</em> position embeddings. Show numerically that position is what breaks the symmetry.</li>
+    <li><strong>Shape gauntlet.</strong> For <code>B=8, T=128, d_model=384</code>: what is the shape after <code>token_embedding</code>? After adding <code>position_embedding</code>? How many parameters are in each embedding table? (Answer in numbers, then verify with <code>sum(p.numel() for p in model.parameters())</code>.)</li>
+    <li><strong>Window arithmetic.</strong> A corpus of 1,000,000 tokens with <code>context_length=256</code>: how many training windows does <code>NextTokenDataset</code> expose? Why <code>len(ids) - context_length</code> and not <code>len(ids) // context_length</code>?</li>
+    <li><strong>Break it.</strong> Set <code>context_length=256</code> in the model but feed a batch with <code>T=300</code>. Predict the error before you run it, then run it. Which embedding blows up, and why does that tell you <code>context_length</code> is a hard ceiling baked into the architecture?</li>
+  </ol>
+
+  <div class="next-up">
+    <div>
+      <div class="label">What&rsquo;s next</div>
+      <div class="target">Ch 3 &mdash; Attention, the whole game</div>
+    </div>
+    <a href="/library/the-glass-box/03-attention.html">Read Ch&nbsp;3 &rarr;</a>
+  </div>
+
+  <p class="note-source">A 37th-Chamber original. Mechanism cited (Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017); all prose and code written fresh.</p>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/library/">&larr; back to the library</a>
+</footer>
+</body>
+</html>
