@@ -212,10 +212,20 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 .foot-creed{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-loc{font-size:.72rem;letter-spacing:.1em;color:var(--dim);width:100%;text-align:center;margin-top:.4rem}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
 </style>
 </head>
 <body>
-  <div class="wrap">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main class="wrap" id="main">
     <a class="back" href="/">&larr; 37th Chamber</a>
 
     <header style="display:flex;flex-direction:column;align-items:center;width:100%">
@@ -406,7 +416,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     <div class="section-label">Why it matters</div>
     <p class="teams-intro" style="margin-bottom:0">It&rsquo;s the thesis, playable. <strong>Everything is interconnected</strong> &mdash; six degrees is the living proof of it. Instead of cold-reaching our giants alone, the community carries us, one warm hand at a time. The chain-building <em style="color:var(--gold);font-style:normal">is</em> the story. <span class="wglow" style="color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)">Reach gracefully, and it stays beautiful.</span></p>
 
-  </div>
+  </main>
 
   <footer>
     <a class="foot-brand" href="/">
