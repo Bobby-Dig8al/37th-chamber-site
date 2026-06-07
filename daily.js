@@ -40,7 +40,7 @@ const DAILY = [
   function row(icon, label, e, extra = "") {
     if (!e) return "";
     const work = e.work ? ` <span class="dly-work">— ${esc(e.work)}</span>` : (e.by ? ` <span class="dly-work">— ${esc(e.by)}</span>` : "");
-    const swap = e.pick ? ` <span class="dly-pick" title="a placeholder pick — swap freely">▷</span>` : "";
+    const swap = e.pick ? ` <span class="dly-pick" title="a personal pick">▷</span>` : "";
     return `<div class="dly-row">
       <span class="dly-ico">${icon}</span>
       <div class="dly-body">
