@@ -32,7 +32,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:640px;
   animation:rise 1.6s cubic-bezier(.22,1,.36,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.sigil{width:clamp(58px,12vw,80px);height:auto;margin-bottom:clamp(2rem,6vw,3rem);filter:drop-shadow(0 0 12px rgba(255,214,10,.18))}
+.sigil{width:clamp(58px,12vw,80px);height:auto;margin-bottom:clamp(2rem,6vw,3rem);filter:drop-shadow(0 0 12px rgba(255,214,10,.18));overflow:visible}
 .sigil .ring-charge{filter:drop-shadow(0 0 6px #0E44FF) drop-shadow(0 0 16px rgba(14,68,255,.55))}
 .eyebrow{font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--dim);margin-bottom:1.6rem}
 .lead{font-size:clamp(.8rem,2.6vw,.95rem);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:1.1rem}
@@ -65,7 +65,7 @@ footer{position:absolute;bottom:clamp(1.2rem,4vw,2rem);z-index:1;font-size:.68re
     <div class="eyebrow">In gratitude</div>
     <div class="lead">The 37th Chamber is built for</div>
     <h1 class="name">Alana Samaniego</h1>
-    <div class="aka">née Simpson — and Sullivan, for a time.</div>
+    <div class="aka">née Simpson.</div>
     <div class="role">the faceless man&rsquo;s mother</div>
     <div class="story">her story &middot; <span class="soon">coming</span></div>
     <p class="way">this is the way to <b>gratitude</b>.</p>

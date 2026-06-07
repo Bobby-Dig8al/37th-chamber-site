@@ -13,7 +13,7 @@ This is that room — a free, open place to learn to wield AI (and the games, sc
 | | |
 |---|---|
 | 🏛 **The temple** | [37th-chamber.com](https://37th-chamber.com) — home of the chambers |
-| ♟ **Manhattan Park** | the first live chamber — a chess dojo with a real engine that knows the rules cold, explains every move, and meets you where you are · `/chambers/manhattan-park/` |
+| ♟ **Manhattan Park** | the first live chamber — a chess dojo with a real engine that knows the rules cold, explains the idea behind every challenge, and meets you where you are · `/chambers/manhattan-park/` |
 | 🔗 **6 Degrees of Giants** | help us reach the shoulders of our giants — one gracious chain, never a swarm · `/six-degrees/` |
 | ⛩ **The 36 Chambers** | the vision: the games, AI literacy by craft, the sciences, and the keystone — Philosophy. Built by us, one at a time. |
 
@@ -29,5 +29,5 @@ Plain, hand-written HTML & CSS. **Zero dependencies** — no frameworks, no exte
 
 ---
 
-*Built by Kyle Sullivan (bobby-dig8al) + AI — The Woodlands, TX.*
+*Built by bobby-dig8al + AI — The Woodlands, TX.*
 *Knowledge is free — forever. ⛩*
