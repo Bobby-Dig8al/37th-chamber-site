@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>State of the Chains · Six Degrees · 37th Chamber</title>
+<meta name="description" content="The live state of the six-degrees chains — who's being reached, one warm hand at a time.">
+<meta property="og:title" content="State of the Chains · 37th Chamber">
+<meta property="og:description" content="The living tracker for the six-degrees relay. Open in the open, no account needed to watch.">
+<meta property="og:image" content="/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta name="theme-color" content="#08080a">
+<link rel="icon" href="/assets/favicon.png">
+<style>
+  :root{--bg:#08080a;--text:#ece7d8;--dim:#8f8a73;--gold:#FFD60A;--gold-soft:#d9b94a;--electric:#0E44FF}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Georgia',ui-serif,serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased;padding:0 1.2rem 5rem}
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:#000;padding:.6rem 1rem;z-index:50}
+  .skip-link:focus{left:.5rem;top:.5rem}
+  .back{display:inline-block;margin:1.6rem 0 0;color:var(--dim);text-decoration:none;font-size:.82rem;
+    letter-spacing:.04em}
+  .back:hover{color:var(--gold)}
+  .wrap{max-width:46rem;margin:0 auto;animation:rise .7s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .eyebrow{text-align:center;color:var(--dim);font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;
+    margin-top:1.4rem}
+  .sigil{display:block;width:64px;height:64px;margin:1.1rem auto .4rem}
+  h1{text-align:center;font-size:clamp(1.7rem,6vw,2.5rem);letter-spacing:.01em;font-weight:600;margin:.2rem 0}
+  h1 .b{color:var(--gold)}
+  .lede{text-align:center;max-width:34rem;margin:.9rem auto 0;color:var(--text);
+    font-size:clamp(1rem,2.8vw,1.12rem)}
+  .section-label{text-align:center;color:var(--gold-soft);font-size:.78rem;letter-spacing:.16em;
+    text-transform:uppercase;margin:2.6rem 0 1.2rem}
+  #chains{display:flex;flex-direction:column;gap:.8rem}
+  .chain{display:block;border:1px solid rgba(255,214,10,.16);border-radius:3px;padding:1rem 1.2rem;
+    text-decoration:none;color:var(--text);transition:border-color .2s,box-shadow .2s}
+  .chain:hover{border-color:rgba(255,214,10,.4);box-shadow:0 0 22px -14px var(--gold)}
+  .chain.reached{border-left:3px solid var(--gold)}
+  .chain.forming{border-left:3px solid rgba(143,138,115,.5)}
+  .cstat{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .chain.reached .cstat{color:var(--gold)}
+  .ctitle{display:block;font-size:1.08rem;margin:.25rem 0;color:var(--text)}
+  .cmeta{display:block;font-size:.8rem;color:var(--dim)}
+  .state{text-align:center;color:var(--dim);padding:1.6rem;border:1px dashed rgba(143,138,115,.3);
+    border-radius:3px;line-height:1.7}
+  .state a{color:var(--gold)}
+  .how{margin-top:2.8rem;border-top:1px solid rgba(143,138,115,.18);padding-top:1.6rem;color:var(--dim);
+    font-size:.92rem;line-height:1.75}
+  .how b{color:var(--gold-soft);font-weight:600}
+  .cta-row{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:1.6rem}
+  .cta{display:inline-block;text-decoration:none;padding:.7rem 1.2rem;border-radius:3px;font-size:.9rem}
+  .cta.go{background:var(--gold);color:#000;box-shadow:0 0 0 1px rgba(255,214,10,.4),0 0 24px rgba(14,68,255,.3)}
+  .cta.ghost{border:1px solid rgba(255,214,10,.3);color:var(--gold)}
+  footer{text-align:center;margin-top:3.5rem;color:var(--dim);font-size:.78rem}
+  footer a{color:var(--dim)}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;
+    animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<a class="back" href="/six-degrees/">&larr;&nbsp;Six&nbsp;Degrees</a>
+<main class="wrap" id="main">
+  <div class="eyebrow">Six Degrees · the relay, in the open</div>
+  <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil — 37th Chamber">
+    <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="3"/>
+    <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="3"/>
+    <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
+      <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
+      <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
+      <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
+      <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
+    </g>
+    <circle cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="3"/>
+    <circle cx="100" cy="100" r="5" fill="#FFD500"/>
+  </svg>
+  <h1>State of the <span class="b">Chains</span></h1>
+  <p class="lede">Every reach runs in the open, one warm hand at a time. This is where the chains stand — live.</p>
+
+  <div class="section-label">The chains, right now</div>
+  <div id="chains" aria-live="polite">
+    <div class="state">Loading the live state of the chains&hellip;</div>
+  </div>
+
+  <div class="how">
+    <p>It runs on <b>GitHub Issues</b> — out in the open, no private database, nothing to trust but the public record. <b>One issue = one chain</b> toward a giant. Each comment is a hand added to the relay; an <b>open</b> chain is still <em>forming</em>, a <b>closed</b> one has <em>reached</em>. Anyone with a GitHub account can start a chain or add a link to one. Watching needs nothing at all.</p>
+    <div class="cta-row">
+      <a class="cta go" href="https://github.com/Bobby-Dig8al/37th-chamber-site/issues/new?labels=six-degrees&amp;title=Reach%3A%20" target="_blank" rel="noopener">Start a chain &rarr;</a>
+      <a class="cta ghost" href="/six-degrees/">See the giants</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>The open tracker for everyone &mdash; no account, no GitHub &mdash; arrives with the full chamber. <a href="/">37th Chamber</a></p>
+  </footer>
+</main>
+
+<script>
+  (function(){
+    var REPO='Bobby-Dig8al/37th-chamber-site';
+    var box=document.getElementById('chains');
+    function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+    function clean(t){return esc(String(t||'').replace(/^\s*reach\s*:\s*/i,''));}
+    function empty(){
+      return '<div class="state">No chains started yet &mdash; <strong style="color:var(--gold)">be the first</strong>.'
+        +' Open an issue to begin a chain toward a giant, and it shows up here, live.</div>';
+    }
+    function err(){
+      return '<div class="state">Couldn’t reach the live tracker just now &mdash; GitHub limits anonymous'
+        +' checks to ~60/hour. Give it a minute and refresh, or <a href="https://github.com/'+REPO+'/issues?q=label%3Asix-degrees" target="_blank" rel="noopener">see the chains on GitHub</a>.</div>';
+    }
+    function card(i){
+      var reached=i.state==='closed';
+      var hands=i.comments===1?'1 hand':(i.comments+' hands');
+      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+esc(i.html_url)+'" target="_blank" rel="noopener">'
+        +'<span class="cstat">'+(reached?'● reached':'○ forming')+'</span>'
+        +'<span class="ctitle">'+clean(i.title)+'</span>'
+        +'<span class="cmeta">'+hands+' in the chain</span></a>';
+    }
+    fetch('https://api.github.com/repos/'+REPO+'/issues?labels=six-degrees&state=all&per_page=100&sort=updated')
+      .then(function(r){if(!r.ok)throw r.status;return r.json();})
+      .then(function(list){
+        var chains=list.filter(function(i){return !i.pull_request;});
+        box.innerHTML=chains.length?chains.map(card).join(''):empty();
+      })
+      .catch(function(){box.innerHTML=err();});
+  })();
+</script>
+</body>
+</html>
