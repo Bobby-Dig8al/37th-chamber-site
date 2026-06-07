@@ -157,10 +157,14 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 .foot-creed{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-loc{font-size:.72rem;letter-spacing:.1em;color:var(--dim);width:100%;text-align:center;margin-top:.4rem}
+.skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:#000;padding:.6rem 1rem;z-index:50;border-radius:2px}
+.skip-link:focus{left:.5rem;top:.5rem}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-  <div class="wrap">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="wrap" id="main" role="main">
     <header style="display:flex;flex-direction:column;align-items:center;width:100%">
       <div class="eyebrow">Est. at the base of the AI tsunami · The Woodlands, TX</div>
 
@@ -202,7 +206,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <div class="section-label">The Daily · June 7</div>
       <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to the producer who seeded the film; Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
 
-      <div style="display:flex;align-items:center;justify-content:center;gap:.55rem;flex-wrap:wrap;border:1px solid rgba(14,68,255,.4);background:rgba(14,68,255,.04);box-shadow:0 0 20px -7px rgba(14,68,255,.6);padding:.7rem 1.1rem;margin:0 auto 1.7rem;max-width:34rem">
+      <div role="status" aria-label="Now playing" style="display:flex;align-items:center;justify-content:center;gap:.55rem;flex-wrap:wrap;border:1px solid rgba(14,68,255,.4);background:rgba(14,68,255,.04);box-shadow:0 0 20px -7px rgba(14,68,255,.6);padding:.7rem 1.1rem;margin:0 auto 1.7rem;max-width:34rem">
         <span style="font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;text-shadow:0 0 6px rgba(14,68,255,.95)">&#9834; Now playing</span>
         <span style="color:var(--gold);font-weight:600">Ben Harper &mdash; <em>Live from Mars</em></span>
         <span style="font-size:.72rem;color:var(--dim)">&middot; spinning while we build</span>
