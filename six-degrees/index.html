@@ -329,7 +329,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <div class="cs-note">Relay, <em>not</em> swarm. Tag the next real hand you know &mdash; one gracious link at a time. The chain belongs to everyone who passes it on.</div>
     </aside>
 
-    <div class="grid">
+    <div class="grid" id="reach-grid">
 
       <div class="team anchor">
         <span class="chip">Namesake</span>
@@ -684,7 +684,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     // Inject a button into every team card + decorate previously-started cards
     function decorateCards() {
       var started = readStarted();
-      var cards = document.querySelectorAll('.team');
+      var cards = document.querySelectorAll('#reach-grid .team');
       cards.forEach(function (card) {
         var whoEl = card.querySelector('.who');
         if (!whoEl) return;
