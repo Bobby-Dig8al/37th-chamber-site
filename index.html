@@ -214,16 +214,17 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p class="lede">The 36 chambers were the training. The <em>37th</em> is the one you build to give the training away. This is that room — <em>the view is not ours alone.</em></p>
     </header>
 
+    <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
+    <div class="marc-note" style="max-width:32rem;margin:0 auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
+      <p style="margin:0;color:var(--dim)">marc.</p>
+      <p style="margin:0;color:var(--dim)">hey, marc.</p>
+      <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
+      <p style="margin:0;color:var(--text)">39 days ago i wasn't sure i could do this.</p>
+      <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
+    </div>
+
     <!-- THE DAILY: six good people, every day -->
     <section id="the-daily">
-      <!-- day 38: a note -->
-      <div style="max-width:32rem;margin:0 auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
-        <p style="margin:0;color:var(--dim)">hey, marc.</p>
-        <p style="margin:0;color:var(--dim)">marc.</p>
-        <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
-        <p style="margin:0;color:var(--text)">38 days ago i wasnt sure i could do this.</p>
-        <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
-      </div>
       <div class="section-label">The Daily · June 7</div>
       <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to the producer who seeded the film; Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
 
