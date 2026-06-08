@@ -1,87 +1,83 @@
-/* The Daily — five good people across culture, every day.
-   Date-indexed + self-rendering. We POINT, never reproduce (copyright-safe:
-   names, works, our own lines, and links back to the source). Stack days
-   ahead in DAILY[] and each appears on its date — no daily push needed. */
+/* The Daily — six good people, every day, around one masterwork.
+   Themed deep-dives, date-queued: stack days ahead in DAILY[] and each appears
+   on its date. We POINT, never reproduce (names, our own lines, links to source).
+   The day rolls at 04:00 LOCAL (bd8's BOD), not midnight.
+   Goal (after Interstellar): 3 women / 3 men where the theme allows — theme wins.
+   Renders a 6-box card grid (3 across, then 3) using the site's .grid/.card.
+   NOTE: bump the ?v= on the <script src="/daily.js?v=N"> when you edit this file. */
 
-const DAILY_START = "2026-06-06";        // DAILY[0] is this date
+const DAILY_START   = "2026-06-08";   // DAILY[0] is this date — Daily 001 · Interstellar
+const ROLLOVER_HOUR = 4;              // the day flips at 04:00 local
+
 const DAILY = [
   {
-    date: "2026-06-06",
-    music:     { name: "Ben Harper", work: "Fight for Your Mind (1995) · Diamonds on the Inside (2003)",
-                 why: "A conscience with a slide guitar. Go hear it loud.", link: "https://www.benharper.com/music" },
-    book:      { name: "1984", by: "George Orwell",
-                 why: "The book that named the cage.", link: "https://en.wikipedia.org/wiki/Nineteen_Eighty-Four",
-                 project: "Want to make an updated film of it with your AI? Here's how to start: read the book. Then come back for your ops manual — the AI for creatives chamber (soon).",
-                 credo: "I didn't steal anyone's work. I built my own — weaving together threads from my entire life into what you see before you." },
-    film:      { name: "Hayao Miyazaki", work: "Studio Ghibli", why: "Hand-drawn worlds with a moral spine. Craft as devotion.", link: "https://en.wikipedia.org/wiki/Hayao_Miyazaki", pick: true },
-    artist:    { name: "Vincent van Gogh", work: "painter", why: "Unseen in his own time. Beauty out of struggle — diamonds on the inside.", link: "https://en.wikipedia.org/wiki/Vincent_van_Gogh", pick: true },
-    scientist: { name: "Nikola Tesla", work: "inventor", why: "Built the modern world out of electrons — and gave it away. Our kind of giant.", link: "https://en.wikipedia.org/wiki/Nikola_Tesla", pick: true }
+    num: "001", theme: "Interstellar", date: "2026-06-08",
+    intro: "Today, one true thread — <em>Interstellar.</em> Carl Sagan introduced Kip Thorne to the producer who seeded the film; Thorne's real physics built its wormhole and its black hole.",
+    music:   { name:"Hans Zimmer",       work:"Interstellar (OST)",          why:"The organ that turns a docking scene into a prayer.", link:"https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" },
+    film:    { name:"Christopher Nolan", work:"Interstellar",                why:"Love across spacetime, with the physics kept honest.", link:"https://en.wikipedia.org/wiki/Interstellar_(film)" },
+    science: { name:"Kip Thorne",        work:"The Science of Interstellar", why:"Originated the film; his black-hole math rendered Gargantua — and produced real papers.", link:"https://en.wikipedia.org/wiki/Kip_Thorne" },
+    book:    { name:"Carl Sagan",        work:"Contact",                     why:"Its wormhole was built by Thorne himself — the direct ancestor.", link:"https://en.wikipedia.org/wiki/Contact_(novel)" },
+    artist:  { name:"Chesley Bonestell", work:"space art",                   why:"Father of space art; made the cosmos visible decades before any probe could.", link:"https://en.wikipedia.org/wiki/Chesley_Bonestell" },
+    show:    { name:"Cosmos",            work:"Carl Sagan (1980)",           why:"Made a generation feel the universe.", link:"https://en.wikipedia.org/wiki/Cosmos:_A_Personal_Voyage" }
+  },
+  {
+    num: "002", theme: "World War II", date: "2026-06-09",
+    intro: "One true thread — <em>the Second World War.</em> Six who met the worst of the century with meaning, witness, and craft.",
+    music:   { name:"Billie Holiday", work:"“Strange Fruit” (1939)", why:"The anti-lynching anthem — fighting fascism abroad, lynching at home (the Double-V).", link:"https://en.wikipedia.org/wiki/Strange_Fruit" },
+    film:    { name:"Hedy Lamarr",    work:"actress & inventor",            why:"Hollywood star who co-invented frequency-hopping in 1942 to beat the Nazis — the bones of Wi-Fi.", link:"https://en.wikipedia.org/wiki/Hedy_Lamarr" },
+    science: { name:"Viktor Frankl",  work:"Man's Search for Meaning",      why:"Logotherapy forged in Auschwitz: meaning as survival.", link:"https://en.wikipedia.org/wiki/Viktor_Frankl" },
+    book:    { name:"Kurt Vonnegut",  work:"Slaughterhouse-Five",           why:"Survived the Dresden firebombing as a POW; wrote the war's absurd grief.", link:"https://en.wikipedia.org/wiki/Slaughterhouse-Five" },
+    artist:  { name:"Lee Miller",     work:"war photographer",              why:"Vogue model turned combat photographer; shot the liberation of Dachau and Buchenwald.", link:"https://en.wikipedia.org/wiki/Lee_Miller" },
+    show:    { name:"Dan Carlin",     work:"Hardcore History",              why:"Ghosts of the Ostfront / Supernova in the East — the war at human scale.", link:"https://www.dancarlin.com/hardcore-history-series/" }
   }
-  // ← stack more days here (one object per day, in order). They auto-appear on their date.
+  // ← stack more themed days here (one object per day, in order). They auto-appear on their date.
 ];
 
 (function () {
   const mount = document.getElementById("the-daily");
   if (!mount) return;
 
-  // pick today's entry by date index; clamp to the last stacked entry
+  // today's index — the day rolls at ROLLOVER_HOUR (04:00) local, not midnight
   const MS = 86400000;
-  const start = new Date(DAILY_START + "T00:00:00");
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  let idx = Math.floor((today - start) / MS);
+  const start = new Date(DAILY_START + "T00:00:00").getTime() + ROLLOVER_HOUR * 3600000;
+  let idx = Math.floor((Date.now() - start) / MS);
   if (idx < 0) idx = 0;
-  if (idx >= DAILY.length) idx = DAILY.length - 1;   // graceful: hold last until stack is topped up
+  if (idx >= DAILY.length) idx = DAILY.length - 1;   // hold the last until the queue is topped up
   const d = DAILY[idx];
 
-  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  const A = (href, txt) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(txt)}</a>`;
+  const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  function row(icon, label, e, extra = "") {
+  function card(icon, verb, e) {
     if (!e) return "";
-    const work = e.work ? ` <span class="dly-work">— ${esc(e.work)}</span>` : (e.by ? ` <span class="dly-work">— ${esc(e.by)}</span>` : "");
-    const swap = e.pick ? ` <span class="dly-pick" title="a personal pick">▷</span>` : "";
-    return `<div class="dly-row">
-      <span class="dly-ico">${icon}</span>
-      <div class="dly-body">
-        <div class="dly-head"><span class="dly-label">${label}</span> ${A(e.link, e.name)}${work}${swap}</div>
-        <div class="dly-why">${esc(e.why)}</div>${extra}
-      </div></div>`;
+    const work = e.work ? ` — ${esc(e.work)}` : "";
+    return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener">
+      <span class="k">${icon} ${esc(e.name)}${work}</span>
+      <span class="d">${esc(e.why)}</span>
+      <span class="go">${verb} →</span>
+    </a>`;
   }
-
-  const bookExtra = d.book ? `
-      <div class="dly-project">${esc(d.book.project)}</div>
-      <div class="dly-credo">“${esc(d.book.credo)}” <span class="dly-sig">— bobby</span></div>` : "";
 
   mount.innerHTML = `
     <style>
       #the-daily{width:100%;max-width:980px;margin:0 0 1.4rem;border:1px solid rgba(255,214,10,.34);
-        background:rgba(255,214,10,.025);position:relative;overflow:hidden;padding:1.1rem 1.25rem 1.2rem}
+        background:rgba(255,214,10,.025);position:relative;overflow:hidden;padding:1.2rem 1.25rem 1.35rem}
       #the-daily::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#0E44FF;
         box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.55)}
-      .dly-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
-      .dly-title{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:#FFD60A;font-weight:600}
+      .dly-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.55rem}
+      .dly-title{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:#FFD60A;font-weight:600}
       .dly-date{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#8f8a73}
-      .dly-row{display:flex;gap:.7rem;padding:.55rem 0;border-top:1px solid rgba(143,138,115,.16)}
-      .dly-row:first-of-type{border-top:0}
-      .dly-ico{font-size:1rem;line-height:1.5;flex-shrink:0;width:1.4rem;text-align:center;filter:grayscale(.2)}
-      .dly-body{flex:1;min-width:0}
-      .dly-head{font-size:.98rem;color:#f3eede;line-height:1.4}
-      .dly-label{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:#8f8a73;margin-right:.2rem}
-      .dly-head a{color:#FFD60A;text-decoration:none;font-weight:600}
-      .dly-head a:hover{text-decoration:underline}
-      .dly-work{color:#8f8a73;font-size:.86rem}
-      .dly-pick{color:#8f8a73;font-size:.7rem;cursor:help}
-      .dly-why{font-size:.86rem;color:#cbc6b4;line-height:1.45;margin-top:.1rem}
-      .dly-project{margin-top:.45rem;font-size:.84rem;color:#d9b400;line-height:1.45;border-left:2px solid rgba(255,214,10,.4);padding-left:.6rem}
-      .dly-credo{margin-top:.4rem;font-size:.8rem;color:#8f8a73;font-style:italic;line-height:1.45}
-      .dly-sig{font-style:normal;color:#d9b400}
+      .dly-intro{font-size:.9rem;color:#cbc6b4;line-height:1.55;margin:0 0 1.1rem}
+      .dly-intro em{color:#FFD60A;font-style:italic}
     </style>
-    <div class="dly-top"><span class="dly-title">Today &middot; five good people</span><span class="dly-date">${esc(d.date)}</span></div>
-    ${row("🎵","Music",d.music)}
-    ${row("📕","Book",d.book,bookExtra)}
-    ${row("🎬","Film",d.film)}
-    ${row("🎨","Artist",d.artist)}
-    ${row("🔬","Science",d.scientist)}
+    <div class="dly-top"><span class="dly-title">Daily ${esc(d.num)} &middot; ${esc(d.theme)}</span><span class="dly-date">${esc(d.date)}</span></div>
+    ${d.intro ? `<p class="dly-intro">${d.intro}</p>` : ""}
+    <div class="grid">
+      ${card("🎵","listen",d.music)}
+      ${card("🎬","watch",d.film)}
+      ${card("🔬","explore",d.science)}
+      ${card("📕","read",d.book)}
+      ${card("🎨","see",d.artist)}
+      ${card("📺","watch",d.show)}
+    </div>
   `;
 })();
