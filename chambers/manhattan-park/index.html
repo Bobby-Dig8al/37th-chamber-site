@@ -72,6 +72,7 @@ body {
   color: var(--text);
   min-height: 100vh;
   padding: 24px 16px 60px;
+  overflow-x: hidden;
 }
 .wrap { max-width: 1180px; margin: 0 auto; }
 
@@ -320,11 +321,16 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 .log-entry .ts { font-size: 0.68rem; opacity: 0.7; }
 .log-entry .ok { color: var(--green); }
 .log-entry .warn { color: var(--amber); }
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <a href="/" aria-label="Back to the 37th Chamber" style="position:fixed;top:.6rem;left:.6rem;z-index:60;display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .72rem;font-family:'Bahnschrift','DIN Alternate','Century Gothic',system-ui,sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#FFD60A;text-decoration:none;background:rgba(8,8,10,.72);border:1px solid rgba(255,214,10,.32);border-radius:2px;backdrop-filter:blur(5px)" onmouseover="this.style.borderColor='#FFD60A'" onmouseout="this.style.borderColor='rgba(255,214,10,.32)'">&larr;&nbsp;37th&nbsp;Chamber</a>
-<div class="wrap">
+<main class="wrap" id="main">
 
 <!-- THE SIGIL (CREST) — the simple, circular 37th-chamber logo · the canonical mark.
      Embedded once as <symbol>, used as the board watermark (the architecture signing the work).
@@ -483,7 +489,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   <span class="foot-right">knowledge is <b>free</b> · forever</span>
 </footer>
 
-</div>
+</main>
 
 <!-- ============================================================================
      L1 · CHESS ENGINE (real legality) — chess.js@1.4.0 INLINED (BSD-2, Jeff Hlywa)
