@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manhattan Park — The Chess Room · 37th Chamber</title>
+<title>Washington Square — The Chess Room · 37th Chamber</title>
 <meta name="description" content="The first live chamber. Chess, taught in the open air — an adaptive ladder that climbs until the student hits their ceiling, then teaches there. Free, forever.">
 <meta name="theme-color" content="#08080a">
-<link rel="canonical" href="https://37th-chamber.com/chambers/manhattan-park/">
-<meta property="og:title" content="Manhattan Park — The Chess Room">
+<link rel="canonical" href="https://37th-chamber.com/chambers/washington-square/">
+<meta property="og:title" content="Washington Square — The Chess Room">
 <meta property="og:description" content="The first live chamber of the 37th Chamber. An adaptive chess ladder that finds your ceiling and teaches there. Free, forever.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://37th-chamber.com/chambers/manhattan-park/">
+<meta property="og:url" content="https://37th-chamber.com/chambers/washington-square/">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23000'/%3E%3Ccircle cx='100' cy='100' r='90' fill='none' stroke='%23FFD500' stroke-width='4'/%3E%3Crect x='36.35' y='36.35' width='127.3' height='127.3' fill='none' stroke='%23FFD500' stroke-width='4'/%3E%3Cg stroke='%23FFD500' stroke-width='5'%3E%3Cline x1='100' y1='100' x2='36.35' y2='36.35'/%3E%3Cline x1='100' y1='100' x2='163.65' y2='36.35'/%3E%3Cline x1='100' y1='100' x2='163.65' y2='163.65'/%3E%3Cline x1='100' y1='100' x2='36.35' y2='163.65'/%3E%3Cline x1='100' y1='100' x2='100' y2='36.35'/%3E%3Cline x1='100' y1='100' x2='163.65' y2='100'/%3E%3Cline x1='100' y1='100' x2='100' y2='163.65'/%3E%3Cline x1='100' y1='100' x2='36.35' y2='100'/%3E%3C/g%3E%3Cg fill='%23FFD500'%3E%3Ccircle cx='36.35' cy='36.35' r='9'/%3E%3Ccircle cx='163.65' cy='36.35' r='9'/%3E%3Ccircle cx='163.65' cy='163.65' r='9'/%3E%3Ccircle cx='36.35' cy='163.65' r='9'/%3E%3Ccircle cx='100' cy='36.35' r='7'/%3E%3Ccircle cx='163.65' cy='100' r='7'/%3E%3Ccircle cx='100' cy='163.65' r='7'/%3E%3Ccircle cx='36.35' cy='100' r='7'/%3E%3C/g%3E%3Ccircle cx='100' cy='100' r='11' fill='none' stroke='%23FFD500' stroke-width='4'/%3E%3Ccircle cx='100' cy='100' r='5' fill='%23FFD500'/%3E%3C/svg%3E">
 <!--
-  Manhattan Park · Room #1 of the 37-Chamber Dojo · domain: chess
+  Washington Square · Room #1 of the 37-Chamber Dojo · domain: chess
   v0.4.0 · the chess chamber · built by bd8 + AI
 
   ARCHITECTURE NOTE (read this if you're extending the file):
@@ -36,7 +36,7 @@
                      RUNGS (the ladder data). Swap this layer out and the
                      same engine teaches a different domain.
   Design-for-extraction: when chamber #2 arrives, we lift THE ENGINE into
-  its own file and Manhattan Park becomes "engine + chess-content".
+  its own file and Washington Square becomes "engine + chess-content".
   Don't pre-extract — wait for the second domain to show us what's shared.
 -->
 <style>
@@ -72,6 +72,7 @@ body {
   color: var(--text);
   min-height: 100vh;
   padding: 24px 16px 60px;
+  overflow-x: hidden;
 }
 .wrap { max-width: 1180px; margin: 0 auto; }
 
@@ -104,14 +105,14 @@ header h1 {
 header .sub { color: var(--text-dim); font-size: 0.9rem; }
 header .sub .rank { color: var(--gold); font-weight: 700; }
 /* footer-mirror creed in the header — mirrors the footer's .foot-right exactly:
-   the single emphasized word "free" is the one sanctioned blue highlight (Blue Law:
-   one highlighted word is permitted). The other blue lives in the underline above. */
+   the emphasized word "free" is WHITE text with a blue GLOW (Blue Law: blue is a
+   highlight/glow, never a font color). The other blue lives in the underline above. */
 header .sub .head-creed {
   font-family: var(--font-geo); letter-spacing: 1px; font-size: 0.78rem;
   color: var(--text-dim); margin-right: 14px; padding-right: 14px;
   border-right: 1px solid var(--border);
 }
-header .sub .head-creed b { color: var(--electric); font-weight: 700; }
+header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,0.9), 0 0 12px rgba(14,68,255,0.55); }
 .brandline { display: flex; align-items: center; gap: 14px; }
 .dojo-mark { height: 66px; width: 66px; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(255,214,10,0.40)); }
 .reset-btn.next-form { color: #0a0a0a; background: var(--gold); border-color: var(--gold); font-weight: 700; box-shadow: 0 0 14px rgba(255,214,10,0.45); }
@@ -119,7 +120,7 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
   background: transparent; color: var(--text-dim); border: 1px solid var(--border);
   border-radius: 4px; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; margin-left: 10px;
 }
-.reset-btn:hover { color: var(--electric); border-color: var(--electric); }
+.reset-btn:hover { color: var(--gold); border-color: var(--electric); }
 
 /* --- Footer · electric blue as HIGHLIGHT (accent bar / underline), never as font color --- */
 .chamber-footer {
@@ -134,7 +135,9 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
 .chamber-footer .foot-mark svg { width: 22px; height: 22px; opacity: 0.8; }
 .chamber-footer .foot-tag { color: var(--gold); font-weight: 700; }
 .chamber-footer .foot-right { color: var(--text-dim); }
-.chamber-footer .foot-right b { color: var(--electric); font-weight: 700; }  /* the one blue word — highlight, sparingly */
+.chamber-footer .foot-right b { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,0.9), 0 0 12px rgba(14,68,255,0.55); }  /* "free" — white text + blue GLOW (Blue Law: blue is highlight, never font color) */
+.chamber-footer .foot-work { color: var(--gold); text-decoration: none; font-weight: 700; font-size: 0.78rem; letter-spacing: 1px; }
+.chamber-footer .foot-work:hover { text-decoration: underline; }
 
 /* --- Chamber signature footer (the sigil signs the work, off the board) --- */
 .chamber-sig {
@@ -320,11 +323,16 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
 .log-entry .ts { font-size: 0.68rem; opacity: 0.7; }
 .log-entry .ok { color: var(--green); }
 .log-entry .warn { color: var(--amber); }
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <a href="/" aria-label="Back to the 37th Chamber" style="position:fixed;top:.6rem;left:.6rem;z-index:60;display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .72rem;font-family:'Bahnschrift','DIN Alternate','Century Gothic',system-ui,sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#FFD60A;text-decoration:none;background:rgba(8,8,10,.72);border:1px solid rgba(255,214,10,.32);border-radius:2px;backdrop-filter:blur(5px)" onmouseover="this.style.borderColor='#FFD60A'" onmouseout="this.style.borderColor='rgba(255,214,10,.32)'">&larr;&nbsp;37th&nbsp;Chamber</a>
-<div class="wrap">
+<main class="wrap" id="main">
 
 <!-- THE SIGIL (CREST) — the simple, circular 37th-chamber logo · the canonical mark.
      Embedded once as <symbol>, used as the board watermark (the architecture signing the work).
@@ -399,8 +407,8 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
     <div>
       <h1>the 37th-Chamber&nbsp;Dojo</h1>
       <div class="page-wordmark">
-        <!-- THE QUEEN — Manhattan Park's own chamber sigil · subhead -->
-        <svg class="wm-queen" viewBox="0 0 120 150" aria-label="Manhattan Park — the Yellow Queen">
+        <!-- THE QUEEN — Washington Square's own chamber sigil · subhead -->
+        <svg class="wm-queen" viewBox="0 0 120 150" aria-label="Washington Square — the Yellow Queen">
           <polygon points="26,142 94,142 84,128 36,128" fill="#FFD60A"/>
           <rect x="38" y="120" width="44" height="8" fill="#FFD60A"/>
           <polygon points="44,120 76,120 64,68 56,68" fill="#FFD60A"/>
@@ -419,7 +427,7 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
           <circle cx="30" cy="31" r="6" fill="#FFD60A"/>
           <circle cx="90" cy="31" r="6" fill="#FFD60A"/>
         </svg>
-        <span>Manhattan Park</span>
+        <span>Washington Square</span>
       </div>
     </div>
   </div>
@@ -454,7 +462,7 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
       <h2>The Grandmaster</h2>
       <div class="sensei">
         <div id="resume-host" class="resume-host" style="display:none"></div>
-        <div id="sensei-text">Manhattan Park doesn't ask what you know — it watches you climb and finds out.
+        <div id="sensei-text">Washington Square doesn't ask what you know — it watches you climb and finds out.
           We start easy and go up one rung at a time. The moment a rung gives you trouble,
           that's your edge — and that's where we train.</div>
         <div class="why" id="why"></div>
@@ -481,9 +489,10 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
 <footer class="chamber-footer">
   <span class="foot-mark"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#sigil"/></svg><span class="foot-tag">the 37th-Chamber Dojo</span></span>
   <span class="foot-right">knowledge is <b>free</b> · forever</span>
+  <a class="foot-work" href="/work/">Work with me &rarr;</a>
 </footer>
 
-</div>
+</main>
 
 <!-- ============================================================================
      L1 · CHESS ENGINE (real legality) — chess.js@1.4.0 INLINED (BSD-2, Jeff Hlywa)
@@ -4593,7 +4602,7 @@ const Chess = {
    works perfectly with no persistence. Keep it zero-deps.
    ============================================================================ */
 const Store = {
-  KEY: 'manhattan-park:progress:v1',
+  KEY: 'washington-square:progress:v1',
   available() {
     try { const k = '__mp_test__'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return true; }
     catch (_) { return false; }
@@ -4657,6 +4666,7 @@ const Store = {
    exists. Gold-on-near-black, geometric type, electric-blue HIGHLIGHT on the
    one action word — matches the chamber. Injected into the sensei panel so it
    never disturbs the board column. */
+function escHtml(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
 function showResumeBanner(s) {
   const host = document.getElementById('resume-host');
   if (!host) return;
@@ -4671,7 +4681,7 @@ function showResumeBanner(s) {
   })();
   host.innerHTML =
     '<div class="resume-card">'
-    + '<span class="resume-line">Your climb is saved — <b>' + cleared + '</b> rung' + (cleared===1?'':'s') + ' cleared · rank <b>' + (s.rank || 'Tourist') + '</b> · ' + when + '</span>'
+    + '<span class="resume-line">Your climb is saved — <b>' + cleared + '</b> rung' + (cleared===1?'':'s') + ' cleared · rank <b>' + escHtml(s.rank || 'Tourist') + '</b> · ' + when + '</span>'
     + '<span class="resume-actions">'
     +   '<button class="resume-btn resume-go" id="resume-go">Resume the climb ▸</button>'
     +   '<button class="resume-btn resume-fresh" id="resume-fresh">Start over</button>'
@@ -4711,7 +4721,7 @@ const DOJO = {
     const tb = document.getElementById('topbtn');
     if (tb) { tb.textContent = 'Reset'; tb.onclick = () => DOJO.reset(); tb.classList.remove('next-form'); }
     setPrompt('Press <b>Begin the Climb</b> — the grandmaster will find your level.', '');
-    setSensei('Manhattan Park doesn\'t ask what you know — it watches you climb and finds out. '
+    setSensei('Washington Square doesn\'t ask what you know — it watches you climb and finds out. '
       + 'We start easy and go up one rung at a time. The moment a rung gives you trouble, '
       + 'that\'s your edge — and that\'s where we train.');
     hideWhy();

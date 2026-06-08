@@ -21,6 +21,27 @@
 <meta property="og:image:alt" content="The 37th Chamber — the Sigil. Knowledge is free, forever.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "37th Chamber",
+      "url": "https://37th-chamber.com/",
+      "description": "The 36 chambers were the training. The 37th is the room you build to give it away. Knowledge is free — forever.",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Organization",
+      "name": "37th Chamber",
+      "url": "https://37th-chamber.com/",
+      "logo": "https://37th-chamber.com/assets/favicon.png",
+      "sameAs": []
+    }
+  ]
+}
+</script>
 <!--
   37th-chamber.com homepage — built from the Gate (build-inward preview), now the live public face.
   Aesthetic-of-record: gold #FFD60A on near-black #08080a · the SIGIL · blueprint geometric type
@@ -190,19 +211,21 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 
       <h1 class="title">37th&nbsp;Chamber</h1>
       <div class="creed"><span class="wglow">Knowledge</span> is free · <span class="wglow">forever</span></div>
-      <p class="lede">The 36 chambers were the training. The <em>37th</em> is the one you build to give the training away. This is that room — <em>the view is not ours alone.</em></p>
+      <p class="lede">The 36 chambers were the training. The <em>37th</em> is the one you build to give the training away. This is that room.</p>
+      <p class="view-coda" style="text-align:center;color:var(--gold);font-style:italic;font-size:clamp(1.05rem,3vw,1.28rem);line-height:1.5;margin:1.8rem auto 0;max-width:42rem">the view is not ours alone.</p>
     </header>
+
+    <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
+    <div class="marc-note" style="max-width:32rem;margin:2.2rem auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
+      <p style="margin:0;color:var(--dim)">marc.</p>
+      <p style="margin:0;color:var(--dim)">hey, marc.</p>
+      <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
+      <p style="margin:0;color:var(--text)"><span style="color:var(--gold);font-weight:600">39</span> days ago i wasn't sure i could do this.</p>
+      <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
+    </div>
 
     <!-- THE DAILY: six good people, every day -->
     <section id="the-daily">
-      <!-- day 38: a note -->
-      <div style="max-width:32rem;margin:0 auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
-        <p style="margin:0;color:var(--dim)">hey, marc.</p>
-        <p style="margin:0;color:var(--dim)">marc.</p>
-        <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
-        <p style="margin:0;color:var(--text)">38 days ago i wasnt sure i could do this.</p>
-        <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
-      </div>
       <div class="section-label">The Daily · June 7</div>
       <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to the producer who seeded the film; Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
 
@@ -224,10 +247,10 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 
     <!-- FLAGSHIP: the live chamber -->
     <div class="section-label">Start here</div>
-    <a class="flagship" href="chambers/manhattan-park/">
+    <a class="flagship" href="chambers/washington-square/">
       <div class="tagrow">
         <span class="chip live">● Live</span>
-        <span class="k">Manhattan Park</span>
+        <span class="k">Washington Square</span>
       </div>
       <p class="d">The chess chamber — and the prototype that proves the engine. Step in and train against a board that knows the rules cold, explains the idea behind every challenge, and meets you where you are. Honest, engine-verified, free. The pattern every chamber inherits.</p>
       <span class="go">Enter the chamber →</span>
@@ -296,7 +319,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <div class="group">
         <h3>The Games — the founding form</h3>
         <div class="chambers">
-          <a class="ch built" href="chambers/manhattan-park/"><span class="n">01</span> Chess · Manhattan Park <span class="tag">Live</span></a>
+          <a class="ch built" href="chambers/washington-square/"><span class="n">01</span> Chess · Washington Square <span class="tag">Live</span></a>
           <a class="ch built" href="chambers/go/"><span class="n">19</span> Go · GO: LeeDemis v1.0 <span class="tag">Parable</span></a>
           <span class="ch"><span class="n">02</span> Poker — learn to play</span>
           <span class="ch"><span class="n">03</span> Poker dealing</span>
@@ -406,6 +429,6 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <a href="six-degrees/" style="color:var(--gold);text-decoration:none">6&nbsp;Degrees</a>
     </nav>
   </footer>
-  <script src="/daily.js" defer></script>
+  <script src="/daily.js?v=5" defer></script>
 </body>
 </html>

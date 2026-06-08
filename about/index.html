@@ -46,11 +46,16 @@ h1{font-size:clamp(2.6rem,12vw,5.6rem);line-height:.92;font-weight:600;text-tran
 footer{position:absolute;bottom:clamp(1.2rem,4vw,2rem);z-index:1;
   font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 footer .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.7)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
 </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
-  <main class="wrap">
+  <main class="wrap" id="main">
     <svg class="sigil" viewBox="0 0 200 200" aria-label="The Sigil">
       <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
       <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>

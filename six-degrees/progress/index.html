@@ -5,10 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>State of the Chains · Six Degrees · 37th Chamber</title>
 <meta name="description" content="The live state of the six-degrees chains — who's being reached, one warm hand at a time.">
+<link rel="canonical" href="https://37th-chamber.com/six-degrees/progress/">
 <meta property="og:title" content="State of the Chains · 37th Chamber">
 <meta property="og:description" content="The living tracker for the six-degrees relay. Open in the open, no account needed to watch.">
-<meta property="og:image" content="/assets/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://37th-chamber.com/six-degrees/progress/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
 <meta property="og:image:width" content="1200">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#08080a">
 <link rel="icon" href="/assets/favicon.png">
 <style>
@@ -102,6 +106,7 @@
     var REPO='Bobby-Dig8al/37th-chamber-site';
     var box=document.getElementById('chains');
     function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+    function safeUrl(u){var s=String(u==null?'':u);return s.startsWith('https://')?s:'#';}
     function clean(t){return esc(String(t||'').replace(/^\s*reach\s*:\s*/i,''));}
     function empty(){
       return '<div class="state">No chains started yet &mdash; <strong style="color:var(--gold)">be the first</strong>.'
@@ -114,7 +119,7 @@
     function card(i){
       var reached=i.state==='closed';
       var hands=i.comments===1?'1 hand':(i.comments+' hands');
-      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+esc(i.html_url)+'" target="_blank" rel="noopener">'
+      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+safeUrl(i.html_url)+'" target="_blank" rel="noopener">'
         +'<span class="cstat">'+(reached?'● reached':'○ forming')+'</span>'
         +'<span class="ctitle">'+clean(i.title)+'</span>'
         +'<span class="cmeta">'+hands+' in the chain</span></a>';
