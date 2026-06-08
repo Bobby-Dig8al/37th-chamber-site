@@ -22,14 +22,14 @@ const DAILY = [
     show:    { name:"Cosmos",            work:"Carl Sagan (1980)",           why:"Made a generation feel the universe.", link:"https://en.wikipedia.org/wiki/Cosmos:_A_Personal_Voyage" }
   },
   {
-    num: "002", theme: "World War II", date: "2026-06-09",
-    intro: "One true thread — <em>the Second World War.</em> Six who met the worst of the century with meaning, witness, and craft.",
-    music:   { name:"Billie Holiday", work:"“Strange Fruit” (1939)", why:"The anti-lynching anthem — a nation fighting fascism abroad while lynching its own at home.", link:"https://en.wikipedia.org/wiki/Strange_Fruit" },
-    film:    { name:"Hedy Lamarr",    work:"actress & inventor",            why:"Hollywood star who co-invented frequency-hopping in 1942 to beat the Nazis — the bones of Bluetooth and spread-spectrum wireless.", link:"https://en.wikipedia.org/wiki/Hedy_Lamarr" },
-    science: { name:"Viktor Frankl",  work:"Man's Search for Meaning",      why:"Logotherapy forged in the camps: meaning as survival.", link:"https://en.wikipedia.org/wiki/Viktor_Frankl" },
-    book:    { name:"Kurt Vonnegut",  work:"Slaughterhouse-Five",           why:"Survived the Dresden firebombing as a POW; wrote the war's absurd grief.", link:"https://en.wikipedia.org/wiki/Slaughterhouse-Five" },
-    artist:  { name:"Lee Miller",     work:"war photographer",              why:"Vogue model turned combat photographer; shot the liberation of Dachau and Buchenwald.", link:"https://en.wikipedia.org/wiki/Lee_Miller" },
-    show:    { name:"Dan Carlin",     work:"Hardcore History",              why:"Ghosts of the Ostfront / Supernova in the East — the war at human scale.", link:"https://www.dancarlin.com/hardcore-history-series/" }
+    num: "002", theme: "Interstellar", date: "2026-06-09",
+    intro: "Interstellar week, one step deeper — <em>the science beneath the film.</em> Yesterday the wonder; today the equations that earned it.",
+    music:   { label:"The Score, Deeper", name:"Hans Zimmer",                   work:"the one-page fable",             why:"Nolan handed him a page about a father and child — not the sci-fi premise. He scored the feeling first.", link:"https://en.wikipedia.org/wiki/Hans_Zimmer" },
+    film:    { label:"The Wormhole",      name:"Morris & Thorne, 1988",         work:"the paper that made it physics",  why:"Morris & Thorne's real 1988 paper worked out a traversable wormhole — long before the film used one.", link:"https://en.wikipedia.org/wiki/Wormhole" },
+    science: { label:"Gargantua",         name:"the black-hole render",         work:"Guinness's most accurate",   why:"Thorne's equations drove the effects code; the warped disk — seen above and below at once — is gravitational lensing made visible.", link:"https://en.wikipedia.org/wiki/Interstellar_(film)" },
+    book:    { label:"The Papers",        name:"Classical and Quantum Gravity", work:"real science from a movie",       why:"The render was rigorous enough to produce peer-reviewed papers (2015) — the film fed the field.", link:"https://en.wikipedia.org/wiki/Kip_Thorne" },
+    artist:  { label:"Time",              name:"Miller's planet",               work:"one hour = seven years",          why:"Beside Gargantua, time dilation is dramatized straight from general relativity.", link:"https://en.wikipedia.org/wiki/Time_dilation" },
+    show:    { label:"The Tesseract",     name:"the bulk",                      work:"the speculative edge",          why:"Where the film ventures past confirmed physics — Thorne flagged the bulk and its tesseract as speculation in his companion book.", link:"https://en.wikipedia.org/wiki/Tesseract" }
   },
   {
     num: "003", theme: "Human Rights", date: "2026-06-10",
