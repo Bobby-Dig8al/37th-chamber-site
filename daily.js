@@ -30,6 +30,26 @@ const DAILY = [
     book:    { name:"Kurt Vonnegut",  work:"Slaughterhouse-Five",           why:"Survived the Dresden firebombing as a POW; wrote the war's absurd grief.", link:"https://en.wikipedia.org/wiki/Slaughterhouse-Five" },
     artist:  { name:"Lee Miller",     work:"war photographer",              why:"Vogue model turned combat photographer; shot the liberation of Dachau and Buchenwald.", link:"https://en.wikipedia.org/wiki/Lee_Miller" },
     show:    { name:"Dan Carlin",     work:"Hardcore History",              why:"Ghosts of the Ostfront / Supernova in the East — the war at human scale.", link:"https://www.dancarlin.com/hardcore-history-series/" }
+  },
+  {
+    num: "003", theme: "Human Rights", date: "2026-06-10",
+    intro: "Today, one true thread — <em>human rights.</em> Six who insisted dignity is recognized, not granted — and paid to prove it.",
+    music:   { label:"Music",           name:"Nina Simone",       work:"“Mississippi Goddam”",          why:"The movement's voice — she turned the piano into a demand.", link:"https://en.wikipedia.org/wiki/Nina_Simone" },
+    film:    { label:"Film",            name:"Ava DuVernay",      work:"Selma · 13th",                 why:"Selma's bridge; 13th's case that slavery was rewritten, not ended.", link:"https://en.wikipedia.org/wiki/Ava_DuVernay" },
+    science: { label:"The Declaration", name:"Eleanor Roosevelt", work:"the UDHR (1948)",              why:"Chaired the drafting of the charter that named rights universal.", link:"https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights" },
+    book:    { label:"Memoir",          name:"Nelson Mandela",    work:"Long Walk to Freedom",         why:"27 years jailed, then chose reconciliation over revenge.", link:"https://en.wikipedia.org/wiki/Long_Walk_to_Freedom" },
+    artist:  { label:"Art",             name:"Ai Weiwei",         work:"dissident art",                why:"Turns surveillance and exile into work the state can't unsee.", link:"https://en.wikipedia.org/wiki/Ai_Weiwei" },
+    show:    { label:"The March",       name:"John Lewis",        work:"Good Trouble (2020)",          why:"Beaten at Selma's bridge at 25; made “good trouble” a life.", link:"https://en.wikipedia.org/wiki/John_Lewis" }
+  },
+  {
+    num: "004", theme: "The Harlem Renaissance", date: "2026-06-11",
+    intro: "Today, one true thread — <em>the Harlem Renaissance.</em> A few square miles of 1920s Manhattan where Black America remade the country's art.",
+    music:   { label:"Blues",        name:"Bessie Smith",       work:"Empress of the Blues",          why:"The voice that made the blues a national art.", link:"https://en.wikipedia.org/wiki/Bessie_Smith" },
+    film:    { label:"Cinema",       name:"Oscar Micheaux",     work:"pioneering Black film",         why:"Built a Black film industry when Hollywood wouldn't.", link:"https://en.wikipedia.org/wiki/Oscar_Micheaux" },
+    science: { label:"The Idea",     name:"W.E.B. Du Bois",     work:"The Souls of Black Folk",       why:"Named double-consciousness; co-founded the NAACP.", link:"https://en.wikipedia.org/wiki/W._E._B._Du_Bois" },
+    book:    { label:"Literature",   name:"Zora Neale Hurston", work:"Their Eyes Were Watching God",  why:"Wrote Black womanhood whole, in its own voice.", link:"https://en.wikipedia.org/wiki/Zora_Neale_Hurston" },
+    artist:  { label:"Sculpture",    name:"Augusta Savage",     work:"sculptor",                      why:"Sculpted Harlem's faces; taught a generation, fought for their place.", link:"https://en.wikipedia.org/wiki/Augusta_Savage" },
+    show:    { label:"The Stage",    name:"Duke Ellington",     work:"the Cotton Club",               why:"Made the orchestra speak — jazz as America's classical music.", link:"https://en.wikipedia.org/wiki/Duke_Ellington" }
   }
   // ← stack more themed days here (one object per day, in order). They auto-appear on their date.
 ];
@@ -50,9 +70,10 @@ const DAILY = [
 
   function card(label, verb, e) {
     if (!e) return "";
+    const lbl = e.label || label;   // per-figure label override; falls back to the default slot label
     const work = e.work ? ` — ${esc(e.work)}` : "";
     return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener">
-      <span class="chip">${esc(label)}</span>
+      <span class="chip">${esc(lbl)}</span>
       <span class="k">${esc(e.name)}${work}</span>
       <span class="d">${esc(e.why)}</span>
       <span class="go">${verb} →</span>
@@ -70,7 +91,7 @@ const DAILY = [
       .dly-date{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#8f8a73}
       .dly-intro{font-size:.9rem;color:#cbc6b4;line-height:1.55;margin:0 0 1.1rem}
       .dly-intro em{color:#FFD60A;font-style:italic}
-      #the-daily .card .chip{align-self:flex-start;margin-bottom:.15rem}
+      #the-daily .card .chip{position:static;align-self:flex-start;margin:0 0 .45rem}
     </style>
     <div class="dly-top"><span class="dly-title">Daily ${esc(d.num)} &middot; ${esc(d.theme)}</span><span class="dly-date">${esc(d.date)}</span></div>
     ${d.intro ? `<p class="dly-intro">${d.intro}</p>` : ""}
