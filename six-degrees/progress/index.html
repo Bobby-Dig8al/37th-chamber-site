@@ -106,6 +106,7 @@
     var REPO='Bobby-Dig8al/37th-chamber-site';
     var box=document.getElementById('chains');
     function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+    function safeUrl(u){var s=String(u==null?'':u);return s.startsWith('https://')?s:'#';}
     function clean(t){return esc(String(t||'').replace(/^\s*reach\s*:\s*/i,''));}
     function empty(){
       return '<div class="state">No chains started yet &mdash; <strong style="color:var(--gold)">be the first</strong>.'
@@ -118,7 +119,7 @@
     function card(i){
       var reached=i.state==='closed';
       var hands=i.comments===1?'1 hand':(i.comments+' hands');
-      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+esc(i.html_url)+'" target="_blank" rel="noopener">'
+      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+safeUrl(i.html_url)+'" target="_blank" rel="noopener">'
         +'<span class="cstat">'+(reached?'● reached':'○ forming')+'</span>'
         +'<span class="ctitle">'+clean(i.title)+'</span>'
         +'<span class="cmeta">'+hands+' in the chain</span></a>';

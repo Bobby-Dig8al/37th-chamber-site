@@ -4666,6 +4666,7 @@ const Store = {
    exists. Gold-on-near-black, geometric type, electric-blue HIGHLIGHT on the
    one action word — matches the chamber. Injected into the sensei panel so it
    never disturbs the board column. */
+function escHtml(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
 function showResumeBanner(s) {
   const host = document.getElementById('resume-host');
   if (!host) return;
@@ -4680,7 +4681,7 @@ function showResumeBanner(s) {
   })();
   host.innerHTML =
     '<div class="resume-card">'
-    + '<span class="resume-line">Your climb is saved — <b>' + cleared + '</b> rung' + (cleared===1?'':'s') + ' cleared · rank <b>' + (s.rank || 'Tourist') + '</b> · ' + when + '</span>'
+    + '<span class="resume-line">Your climb is saved — <b>' + cleared + '</b> rung' + (cleared===1?'':'s') + ' cleared · rank <b>' + escHtml(s.rank || 'Tourist') + '</b> · ' + when + '</span>'
     + '<span class="resume-actions">'
     +   '<button class="resume-btn resume-go" id="resume-go">Resume the climb ▸</button>'
     +   '<button class="resume-btn resume-fresh" id="resume-fresh">Start over</button>'
