@@ -53,11 +53,16 @@ footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
 .sig{margin-top:1rem;font-size:.82rem;letter-spacing:.04em;color:var(--gold-soft);font-style:italic}
 .sig b{color:#fff;font-style:normal;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,.9),0 0 12px rgba(14,68,255,.5)}
 .back-foot{display:block;margin-top:1.2rem;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
 </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
-  <div class="wrap">
+  <main class="wrap" id="main">
     <h1>References</h1>
     <div class="sub">the roots &middot; a living document</div>
 
@@ -103,7 +108,7 @@ footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
       <li><a href="https://en.wikipedia.org/wiki/Hayao_Miyazaki" target="_blank" rel="noopener">Hayao Miyazaki</a> <span class="what">— craft as devotion.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Vincent_van_Gogh" target="_blank" rel="noopener">Vincent van Gogh</a> <span class="what">— unseen in his own time.</span></li>
     </ul>
-  </div>
+  </main>
 
   <footer>
     <p class="colophon">We are <b>anonymous and autoorganic.</b> We take no credit and no money — unless it&rsquo;s a gift to help the cause. <em>I didn&rsquo;t steal anyone&rsquo;s work. I built my own — weaving together threads from my entire life into what you see before you.</em></p>
