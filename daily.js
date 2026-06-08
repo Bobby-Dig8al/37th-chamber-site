@@ -3,7 +3,8 @@
    on its date. We POINT, never reproduce (names, our own lines, links to source).
    The day rolls at 04:00 LOCAL (bd8's BOD), not midnight.
    Goal (after Interstellar): 3 women / 3 men where the theme allows — theme wins.
-   Renders a 6-box card grid (3 across, then 3) using the site's .grid/.card.
+   Renders a 6-box card grid (3 across, then 3) using the site's .grid/.card,
+   with a category .chip per card (chip layout, no emoji icons).
    NOTE: bump the ?v= on the <script src="/daily.js?v=N"> when you edit this file. */
 
 const DAILY_START   = "2026-06-08";   // DAILY[0] is this date — Daily 001 · Interstellar
@@ -47,11 +48,12 @@ const DAILY = [
 
   const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  function card(icon, verb, e) {
+  function card(label, verb, e) {
     if (!e) return "";
     const work = e.work ? ` — ${esc(e.work)}` : "";
     return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener">
-      <span class="k">${icon} ${esc(e.name)}${work}</span>
+      <span class="chip">${esc(label)}</span>
+      <span class="k">${esc(e.name)}${work}</span>
       <span class="d">${esc(e.why)}</span>
       <span class="go">${verb} →</span>
     </a>`;
@@ -68,16 +70,17 @@ const DAILY = [
       .dly-date{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#8f8a73}
       .dly-intro{font-size:.9rem;color:#cbc6b4;line-height:1.55;margin:0 0 1.1rem}
       .dly-intro em{color:#FFD60A;font-style:italic}
+      #the-daily .card .chip{align-self:flex-start;margin-bottom:.15rem}
     </style>
     <div class="dly-top"><span class="dly-title">Daily ${esc(d.num)} &middot; ${esc(d.theme)}</span><span class="dly-date">${esc(d.date)}</span></div>
     ${d.intro ? `<p class="dly-intro">${d.intro}</p>` : ""}
     <div class="grid">
-      ${card("🎵","listen",d.music)}
-      ${card("🎬","watch",d.film)}
-      ${card("🔬","explore",d.science)}
-      ${card("📕","read",d.book)}
-      ${card("🎨","see",d.artist)}
-      ${card("📺","watch",d.show)}
+      ${card("Music","listen",d.music)}
+      ${card("Film","watch",d.film)}
+      ${card("Science","explore",d.science)}
+      ${card("Book","read",d.book)}
+      ${card("Artist","see",d.artist)}
+      ${card("Show","watch",d.show)}
     </div>
   `;
 })();
