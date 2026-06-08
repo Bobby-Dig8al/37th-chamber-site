@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ch 1 · From Text to Numbers — The Glass Box · 37th Chamber</title>
-<meta name="description" content="Chapter 1 of The Glass Box. How language becomes number — character tokenization, then byte-pair encoding from scratch. The first algorithm in a language model, built and round-trip-tested.">
+<title>Ch 1 · From Text to Numbers — The Opaque Box · 37th Chamber</title>
+<meta name="description" content="Chapter 1 of The Opaque Box. How language becomes number — character tokenization, then byte-pair encoding from scratch. The first algorithm in a language model, built and round-trip-tested.">
 <meta name="theme-color" content="#08080a">
-<link rel="canonical" href="https://37th-chamber.com/library/the-glass-box/01-from-text-to-numbers.html">
+<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/01-from-text-to-numbers.html">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-<meta property="og:title" content="Ch 1 · From Text to Numbers — The Glass Box">
+<meta property="og:title" content="Ch 1 · From Text to Numbers — The Opaque Box">
 <meta property="og:description" content="How language becomes number. Tokenization, BPE from scratch, the first algorithm a language model runs.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://37th-chamber.com/library/the-glass-box/01-from-text-to-numbers.html">
+<meta property="og:url" content="https://37th-chamber.com/library/the-opaque-box/01-from-text-to-numbers.html">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
@@ -20,11 +20,11 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "headline": "Ch 1 · From Text to Numbers: Tokenization",
-  "description": "Chapter 1 of The Glass Box. How language becomes number — character tokenization, then byte-pair encoding from scratch. The first algorithm in a language model, built and round-trip-tested.",
-  "url": "https://37th-chamber.com/library/the-glass-box/01-from-text-to-numbers.html",
+  "description": "Chapter 1 of The Opaque Box. How language becomes number — character tokenization, then byte-pair encoding from scratch. The first algorithm in a language model, built and round-trip-tested.",
+  "url": "https://37th-chamber.com/library/the-opaque-box/01-from-text-to-numbers.html",
   "isPartOf": {
     "@type": "Book",
-    "name": "The Glass Box",
+    "name": "The Opaque Box",
     "url": "https://37th-chamber.com/library/"
   },
   "author": {
@@ -123,12 +123,12 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <a class="back" href="/library/">&larr;&nbsp;The Library</a>
   <div class="chnav">
     <span>&larr; Ch&nbsp;0</span>
-    <a href="/library/the-glass-box/02-words-as-directions.html">Ch&nbsp;2 &rarr;</a>
+    <a href="/library/the-opaque-box/02-words-as-directions.html">Ch&nbsp;2 &rarr;</a>
   </div>
 </nav>
 
 <main class="wrap" id="main">
-  <div class="eyebrow">The Glass Box · Chapter 1</div>
+  <div class="eyebrow">The Opaque Box · Chapter 1</div>
   <h1 class="title">From Text to Numbers: Tokenization</h1>
 
   <blockquote class="epigraph">A model does arithmetic. It has never seen a letter in its life. Before anything else can happen, language has to become number — and exactly how you do that conversion quietly decides what the model can and can&rsquo;t learn.</blockquote>
@@ -293,7 +293,7 @@ vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-d
   <h2 id="s1-5">1.5&nbsp;&nbsp;The thing to actually understand</h2>
   <div class="takeaway">
     <ol>
-      <li><strong>The model&rsquo;s &ldquo;atoms&rdquo; are tokens, not words or letters.</strong> When people are surprised a model can&rsquo;t spell or count letters in a word, this is why &mdash; it often never sees the letters; it sees a chunk like <code>&nbsp;theatre</code> as one indivisible symbol. The glass box explains the magic <em>and</em> the limits in the same breath.</li>
+      <li><strong>The model&rsquo;s &ldquo;atoms&rdquo; are tokens, not words or letters.</strong> When people are surprised a model can&rsquo;t spell or count letters in a word, this is why &mdash; it often never sees the letters; it sees a chunk like <code>&nbsp;theatre</code> as one indivisible symbol. The opaque box explains the magic <em>and</em> the limits in the same breath.</li>
       <li><strong>Vocabulary size is a tradeoff.</strong> Bigger vocab &rarr; shorter sequences (good, more text per context window) but a larger embedding table and output layer (costly). GPT-2 chose ~50,257. We&rsquo;ll use a small vocab so our model trains fast.</li>
     </ol>
   </div>
@@ -314,7 +314,7 @@ vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-d
       <div class="label">What&rsquo;s next</div>
       <div class="target">Ch 2 &mdash; Words as Directions: embeddings &amp; the input pipeline</div>
     </div>
-    <a href="/library/the-glass-box/02-words-as-directions.html">Read Ch&nbsp;2 &rarr;</a>
+    <a href="/library/the-opaque-box/02-words-as-directions.html">Read Ch&nbsp;2 &rarr;</a>
   </div>
 
   <p class="note-source">A 37th-Chamber original. Methods cited (Sennrich, Haddow &amp; Birch 2016; Radford et al. 2019); all prose and code written fresh.</p>
