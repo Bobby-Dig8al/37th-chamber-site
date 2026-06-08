@@ -23,13 +23,13 @@ const DAILY = [
   },
   {
     num: "002", theme: "Interstellar", date: "2026-06-09",
-    intro: "Interstellar week, one step deeper — <em>the science beneath the film.</em> Yesterday the wonder; today the equations that earned it.",
-    music:   { label:"The Score, Deeper", name:"Hans Zimmer",                   work:"the one-page fable",             why:"Nolan handed him a page about a father and child — not the sci-fi premise. He scored the feeling first.", link:"https://en.wikipedia.org/wiki/Hans_Zimmer" },
-    film:    { label:"The Wormhole",      name:"Morris & Thorne, 1988",         work:"the paper that made it physics",  why:"Morris & Thorne's real 1988 paper worked out a traversable wormhole — long before the film used one.", link:"https://en.wikipedia.org/wiki/Wormhole" },
-    science: { label:"Gargantua",         name:"the black-hole render",         work:"Guinness's most accurate",   why:"Thorne's equations drove the effects code; the warped disk — seen above and below at once — is gravitational lensing made visible.", link:"https://en.wikipedia.org/wiki/Interstellar_(film)" },
-    book:    { label:"The Papers",        name:"Classical and Quantum Gravity", work:"real science from a movie",       why:"The render was rigorous enough to produce peer-reviewed papers (2015) — the film fed the field.", link:"https://en.wikipedia.org/wiki/Kip_Thorne" },
-    artist:  { label:"Time",              name:"Miller's planet",               work:"one hour = seven years",          why:"Beside Gargantua, time dilation is dramatized straight from general relativity.", link:"https://en.wikipedia.org/wiki/Time_dilation" },
-    show:    { label:"The Tesseract",     name:"the bulk",                      work:"the speculative edge",          why:"Where the film ventures past confirmed physics — Thorne flagged the bulk and its tesseract as speculation in his companion book.", link:"https://en.wikipedia.org/wiki/Tesseract" }
+    intro: "Interstellar week, day two — <em>how it got made.</em> Not the science yet — the people who carried a physics problem all the way to the screen.",
+    music:   { label:"The Matchmaker",     name:"Carl Sagan",                    work:"the introduction",        why:"Sagan connected Kip Thorne to producer Lynda Obst — the spark that became the film.", link:"https://en.wikipedia.org/wiki/Carl_Sagan" },
+    film:    { label:"The Producer",       name:"Lynda Obst",                    work:"a 2006 treatment",        why:"She and Thorne carried the idea from a treatment to the screen over years.", link:"https://en.wikipedia.org/wiki/Lynda_Obst" },
+    science: { label:"The First Director", name:"Steven Spielberg",              work:"attached for years",      why:"Spielberg developed it first; a studio shake-up forced him off, and it passed to Nolan.", link:"https://en.wikipedia.org/wiki/Steven_Spielberg" },
+    book:    { label:"The Screenwriter",   name:"Jonathan Nolan",                work:"the early draft",         why:"Wrote the first script — and learned relativity to do it.", link:"https://en.wikipedia.org/wiki/Jonathan_Nolan" },
+    artist:  { label:"The Pact",           name:"Kip Thorne",                    work:"the deal",                why:"His two conditions: nothing violates established physics; every speculation springs from real science.", link:"https://en.wikipedia.org/wiki/Kip_Thorne" },
+    show:    { label:"The Ancestor",       name:"Contact (1985)",                work:"Sagan's novel",           why:"The wormhole Thorne worked out for Contact seeded the one in this film.", link:"https://en.wikipedia.org/wiki/Contact_(novel)" }
   },
   {
     num: "003", theme: "Human Rights", date: "2026-06-10",
