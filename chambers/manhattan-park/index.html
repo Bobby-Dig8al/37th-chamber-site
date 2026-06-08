@@ -104,14 +104,14 @@ header h1 {
 header .sub { color: var(--text-dim); font-size: 0.9rem; }
 header .sub .rank { color: var(--gold); font-weight: 700; }
 /* footer-mirror creed in the header — mirrors the footer's .foot-right exactly:
-   the single emphasized word "free" is the one sanctioned blue highlight (Blue Law:
-   one highlighted word is permitted). The other blue lives in the underline above. */
+   the emphasized word "free" is WHITE text with a blue GLOW (Blue Law: blue is a
+   highlight/glow, never a font color). The other blue lives in the underline above. */
 header .sub .head-creed {
   font-family: var(--font-geo); letter-spacing: 1px; font-size: 0.78rem;
   color: var(--text-dim); margin-right: 14px; padding-right: 14px;
   border-right: 1px solid var(--border);
 }
-header .sub .head-creed b { color: var(--electric); font-weight: 700; }
+header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,0.9), 0 0 12px rgba(14,68,255,0.55); }
 .brandline { display: flex; align-items: center; gap: 14px; }
 .dojo-mark { height: 66px; width: 66px; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(255,214,10,0.40)); }
 .reset-btn.next-form { color: #0a0a0a; background: var(--gold); border-color: var(--gold); font-weight: 700; box-shadow: 0 0 14px rgba(255,214,10,0.45); }
@@ -119,7 +119,7 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
   background: transparent; color: var(--text-dim); border: 1px solid var(--border);
   border-radius: 4px; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; margin-left: 10px;
 }
-.reset-btn:hover { color: var(--electric); border-color: var(--electric); }
+.reset-btn:hover { color: var(--gold); border-color: var(--electric); }
 
 /* --- Footer · electric blue as HIGHLIGHT (accent bar / underline), never as font color --- */
 .chamber-footer {
@@ -134,7 +134,7 @@ header .sub .head-creed b { color: var(--electric); font-weight: 700; }
 .chamber-footer .foot-mark svg { width: 22px; height: 22px; opacity: 0.8; }
 .chamber-footer .foot-tag { color: var(--gold); font-weight: 700; }
 .chamber-footer .foot-right { color: var(--text-dim); }
-.chamber-footer .foot-right b { color: var(--electric); font-weight: 700; }  /* the one blue word — highlight, sparingly */
+.chamber-footer .foot-right b { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,0.9), 0 0 12px rgba(14,68,255,0.55); }  /* "free" — white text + blue GLOW (Blue Law: blue is highlight, never font color) */
 
 /* --- Chamber signature footer (the sigil signs the work, off the board) --- */
 .chamber-sig {
