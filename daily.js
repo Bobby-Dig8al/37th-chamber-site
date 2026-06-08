@@ -24,9 +24,9 @@ const DAILY = [
   {
     num: "002", theme: "World War II", date: "2026-06-09",
     intro: "One true thread — <em>the Second World War.</em> Six who met the worst of the century with meaning, witness, and craft.",
-    music:   { name:"Billie Holiday", work:"“Strange Fruit” (1939)", why:"The anti-lynching anthem — fighting fascism abroad, lynching at home (the Double-V).", link:"https://en.wikipedia.org/wiki/Strange_Fruit" },
-    film:    { name:"Hedy Lamarr",    work:"actress & inventor",            why:"Hollywood star who co-invented frequency-hopping in 1942 to beat the Nazis — the bones of Wi-Fi.", link:"https://en.wikipedia.org/wiki/Hedy_Lamarr" },
-    science: { name:"Viktor Frankl",  work:"Man's Search for Meaning",      why:"Logotherapy forged in Auschwitz: meaning as survival.", link:"https://en.wikipedia.org/wiki/Viktor_Frankl" },
+    music:   { name:"Billie Holiday", work:"“Strange Fruit” (1939)", why:"The anti-lynching anthem — a nation fighting fascism abroad while lynching its own at home.", link:"https://en.wikipedia.org/wiki/Strange_Fruit" },
+    film:    { name:"Hedy Lamarr",    work:"actress & inventor",            why:"Hollywood star who co-invented frequency-hopping in 1942 to beat the Nazis — the bones of Bluetooth and spread-spectrum wireless.", link:"https://en.wikipedia.org/wiki/Hedy_Lamarr" },
+    science: { name:"Viktor Frankl",  work:"Man's Search for Meaning",      why:"Logotherapy forged in the camps: meaning as survival.", link:"https://en.wikipedia.org/wiki/Viktor_Frankl" },
     book:    { name:"Kurt Vonnegut",  work:"Slaughterhouse-Five",           why:"Survived the Dresden firebombing as a POW; wrote the war's absurd grief.", link:"https://en.wikipedia.org/wiki/Slaughterhouse-Five" },
     artist:  { name:"Lee Miller",     work:"war photographer",              why:"Vogue model turned combat photographer; shot the liberation of Dachau and Buchenwald.", link:"https://en.wikipedia.org/wiki/Lee_Miller" },
     show:    { name:"Dan Carlin",     work:"Hardcore History",              why:"Ghosts of the Ostfront / Supernova in the East — the war at human scale.", link:"https://www.dancarlin.com/hardcore-history-series/" }
