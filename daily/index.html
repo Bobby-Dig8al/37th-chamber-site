@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Daily — Archive · 37th Chamber</title>
+<meta name="description" content="Every week of The Daily — six good people, one true thread. Theme-indexed. Interstellar is live now. The year ahead, drafted.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/daily/">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
+<meta property="og:title" content="The Daily — Archive · 37th Chamber">
+<meta property="og:description" content="Every week of The Daily — six good people, one true thread. Theme-indexed. Knowledge is free, forever.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://37th-chamber.com/daily/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
+<style>
+:root{
+  --gold:#FFD60A;
+  --gold-soft:#d9b400;
+  --bg:#08080a;
+  --text:#f3eede;
+  --dim:#8f8a73;
+  --electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--font);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:clamp(2rem,6vw,4.5rem) 1.25rem 0;overflow-x:hidden;position:relative;
+  letter-spacing:0.01em;
+}
+/* faint blueprint grid */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,214,10,0.030) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,214,10,0.030) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 26%,#000 26%,transparent 88%);
+}
+.wrap{position:relative;z-index:1;width:100%;max-width:980px;
+  display:flex;flex-direction:column;align-items:center;
+  animation:rise .9s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ---- masthead ---- */
+.eyebrow{font-size:clamp(.66rem,2.4vw,.82rem);letter-spacing:.34em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:1.2rem;text-align:center}
+.sigil{width:clamp(60px,12vw,80px);height:auto;margin-bottom:1.1rem;
+  filter:drop-shadow(0 0 10px rgba(255,214,10,.18));overflow:visible}
+.sigil .ring-charge{filter:drop-shadow(0 0 7px #0E44FF) drop-shadow(0 0 20px rgba(14,68,255,.9)) drop-shadow(0 0 46px rgba(14,68,255,.55))}
+.title{font-size:clamp(2rem,8vw,4rem);line-height:.95;font-weight:600;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--gold);text-align:center;
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 0 #5e4900,0 5px 6px rgba(0,0,0,.55);
+  position:relative}
+.title::after{content:'';position:absolute;left:50%;bottom:-.16em;transform:translateX(-50%);
+  width:44%;height:3px;background:var(--electric);border-radius:2px;
+  box-shadow:0 0 6px rgba(14,68,255,1),0 0 16px rgba(14,68,255,.9),0 0 34px rgba(14,68,255,.6),0 0 64px rgba(14,68,255,.34);}
+.subtitle{margin-top:1.2rem;font-size:clamp(.74rem,2.6vw,.92rem);letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold-soft);text-align:center}
+.lede{margin-top:1.2rem;max-width:36rem;text-align:center;color:var(--text);
+  font-size:clamp(.95rem,2.8vw,1.1rem);line-height:1.62}
+.lede em{color:var(--gold);font-style:normal}
+
+/* ---- section label ---- */
+.section-label{margin:3rem 0 1.1rem;align-self:stretch;display:flex;align-items:center;gap:1rem;
+  color:var(--dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase}
+.section-label::before,.section-label::after{content:'';height:1px;background:rgba(143,138,115,.28);flex:1}
+
+/* ---- featured / live week ---- */
+.featured{width:100%;text-decoration:none;color:inherit;position:relative;overflow:hidden;
+  border:1px solid rgba(255,214,10,.4);background:rgba(255,214,10,.03);
+  padding:clamp(1.5rem,4vw,2.2rem);display:flex;flex-direction:column;gap:.8rem;
+  transition:.16s ease}
+.featured::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);
+  box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6)}
+.featured:hover{border-color:var(--gold);background:rgba(255,214,10,.06);transform:translateY(-3px)}
+.featured:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.featured .tagrow{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.featured .week-num{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.featured .theme-title{font-size:clamp(1.4rem,5vw,2rem);letter-spacing:.04em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.featured .desc{font-size:clamp(.92rem,2.5vw,1rem);line-height:1.58;color:var(--text);max-width:52rem}
+.featured .desc em{color:var(--gold);font-style:italic}
+.featured .go{font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:.1rem}
+.featured:hover .go{color:var(--gold)}
+/* six-slot preview inside the featured card */
+.six-preview{display:grid;gap:.55rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));margin-top:.4rem}
+.slot{display:flex;flex-direction:column;gap:.25rem;
+  border:1px solid rgba(255,214,10,.18);background:rgba(255,214,10,.01);
+  padding:.75rem .85rem}
+.slot .s-chip{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.15rem}
+.slot .s-name{font-size:.84rem;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);font-weight:600;line-height:1.2}
+.slot .s-work{font-size:.76rem;color:var(--dim);line-height:1.35;margin-top:.1rem}
+
+/* ---- upcoming week cards ---- */
+.weeks-grid{display:grid;gap:1rem;width:100%;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.week-card{display:flex;flex-direction:column;gap:.55rem;text-decoration:none;color:inherit;
+  border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.015);
+  padding:1.3rem 1.35rem 1.25rem;position:relative;transition:.16s ease;overflow:hidden}
+.week-card:hover{border-color:var(--gold);background:rgba(255,214,10,.05);transform:translateY(-3px)}
+.week-card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.week-card .wc-theme{font-size:1.1rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.week-card .wc-desc{font-size:.88rem;line-height:1.5;color:var(--text)}
+.week-card .wc-desc em{color:var(--gold-soft);font-style:italic}
+.week-card .wc-go{margin-top:.5rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.chip{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);border:1px solid rgba(143,138,115,.4);padding:.16rem .5rem;border-radius:2px;white-space:nowrap}
+.chip.live{color:var(--gold);border-color:rgba(255,214,10,.55);
+  box-shadow:0 0 0 1px rgba(255,214,10,.12)}
+.chip.draft{color:var(--dim);border-color:rgba(143,138,115,.3)}
+.week-card .chip{position:absolute;top:.9rem;right:.95rem}
+
+/* ---- year-ahead calendar ---- */
+.calendar-intro{text-align:center;max-width:40rem;margin:0 auto 2rem;color:var(--text);
+  font-size:clamp(.96rem,2.7vw,1.05rem);line-height:1.6}
+.calendar-intro em{color:var(--gold);font-style:normal}
+.cal-group{width:100%;margin-bottom:2rem}
+.cal-group h3{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft);
+  margin-bottom:.9rem;font-weight:600}
+.cal-list{display:flex;flex-direction:column;gap:.5rem;list-style:none}
+.cal-item{display:flex;align-items:baseline;gap:.75rem;
+  border:1px solid rgba(255,214,10,.16);background:rgba(255,214,10,.01);
+  padding:.65rem .9rem;font-size:.9rem;color:var(--text);letter-spacing:.01em;transition:.14s ease}
+.cal-item:hover{border-color:rgba(255,214,10,.36);background:rgba(255,214,10,.04)}
+.cal-item .ci-num{font-size:.66rem;color:var(--dim);letter-spacing:.06em;min-width:2rem;flex-shrink:0}
+.cal-item .ci-theme{font-weight:600;color:var(--gold-soft)}
+.cal-item .ci-note{font-size:.8rem;color:var(--dim);line-height:1.4}
+.cal-item .ci-status{margin-left:auto;flex-shrink:0;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);border:1px solid rgba(143,138,115,.3);padding:.1rem .4rem;border-radius:2px;white-space:nowrap}
+.cal-item .ci-status.staged{color:var(--gold-soft);border-color:rgba(217,180,0,.4)}
+.cal-item .ci-status.live{color:var(--gold);border-color:rgba(255,214,10,.55)}
+
+/* ---- honesty note ---- */
+.honesty{margin:0 auto;max-width:38rem;text-align:center;font-size:.8rem;letter-spacing:.07em;
+  line-height:1.65;color:var(--dim);padding:.9rem 1rem;
+  border:1px solid rgba(143,138,115,.2);background:rgba(143,138,115,.03)}
+.honesty strong{color:var(--gold-soft);font-weight:600}
+
+/* ---- footer ---- */
+footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
+  border-top:1px solid var(--electric);box-shadow:0 -10px 26px -16px var(--electric);
+  padding:2.4rem .25rem 2.4rem;display:flex;flex-direction:column;align-items:center;gap:1.1rem;text-align:center}
+.foot-brand{display:flex;flex-direction:column;align-items:center;gap:.7rem;color:var(--gold);
+  font-size:.9rem;letter-spacing:.14em;text-transform:uppercase}
+.foot-brand svg{width:48px;height:48px;overflow:visible}
+.foot-brand svg .ring-charge{filter:drop-shadow(0 0 5px #0E44FF) drop-shadow(0 0 13px rgba(14,68,255,.9)) drop-shadow(0 0 28px rgba(14,68,255,.55))}
+.foot-creed{font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+.foot-nav{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.4rem .55rem;
+  padding-top:1.1rem;margin-top:.2rem;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;position:relative}
+.foot-nav::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:64%;max-width:340px;height:2px;background:var(--electric);border-radius:2px;
+  box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6),0 0 36px rgba(14,68,255,.32)}
+.foot-nav a{color:var(--gold);text-decoration:none;padding:.15rem .25rem;transition:color .14s ease,text-shadow .14s ease}
+.foot-nav a:hover,.foot-nav a:focus-visible{color:#fff;
+  text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+.foot-nav a:not(:last-child)::after{content:'\25C6';margin-left:.65rem;
+  color:rgba(255,214,10,.32);font-size:.5em;vertical-align:middle;letter-spacing:0}
+.foot-loc{font-size:.72rem;letter-spacing:.14em;color:var(--dim);margin-top:.3rem}
+
+/* ---- a11y ---- */
+.skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:#000;padding:.6rem 1rem;z-index:50;border-radius:2px}
+.skip-link:focus{left:.5rem;top:.5rem}
+*:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .featured:hover,.week-card:hover,.cal-item:hover{transform:none}
+}
+
+/* ---- responsive ---- */
+@media (max-width:600px){
+  .six-preview{grid-template-columns:repeat(2,1fr)}
+  .weeks-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main class="wrap" id="main">
+    <header style="display:flex;flex-direction:column;align-items:center;width:100%">
+      <div class="eyebrow"><a href="/" style="color:inherit;text-decoration:none">37th Chamber</a> &rsaquo; The Daily</div>
+
+      <!-- THE SIGIL (canonical v1.0, inlined) -->
+      <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil — 37th Chamber">
+        <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
+          <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
+          <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
+          <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
+          <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
+        </g>
+        <g fill="#FFD500">
+          <circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>
+          <circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>
+          <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
+          <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
+        </g>
+        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <circle cx="100" cy="100" r="4" fill="#FFD500"/>
+      </svg>
+
+      <h1 class="title">The Daily</h1>
+      <div class="subtitle">Archive &middot; every week, one true thread</div>
+      <p class="lede">Six good people a day &mdash; music, film, science, a book, an artist, a show. One theme per week, deepening daily. <em>Theme-indexed</em> &mdash; the calendar is not date-locked; it deepens by order, not by deadline.</p>
+    </header>
+
+    <!-- LIVE WEEK: INTERSTELLAR — pinned at top -->
+    <h2 class="section-label">Live now</h2>
+
+    <a class="featured" href="/" aria-label="Interstellar week — live on the homepage">
+      <div class="tagrow">
+        <span class="chip live">&#9679; Live</span>
+        <span class="week-num">Week 001</span>
+      </div>
+      <div class="theme-title">Interstellar</div>
+      <p class="desc">Carl Sagan introduced Kip Thorne to producer Lynda Obst in a 1980 blind date; together they conceived the film twenty-five years on. Thorne&rsquo;s real physics built the wormhole and Gargantua &mdash; and the VFX renderer produced <em>published research papers.</em> Seven days into how it got made, the wormhole, the black hole, time dilation, and what it means when the equations are finally put down.</p>
+      <div class="six-preview" aria-label="Week 001 slot preview">
+        <div class="slot"><span class="s-chip">Music</span><span class="s-name">Hans Zimmer</span><span class="s-work">Interstellar (OST)</span></div>
+        <div class="slot"><span class="s-chip">Film</span><span class="s-name">Christopher Nolan</span><span class="s-work">Interstellar</span></div>
+        <div class="slot"><span class="s-chip">Science</span><span class="s-name">Kip Thorne</span><span class="s-work">The Science of Interstellar</span></div>
+        <div class="slot"><span class="s-chip">Book</span><span class="s-name">Carl Sagan</span><span class="s-work">Contact (1985)</span></div>
+        <div class="slot"><span class="s-chip">Artist</span><span class="s-name">Chesley Bonestell</span><span class="s-work">Space art</span></div>
+        <div class="slot"><span class="s-chip">Show</span><span class="s-name">Cosmos</span><span class="s-work">Carl Sagan (1980)</span></div>
+      </div>
+      <span class="go">See today&rsquo;s Daily &rarr;</span>
+    </a>
+
+    <!-- UPCOMING / STAGED WEEKS -->
+    <h2 class="section-label">Upcoming weeks &middot; staged</h2>
+    <p style="text-align:center;max-width:40rem;margin:0 auto 1.6rem;color:var(--dim);font-size:clamp(.84rem,2.3vw,.95rem);line-height:1.6">
+      These weeks are drafted and source-verified. Dates are TBD &mdash; they queue in order, not on a clock. Each is labeled <strong style="color:var(--dim)">upcoming &middot; draft</strong> until it goes live.
+    </p>
+
+    <div class="weeks-grid">
+
+      <!-- DUNE WEEK -->
+      <div class="week-card" aria-label="Week 002: Dune — upcoming draft">
+        <span class="chip draft">Upcoming &middot; draft</span>
+        <div style="margin-top:.2rem">
+          <div style="font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:.35rem">Week 002</div>
+          <h3 class="wc-theme">Dune</h3>
+        </div>
+        <p class="wc-desc">Frank Herbert spent five years building Arrakis before he wrote a word of plot &mdash; ecology, religion, politics, language. Denis Villeneuve spent five hours of film to carry the first novel. Seven days into the world-building as ethics, the score&rsquo;s invented instruments, the <em>warning</em> Herbert buried in the hero, and the Arabic and Islamic foundations beneath the Fremen.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.35rem">
+          <span style="font-size:.7rem;color:var(--dim);border:1px solid rgba(143,138,115,.25);padding:.1rem .4rem">Hans Zimmer</span>
+          <span style="font-size:.7rem;color:var(--dim);border:1px solid rgba(143,138,115,.25);padding:.1rem .4rem">Denis Villeneuve</span>
+          <span style="font-size:.7rem;color:var(--dim);border:1px solid rgba(143,138,115,.25);padding:.1rem .4rem">Frank Herbert</span>
+          <span style="font-size:.7rem;color:var(--dim);border:1px solid rgba(143,138,115,.25);padding:.1rem .4rem">Lisa Gerrard</span>
+        </div>
+      </div>
+
+      <!-- LOST WORLD (PROTOPLANET) WEEK -->
+      <div class="week-card" aria-label="Week 003: Lost World — upcoming draft">
+        <span class="chip draft">Upcoming &middot; draft</span>
+        <div style="margin-top:.2rem">
+          <div style="font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:.35rem">Week 003</div>
+          <h3 class="wc-theme">Lost World</h3>
+        </div>
+        <p class="wc-desc">NWA 12774 &mdash; a 454-gram meteorite from the Sahara. In 2026, CU Boulder&rsquo;s Aaron Bell used a new pressure gauge built into its crystals to confirm: this fragment once sat deep inside a planet that no longer exists. Seven days into the geobarometry, planetary differentiation, the Grand Tack and Nice Model (frontier theory, labeled as such), and what a dead world still teaches.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.35rem">
+          <span style="font-size:.7rem;color:var(--dim);border:1px solid rgba(143,138,115,.25);padding:.1rem .4rem">Aaron Bell et al., 2026</span>
+          <span style="font-size:.7rem;color:var(--dim);border:1px solid rgba(143,138,115,.25);padding:.1rem .4rem">Chesley Bonestell</span>
+          <span style="font-size:.7rem;color:var(--dim);border:1px solid rgba(143,138,115,.25);padding:.1rem .4rem">Carl Sagan</span>
+        </div>
+      </div>
+
+    </div><!-- /weeks-grid -->
+
+    <!-- THE YEAR AHEAD — 52-theme calendar -->
+    <h2 class="section-label" id="year-ahead">The year ahead</h2>
+    <p class="calendar-intro">
+      Fifty-two weeks. One theme per week, one true thread per day. <em>Theme-indexed</em> &mdash; no hard dates. The order is the curriculum; the calendar will deepen as weeks are drafted and cosigned. Every entry below is a draft placeholder until it is staged and source-verified.
+    </p>
+
+    <!-- GROUP: SCIENCE & COSMOS -->
+    <div class="cal-group">
+      <h3>Science &amp; Cosmos</h3>
+      <ul class="cal-list" aria-label="Science and Cosmos weeks">
+        <li class="cal-item">
+          <span class="ci-num">W001</span>
+          <span class="ci-theme">Interstellar</span>
+          <span class="ci-note">Kip Thorne, Hans Zimmer, Gargantua, wormholes &mdash; the week the equations and the film became the same thing.</span>
+          <span class="ci-status live">Live</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W003</span>
+          <span class="ci-theme">Lost World (NWA&nbsp;12774)</span>
+          <span class="ci-note">A protoplanet the size of the Moon, destroyed 4.5 billion years ago &mdash; found in a Saharan meteorite.</span>
+          <span class="ci-status staged">Staged</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Cosmology week</span>
+          <span class="ci-note">Carl Sagan, Neil deGrasse Tyson, the Pale Blue Dot &mdash; the view from the edge of the solar system.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Black Holes &amp; Relativity</span>
+          <span class="ci-note">Einstein, Kerr, the Event Horizon Telescope&rsquo;s 2019 image of M87* &mdash; the theory and the photograph.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Astrophysics</span>
+          <span class="ci-note">Stellar evolution, supernovae, the elements we are made of &mdash; from formation to dispersal.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Contact &amp; SETI</span>
+          <span class="ci-note">Sagan&rsquo;s novel and its physics, the real search for signals, what detection would mean.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: LITERATURE & WORLD-BUILDING -->
+    <div class="cal-group">
+      <h3>Literature &amp; World-Building</h3>
+      <ul class="cal-list" aria-label="Literature and World-Building weeks">
+        <li class="cal-item">
+          <span class="ci-num">W002</span>
+          <span class="ci-theme">Dune</span>
+          <span class="ci-note">Herbert&rsquo;s five-year ecology, Villeneuve&rsquo;s five-hour adaptation, Zimmer&rsquo;s invented instruments &mdash; world-building as ethics.</span>
+          <span class="ci-status staged">Staged</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Albert Camus</span>
+          <span class="ci-note">A full week &mdash; absurdism, the stranger, the myth of Sisyphus, the resistance. Not a single slot: he earns the room.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Contact (Carl Sagan)</span>
+          <span class="ci-note">The novel as a scientific and philosophical argument &mdash; faith, evidence, and what we owe each other across the cosmos.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: HISTORY & HUMAN RIGHTS -->
+    <div class="cal-group">
+      <h3>History &amp; Human Rights</h3>
+      <ul class="cal-list" aria-label="History and Human Rights weeks">
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Human Rights &mdash; Strange Fruit</span>
+          <span class="ci-note">Billie Holiday, MLK, Ida B. Wells, the anti-lynching movement. Gated 18+ dispatch links. Next in queue after the staged weeks.</span>
+          <span class="ci-status">Queued</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">The Suffrage Week</span>
+          <span class="ci-note">All-women: Stanton, Anthony, Sojourner Truth, Ida B. Wells, Alice Paul, Ethel Smyth. The 19th Amendment and the fight behind it.</span>
+          <span class="ci-status">Proposed</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">The Harlem Renaissance</span>
+          <span class="ci-note">Bessie Smith, Langston Hughes, Zora Neale Hurston &mdash; 3 women, 3 men, the creative explosion of 1920s Harlem.</span>
+          <span class="ci-status">Proposed</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">World War II</span>
+          <span class="ci-note">Marlene Dietrich or Vera Lynn as music anchor; the science, the literature, the resistance. A moral week, not a glory week.</span>
+          <span class="ci-status">Proposed</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">The Labor Movement &amp; The New Deal</span>
+          <span class="ci-note">FDR, the unions that survived, the ones that were dismantled &mdash; what workers built and what was taken.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: MUSIC -->
+    <div class="cal-group">
+      <h3>Music</h3>
+      <ul class="cal-list" aria-label="Music weeks">
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Nina Simone</span>
+          <span class="ci-note">&ldquo;Mississippi Goddam&rdquo; / &ldquo;Sinnerman&rdquo; &mdash; a full week or a voices-of-the-movement day with Nina as anchor. Direction TBD.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Hans Zimmer deep-dive</span>
+          <span class="ci-note">Beyond Interstellar and Dune &mdash; a week on the craft of film scoring, invented instruments, and the organ at Temple Church.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Dead Can Dance &amp; Lisa Gerrard</span>
+          <span class="ci-note">Language-agnostic vocal mysticism &mdash; a sound that was halfway to Arrakis before it was asked to go there.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Rage Against the Machine</span>
+          <span class="ci-note">Zack de la Rocha, Tom Morello &mdash; the machine they raged against; the machine we build with now. The inversion.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Beastie Boys &amp; The Tibetan Freedom Concerts</span>
+          <span class="ci-note">Adam Yauch / MCA organized the concerts (1996+); the freedom-struggle thread running from NYC through Tibet. MCA passed 2012 &mdash; a Foundation week.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: FILM -->
+    <div class="cal-group">
+      <h3>Film</h3>
+      <ul class="cal-list" aria-label="Film weeks">
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Christopher Nolan</span>
+          <span class="ci-note">The full catalogue &mdash; the architecture of time, memory, and moral geometry across a body of work.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Oliver Stone &mdash; Untold History</span>
+          <span class="ci-note"><em>The Untold History of the United States</em> &mdash; the first time the corruption of the machinery was laid out with receipts. A graduate course in a documentary.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Raoul Peck</span>
+          <span class="ci-note"><em>Exterminate All the Brutes</em> and <em>I Am Not Your Negro</em> &mdash; colonialism, empire, James Baldwin. Placed under Humanitarian. Blurb TBD.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Jodorowsky&rsquo;s Dune</span>
+          <span class="ci-note">The greatest film never made &mdash; how an unmade adaptation seeded <em>Star Wars</em>, <em>Alien</em>, and a generation of sci-fi cinema.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: AI & TECHNOLOGY -->
+    <div class="cal-group">
+      <h3>AI &amp; Technology</h3>
+      <ul class="cal-list" aria-label="AI and Technology weeks">
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">AI Literacy &mdash; How It Works</span>
+          <span class="ci-note">The Opaque Box &mdash; language models from first principles, what even the makers cannot read. The dojo&rsquo;s foundation.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Anthropic &amp; Dario Amodei</span>
+          <span class="ci-note">Safety-first AI development &mdash; the argument behind the mission, the team, the work.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">AlphaGo &amp; Lee Sedol</span>
+          <span class="ci-note">Move 37. The moment a machine played a move no human would have played &mdash; and what it meant for both sides of the board.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">The Warning (AI Safety)</span>
+          <span class="ci-note">Eliezer Yudkowsky, Nate Soares &mdash; the alignment problem, the stakes, the honest accounting of risk. A week, not a single card.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: PHILOSOPHY & ETHICS -->
+    <div class="cal-group">
+      <h3>Philosophy &amp; Ethics</h3>
+      <ul class="cal-list" aria-label="Philosophy and Ethics weeks">
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Albert Camus week</span>
+          <span class="ci-note">The full room &mdash; absurdism, the rebel, the plague, the myth of Sisyphus. He earns the week; he will not be compressed to a slot.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Ethics of Technology</span>
+          <span class="ci-note">The question the 37th Chamber exists to hold: who benefits, who is harmed, and who decides?</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">The Dalai Lama &amp; Tibet</span>
+          <span class="ci-note">Tenzin Gyatso, the Tibetan Freedom Concerts, the Beastie Boys thread &mdash; compassion as political position. A living Foundation.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: TELEVISION -->
+    <div class="cal-group">
+      <h3>Television</h3>
+      <ul class="cal-list" aria-label="Television weeks">
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">True Detective &mdash; Season 1</span>
+          <span class="ci-note">Arguably the best season of television ever made &mdash; philosophy, time, Louisiana. A week on what the form can do when the writing is this serious.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Cosmos &mdash; Two Generations</span>
+          <span class="ci-note">Carl Sagan (1980) and Neil deGrasse Tyson + Seth MacFarlane (2014) &mdash; what changed, what stayed, what the show cost and gave back.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Dark (Netflix)</span>
+          <span class="ci-note">Time loops, family, paradox &mdash; where Interstellar separates a father and daughter, Dark loops time until characters parent themselves.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">The Sopranos</span>
+          <span class="ci-note">The show that changed television narrative &mdash; and what it built for everything that came after.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Hardcore History (Dan Carlin)</span>
+          <span class="ci-note">The historian who makes the past visceral. Entry order: &ldquo;The Destroyer of Worlds&rdquo; first, then the Cold War series.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP: ART -->
+    <div class="cal-group">
+      <h3>Art &amp; Visual Culture</h3>
+      <ul class="cal-list" aria-label="Art and Visual Culture weeks">
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Jean-Michel Basquiat</span>
+          <span class="ci-note">Neo-expressionism, race, class, and the art market &mdash; a Foundation (1960&ndash;1988), honored in full.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Chesley Bonestell</span>
+          <span class="ci-note">Father of space art &mdash; painted worlds before any probe confirmed them; made a generation feel the cosmos was real and reachable.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+        <li class="cal-item">
+          <span class="ci-num">W&nbsp;&middot;&middot;</span>
+          <span class="ci-theme">Salvador Dal&iacute;</span>
+          <span class="ci-note">Surrealism, the persistence of memory, the melting watch &mdash; and the honest accounting of what he said versus what we read into it.</span>
+          <span class="ci-status">Draft pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- HONESTY NOTE -->
+    <div class="honesty" role="note" aria-label="About the calendar">
+      <strong>About this calendar:</strong> Week numbers marked <strong>W&middot;&middot;</strong> are confirmed themes without a fixed position in the queue. Placement is TBD and will shift as weeks are drafted and cosigned. Status labels &mdash; <em>live, staged, queued, proposed, draft pending</em> &mdash; reflect exactly what has been verified. No date-locking; the themes deepen by order, not by deadline. Every claim in a live week is source-cited or derived; speculation is labeled as such.
+    </div>
+
+  </main>
+
+  <footer>
+    <span class="foot-brand">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
+          <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
+          <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
+          <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
+          <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
+        </g>
+        <g fill="#FFD500">
+          <circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>
+          <circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>
+          <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
+          <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
+        </g>
+        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <circle cx="100" cy="100" r="4" fill="#FFD500"/>
+      </svg>
+      the 37th Chamber
+    </span>
+    <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+    <nav class="foot-nav" aria-label="Site navigation">
+      <a href="/">Home</a>
+      <a href="/chambers/washington-square/">Chess</a>
+      <a href="/library/">Library</a>
+      <a href="/dispatches/">Dispatches</a>
+      <a href="/six-degrees/">6&nbsp;Degrees</a>
+      <a href="/about/">About</a>
+      <a href="/work/">Work with me</a>
+    </nav>
+    <span class="foot-loc">&copy; 2026 &middot; The 37th Chamber &middot; The Woodlands, TX</span>
+  </footer>
+</body>
+</html>
