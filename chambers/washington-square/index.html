@@ -331,6 +331,36 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 .skip-link:focus{left:1rem;outline:3px solid var(--gold);outline-offset:0}
 :focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+/* -----------------------------------------------------------------------
+   A11Y PATCH — keyboard chess cursor + screen-reader utility
+   ----------------------------------------------------------------------- */
+/* role="row" wrappers are transparent to the CSS grid layout (display:contents
+   makes them invisible to the grid formatting context while preserving the ARIA
+   grid → row → gridcell ownership chain). */
+[role="row"] { display: contents; }
+/* Board keyboard cursor — gold focus ring on focused gridcell.
+   Gold = "where you are looking" (navigation/substance).
+   Blue sel ring = "what you picked" (the learner's choice).
+   Both stack cleanly when a cell is focused AND selected. */
+[role="gridcell"]:focus {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+  z-index: 10;
+}
+[role="gridcell"]:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+}
+/* Screen-reader only utility — visually hidden, AT-reachable */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
 .back-fixed{position:fixed;top:.6rem;left:.6rem;z-index:60;display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .72rem;font-family:'Bahnschrift','DIN Alternate','Century Gothic',system-ui,sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#FFD60A;text-decoration:none;background:rgba(8,8,10,.72);border:1px solid rgba(255,214,10,.32);border-radius:2px;backdrop-filter:blur(5px)}
 .back-fixed:hover,.back-fixed:focus-visible{border-color:#FFD60A;outline:2px solid var(--gold);outline-offset:2px}
 @media(max-width:400px){body{padding-left:8px;padding-right:8px}.board{grid-template-columns:16px repeat(8,1fr)}}
@@ -456,7 +486,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
       <div class="board-frame">
         <div class="board-stage">
           <div class="board-holder">
-            <div class="board" id="board"></div>
+            <div class="board" id="board" role="grid" aria-label="Chess board" aria-rowcount="8" aria-colcount="8"></div>
           </div>
         </div>
       </div>
@@ -500,6 +530,9 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 </footer>
 
 </main>
+<!-- A11Y: polite live region — screen readers announce move results without moving focus.
+     role="status" = aria-live="polite" + aria-atomic="true" (belt-and-suspenders for older AT). -->
+<div id="chess-live" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
 <!-- ============================================================================
      L1 · CHESS ENGINE (real legality) — chess.js@1.4.0 INLINED (BSD-2, Jeff Hlywa)
@@ -4081,12 +4114,44 @@ function hide(id){ document.getElementById(id).style.display = 'none'; }
 const FILES = ['a','b','c','d','e','f','g','h'];
 const GLYPH = { k:'♚', q:'♛', r:'♜', b:'♝', n:'♞', p:'♟' };  // one shape set, colored by case
 
+// A11Y: piece name lookup for aria-label construction
+const PIECE_NAMES_FULL = { k:'king', q:'queen', r:'rook', b:'bishop', n:'knight', p:'pawn' };
+
+// A11Y: build the aria-label string for a board square.
+// Pattern follows APG grid examples: "{sq}[, {color} {piece} | empty {light|dark} square]
+//   [, selected][, legal capture available | legal move destination]"
+function buildSquareLabel(sq, piece, light, isSelected, isLegal, isCap) {
+  let label = sq;
+  if (piece) {
+    const color = piece === piece.toUpperCase() ? 'white' : 'black';
+    label += ', ' + color + ' ' + PIECE_NAMES_FULL[piece.toLowerCase()];
+  } else {
+    label += ', empty ' + (light ? 'light' : 'dark') + ' square';
+  }
+  if (isSelected) label += ', selected';
+  if (isCap)      label += ', legal capture available';
+  else if (isLegal) label += ', legal move destination';
+  return label;
+}
+
+// A11Y: announce to screen readers without moving focus.
+// requestAnimationFrame ensures the text-clear is committed before the new text,
+// forcing AT to re-read even when the string is identical to the last announcement.
+function announceChess(msg) {
+  const el = document.getElementById('chess-live');
+  if (!el) return;
+  el.textContent = '';
+  requestAnimationFrame(() => { el.textContent = msg; });
+}
+
 const Chess = {
   position: {},     // { 'e4': 'P', ... }  uppercase=white, lowercase=black
   selected: null,   // square currently selected (for move-type rungs)
   mode: 'move',     // 'move' (from→to) | 'click' (single square)
   current: null,    // current rung
   locked: false,    // true after a correct answer (stop accepting input)
+  _kbFocus: 'a8',       // A11Y: keyboard cursor position (independent of piece selection)
+  _fromKeyboard: false, // A11Y: set true by keydown handler before Chess.click(); cleared in click()
 
   formIndex: 0,
   forms: [
@@ -4318,7 +4383,22 @@ const Chess = {
     this.replies = rung.replies ? rung.replies.slice() : [];
     this.ply = 0;                                  // index into this.line (player plies done)
     this.turn = rung.turn || 'white';             // live side-to-move
+    // A11Y: reset keyboard cursor to the first player piece, or a8 as fallback
+    this._kbFocus = this._firstPlayerSq() || 'a8';
     this.render();
+  },
+
+  // A11Y: scan the board (a8→h1 order) for the first square holding a white piece.
+  // Used by mount() to give keyboard users a sensible cursor start position on each rung.
+  _firstPlayerSq() {
+    for (let row = 0; row < 8; row++) {
+      for (let f = 0; f < 8; f++) {
+        const sq = FILES[f] + (8 - row);
+        const p  = this.position[sq];
+        if (p && p === p.toUpperCase()) return sq;
+      }
+    }
+    return null;
   },
 
   // ENGINE hook: show the solution on the board (after "show me")
@@ -4345,33 +4425,63 @@ const Chess = {
   // --- board rendering ---
   render() {
     const b = document.getElementById('board');
+    // A11Y: detect board focus before tearing down innerHTML.
+    // If a gridcell had focus we must restore it after the rebuild.
+    const hadFocus = b.contains(document.activeElement);
     let html = '';
     for (let row = 0; row < 8; row++) {           // row 0 = rank 8 (top)
       const rank = 8 - row;
-      html += '<div class="rank-label">' + rank + '</div>';
+      // A11Y: wrap each rank in role="row" to satisfy the required ARIA ownership chain:
+      //   role="grid" → role="row" → role="gridcell".
+      //   display:contents (set in CSS) makes the wrapper transparent to the CSS grid.
+      //   aria-rowindex is 1-based; row 0 = rank 8 = rowindex 1.
+      html += '<div role="row" aria-rowindex="' + (row + 1) + '">';
+      html += '<div role="rowheader" class="rank-label" aria-label="Rank ' + rank + '">' + rank + '</div>';
       for (let f = 0; f < 8; f++) {
         const sq = FILES[f] + rank;
         const light = (f + row) % 2 === 0;
         const piece = this.position[sq];
         let cls = 'sq ' + (light ? 'light' : 'dark');
-        if (sq === this.selected) cls += ' sel';
+        const isSel    = sq === this.selected;
+        if (isSel) cls += ' sel';
         // Engine-computed legal destinations for the selected piece (BLUE LAW highlight).
-        if (this.legal) {
-          if (this.legal.caps.has(sq)) cls += ' legal-cap';
-          else if (this.legal.empty.has(sq)) cls += ' legal';
-        }
+        const isLegalCp = !!(this.legal && this.legal.caps.has(sq));
+        const isLegalMv = !!(this.legal && this.legal.empty.has(sq));
+        if (isLegalCp) cls += ' legal-cap';
+        else if (isLegalMv) cls += ' legal';
+        const isActive = sq === (this._kbFocus || 'a8');
+        // A11Y: descriptive aria-label for each cell (square + piece + state).
+        const sqLabel  = buildSquareLabel(sq, piece, light, isSel, isLegalMv, isLegalCp);
         let inner = '';
         if (piece) {
           const isWhite = piece === piece.toUpperCase();
-          inner = '<span class="piece ' + (isWhite ? 'white' : 'black') + '">'
+          inner = '<span class="piece ' + (isWhite ? 'white' : 'black') + '" aria-hidden="true">'
             + '<svg viewBox="0 0 45 45"><use href="#p-' + piece.toLowerCase() + '"/></svg></span>';
         }
-        html += '<div class="' + cls + '" data-sq="' + sq + '" onclick="Chess.click(\'' + sq + '\')">' + inner + '</div>';
+        html += '<div'
+          + ' role="gridcell"'
+          + ' class="' + cls + '"'
+          + ' data-sq="' + sq + '"'
+          + ' tabindex="' + (isActive ? '0' : '-1') + '"'
+          + ' aria-label="' + sqLabel + '"'
+          + ' aria-selected="' + isSel + '"'
+          + ' onclick="Chess.click(\'' + sq + '\')"'
+          + '>' + inner + '</div>';
       }
+      html += '</div>'; // close role="row"
     }
-    html += '<div class="corner"></div>';
-    for (let f = 0; f < 8; f++) html += '<div class="file-label">' + FILES[f] + '</div>';
+    // File labels: aria-hidden because square aria-labels already encode the file.
+    html += '<div role="presentation">';
+    html += '<div class="corner" aria-hidden="true"></div>';
+    for (let f = 0; f < 8; f++) html += '<div class="file-label" aria-hidden="true">' + FILES[f] + '</div>';
+    html += '</div>';
     b.innerHTML = html;
+    // A11Y: restore focus to the active cell after innerHTML rebuild.
+    // preventScroll:true — board state changed under the user, no scroll jump wanted.
+    if (hadFocus) {
+      const cell = b.querySelector('[data-sq="' + (this._kbFocus || 'a8') + '"]');
+      if (cell) cell.focus({ preventScroll: true });
+    }
     this.updateTurnIndicator();
   },
 
@@ -4395,11 +4505,14 @@ const Chess = {
 
   // --- input ---
   click(sq) {
+    this._fromKeyboard = false; // A11Y: reset keyboard flag (set by keydown handler; no-op on mouse path)
     if (this.locked) return;
     if (this.mode === 'click') {
       const ok = this.current.targets.includes(sq);
       this.flash(sq, ok ? 'good' : 'bad');
       this.locked = ok;        // lock on success; allow retry on miss
+      // A11Y: announce click-mode result to screen readers
+      announceChess(ok ? 'Correct square.' : 'Incorrect. Try again.');
       Engine.submit(ok);
       return;
     }
@@ -4409,6 +4522,15 @@ const Chess = {
         this.selected = sq;
         this.legal = this.legalDestinations(sq);   // engine: show legal destinations
         this.render();
+        // A11Y: announce piece selection
+        const p = this.position[sq];
+        if (p) {
+          const color = p === p.toUpperCase() ? 'white' : 'black';
+          const name  = PIECE_NAMES_FULL[p.toLowerCase()];
+          const legalCount = this.legal ? (this.legal.empty.size + this.legal.caps.size) : 0;
+          announceChess(color + ' ' + name + ' on ' + sq + ' selected. '
+            + legalCount + ' legal move' + (legalCount !== 1 ? 's' : '') + ' available.');
+        }
       }
       return;
     }
@@ -4440,6 +4562,8 @@ const Chess = {
     if (!ok) {                                       // wrong move — don't mutate board, let them retry
       this.render();
       this.flash(to, 'bad');
+      // A11Y: announce incorrect move
+      announceChess('Incorrect move. Try again.');
       Engine.submit(false);
       return;
     }
@@ -4464,6 +4588,10 @@ const Chess = {
     this.turn = (this.turn === 'white') ? 'black' : 'white';
     this.render();
     this.flash(to, 'good');
+    // A11Y: announce correct move (piece has already moved to `to` via applyMove)
+    const movedPiece = this.position[to];
+    const movedName  = movedPiece ? PIECE_NAMES_FULL[movedPiece.toLowerCase()] : 'piece';
+    announceChess('Correct. ' + (movedName || 'Piece') + ' from ' + from + ' to ' + to + '.');
 
     const lineComplete = this.ply >= this.line.length;
     if (lineComplete) {
@@ -4748,6 +4876,96 @@ Chess.render();   // show an empty board at rest
   if (saved && Array.isArray(saved.done) && saved.done.length) {
     showResumeBanner(saved);
   }
+})();
+
+// ============================================================================
+// A11Y: KEYBOARD CHESS INTERFACE
+// Implements WAI-ARIA Grid Pattern (roving tabindex variant).
+// Sources: w3.org/WAI/ARIA/apg/patterns/grid/
+//          w3.org/WAI/ARIA/apg/practices/keyboard-interface/
+//
+// Design:
+//   - Board is a single Tab stop (roving tabindex). Tab moves focus INTO the
+//     board at Chess._kbFocus (last active cell, defaulting to a8 on first entry).
+//   - Arrow keys move the keyboard cursor WITHOUT triggering Chess.click().
+//   - Enter / Space fire Chess.click() on the focused square — same as onclick.
+//   - Full two-click move flow works for keyboard users:
+//       Tab → board focus | arrows → navigate to piece | Enter → select |
+//       arrows → navigate to destination | Enter → submit move.
+//   - Escape deselects a selected piece.
+//   - Mouse play is completely unchanged: onclick handlers remain on every square.
+// ============================================================================
+(function attachBoardKeyboard() {
+  const COLS = ['a','b','c','d','e','f','g','h'];
+
+  const board = document.getElementById('board');
+  if (!board) return;
+
+  board.addEventListener('keydown', function(e) {
+    const active = Chess._kbFocus || 'a8';
+    const file = active[0];
+    const rank = parseInt(active[1], 10);
+    const fi   = COLS.indexOf(file);   // 0 (file a) – 7 (file h)
+    const ri   = 8 - rank;             // 0 (rank 8, top row) – 7 (rank 1, bottom row)
+
+    let newFi = fi, newRi = ri;
+    let handled = false;
+
+    switch (e.key) {
+      case 'ArrowRight': newFi = Math.min(7, fi + 1); handled = true; break;
+      case 'ArrowLeft':  newFi = Math.max(0, fi - 1); handled = true; break;
+      case 'ArrowDown':  newRi = Math.min(7, ri + 1); handled = true; break;  // down = rank decreases
+      case 'ArrowUp':    newRi = Math.max(0, ri - 1); handled = true; break;  // up = rank increases
+      case 'Home':
+        newFi = 0;
+        if (e.ctrlKey) newRi = 0;   // Ctrl+Home → a8 (top-left)
+        handled = true; break;
+      case 'End':
+        newFi = 7;
+        if (e.ctrlKey) newRi = 7;   // Ctrl+End → h1 (bottom-right)
+        handled = true; break;
+      case 'Enter':
+      case ' ':
+        e.preventDefault();
+        Chess._fromKeyboard = true;
+        Chess.click(active);
+        return;
+      case 'Escape':
+        if (Chess.selected) {
+          // Deselect by clicking the selected square again (toggle logic in click())
+          Chess._fromKeyboard = true;
+          Chess.click(Chess.selected);
+          announceChess('Selection cleared.');
+        }
+        return;
+      default:
+        return; // not our key — let browser handle it
+    }
+
+    e.preventDefault();
+
+    const newSq = COLS[newFi] + (8 - newRi);
+    Chess._kbFocus = newSq;
+
+    // Update roving tabindex via direct DOM patch — avoids a full innerHTML rebuild
+    // (64-cell re-render) just to move the keyboard cursor. Much cheaper.
+    // The next Chess.render() call (triggered by any move) will write the correct
+    // tabindex for _kbFocus into the freshly-built HTML anyway.
+    const prev = board.querySelector('[tabindex="0"]');
+    if (prev) prev.setAttribute('tabindex', '-1');
+    const next = board.querySelector('[data-sq="' + newSq + '"]');
+    if (next) {
+      next.setAttribute('tabindex', '0');
+      next.focus({ preventScroll: false });
+    }
+  });
+
+  // Keep _kbFocus in sync with mouse clicks so Tab-back into the board
+  // lands on the last mouse-clicked square rather than wherever arrows left it.
+  board.addEventListener('click', function(e) {
+    const cell = e.target.closest('[data-sq]');
+    if (cell) Chess._kbFocus = cell.dataset.sq;
+  });
 })();
 </script>
 </body>
