@@ -6,15 +6,20 @@
 <title>State of the Chains · Six Degrees · 37th Chamber</title>
 <meta name="description" content="The live state of the six-degrees chains — who's being reached, one warm hand at a time.">
 <link rel="canonical" href="https://37th-chamber.com/six-degrees/progress/">
-<meta property="og:title" content="State of the Chains · 37th Chamber">
+<meta property="og:title" content="State of the Chains · Six Degrees · 37th Chamber">
 <meta property="og:description" content="The living tracker for the six-degrees relay. Open in the open, no account needed to watch.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://37th-chamber.com/six-degrees/progress/">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
 <meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The 37th Chamber — the Sigil. Knowledge is free, forever.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
 <meta name="theme-color" content="#08080a">
-<link rel="icon" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
 <style>
   :root{--bg:#08080a;--text:#ece7d8;--dim:#8f8a73;--gold:#FFD60A;--gold-soft:#d9b94a;--electric:#0E44FF}
   *{margin:0;padding:0;box-sizing:border-box}
@@ -22,7 +27,7 @@
   body{background:var(--bg);color:var(--text);font-family:'Georgia',ui-serif,serif;line-height:1.6;
     -webkit-font-smoothing:antialiased;padding:0 1.2rem 5rem}
   .skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:#000;padding:.6rem 1rem;z-index:50}
-  .skip-link:focus{left:.5rem;top:.5rem}
+  .skip-link:focus{left:.5rem;top:.5rem;outline:3px solid var(--gold);outline-offset:0}
   .back{display:inline-block;margin:1.6rem 0 0;color:var(--dim);text-decoration:none;font-size:.82rem;
     letter-spacing:.04em}
   .back:hover{color:var(--gold)}
@@ -45,7 +50,7 @@
   .chain.forming{border-left:3px solid rgba(143,138,115,.5)}
   .cstat{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
   .chain.reached .cstat{color:var(--gold)}
-  .ctitle{display:block;font-size:1.08rem;margin:.25rem 0;color:var(--text)}
+  .ctitle{display:block;font-size:1.08rem;margin:.25rem 0;color:var(--text);overflow-wrap:break-word}
   .cmeta{display:block;font-size:.8rem;color:var(--dim)}
   .state{text-align:center;color:var(--dim);padding:1.6rem;border:1px dashed rgba(143,138,115,.3);
     border-radius:3px;line-height:1.7}
@@ -55,8 +60,9 @@
   .how b{color:var(--gold-soft);font-weight:600}
   .cta-row{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:1.6rem}
   .cta{display:inline-block;text-decoration:none;padding:.7rem 1.2rem;border-radius:3px;font-size:.9rem}
-  .cta.go{background:var(--gold);color:#000;box-shadow:0 0 0 1px rgba(255,214,10,.4),0 0 24px rgba(14,68,255,.3)}
+  .cta.go{background:var(--gold);color:#000;box-shadow:0 0 0 1px rgba(255,214,10,.4),0 0 18px rgba(255,214,10,.15)}
   .cta.ghost{border:1px solid rgba(255,214,10,.3);color:var(--gold)}
+  .back:focus-visible,.chain:focus-visible,.cta:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
   footer{text-align:center;margin-top:3.5rem;color:var(--dim);font-size:.78rem}
   footer a{color:var(--dim)}
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;
@@ -83,15 +89,15 @@
   <h1>State of the <span class="b">Chains</span></h1>
   <p class="lede">Every reach runs in the open, one warm hand at a time. This is where the chains stand — live.</p>
 
-  <div class="section-label">The chains, right now</div>
-  <div id="chains" aria-live="polite">
+  <h2 class="section-label">The chains, right now</h2>
+  <div id="chains" aria-live="polite" aria-label="Chain tracker">
     <div class="state">Loading the live state of the chains&hellip;</div>
   </div>
 
   <div class="how">
     <p>It runs on <b>GitHub Issues</b> — out in the open, no private database, nothing to trust but the public record. <b>One issue = one chain</b> toward a giant. Each comment is a hand added to the relay; an <b>open</b> chain is still <em>forming</em>, a <b>closed</b> one has <em>reached</em>. Anyone with a GitHub account can start a chain or add a link to one. Watching needs nothing at all.</p>
     <div class="cta-row">
-      <a class="cta go" href="https://github.com/Bobby-Dig8al/37th-chamber-site/issues/new?labels=six-degrees&amp;title=Reach%3A%20" target="_blank" rel="noopener">Start a chain &rarr;</a>
+      <a class="cta go" href="https://github.com/Bobby-Dig8al/37th-chamber-site/issues/new?labels=six-degrees&amp;title=Reach%3A%20" target="_blank" rel="noopener noreferrer">Start a chain &rarr;</a>
       <a class="cta ghost" href="/six-degrees/">See the giants</a>
     </div>
   </div>
@@ -113,13 +119,15 @@
         +' Open an issue to begin a chain toward a giant, and it shows up here, live.</div>';
     }
     function err(){
-      return '<div class="state">Couldn’t reach the live tracker just now &mdash; GitHub limits anonymous'
-        +' checks to ~60/hour. Give it a minute and refresh, or <a href="https://github.com/'+REPO+'/issues?q=label%3Asix-degrees" target="_blank" rel="noopener">see the chains on GitHub</a>.</div>';
+      return ‘<div class="state">Couldn\’t reach the live tracker just now &mdash; GitHub limits anonymous’
+        +’ checks to ~60/hour. Give it a minute and refresh, or <a href="https://github.com/’+REPO+’/issues?q=label%3Asix-degrees" target="_blank" rel="noopener noreferrer">see the chains on GitHub</a>.</div>’;
     }
+    /* SECURITY: i.html_url piped through safeUrl() (https:// guard); i.title through clean()/esc().
+       i.comments is a number from the API. All user-controlled strings are escaped before innerHTML. */
     function card(i){
       var reached=i.state==='closed';
       var hands=i.comments===1?'1 hand':(i.comments+' hands');
-      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+safeUrl(i.html_url)+'" target="_blank" rel="noopener">'
+      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+safeUrl(i.html_url)+'" target="_blank" rel="noopener noreferrer">'
         +'<span class="cstat">'+(reached?'● reached':'○ forming')+'</span>'
         +'<span class="ctitle">'+clean(i.title)+'</span>'
         +'<span class="cmeta">'+hands+' in the chain</span></a>';

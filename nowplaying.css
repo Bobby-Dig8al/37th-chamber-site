@@ -1,0 +1,235 @@
+/*
+ * nowplaying.css — 37th Chamber · Now Playing widget
+ *
+ * BLUE LAW: The ONLY blue is on the electric-hex canvas (it paints itself).
+ * ALL card text — title, artist, album, status — is GOLD (#FFD60A / --gold)
+ * on near-black (#08080a / --bg). Never blue text. Never blue fills on the card.
+ *
+ * Reuses the site's exact CSS custom properties (defined in index.html :root).
+ * If this sheet is loaded in a page that already defines those properties,
+ * the fallback literals keep everything correct on isolated pages (e.g., the demo).
+ *
+ * Layout: [album-art | title + artist + album | status-dot + link]
+ *          [progress bar]
+ *          [canvas — full width, blue charge band — the ONLY blue here]
+ */
+
+/* ── Fallback properties for isolated pages (no-op when site :root is present) */
+#now-playing {
+  --gold:     var(--gold,     #FFD60A);
+  --gold-soft:var(--gold-soft,#d9b400);
+  --bg:       var(--bg,       #08080a);
+  --text:     var(--text,     #f3eede);
+  --dim:      var(--dim,      #8f8a73);
+  --electric: var(--electric, #0E44FF);
+  --font:     var(--font,     'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif);
+}
+
+/* ── Wrapper ── */
+.np-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: rgba(255, 214, 10, 0.015);
+  border: 1px solid rgba(255, 214, 10, 0.28);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Left electric-charge accent bar — mirrors the .flagship / stat-card treatment */
+.np-wrapper::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--electric);
+  box-shadow:
+    0 0 8px  rgba(14, 68, 255, 0.95),
+    0 0 20px rgba(14, 68, 255, 0.60);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── aria-live region (visually hidden — screen readers only) ── */
+.np-live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Card row ── */
+.np-card {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2.5vw, 1.1rem);
+  padding: clamp(0.85rem, 2.5vw, 1.2rem) clamp(1rem, 3vw, 1.4rem);
+  padding-left: calc(clamp(1rem, 3vw, 1.4rem) + 3px); /* clear the accent bar */
+}
+
+/* ── Album art ── */
+.np-art-wrap {
+  flex-shrink: 0;
+  width: clamp(44px, 10vw, 64px);
+  height: clamp(44px, 10vw, 64px);
+}
+
+.np-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 214, 10, 0.22);
+}
+
+/* ── Meta: title / artist / album ── */
+.np-meta {
+  flex: 1;
+  min-width: 0;           /* allow text truncation */
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.np-title {
+  font-family: var(--font);
+  font-size: clamp(0.88rem, 2.4vw, 1.06rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);     /* BLUE LAW: gold, never blue */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.np-artist {
+  font-family: var(--font);
+  font-size: clamp(0.78rem, 2vw, 0.92rem);
+  color: var(--gold-soft); /* dimmed gold — still gold, not dim/gray */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.np-album {
+  font-family: var(--font);
+  font-size: clamp(0.68rem, 1.8vw, 0.78rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);      /* site's --dim for tertiary info */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Status: dot + Spotify link ── */
+.np-status-wrap {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.np-status-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dim);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.np-status-dot--playing {
+  background: var(--gold);
+  box-shadow:
+    0 0 4px  rgba(255, 214, 10, 0.90),
+    0 0 10px rgba(255, 214, 10, 0.55);
+}
+
+.np-status-dot--idle {
+  background: var(--dim);
+  box-shadow: none;
+}
+
+/* Spotify link: gold text, keyboard-focusable */
+.np-track-link {
+  font-family: var(--font);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  padding: 0.1rem 0.2rem;
+  transition: color 0.14s ease;
+  border-radius: 2px;
+}
+
+.np-track-link:hover {
+  color: var(--gold);
+}
+
+/* :focus-visible — keyboard nav, matches site's link treatment */
+.np-track-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  color: var(--gold);
+}
+
+/* ── Progress bar ── */
+.np-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(143, 138, 115, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.np-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: var(--gold-soft);
+  border-radius: 0;
+  /* No CSS transition here — interpolation is driven by rAF in JS for smoothness */
+}
+
+/* ── Electric-Hex canvas ── */
+/* The ONLY blue element in the widget. The canvas paints itself in the
+   #0E44FF palette. No CSS blue is applied — JS/canvas owns all blue. */
+.np-hex-canvas {
+  display: block;
+  width: 100%;
+  height: clamp(56px, 12vw, 80px);
+  background: var(--bg);  /* near-black floor — canvas paints over this */
+}
+
+/* ── Responsive: narrow (below ~380px) ── */
+@media (max-width: 380px) {
+  .np-art-wrap {
+    display: none;  /* drop art on very small viewports to keep title readable */
+  }
+  .np-album {
+    display: none;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .np-status-dot,
+  .np-track-link {
+    transition-duration: 0.01ms !important;
+  }
+  /* Progress fill: no CSS animation; JS rAF respects reducedMotion too */
+}

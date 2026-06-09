@@ -7,21 +7,26 @@
 <meta name="description" content="Who I am does not matter. What you do does.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/about/">
-<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
 <meta property="og:title" content="The Faceless Man — 37th Chamber">
 <meta property="og:description" content="Who I am does not matter. What you do does.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://37th-chamber.com/about/">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="37th Chamber — geometric gold sigil on near-black background">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
 <style>
 :root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#ece7d6;--dim:#8f8a73;--electric:#0E44FF;
   --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:clamp(2rem,6vw,4rem) 1.25rem;overflow-x:hidden;position:relative;text-align:center;letter-spacing:.01em}
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:clamp(2rem,6vw,4rem) 1.25rem clamp(1.2rem,4vw,2rem);overflow-x:hidden;position:relative;text-align:center;letter-spacing:.01em}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);
   background-size:46px 46px;mask-image:radial-gradient(circle at 50% 42%,#000 22%,transparent 82%)}
@@ -38,17 +43,17 @@ h1{font-size:clamp(2.6rem,12vw,5.6rem);line-height:.92;font-weight:600;text-tran
   text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 6px rgba(0,0,0,.55)}
 .manifesto{margin-top:clamp(1.6rem,4.5vw,2.4rem);font-size:clamp(1.1rem,4.2vw,1.85rem);line-height:1.4;letter-spacing:.02em;color:var(--text)}
 .manifesto b{display:inline-block;margin-top:.35rem;color:#fff;font-weight:600;
-  text-shadow:0 0 7px rgba(14,68,255,1),0 0 18px rgba(14,68,255,.7),0 0 36px rgba(14,68,255,.4)}
+  text-shadow:0 0 7px rgba(255,214,10,.6),0 0 18px rgba(255,214,10,.35)}
 .cta{margin-top:clamp(2.6rem,7vw,3.8rem);display:inline-flex;align-items:center;gap:.5rem;
   font-size:clamp(.82rem,2.6vw,1rem);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;
   border:1px solid var(--gold);padding:.85rem 1.5rem;border-radius:2px;transition:.18s ease;position:relative}
 .cta:hover{background:var(--gold);color:#0a0a0c;box-shadow:0 0 24px -4px rgba(255,214,10,.55)}
-footer{position:absolute;bottom:clamp(1.2rem,4vw,2rem);z-index:1;
+footer{z-index:1;margin-top:auto;padding-top:2rem;
   font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-footer .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.7)}
+footer .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(255,214,10,.7),0 0 12px rgba(255,214,10,.4)}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:none}
-:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+.skip-link:focus{left:1rem}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:2px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
 </style>
 </head>
@@ -56,7 +61,7 @@ footer .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 
   <a class="skip-link" href="#main">Skip to content</a>
   <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
   <main class="wrap" id="main">
-    <svg class="sigil" viewBox="0 0 200 200" aria-label="The Sigil">
+    <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil">
       <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
       <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
       <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Now Playing — DEV PREVIEW · 37th Chamber</title>
+<!--
+  nowplaying-demo.html — standalone verification harness.
+  Renders the now-playing widget with MOCK data. No Spotify Worker required.
+  mount: <div id="now-playing" data-worker-url="" data-mock="true"></div>
+  Mock is injected via window.__NOWPLAYING_MOCK__ before the module loads.
+  Live-update path: mutate window.__NOWPLAYING_MOCK__, then dispatch
+  CustomEvent 'nowplaying-mock-update' on document so nowplaying.js can react.
+-->
+<!--
+  CSS vars match index.html exactly:
+    --gold:#FFD60A  --gold-soft:#d9b400  --bg:#08080a
+    --text:#f3eede  --dim:#8f8a73  --electric:#0E44FF
+    --font: Bahnschrift stack (zero external deps)
+  BLUE-LAW: the ONLY blue is the electric-hex canvas.
+  ALL card text is gold or --text on near-black. No blue fills, no blue text.
+-->
+<link rel="stylesheet" href="nowplaying.css">
+<style>
+:root{
+  --gold:#FFD60A;
+  --gold-soft:#d9b400;
+  --bg:#08080a;
+  --text:#f3eede;
+  --dim:#8f8a73;
+  --electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0 1.25rem 4rem;
+  overflow-x:hidden;
+  letter-spacing:0.01em;
+}
+/* faint blueprint grid — same as index.html */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,214,10,0.030) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,214,10,0.030) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(circle at 50% 26%,#000 26%,transparent 88%);
+}
+
+/* ---- DEV BANNER ---- */
+.dev-banner{
+  position:relative;z-index:10;
+  width:100%;
+  background:rgba(255,214,10,0.08);
+  border-bottom:1px solid rgba(255,214,10,0.35);
+  text-align:center;
+  padding:.55rem 1rem;
+  font-size:.7rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--gold-soft);
+  font-family:var(--font);
+}
+.dev-banner strong{color:var(--gold);}
+
+/* ---- main wrap ---- */
+.wrap{
+  position:relative;z-index:1;
+  width:100%;
+  max-width:680px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:3rem;
+  gap:2.4rem;
+}
+
+/* ---- section label (same idiom as index.html) ---- */
+.section-label{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  color:var(--dim);
+  font-size:.7rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+}
+.section-label::before,.section-label::after{
+  content:'';height:1px;
+  background:rgba(143,138,115,.28);
+  flex:1;
+}
+
+/* ---- widget mount area ---- */
+.widget-mount{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+/* ---- harness controls ---- */
+.harness{
+  width:100%;
+  border:1px solid rgba(255,214,10,.22);
+  background:rgba(255,214,10,.015);
+  padding:1.25rem 1.4rem 1.4rem;
+}
+.harness-label{
+  font-size:.64rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-bottom:1rem;
+  display:block;
+}
+.btn-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.65rem;
+}
+/* DEV buttons — gold-on-black, geometric, clearly a harness */
+.btn{
+  font-family:var(--font);
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold);
+  background:transparent;
+  border:1px solid rgba(255,214,10,.45);
+  padding:.42rem .85rem;
+  cursor:pointer;
+  transition:background .14s ease, border-color .14s ease, color .14s ease;
+  border-radius:2px;
+  outline:none;
+}
+.btn:hover,.btn:focus-visible{
+  background:rgba(255,214,10,.08);
+  border-color:var(--gold);
+}
+.btn:active{
+  background:rgba(255,214,10,.14);
+}
+.btn.danger{
+  color:var(--dim);
+  border-color:rgba(143,138,115,.35);
+}
+.btn.danger:hover{
+  color:var(--text);
+  border-color:rgba(143,138,115,.7);
+  background:rgba(143,138,115,.08);
+}
+
+/* ---- state readout ---- */
+.state-readout{
+  margin-top:1rem;
+  font-size:.68rem;
+  letter-spacing:.1em;
+  color:var(--dim);
+  font-family:monospace;
+  border-top:1px solid rgba(143,138,115,.18);
+  padding-top:.75rem;
+  word-break:break-all;
+  line-height:1.7;
+}
+.state-readout span{color:var(--gold-soft);}
+
+/* ---- footer note ---- */
+.foot-note{
+  width:100%;
+  text-align:center;
+  font-size:.7rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--dim);
+  line-height:1.8;
+  border-top:1px solid rgba(143,138,115,.18);
+  padding-top:1.4rem;
+}
+.foot-note a{color:var(--gold-soft);text-decoration:none;}
+.foot-note a:hover{color:var(--gold);}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- DEV BANNER: always visible, unambiguous -->
+<div class="dev-banner">
+  <strong>DEV PREVIEW</strong> — mock data, no Worker connected.
+</div>
+
+<!--
+  MOCK INJECTION — classic (non-module) script runs synchronously before
+  nowplaying.js loads. The widget reads window.__NOWPLAYING_MOCK__ on mount.
+  To live-update: mutate this object, then dispatch 'nowplaying-mock-update'.
+-->
+<script>
+  // Track A — Kyle's current track (real-feeling preview)
+  window.__NOWPLAYING_MOCK__ = {
+    isPlaying: true,
+    title: "Alone",
+    artist: "Autist",
+    album: "Alone",
+    albumArtUrl: null,          // null => widget renders its placeholder
+    progressMs: 185000,
+    durationMs: 317000,
+    trackUrl: null
+  };
+
+  // Track B — second mock for hot-swap testing
+  window.__NOWPLAYING_MOCK_B__ = {
+    isPlaying: true,
+    title: "Just One Fix",
+    artist: "Ministry",
+    album: "Psalm 69",
+    albumArtUrl: null,
+    progressMs: 42000,
+    durationMs: 303000,
+    trackUrl: null
+  };
+
+  // Track C — paused / nothing playing (idle hex state)
+  window.__NOWPLAYING_MOCK_C__ = {
+    isPlaying: false,
+    title: null,
+    artist: null,
+    album: null,
+    albumArtUrl: null,
+    progressMs: 0,
+    durationMs: 0,
+    trackUrl: null
+  };
+
+  // Helper: push a new mock state and notify the widget
+  function _pushMock(data) {
+    Object.assign(window.__NOWPLAYING_MOCK__, data);
+    document.dispatchEvent(new CustomEvent('nowplaying-mock-update', { detail: data }));
+    _updateReadout();
+  }
+
+  function _updateReadout() {
+    var el = document.getElementById('state-json');
+    if (el) {
+      el.textContent = JSON.stringify(window.__NOWPLAYING_MOCK__, null, 2);
+    }
+  }
+</script>
+
+<div class="wrap">
+
+  <!-- widget mount -->
+  <div class="section-label">Widget Preview</div>
+  <div class="widget-mount">
+    <!--
+      MOUNT MARKUP — mirrors the homepage contract exactly.
+      data-worker-url="" => no live fetch.
+      data-mock="true"   => widget checks window.__NOWPLAYING_MOCK__.
+    -->
+    <div id="now-playing" data-worker-url="" data-mock="true"></div>
+  </div>
+
+  <!-- harness controls -->
+  <div class="section-label">Harness Controls</div>
+  <div class="harness" role="region" aria-label="Dev harness controls">
+    <span class="harness-label">Mutate mock state &rarr; live-update + hex intensity eyeball</span>
+    <div class="btn-row">
+
+      <!-- Toggle isPlaying on the current mock -->
+      <button class="btn" id="btn-toggle"
+        onclick="(function(){
+          _pushMock({ isPlaying: !window.__NOWPLAYING_MOCK__.isPlaying });
+          document.getElementById('btn-toggle').textContent =
+            window.__NOWPLAYING_MOCK__.isPlaying ? 'Pause (set idle)' : 'Play (set active)';
+        })()">
+        Pause (set idle)
+      </button>
+
+      <!-- Swap to Track A -->
+      <button class="btn" id="btn-a"
+        onclick="(function(){
+          _pushMock({
+            isPlaying:true,title:'Alone',artist:'Autist',
+            album:'Alone',albumArtUrl:null,progressMs:185000,durationMs:317000,trackUrl:null
+          });
+          document.getElementById('btn-toggle').textContent='Pause (set idle)';
+        })()">
+        Track A — Alone / Autist
+      </button>
+
+      <!-- Swap to Track B -->
+      <button class="btn" id="btn-b"
+        onclick="(function(){
+          _pushMock({
+            isPlaying:true,title:'Just One Fix',artist:'Ministry',
+            album:'Psalm 69',albumArtUrl:null,progressMs:42000,durationMs:303000,trackUrl:null
+          });
+          document.getElementById('btn-toggle').textContent='Pause (set idle)';
+        })()">
+        Track B — Just One Fix / Ministry
+      </button>
+
+      <!-- Simulate nothing playing (HTTP 204 path) -->
+      <button class="btn danger" id="btn-idle"
+        onclick="(function(){
+          _pushMock({
+            isPlaying:false,title:null,artist:null,album:null,
+            albumArtUrl:null,progressMs:0,durationMs:0,trackUrl:null
+          });
+          document.getElementById('btn-toggle').textContent='Play (set active)';
+        })()">
+        Nothing playing (idle)
+      </button>
+
+    </div>
+
+    <!-- live state readout -->
+    <div class="state-readout">
+      <div style="margin-bottom:.3rem;font-size:.6rem;letter-spacing:.18em;font-family:var(--font)">
+        <span>window.__NOWPLAYING_MOCK__</span>
+      </div>
+      <pre id="state-json"></pre>
+    </div>
+  </div>
+
+  <!-- contract notes for the widget agent -->
+  <div class="section-label">Wire Notes</div>
+  <div class="harness" style="font-size:.74rem;line-height:1.75;color:var(--dim);">
+    <span class="harness-label">For the widget agent (nowplaying.js)</span>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:.5rem;">
+      <li>&#9679; Check <code style="color:var(--gold-soft)">el.dataset.mock === 'true'</code> at mount. If true, read <code style="color:var(--gold-soft)">window.__NOWPLAYING_MOCK__</code> immediately — skip all Worker fetches.</li>
+      <li>&#9679; Listen for <code style="color:var(--gold-soft)">document.addEventListener('nowplaying-mock-update', handler)</code> to receive live state pushes from this harness.</li>
+      <li>&#9679; On each mock-update event (or at mount), call the same render path as a real Worker response — progress bar, title/artist via textContent, hex intensity via <code style="color:var(--gold-soft)">controller.setPlaying(bool)</code>.</li>
+      <li>&#9679; <code style="color:var(--gold-soft)">albumArtUrl: null</code> throughout this harness — verify the placeholder renders cleanly (no broken-image icon).</li>
+      <li>&#9679; Poll loop must NOT run in mock mode (no Worker URL present). Only the progress-bar interpolation rAF should tick.</li>
+    </ul>
+  </div>
+
+  <div class="foot-note">
+    <a href="index.html">&larr; 37th Chamber home</a>
+    &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+    <a href="NOWPLAYING-SETUP.md">NOWPLAYING-SETUP.md</a>
+    &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+    <span>nowplaying-demo.html &mdash; dev only, never ship</span>
+  </div>
+
+</div>
+
+<!-- widget module — loads AFTER the mock is set on window -->
+<script type="module" src="nowplaying.js"></script>
+
+<!-- init the state readout after DOM is ready -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    _updateReadout();
+  });
+</script>
+
+</body>
+</html>

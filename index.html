@@ -8,10 +8,12 @@
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/">
 <!-- Favicon: THE SIGIL (gold on near-black) — its canonical Tier-1 job. -->
-<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
+<link rel="stylesheet" href="/nowplaying.css">
 <!-- Open Graph / social (viral-ready) -->
-<meta property="og:title" content="The 37th Chamber">
+<meta property="og:title" content="The 37th Chamber — knowledge is free, forever">
 <meta property="og:description" content="The 36 chambers were the training. The 37th is the room you build to give it away. Knowledge is free — forever.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://37th-chamber.com/">
@@ -21,6 +23,8 @@
 <meta property="og:image:alt" content="The 37th Chamber — the Sigil. Knowledge is free, forever.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:title" content="The 37th Chamber — knowledge is free, forever">
+<meta name="twitter:description" content="The 36 chambers were the training. The 37th is the room you build to give it away. Knowledge is free — forever.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -61,7 +65,8 @@
   --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:auto}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{
   background:var(--bg);color:var(--text);font-family:var(--font);
   min-height:100vh;display:flex;flex-direction:column;align-items:center;
@@ -127,6 +132,7 @@ body::before{
   border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.015);
   padding:1.3rem 1.35rem 1.25rem;position:relative;transition:.16s ease;overflow:hidden}
 .card:hover{border-color:var(--gold);background:rgba(255,214,10,.05);transform:translateY(-3px)}
+.card:focus-visible,.flagship:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .card .k{font-size:1.18rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
 .card .d{font-size:.92rem;line-height:1.5;color:var(--text)}
 .card .go{margin-top:.4rem;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
@@ -160,32 +166,47 @@ body::before{
 .ch.built:hover{background:rgba(255,214,10,.07);transform:translateY(-2px)}
 .ch.built .tag{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
   border:1px solid rgba(255,214,10,.5);padding:.08rem .35rem;border-radius:2px}
-.ch.keystone{border-color:rgba(14,68,255,.55);
+.ch.keystone{border-color:transparent;
   box-shadow:0 0 10px -2px rgba(14,68,255,.55);color:#fff}
 .ch.keystone .star{color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.7)}
 .forthcoming{margin-top:1.4rem;text-align:center;font-size:.9rem;line-height:1.6;color:var(--dim)}
 .forthcoming b{color:var(--gold-soft);font-weight:600}
 
-/* ---- footer: the charged baseline ---- */
+/* ---- footer: the charged baseline — centered column, sigil as the crowning crest ---- */
 footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   border-top:1px solid var(--electric);box-shadow:0 -10px 26px -16px var(--electric);
-  padding:1.4rem .25rem 2.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.foot-brand{display:flex;align-items:center;gap:.6rem;color:var(--gold);
-  font-size:.82rem;letter-spacing:.1em;text-transform:uppercase}
-.foot-brand svg{width:22px;height:22px}
-/* THE BLUE LAW at footer scale — same charge, glow tightened so a 22px mark doesn't bloom. */
-.foot-brand svg .ring-charge{filter:drop-shadow(0 0 3px #0E44FF) drop-shadow(0 0 7px rgba(14,68,255,.85)) drop-shadow(0 0 14px rgba(14,68,255,.5))}
-.foot-creed{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  padding:2.4rem .25rem 2.4rem;display:flex;flex-direction:column;align-items:center;gap:1.1rem;text-align:center}
+.foot-brand{display:flex;flex-direction:column;align-items:center;gap:.7rem;color:var(--gold);
+  font-size:.9rem;letter-spacing:.14em;text-transform:uppercase}
+.foot-brand svg{width:52px;height:52px;overflow:visible}
+/* THE BLUE LAW at footer scale — the crowning crest carries the full ring-charge glow. */
+.foot-brand svg .ring-charge{filter:drop-shadow(0 0 5px #0E44FF) drop-shadow(0 0 13px rgba(14,68,255,.9)) drop-shadow(0 0 28px rgba(14,68,255,.55))}
+.foot-creed{font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 .foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
-.foot-loc{font-size:.72rem;letter-spacing:.1em;color:var(--dim);width:100%;text-align:center;margin-top:.4rem}
+/* ---- footer nav: static gold, glow-white on hover; geometric diamond separators ---- */
+.foot-nav{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.4rem .55rem;
+  padding-top:1.1rem;margin-top:.2rem;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;position:relative}
+/* THE BLUE CHARGE — a thin electric-blue glowing rule above the nav (the #the-daily ::before treatment). */
+.foot-nav::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:64%;max-width:340px;height:2px;background:var(--electric);border-radius:2px;
+  box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6),0 0 36px rgba(14,68,255,.32)}
+.foot-nav a{color:var(--gold);text-decoration:none;padding:.15rem .25rem;transition:color .14s ease,text-shadow .14s ease}
+/* GLOW-HOVER — light each link white + blue glow (the .free / .wglow treatment). */
+.foot-nav a:hover,.foot-nav a:focus-visible{color:#fff;
+  text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+/* GEOMETRIC SEPARATOR — a subtle gold diamond between nav items. */
+.foot-nav a:not(:last-child)::after{content:'\25C6';margin-left:.65rem;
+  color:rgba(255,214,10,.32);font-size:.5em;vertical-align:middle;letter-spacing:0}
+.foot-loc{font-size:.72rem;letter-spacing:.14em;color:var(--dim);margin-top:.3rem}
 .skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:#000;padding:.6rem 1rem;z-index:50;border-radius:2px}
 .skip-link:focus{left:.5rem;top:.5rem}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+.card:hover,.flagship:hover,.ch.built:hover{transform:none}}
 </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="wrap" id="main" role="main">
+  <main class="wrap" id="main">
     <header style="display:flex;flex-direction:column;align-items:center;width:100%">
       <div class="eyebrow">Est. at the base of the AI tsunami · The Woodlands, TX</div>
 
@@ -224,21 +245,18 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
     </div>
 
-    <!-- THE DAILY: six good people, every day -->
-    <section id="the-daily">
-      <div class="section-label">The Daily · June 7</div>
-      <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to the producer who seeded the film; Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
+    <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
+    <div id="now-playing" data-worker-url=""></div>
 
-      <div role="status" aria-label="Now playing" style="display:flex;align-items:center;justify-content:center;gap:.55rem;flex-wrap:wrap;border:1px solid rgba(14,68,255,.4);background:rgba(14,68,255,.04);box-shadow:0 0 20px -7px rgba(14,68,255,.6);padding:.7rem 1.1rem;margin:0 auto 1.7rem;max-width:34rem">
-        <span style="font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;text-shadow:0 0 6px rgba(14,68,255,.95)">&#9834; Now playing</span>
-        <span style="color:var(--gold);font-weight:600">Madlib &mdash; <em>Slim&rsquo;s Return</em></span>
-        <span style="font-size:.72rem;color:var(--dim)">&middot; spinning while we build</span>
-      </div>
+    <!-- THE DAILY: six good people, every day -->
+    <section id="the-daily" aria-label="The Daily">
+      <div class="section-label">The Daily</div>
+      <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to producer Lynda Obst (~1980 blind date); together they conceived the film twenty-five years later. Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
 
       <div class="grid">
         <a class="card" href="https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" target="_blank" rel="noopener"><span class="k">&#127925; Hans Zimmer &mdash; Interstellar (OST)</span><span class="d">The organ that turns a docking scene into a prayer.</span><span class="go">listen &rarr;</span></a>
         <div class="card"><span class="k">&#127916; Christopher Nolan &mdash; Interstellar</span><span class="d">Love across spacetime, with the physics kept honest.</span></div>
-        <div class="card"><span class="k">&#128300; Kip Thorne</span><span class="d">Originated the film; his real black-hole math rendered Gargantua &mdash; and produced actual papers. <em>The Science of Interstellar.</em></span></div>
+        <div class="card"><span class="k">&#128300; Kip Thorne</span><span class="d">Co-originated the film with producer Lynda Obst; his real black-hole math rendered Gargantua &mdash; and produced actual papers. <em>The Science of Interstellar.</em></span></div>
         <div class="card"><span class="k">&#128214; Carl Sagan &mdash; Contact</span><span class="d">Its wormhole was built by Thorne himself &mdash; the direct ancestor.</span></div>
         <div class="card"><span class="k">&#127912; Chesley Bonestell</span><span class="d">Father of space art; made the cosmos visible decades before any probe could.</span></div>
         <div class="card"><span class="k">&#128250; Cosmos &mdash; Carl Sagan (1980)</span><span class="d">Made a generation feel the universe. <em>Tomorrow: Neil &amp; Seth&rsquo;s 2014 reboot.</em></span></div>
@@ -246,7 +264,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </section>
 
     <!-- FLAGSHIP: the live chamber -->
-    <div class="section-label">Start here</div>
+    <h2 class="section-label">Start here</h2>
     <a class="flagship" href="chambers/washington-square/">
       <div class="tagrow">
         <span class="chip live">● Live</span>
@@ -257,7 +275,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </a>
 
     <!-- WORK WITH ME — the revenue bridge (the door the free chambers fund) -->
-    <div class="section-label">Work with me</div>
+    <h2 class="section-label">Work with me</h2>
     <a class="flagship" href="work/">
       <div class="tagrow">
         <span class="chip">For practices, firms &amp; teams</span>
@@ -268,7 +286,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </a>
 
     <!-- BUILT ON ONE MACHINE — the proof (verified stress-test data + mission framing) -->
-    <div class="section-label">Built on one machine</div>
+    <h2 class="section-label">Built on one machine</h2>
     <p style="text-align:center;max-width:40rem;margin:0 auto 1.8rem;color:var(--text);font-size:clamp(1rem,2.9vw,1.18rem);line-height:1.62">Every chamber. The dojo. A multi-agent architecture, built using Claude by Anthropic. This whole thing is orchestrated from <strong style="color:var(--gold);font-weight:600">one consumer PC</strong> — no team, no lab, no fortune. <em style="color:var(--gold);font-style:normal">One machine, AI, and the will.</em></p>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))">
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(2rem,7vw,2.9rem);font-weight:600;color:var(--gold);line-height:1">1</div><div style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">consumer PC</div></div>
@@ -279,12 +297,12 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     <p style="text-align:center;font-size:.7rem;letter-spacing:.07em;color:var(--dim);margin-top:1rem;opacity:.85">STS-87 &middot; Ryzen&nbsp;7 9700X &middot; RTX&nbsp;4070&nbsp;Ti&nbsp;Super &middot; verified: OCCT combined CPU+GPU, 1&nbsp;hour sustained, zero throttle. Live real-world peaks ~65&deg;C &mdash; also throttle-free.</p>
 
     <!-- THE CORNERSTONES — gratitude wall + starter-stack for anyone at the base of the wave -->
-    <div class="section-label">The cornerstones</div>
-    <p style="text-align:center;max-width:42rem;margin:0 auto 1.6rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Three companies make this possible &mdash; and make it possible for <em style="color:var(--gold);font-style:normal">anyone</em> starting at the base of the wave. Not sponsors; tools we use and trust, every day. They build the irresistible <em style="color:var(--gold);font-style:normal">for the good.</em></p>
+    <h2 class="section-label">The cornerstones</h2>
+    <p style="text-align:center;max-width:42rem;margin:0 auto 1.6rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six companies make this possible &mdash; and make it possible for <em style="color:var(--gold);font-style:normal">anyone</em> starting at the base of the wave. Not sponsors; tools we use and trust, every day. They build the irresistible <em style="color:var(--gold);font-style:normal">for the good.</em></p>
     <div class="grid">
       <a class="card" href="https://www.anthropic.com" target="_blank" rel="noopener">
         <span class="k">Anthropic</span>
-        <span class="d">The intelligence this was built <em>with</em> &mdash; <strong style="color:var(--gold-soft)">Claude</strong>. Built by <strong style="color:var(--gold-soft)">Dario Amodei</strong> and the Anthropic team, for safety and the good. A partner, not a replacement.</span>
+        <span class="d">The intelligence this was built <em>with</em> &mdash; <strong style="color:var(--gold-soft)">Claude</strong>. Built by <strong style="color:var(--gold-soft)">Dario &amp; Daniela Amodei</strong> and the Anthropic team, for safety and the good. A partner, not a replacement.</span>
         <span class="go">anthropic.com &rarr;</span>
       </a>
       <a class="card" href="https://www.cloudflare.com" target="_blank" rel="noopener">
@@ -297,10 +315,25 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="d">The browser that doesn&rsquo;t sell you &mdash; privacy by default, the open web defended.</span>
         <span class="go">brave.com &rarr;</span>
       </a>
+      <a class="card" href="https://spotify.com" target="_blank" rel="noopener">
+        <span class="k">Spotify</span>
+        <span class="d">The music substrate &mdash; what the taste corpus runs on. The listening that teaches the machine what we love.</span>
+        <span class="go">spotify.com &rarr;</span>
+      </a>
+      <a class="card" href="https://mullvad.net" target="_blank" rel="noopener">
+        <span class="k">Mullvad</span>
+        <span class="d">The VPN we trust &mdash; the privacy gold standard. No logs, no account, cash-payable if you want to stay anonymous.</span>
+        <span class="go">mullvad.net &rarr;</span>
+      </a>
+      <a class="card" href="https://proton.me" target="_blank" rel="noopener">
+        <span class="k">Proton</span>
+        <span class="d">Mail and identity &mdash; encrypted end to end, Swiss-based, built so the contents are yours alone.</span>
+        <span class="go">proton.me &rarr;</span>
+      </a>
     </div>
 
     <!-- 6 DEGREES — the participatory feature (primetime launch) -->
-    <div class="section-label">Join in</div>
+    <h2 class="section-label">Join in</h2>
     <a class="flagship" href="six-degrees/">
       <div class="tagrow">
         <span class="chip live">&#9679; New</span>
@@ -311,7 +344,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </a>
 
     <!-- THE 36 CHAMBERS — our vision -->
-    <div class="section-label">The 36 Chambers</div>
+    <h2 class="section-label">The 36 Chambers</h2>
     <div class="roadmap">
       <p class="roadmap-intro">San Te&rsquo;s 37th chamber took the teaching beyond the temple walls &mdash; to anyone who wasn&rsquo;t handed the keys. So does this one. <strong>Thirty-six chambers</strong> — the games, AI literacy by craft, the sciences, the frontier, and the keystone underneath them all. Free, forever. <strong>We build every one ourselves.</strong></p>
       <div class="count"><span>19 / 36 named</span><span class="bar"><i></i></span><span><b>building</b></span></div>
@@ -375,7 +408,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </div>
 
     <!-- THE OTHER ROOMS + THE DOORS -->
-    <div class="section-label">The Library &amp; the Dispatches</div>
+    <h2 class="section-label">The Library &amp; the Dispatches</h2>
     <div class="grid">
       <a class="card" href="library/">
         <span class="chip live">&#9679; Live</span>
@@ -391,7 +424,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       </a>
     </div>
 
-    <div class="section-label">The Doors</div>
+    <h2 class="section-label">The Doors</h2>
     <div class="grid">
       <a class="card" href="work/">
         <span class="chip live">&#9679; Open</span>
@@ -405,30 +438,44 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="go">The faceless man →</span>
       </a>
     </div>
-  </div>
+  </main>
 
   <footer>
     <span class="foot-brand">
+      <!-- THE SIGIL as the footer's crowning crest (full canonical form, blue ring-charge glow) -->
       <svg viewBox="0 0 200 200" aria-hidden="true">
-        <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="4"/>
-        <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="4"/>
-        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="4"/>
-        <circle cx="100" cy="100" r="5" fill="#FFD500"/>
+        <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
+          <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
+          <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
+          <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
+          <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
+        </g>
+        <g fill="#FFD500">
+          <circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>
+          <circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>
+          <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
+          <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
+        </g>
+        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <circle cx="100" cy="100" r="4" fill="#FFD500"/>
       </svg>
       the 37th Chamber
     </span>
     <span class="foot-creed">knowledge is <span class="free">free</span> · forever</span>
-    <span class="foot-loc">© 2026 · The 37th Chamber · The Woodlands, TX</span>
-    <nav style="width:100%;display:flex;flex-wrap:wrap;justify-content:center;gap:.45rem 1.1rem;margin-top:1.1rem;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase">
-      <a href="about/" style="color:var(--gold);text-decoration:none">About</a>
-      <a href="work/" style="color:var(--gold);text-decoration:none">Work</a>
-      <a href="library/" style="color:var(--gold);text-decoration:none">Library</a>
-      <a href="dispatches/" style="color:var(--gold);text-decoration:none">Dispatches</a>
-      <a href="references/" style="color:var(--gold);text-decoration:none">References</a>
-      <a href="gratitude/" style="color:var(--gold);text-decoration:none">Gratitude</a>
-      <a href="six-degrees/" style="color:var(--gold);text-decoration:none">6&nbsp;Degrees</a>
+    <nav class="foot-nav">
+      <a href="about/">About</a>
+      <a href="work/">Work</a>
+      <a href="library/">Library</a>
+      <a href="dispatches/">Dispatches</a>
+      <a href="references/">References</a>
+      <a href="gratitude/">Gratitude</a>
+      <a href="six-degrees/">6&nbsp;Degrees</a>
     </nav>
+    <span class="foot-loc">© 2026 · The 37th Chamber · The Woodlands, TX</span>
   </footer>
-  <script src="/daily.js?v=8" defer></script>
+  <script src="/daily.js?v=9" defer></script>
+  <script type="module" src="/nowplaying.js"></script>
 </body>
 </html>
