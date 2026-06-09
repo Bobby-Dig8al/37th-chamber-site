@@ -49,6 +49,24 @@ not with a hero's triumph, but with a sentence. "No more terrible disaster could
 than for them to fall into the hands of a Hero."`,
     thread:     `The world-building was the argument — Herbert built Arrakis so that the ecology \
 would force the politics, and the politics would prove the warning.`
+  },
+  {
+    weekStart:  "TBD",
+    weekNum:    3,
+    theme:      "Lost World",
+    synthesis:  `A 454-gram rock purchased from a Mauritanian dealer in 2019. A pressure-measuring \
+tool built from crystal chemistry. And the first physical evidence that the early solar system once \
+held a world — at minimum 1,000 km in radius, possibly larger than the Moon — that no longer exists \
+anywhere except in fragments falling through our sky. This week moved through the angrite meteorite \
+NWA 12774 and Aaron Bell's CaTs-liquid geobarometer, through the rare chemistry that marks angrites \
+as fundamentally alien to Earth and Mars, through the differentiation process that layered the \
+protoplanet's interior into core, mantle, and crust within the solar system's first million years, \
+through the giant-impact inference that destroyed it, and through the Grand Tack and Nice Model as \
+frontier hypotheses — labeled as such — for how Jupiter's migration shaped which worlds survived. \
+The week ended at the synthesis: the geobarometer is a tool, not just a finding. Bell's method can \
+now be applied to other meteorites, opening a new way to read the solar system's lost inventory.`,
+    thread:     `The science gave us a method, not just a result — one paper opened a pressure gauge \
+that can now be turned on every angrite we hold.`
   }
   // add one object per week as the queue grows
 ];
@@ -308,6 +326,136 @@ scholarship a visual scale to match.`,
     book:    { label:"The Sequels as Correction", name:"Frank Herbert",          work:"Dune Messiah → God Emperor",   why:"Herbert wrote five sequels specifically to correct readers' misreadings of Paul as hero. The series is a philosophical argument in six volumes — each book tightening the critique, each protagonist showing what unchecked power does next.", link:"https://en.wikipedia.org/wiki/Dune_(franchise)" },
     artist:  { label:"The First Time",       name:"Kyle MacLachlan",             work:"David Lynch's Dune (1984)",     why:"Lynch's film was a box-office disaster — and MacLachlan's debut. It took forty years and two Villeneuve films to show the novel's full shape. Some worlds need time to find the right door.", link:"https://en.wikipedia.org/wiki/Dune_(1984_film)" },
     show:    { label:"The One Line",         name:"Frank Herbert",               work:"the warning, restated",         why:"\"No more terrible disaster could befall your people than for them to fall into the hands of a Hero.\" That is the novel's argument. Everything Herbert built — the worm, the spice, the messiah — exists to make that sentence land.", link:"https://www.goodreads.com/quotes/10128956-i-wrote-the-dune-series-because-i-had-this-idea" }
+  },
+  /* ── WEEK 3: PROTOPLANET / LOST WORLD ───────────────────────────────── */
+  {
+    num: "015", theme: "Lost World", date: "TBD",
+    // Monday → MAP render. spotlight/deepWhy are irrelevant on Mondays.
+    intro: "This week, one piece of rock — <em>NWA 12774.</em> A 454-gram fragment purchased from a Mauritanian dealer in 2019. In 2026, CU Boulder's Aaron Bell used a new pressure gauge built into its crystals to confirm: this shard once sat deep inside a planet that no longer exists.",
+    music:   { label:"The Disk That Spun It All",   name:"Brian May, Patrick Moore & Chris Lintott", work:"Bang! — The Complete History of the Universe (2006)",   why:"The guitarist-turned-astrophysicist co-authored a book walking the whole story from the Big Bang through solar system formation to now — the disk that birthed lost worlds and surviving ones.", link:"https://en.wikipedia.org/wiki/Bang!_The_Complete_History_of_the_Universe" },
+    film:    { label:"The Debris Field",             name:"Alfonso Cuarón",         work:"Gravity (2013)",                                         why:"Wreckage travels. A cascade of debris changes everything. The same physics applied 4.5 billion years ago when a protoplanet met its end.", link:"https://en.wikipedia.org/wiki/Gravity_(film)" },
+    science: { label:"The Finding",                  name:"Aaron Bell et al.",      work:"NWA 12774 — Earth & Planetary Science Letters (2026)",    why:"First unequivocal physical evidence that the angrite parent body was planetary-embryo-sized — at minimum 1,000 km in radius, possibly larger than the Moon.", link:"https://www.colorado.edu/today/2026/06/01/rare-meteorite-provides-evidence-giant-early-planet" },
+    book:    { label:"The Oldest Rocks We Have",     name:"Brigitte Zanda & Monica Rotaru", work:"Meteorites: Their Impact on Science and History (2001)", why:"A companion to thinking about what a meteorite actually records — deep-time chemistry frozen in stone.", link:"https://en.wikipedia.org/wiki/Meteorite" },
+    artist:  { label:"Worlds Before Ours",           name:"Chesley Bonestell",      work:"space art",                                              why:"He painted solar system landscapes before any probe confirmed them. Some of those worlds may have looked like the one NWA 12774 fell from.", link:"https://en.wikipedia.org/wiki/Chesley_Bonestell" },
+    show:    { label:"The Solar System, Built",      name:"How the Universe Works", work:"Science Channel",                                        why:"The planetary formation episodes give the visual context: a disk of gas and rock, hundreds of embryos — most of them gone.", link:"https://en.wikipedia.org/wiki/How_the_Universe_Works" }
+  },
+  {
+    num: "016", theme: "Lost World", date: "TBD",
+    // Tuesday → DEEP DIVE. Spotlight: science (angrite identity — what makes them alien).
+    spotlight: "science",
+    deepWhy: `Of the roughly 80,000 meteorites catalogued on Earth, only about 68 are angrites — \
+a figure drawn from Bell's 2026 paper. They are among the oldest igneous rocks in the solar system, \
+crystallizing within roughly four million years of the first calcium-aluminum-rich inclusions (CAIs), \
+making them approximately 4.56 billion years old. Their chemistry is unlike anything Earth, Mars, or \
+the Moon is made of: silica-undersaturated, rich in aluminum and titanium, with a clinopyroxene \
+structure that records the pressure conditions of their formation. That alien composition is exactly \
+why they matter — their parent body formed from starting materials fundamentally different from the \
+surviving rocky planets, and the chemistry locked in their crystals is the record of a world that \
+left no other trace.`,
+    intro: "Day two — <em>the rock itself.</em> NWA 12774 is an angrite. Of the roughly 80,000 meteorites catalogued on Earth, only about 68 are angrites. They are among the oldest igneous rocks in the solar system — and their chemistry is unlike anything Earth, Mars, or the Moon is made of.",
+    music:   { label:"From Dust",                    name:"Sufjan Stevens",         work:"Planetarium (with Bryce Dessner, 2017)",                  why:"A collaboration written around the solar system — ambient, slow, geological in temperament. The right texture for a rock 4.56 billion years old.", link:"https://en.wikipedia.org/wiki/Planetarium_(album)" },
+    film:    { label:"The Asteroid Belt's Story",    name:"Terrence Malick",        work:"The Tree of Life (2011) — the creation sequence",         why:"The deep-time opening sequence: rock, water, light — the stuff of planetary formation shown without narration.", link:"https://en.wikipedia.org/wiki/The_Tree_of_Life_(film)" },
+    science: { label:"What Makes an Angrite",        name:"angrite classification", work:"silica-undersaturated, Al-Ti-rich clinopyroxene",          why:"Angrites lack the silica that defines Earth, Mars, and most rocky bodies. Their chemistry points to a parent body that formed from fundamentally different starting materials.", link:"https://en.wikipedia.org/wiki/Angrite" },
+    book:    { label:"Reading Rocks",                name:"Marcia Bjornerud",       work:"Timefulness: How Thinking Like a Geologist Can Help Save the World (2018)", why:"How geologists read time in stone — the same interpretive skill Bell applied to read pressure in a crystal.", link:"https://en.wikipedia.org/wiki/Timefulness" },
+    artist:  { label:"The Surface We Never Saw",     name:"Michael Carroll",        work:"space art",                                              why:"Carroll paints planetary surfaces — including worlds that existed only briefly in the early solar system. A visual way in to the lost ones.", link:"https://en.wikipedia.org/wiki/Michael_Carroll_(artist)" },
+    show:    { label:"The Meteorite Hunters",        name:"Meteorite Men",          work:"Science Channel (2009–2012)",                             why:"The logistics of the find — the Sahara, the search, the ID process. The NWA recovery chain for angrites runs through the same North African desert corridors the show documented.", link:"https://en.wikipedia.org/wiki/Meteorite_Men" }
+  },
+  {
+    num: "017", theme: "Lost World", date: "TBD",
+    // Wednesday → DEEP DIVE. Spotlight: science (the geobarometer — 17.5 kbar).
+    spotlight: "science",
+    deepWhy: `One kilobar is roughly the pressure at the deepest point of Earth's oceans. NWA \
+12774's clinopyroxene formed at 17.5 ± 0.89 kilobars — the result of Bell's CaTs-liquid \
+geobarometer, which converts aluminum enrichment in clinopyroxene directly into pressure. The \
+mechanism: under increasing pressure, aluminum substitutes into the clinopyroxene crystal structure \
+in a measurable way. Bell's model calibrates that substitution against known pressure conditions to \
+produce a kilobar reading. From kilobars, a minimum planetary radius follows from gravitational \
+self-compression models — the body had to be large enough to generate that pressure at its interior. \
+The result: at least 1,000 km in radius. The geobarometer is now a tool, not just a result; it can \
+be applied to any angrite, and potentially to other meteorite classes with the right mineralogy.`,
+    intro: "Day three — <em>the pressure gauge.</em> One kilobar is roughly the pressure at the deepest point of Earth's oceans. NWA 12774's clinopyroxene formed at 17.5 kilobars. Bell's team built a new geobarometer — a pressure-measuring tool — from the mineralogy of the crystals themselves.",
+    music:   { label:"Deep Pressure",                name:"Massive Attack",         work:"\"Teardrop\" (Mezzanine, 1998)",                          why:"Not a science reference — a texture. Deep, slow, layered. The weight of 17.5 kilobars.", link:"https://en.wikipedia.org/wiki/Mezzanine_(album)" },
+    film:    { label:"The Core",                     name:"Jon Amiel",              work:"The Core (2003)",                                         why:"Fiction with bad physics — but the premise (deep planetary interiors, extreme pressure) is the right territory. Bell's real geobarometer is the actual science the film needed.", link:"https://en.wikipedia.org/wiki/The_Core_(film)" },
+    science: { label:"How the Gauge Works",          name:"CaTs-liquid geobarometer", work:"clinopyroxene Al-enrichment under pressure",            why:"Aluminum substitutes into the clinopyroxene structure under pressure in a measurable way. Bell's model converts Al-content directly into kilobars — and from kilobars into minimum planetary radius.", link:"https://www.colorado.edu/today/2026/06/01/rare-meteorite-provides-evidence-giant-early-planet" },
+    book:    { label:"Reading the Interior",         name:"Don Anderson",           work:"New Theory of the Earth (2007)",                          why:"Planetary interiors are inaccessible. This book covers the whole toolkit — seismology, geochemistry, mineralogy — for reading what's deep without drilling.", link:"https://en.wikipedia.org/wiki/Don_Anderson" },
+    artist:  { label:"Pressure Made Visible",        name:"the clinopyroxene crystal", work:"NWA 12774 thin section",                             why:"The kaleidoscopic iridescence in the meteorite's thin section is the pressure record, written in crystal structure — visible in polarized light microscopy.", link:"https://www.livescience.com/space/meteoroids/kaleidoscopic-meteorite-could-be-a-piece-of-a-lost-world-from-the-early-solar-system-space-photo-of-the-week" },
+    show:    { label:"Minerals Under the Scope",     name:"Geology Kitchen",        work:"YouTube channel",                                        why:"A visual anchor: thin-section petrography in action. The same technique used to read NWA 12774's pressure record.", link:"https://www.youtube.com/@GeologyKitchen" }
+  },
+  {
+    num: "018", theme: "Lost World", date: "TBD",
+    // Thursday → DEEP DIVE. Spotlight: science (planetary differentiation).
+    spotlight: "science",
+    deepWhy: `When a protoplanet grows large enough, radioactive decay and the heat of accretion \
+melt its interior into a global magma ocean. Heavy iron sinks to the core; lighter silicates rise \
+to the mantle and crystallize into a crust. This process — planetary differentiation — happened to \
+Earth, Mars, the Moon, and to the angrite parent body, within the first million years of the solar \
+system. The angrites' chemistry records that process: their aluminum-rich clinopyroxene is a mantle \
+mineral, crystallized out of a differentiated interior at the pressures Bell measured. John Wood's \
+1970 hypothesis that the Moon's highlands crystallized from a global magma ocean was the template — \
+the same logic now applies to every differentiated body in the early solar system, including the one \
+that left behind NWA 12774.`,
+    intro: "Day four — <em>differentiation.</em> When a protoplanet grows large enough, its interior melts. Heavy iron sinks to the core. Lighter silicates rise to the mantle and crust. This happened to Earth, Mars, the Moon — and to the angrite parent body, within the first million years of the solar system.",
+    music:   { label:"Magma",                        name:"Sunn O)))",              work:"Monoliths & Dimensions (2009)",                           why:"Heavy, slow, geological. Drone music for thinking about a world that became a magma ocean and sorted itself out under gravity.", link:"https://en.wikipedia.org/wiki/Monoliths_%26_Dimensions" },
+    film:    { label:"The Layered World",             name:"Terrence Malick",        work:"The Tree of Life — creation sequence",                   why:"The layering shot — water separating from rock, light from dark — is differentiation made visual. It happened inside the angrite parent body first.", link:"https://en.wikipedia.org/wiki/The_Tree_of_Life_(film)" },
+    science: { label:"The Process",                  name:"planetary differentiation", work:"core-mantle-crust sorting in early bodies",            why:"Heat from radioactive decay and accretionary impacts melted early protoplanets. Iron sank; silicates rose; crusts crystallized out of magma oceans — all within millions of years.", link:"https://en.wikipedia.org/wiki/Planetary_differentiation" },
+    book:    { label:"The Magma Ocean",              name:"John Wood",              work:"lunar magma ocean hypothesis, 1970",                      why:"Wood's hypothesis that the Moon's highlands crystallized from a globe-wide magma ocean opened the door to applying the same reasoning to all early differentiated bodies, including the angrite parent body.", link:"https://en.wikipedia.org/wiki/Lunar_magma_ocean" },
+    artist:  { label:"The Iron Core",                name:"cross-section diagrams", work:"planetary interior illustrations",                        why:"Every layered-interior diagram is a record of differentiation — iron below, silicate above. The angrite parent body had exactly this structure before it was destroyed.", link:"https://en.wikipedia.org/wiki/Planetary_differentiation" },
+    show:    { label:"How Earth Layered",            name:"PBS Space Time",         work:"\"How Earth Got Its Layers\" (YouTube)",                  why:"Clean, sourced, visual walkthrough of exactly the differentiation process the angrite parent body also went through.", link:"https://www.youtube.com/user/pbsspacetime" }
+  },
+  {
+    num: "019", theme: "Lost World", date: "TBD",
+    // Friday → DEEP DIVE. Spotlight: book (Erik Asphaug — the violent early solar system).
+    spotlight: "book",
+    deepWhy: `Asphaug's argument: the current solar system is abnormally calm. The early inner \
+solar system held hundreds of planetary embryos, and the models show most were lost — ejected, \
+accreted, or catastrophically disrupted. No asteroid in the current solar system matches angrite \
+spectra. The consensus inference — drawn from multiple lines of evidence — is that the angrite \
+parent body was fully destroyed in a giant collision around 4.5 billion years ago, and what we hold \
+are fragments. The leading model for the Moon's origin involves exactly this class of event: a \
+Mars-sized body striking early Earth, with the debris coalescing into a satellite. The angrite \
+parent body's fate may have been similar — a collision without a moon to show for it, only scattered \
+meteorites crossing Earth's orbit for billions of years afterward.`,
+    intro: "Day five — <em>the crash.</em> The solar system's early inner region held hundreds of planetary embryos. Models suggest most were lost. The angrite parent body — at least Moon-sized, possibly approaching Mars in scale — collided with something 4.5 billion years ago and ceased to exist as a world.",
+    music:   { label:"The Impact",                   name:"Ennio Morricone",        work:"The Mission (OST, 1986)",                                 why:"The collision that ended the angrite parent body was not dramatic in the human sense — a slow-motion catastrophe in deep time. Morricone writes for that scale.", link:"https://en.wikipedia.org/wiki/The_Mission_(soundtrack)" },
+    film:    { label:"The Giant Impact",             name:"the Moon's birth",       work:"giant-impact hypothesis",                                 why:"The leading model for the Moon's origin is a Mars-sized body (Theia) striking early Earth. The angrite parent body's fate may have been similar — a giant impact, nothing surviving intact.", link:"https://en.wikipedia.org/wiki/Giant-impact_hypothesis" },
+    science: { label:"Why the Parent Body Is Gone",  name:"angrite parent body",   work:"no matching asteroid exists",                             why:"No asteroid in the current solar system matches angrite spectra. The consensus inference: the parent body was catastrophically disrupted and fully destroyed — the fragments are angrite meteorites.", link:"https://en.wikipedia.org/wiki/Angrite" },
+    book:    { label:"The Violent Youth",            name:"Erik Asphaug",          work:"When the Earth Had Two Moons (2019)",                      why:"Asphaug argues the early solar system was far more violent than the current one — a landscape of giant impacts and lost worlds. NWA 12774 is evidence he's right.", link:"https://en.wikipedia.org/wiki/Erik_Asphaug" },
+    artist:  { label:"The Moment of Impact",         name:"Don Davis",             work:"impact art",                                              why:"Davis painted the giant impact that formed the Moon for NASA — the visual standard for how planetary destruction looked in the early solar system.", link:"https://en.wikipedia.org/wiki/Don_Davis_(artist)" },
+    show:    { label:"The Solar System's Lost Worlds", name:"How the Universe Works", work:"\"Solar System\" episodes",                           why:"The series covers the giant impact phase and lost-world hypothesis with animation and researchers. The visual complement to Bell's findings.", link:"https://en.wikipedia.org/wiki/How_the_Universe_Works" }
+  },
+  {
+    num: "020", theme: "Lost World", date: "TBD",
+    // Saturday → DEEP DIVE. Spotlight: science (Grand Tack + Nice Model, labeled as frontier).
+    spotlight: "science",
+    deepWhy: `Two leading frameworks — the Grand Tack (Walsh et al., Nature, 2011) and the Nice \
+Model (Gomes et al., Nature, 2005) — offer different accounts of how the outer planets shaped which \
+protoplanets survived. In the Grand Tack, Jupiter migrated inward to roughly 1.5 AU before Saturn's \
+resonance pulled it back out, sculpting the inner disk and limiting Mars's growth. In the Nice \
+Model, a delayed gravitational instability among the outer planets reshuffled small bodies and may \
+have triggered the Late Heavy Bombardment. Both are leading hypotheses, actively debated — not \
+settled history. They are presented here as models, not facts. What they agree on: the early inner \
+solar system was chaotic enough to destroy the angrite parent body and leave no intact remnant. \
+NWA 12774 is one of the surviving receipts.`,
+    intro: "Day six — <em>the models.</em> How do theorists reconstruct a solar system they never saw? Two leading frameworks — the Grand Tack and the Nice Model — offer different accounts of how Jupiter's migration shaped which protoplanets survived and which were destroyed. Both are frontier theory, not settled history.",
+    music:   { label:"The Migration",                name:"Philip Glass",           work:"Glassworks (1982)",                                       why:"Pattern that shifts slowly, then drastically, then resets. Jupiter's migration in the Grand Tack model is exactly this structure — a long inward move, a sharp reversal, a retreat.", link:"https://en.wikipedia.org/wiki/Glassworks_(Glass_album)" },
+    film:    { label:"The Disruptor",                name:"Jupiter Ascending",      work:"Wachowski siblings (2015)",                               why:"Bad science, useful metaphor: Jupiter as the dominant force that reorganizes everything around it. In the Grand Tack model, that's literally what happened.", link:"https://en.wikipedia.org/wiki/Jupiter_Ascending" },
+    science: { label:"Grand Tack + Nice Model (frontier)", name:"Walsh et al. 2011 / Gomes et al. 2005", work:"Jupiter migration + outer-planet instability", why:"Grand Tack: Jupiter migrated inward to ~1.5 AU then turned back, sculpting the inner disk. Nice Model: a delayed outer-planet instability reshuffled small bodies. Both are leading hypotheses, actively debated — not confirmed history.", link:"https://en.wikipedia.org/wiki/Grand_tack_hypothesis" },
+    book:    { label:"The Nice Model (frontier)",    name:"Gomes et al., 2005",    work:"Nature — delayed instability of the outer solar system",   why:"A different framework: after the gas disk cleared, the outer planets underwent a delayed gravitational instability — reshuffling small bodies, potentially triggering the Late Heavy Bombardment. Leading hypothesis, actively debated.", link:"https://en.wikipedia.org/wiki/Nice_model" },
+    artist:  { label:"The Simulation",              name:"planetary formation simulations", work:"N-body integrations",                           why:"Modern simulations run thousands of solar system formations and look for which produce outcomes like ours. The angrite parent body was one of the embryos that didn't survive.", link:"https://en.wikipedia.org/wiki/Planetary_system_formation" },
+    show:    { label:"The Reshuffling",             name:"PBS Space Time",         work:"\"How Jupiter Shaped the Solar System\" (YouTube)",        why:"Clean explainer on Jupiter's outsized role in which worlds survived — the exact planetary-level context for NWA 12774's parent body.", link:"https://www.youtube.com/user/pbsspacetime" }
+  },
+  {
+    num: "021", theme: "Lost World", date: "TBD",
+    // Sunday → DISPATCH render (reads WEEK_ARCS for the Lost World weekStart).
+    // The per-day fields are still used for chapter rows inside the dispatch.
+    spotlight: "science",   // used in the chapter row compact display
+    intro: "Protoplanet week, Sunday — <em>the synthesis.</em> A meteorite smaller than a dinner plate. A geobarometer built from crystal chemistry. And the first physical proof that the solar system once held a world at least as large as the Moon — a world with a core, a mantle, a crust, a history — that no longer exists anywhere except in fragments falling through our sky.",
+    music:   { label:"The Long Count",              name:"Stars of the Lid",       work:"And Their Refinement of the Decline (2007)",              why:"Ambient music on a geological scale. For sitting with the fact that 4.5 billion years of history compressed into a 454-gram rock.", link:"https://en.wikipedia.org/wiki/Stars_of_the_Lid" },
+    film:    { label:"What Survives",               name:"Terrence Malick",        work:"The Tree of Life (2011)",                                 why:"The film opens with the oldest question — why is there something rather than nothing — and answers with deep time and particularity. That's what a meteorite does too.", link:"https://en.wikipedia.org/wiki/The_Tree_of_Life_(film)" },
+    science: { label:"The Synthesis",              name:"Aaron Bell et al., 2026", work:"Earth & Planetary Science Letters",                      why:"Their new geobarometer — a tool, not just an observation — can now be applied to other angrites and other meteorites. One paper opened a method, not just a finding.", link:"https://www.colorado.edu/today/2026/06/01/rare-meteorite-provides-evidence-giant-early-planet" },
+    book:    { label:"The Deep Record",            name:"Robert Hazen",            work:"The Story of Earth (2012)",                               why:"A geologist's account of the planet's history told through minerals — from stardust to living planet. The lens for reading NWA 12774 as a chapter in that story, not an anomaly.", link:"https://en.wikipedia.org/wiki/Robert_Hazen" },
+    artist:  { label:"The Lost World, Painted",   name:"Chesley Bonestell",        work:"space art",                                              why:"Bonestell painted worlds before we visited them. The angrite parent body is a world we'll never visit — but we hold a piece of it. He would have painted it.", link:"https://en.wikipedia.org/wiki/Chesley_Bonestell" },
+    show:    { label:"The View From Here",         name:"Carl Sagan",              work:"Cosmos: A Personal Voyage — \"The Shore of the Cosmic Ocean\" (1980)", why:"Sagan called us 'star stuff' — the cosmos knowing itself. A 454-gram rock from a dead world is the solar system doing the same thing: remembering what it lost.", link:"https://en.wikipedia.org/wiki/Cosmos:_A_Personal_Voyage" }
   }
   // ← stack more themed days here. They auto-appear on their date.
 ];
