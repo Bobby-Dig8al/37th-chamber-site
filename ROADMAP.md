@@ -12,7 +12,7 @@
 - [ ] **Enable Caffeine** — keeps STS-87 awake so an unattended loop doesn't die mid-run (last night it ran 1 cycle then slept).
 - [ ] **Email alias** — `hello@37th-chamber.com` via Cloudflare Email Routing → then I swap the `work/index.html` href (kills the surname leak in the mailto).
 - [ ] **Review + push `feat/mp-overnight`** — the staged technical fixes (Blue-Law, a11y, + today's batch) when you've eyeballed them.
-- [ ] **Spotify Worker** — dev app + refresh token + Cloudflare Worker → unlocks now-playing + the waveform.
+- [ ] **Spotify Worker** — dev app + refresh token + Cloudflare Worker → unlocks now-playing + the electric-hex visualizer (the live "waveform" — progress-modulated, not audio-FFT; Spotify gives no raw audio).
 - [ ] **Email-capture service** (Buttondown / EmailOctopus) → unlocks the owned-list (the patient mesa, no paywall).
 - [ ] **Analytics** (Cloudflare, privacy-respecting) → the silent-watch dashboard.
 
@@ -44,7 +44,7 @@
 - [ ] **2nd dojo chamber** — Poker **or** AI-for-Creatives (multi-cycle build; plan already drafted for AI-creatives).
 - [ ] **CI/CD pipeline** — and I teach you as we build it (your words). Higher-leverage than Adobe.
 - [ ] **Baseline tests** — the chess engine + the build, so changes can't silently break.
-- [ ] **now-playing + waveform** — after the Spotify Worker lands.
+- [ ] **now-playing + electric-hex visualizer** (the live "waveform") — after the Spotify Worker lands.
 - [ ] **six-degrees chip-fix + coherence** — the overlapping-name chip bug + the copy pass.
 - [ ] **Email capture wired** — after you stand up the service.
 
