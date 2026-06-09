@@ -36,6 +36,10 @@ if (!mount) throw new Error('[nowplaying] #now-playing element not found');
 
 const workerUrl = mount.dataset.workerUrl || '';
 const isMock    = mount.dataset.mock === 'true';
+// Last.fm mode (client-side, no Worker): set data-lastfm-user + data-lastfm-key.
+const lastfmUser = mount.dataset.lastfmUser || '';
+const lastfmKey  = mount.dataset.lastfmKey  || '';
+const useLastfm  = !!(lastfmUser && lastfmKey);
 
 // ─── DOM construction ─────────────────────────────────────────────────────────
 mount.innerHTML = '';   // clear any placeholder content
@@ -166,7 +170,7 @@ function renderState(s) {
 
   // Validate origin before assigning to img.src — Spotify art is always i.scdn.co.
   // Defense-in-depth: a tampered/buggy response can't point the <img> elsewhere.
-  if (s.albumArtUrl && /^https:\/\/i\.scdn\.co\//i.test(s.albumArtUrl)) {
+  if (s.albumArtUrl && /^https:\/\/(i\.scdn\.co|lastfm\.freetls\.fastly\.net|[a-z0-9-]+\.last\.fm)\//i.test(s.albumArtUrl)) {
     artImg.src           = s.albumArtUrl;
     artImg.style.display = '';
     artImg.alt           = s.album ? `Album art: ${s.album}` : 'Album art';
@@ -195,7 +199,12 @@ function renderState(s) {
 
   // Paint progress immediately; rAF interpolation refines it between polls. This
   // keeps the bar correct on first paint and in throttled/hidden tabs.
-  progressFill.style.width = `${(frac * 100).toFixed(2)}%`;
+  if (s.durationMs > 0) {
+    progressBar.style.display = '';
+    progressFill.style.width = `${(frac * 100).toFixed(2)}%`;
+  } else {
+    progressBar.style.display = 'none';   // Last.fm: no playback position available
+  }
 
   // aria-live: announce track change (not every progress tick)
   const key = `${s.title}|${s.artist}`;
@@ -250,10 +259,47 @@ async function fetchNowPlaying() {
   }
 }
 
+// Last.fm mode — client-side, no Worker. Reads the most-recent track; the
+// @attr.nowplaying flag marks the live one. No playback position is available,
+// so the progress bar hides and the hex animates on the playing state alone.
+async function fetchLastfm() {
+  try {
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks`
+      + `&user=${encodeURIComponent(lastfmUser)}&api_key=${encodeURIComponent(lastfmKey)}`
+      + `&format=json&limit=1`;
+    const res  = await fetch(url, { cache: 'no-store' });
+    const data = await res.json();
+    if (!res.ok || data.error) { console.warn('[nowplaying] last.fm error:', data); return; }
+    const t = data.recenttracks && data.recenttracks.track && data.recenttracks.track[0];
+    if (!t) { lastPollTime = performance.now(); state = { ...state, isPlaying: false }; renderState(state); return; }
+    const nowPlaying = !!(t['@attr'] && t['@attr'].nowplaying === 'true');
+    const imgArr = Array.isArray(t.image) ? t.image : [];
+    const img = (imgArr[imgArr.length - 1] || {})['#text'] || '';
+    lastPollTime = performance.now();
+    state = {
+      ...state,
+      isPlaying:   nowPlaying,
+      title:       t.name || null,
+      artist:      (t.artist && (t.artist['#text'] || t.artist.name)) || null,
+      album:       (t.album && t.album['#text']) || null,
+      albumArtUrl: img || null,
+      trackUrl:    null,        // Last.fm links aren't Spotify; keep the link hidden
+      progressMs:  0,
+      durationMs:  0,           // Last.fm gives no playback position
+    };
+    renderState(state);
+  } catch (err) {
+    console.warn('[nowplaying] last.fm fetch failed — keeping last state:', err);
+  }
+}
+
+// One poller, source-aware (Last.fm or Worker).
+function poll() { return useLastfm ? fetchLastfm() : fetchNowPlaying(); }
+
 function schedulePoll() {
   if (pollTimeoutId !== null) clearTimeout(pollTimeoutId);
   pollTimeoutId = setTimeout(async () => {
-    await fetchNowPlaying();
+    await poll();
     schedulePoll();
   }, POLL_INTERVAL_MS);
 }
@@ -270,7 +316,7 @@ document.addEventListener('visibilitychange', () => {
   } else {
     startRaf();
     // Immediately re-fetch when tab becomes visible again, then resume schedule
-    (async () => { await fetchNowPlaying(); schedulePoll(); })();
+    (async () => { await poll(); schedulePoll(); })();
   }
 });
 
@@ -296,6 +342,14 @@ resizeObserver.observe(canvas);
     return; // do not poll
   }
 
+  if (useLastfm) {
+    // LIVE (Last.fm): client-side poll, no Worker needed
+    await fetchLastfm();
+    schedulePoll();
+    startRaf();
+    return;
+  }
+
   if (!workerUrl) {
     // IDLE/DEMO MODE: no worker URL — render idle, let hex pulse
     renderIdle();
@@ -303,7 +357,7 @@ resizeObserver.observe(canvas);
     return;
   }
 
-  // LIVE MODE: initial fetch + poll loop
+  // LIVE (Worker): initial fetch + poll loop
   await fetchNowPlaying();
   schedulePoll();
   startRaf();

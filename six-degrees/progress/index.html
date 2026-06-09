@@ -119,8 +119,8 @@
         +' Open an issue to begin a chain toward a giant, and it shows up here, live.</div>';
     }
     function err(){
-      return ‘<div class="state">Couldn\’t reach the live tracker just now &mdash; GitHub limits anonymous’
-        +’ checks to ~60/hour. Give it a minute and refresh, or <a href="https://github.com/’+REPO+’/issues?q=label%3Asix-degrees" target="_blank" rel="noopener noreferrer">see the chains on GitHub</a>.</div>’;
+      return '<div class="state">Couldn\'t reach the live tracker just now &mdash; GitHub limits anonymous'
+        +' checks to ~60/hour. Give it a minute and refresh, or <a href="https://github.com/'+REPO+'/issues?q=label%3Asix-degrees" target="_blank" rel="noopener noreferrer">see the chains on GitHub</a>.</div>';
     }
     /* SECURITY: i.html_url piped through safeUrl() (https:// guard); i.title through clean()/esc().
        i.comments is a number from the API. All user-controlled strings are escaped before innerHTML. */
