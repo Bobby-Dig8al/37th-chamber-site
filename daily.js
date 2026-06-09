@@ -12,10 +12,10 @@ const ROLLOVER_HOUR = 4;              // the day flips at 04:00 local
 const DAILY = [
   {
     num: "001", theme: "Interstellar", date: "2026-06-08",
-    intro: "Today, one true thread — <em>Interstellar.</em> Carl Sagan introduced Kip Thorne to the producer who seeded the film; Thorne's real physics built its wormhole and its black hole.",
+    intro: "Today, one true thread — <em>Interstellar.</em> Carl Sagan introduced Kip Thorne to editor Lynda Obst (~1980 blind date); she later became a Hollywood producer, and together they conceived the film twenty-five years on. Thorne's real physics built its wormhole and its black hole.",
     music:   { name:"Hans Zimmer",       work:"Interstellar (OST)",          why:"The organ that turns a docking scene into a prayer.", link:"https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" },
     film:    { name:"Christopher Nolan", work:"Interstellar",                why:"Love across spacetime, with the physics kept honest.", link:"https://en.wikipedia.org/wiki/Interstellar_(film)" },
-    science: { name:"Kip Thorne",        work:"The Science of Interstellar", why:"Originated the film; his black-hole math rendered Gargantua — and produced real papers.", link:"https://en.wikipedia.org/wiki/Kip_Thorne" },
+    science: { name:"Kip Thorne",        work:"The Science of Interstellar", why:"Co-originated the film with producer Lynda Obst; his black-hole math rendered Gargantua — and produced real papers.", link:"https://en.wikipedia.org/wiki/Kip_Thorne" },
     book:    { name:"Carl Sagan",        work:"Contact",                     why:"Its wormhole was built by Thorne himself — the direct ancestor.", link:"https://en.wikipedia.org/wiki/Contact_(novel)" },
     artist:  { name:"Chesley Bonestell", work:"space art",                   why:"Father of space art; made the cosmos visible decades before any probe could.", link:"https://en.wikipedia.org/wiki/Chesley_Bonestell" },
     show:    { name:"Cosmos",            work:"Carl Sagan (1980)",           why:"Made a generation feel the universe.", link:"https://en.wikipedia.org/wiki/Cosmos:_A_Personal_Voyage" }
@@ -23,9 +23,9 @@ const DAILY = [
   {
     num: "002", theme: "Interstellar", date: "2026-06-09",
     intro: "Interstellar week, day two — <em>how it got made.</em> Not the science yet — the people who carried a physics problem all the way to the screen.",
-    music:   { label:"The Matchmaker",     name:"Carl Sagan",                    work:"the introduction",        why:"Sagan connected Kip Thorne to producer Lynda Obst — the spark that became the film.", link:"https://en.wikipedia.org/wiki/Carl_Sagan" },
+    music:   { label:"The Matchmaker",     name:"Carl Sagan",                    work:"the introduction",        why:"Sagan connected Kip Thorne to Lynda Obst — a blind date in 1980 that became the spark for the film, a quarter-century later.", link:"https://en.wikipedia.org/wiki/Carl_Sagan" },
     film:    { label:"The Producer",       name:"Lynda Obst",                    work:"a 2006 treatment",        why:"She and Thorne carried the idea from a treatment to the screen over years.", link:"https://en.wikipedia.org/wiki/Lynda_Obst" },
-    science: { label:"The First Director", name:"Steven Spielberg",              work:"attached for years",      why:"Spielberg developed it first; a studio shake-up forced him off, and it passed to Nolan.", link:"https://en.wikipedia.org/wiki/Steven_Spielberg" },
+    science: { label:"The First Director", name:"Steven Spielberg",              work:"attached for years",      why:"Spielberg developed it first; when DreamWorks left Paramount for Disney in 2009, the film stayed at the studio while Spielberg moved on — and Jonathan Nolan recommended his brother Christopher.", link:"https://en.wikipedia.org/wiki/Steven_Spielberg" },
     book:    { label:"The Screenwriter",   name:"Jonathan Nolan",                work:"the early draft",         why:"Wrote the first script — and learned relativity to do it.", link:"https://en.wikipedia.org/wiki/Jonathan_Nolan" },
     artist:  { label:"The Pact",           name:"Kip Thorne",                    work:"the deal",                why:"His two conditions: nothing violates established physics; every speculation springs from real science.", link:"https://en.wikipedia.org/wiki/Kip_Thorne" },
     show:    { label:"The Ancestor",       name:"Contact (1985)",                work:"Sagan's novel",           why:"The wormhole Thorne worked out for Contact seeded the one in this film.", link:"https://en.wikipedia.org/wiki/Contact_(novel)" }
@@ -44,7 +44,7 @@ const DAILY = [
     num: "004", theme: "Interstellar", date: "2026-06-11",
     intro: "Interstellar week, Thursday — <em>Gargantua.</em> Six ways into the black hole at the film's center: the physics is real, the rendering set a world record, and the very center stays unknown.",
     music:   { label:"The Event Horizon", name:"Hans Zimmer",           work:"\"Detach\" (OST)",            why:"As they cross the point where no signal returns, the Temple Church organ swells into a threshold as final as the horizon itself.", link:"https://en.wikipedia.org/wiki/Interstellar_(soundtrack)" },
-    film:    { label:"The DNGR Render", name:"Double Negative & Thorne", work:"the black hole on screen",   why:"Built from Thorne's equations, the renderer earned the Guinness record for the most accurate black hole on film — with two honest compromises: spin dialed down, glare suppressed, for clarity.", link:"https://www.guinnessworldrecords.com/world-records/418612-most-scientifically-accurate-black-hole-in-a-movie" },
+    film:    { label:"The DNGR Render", name:"Double Negative & Thorne", work:"the black hole on screen",   why:"Built from Thorne's equations, the renderer earned the Guinness record for the most accurate black hole on film — with two honest compromises: the Doppler beaming asymmetry softened and glare suppressed, for clarity.", link:"https://www.guinnessworldrecords.com/world-records/418612-most-scientifically-accurate-black-hole-in-a-movie" },
     science: { label:"Gravitational Lensing", name:"the wrapped disk",  work:"why it's above and below",   why:"Gargantua bends the far side of the accretion disk up and over the shadow — so you see the same disk twice, around the equator and arching overhead.", link:"https://en.wikipedia.org/wiki/Gravitational_lens" },
     book:    { label:"The Singularity", name:"Kip Thorne",              work:"The Science of Interstellar", why:"At the center, relativity predicts infinite curvature and then breaks down — the one place the film's science is honestly speculation.", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar" },
     artist:  { label:"The Disk, Real", name:"Event Horizon Telescope", work:"M87*, 2019",                 why:"Five years after Gargantua, 200+ scientists photographed a real black hole — brighter on one side from Doppler beaming, the asymmetry the film left out.", link:"https://en.wikipedia.org/wiki/Messier_87" },
@@ -57,7 +57,7 @@ const DAILY = [
     film:    { label:"The Cost", name:"the reunion",                   work:"Cooper & Murph",             why:"He comes back younger than his dying, elderly daughter — the twin effect dramatized so exactly Thorne checked the math for years.", link:"https://en.wikipedia.org/wiki/Interstellar_(film)" },
     science: { label:"The Math of It", name:"Kip Thorne",              work:"The Science of Interstellar", why:"He works out the exact conditions — a huge, near-maximally-spinning Gargantua — that make Miller's planet's 60,000× dilation \"marginally possible.\"", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar" },
     book:    { label:"The Twin Paradox", name:"Einstein / Langevin",   work:"the 1911 thought experiment", why:"Relativity says the traveler returns younger than the one who stayed — the physics that makes Cooper and Murph's reunion a tragedy, not a miracle.", link:"https://en.wikipedia.org/wiki/Twin_paradox" },
-    artist:  { label:"Time Made Liquid", name:"Salvador Dalí",         work:"The Persistence of Memory (1931)", why:"The melting watches have long been read as time refusing to stay rigid — relativity rendered in oil, decades before a film made it move.", link:"https://en.wikipedia.org/wiki/The_Persistence_of_Memory" },
+    artist:  { label:"Time Made Liquid", name:"Salvador Dalí",         work:"The Persistence of Memory (1931)", why:"The melting watches have been popularly read as time refusing to stay rigid — though Dalí credited the image to a vision of melting Camembert, not Einstein. Whatever the source, the resonance with relativity outlasted his disclaimer.", link:"https://en.wikipedia.org/wiki/The_Persistence_of_Memory" },
     show:    { label:"Time as Family", name:"Dark",                    work:"Netflix (2017–2020)",        why:"Where Interstellar separates a father and daughter across decades, Dark loops time until characters parent themselves — time's violence on family, taken further.", link:"https://en.wikipedia.org/wiki/Dark_(TV_series)" }
   },
   {
@@ -73,7 +73,7 @@ const DAILY = [
   {
     num: "007", theme: "Interstellar", date: "2026-06-14",
     intro: "Interstellar week, Sunday — <em>the synthesis.</em> A week of equations earns you this: not more rigor, but the view from the top — what it means when you put the math down and look out.",
-    music:   { label:"The Score's Heart", name:"Hans Zimmer",         work:"\"Cornfield Chase\" (OST)",   why:"Written in one night as his idea of fatherhood, on a real 1926 Temple Church organ — the metaphysics made physical. (What the music means, not a claim about the world.)", link:"https://en.wikipedia.org/wiki/Interstellar_(soundtrack)" },
+    music:   { label:"The Score's Heart", name:"Hans Zimmer",         work:"\"Cornfield Chase\" (OST)",   why:"Written in one night as his idea of fatherhood — a piano sketch he played for Nolan, who then revealed the film's entire plot in response. The 1926 Harrison & Harrison organ at Temple Church gave the score its final voice.", link:"https://en.wikipedia.org/wiki/Interstellar_(soundtrack)" },
     film:    { label:"Love Across Spacetime", name:"Brand's speech",  work:"the film's emotional thesis", why:"The film's most debated line argues love transcends time and space — poetry doing what physics can't. A theme, not a fact, and the film knows it.", link:"https://en.wikipedia.org/wiki/Interstellar_(film)" },
     science: { label:"Knowledge, Given Away", name:"the 2015 paper",  work:"art that became research",    why:"The renderer was precise enough to yield a peer-reviewed result — so the art became science, and the knowledge was published, free to all.", link:"https://iopscience.iop.org/article/10.1088/0264-9381/32/6/065001" },
     book:    { label:"The Human in the Equations", name:"Kip Thorne", work:"The Science of Interstellar", why:"His rules kept the science serving the story; the book is the receipt — every idea labeled truth, guess, or speculation, because he thought you deserved to know.", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar" },
@@ -106,7 +106,7 @@ const DAILY = [
     if (!e) return "";
     const lbl = e.label || label;   // per-figure label override; falls back to the default slot label
     const work = e.work ? ` — ${esc(e.work)}` : "";
-    return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener">
+    return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">
       <span class="chip">${esc(lbl)}</span>
       <span class="k">${esc(e.name)}${work}</span>
       <span class="d">${esc(e.why)}</span>
@@ -118,7 +118,7 @@ const DAILY = [
     <style>
       #the-daily{width:100%;max-width:980px;margin:0 0 1.4rem;border:1px solid rgba(255,214,10,.34);
         background:rgba(255,214,10,.025);position:relative;overflow:hidden;padding:1.2rem 1.25rem 1.35rem}
-      #the-daily::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#0E44FF;
+      #the-daily::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:rgba(255,214,10,.5);
         box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.55)}
       .dly-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.55rem}
       .dly-title{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:#FFD60A;font-weight:600}

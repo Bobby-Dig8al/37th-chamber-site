@@ -10,6 +10,7 @@
 <meta property="og:title" content="Washington Square — The Chess Room">
 <meta property="og:description" content="The first live chamber of the 37th Chamber. An adaptive chess ladder that finds your ceiling and teaches there. Free, forever.">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="37th Chamber">
 <meta property="og:url" content="https://37th-chamber.com/chambers/washington-square/">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -17,11 +18,14 @@
 <meta property="og:image:alt" content="The 37th Chamber — the Sigil. Knowledge is free, forever.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:title" content="Washington Square — The Chess Room">
+<meta name="twitter:description" content="The first live chamber. An adaptive chess ladder that finds your ceiling and teaches there. Free, forever.">
 <!-- Favicon: THE SIGIL (gold on near-black) — its canonical Tier-1 job.
      PNG (rendered) is primary; the inline SVG data-URI stays as a zero-dep fallback. -->
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23000'/%3E%3Ccircle cx='100' cy='100' r='90' fill='none' stroke='%23FFD500' stroke-width='4'/%3E%3Crect x='36.35' y='36.35' width='127.3' height='127.3' fill='none' stroke='%23FFD500' stroke-width='4'/%3E%3Cg stroke='%23FFD500' stroke-width='5'%3E%3Cline x1='100' y1='100' x2='36.35' y2='36.35'/%3E%3Cline x1='100' y1='100' x2='163.65' y2='36.35'/%3E%3Cline x1='100' y1='100' x2='163.65' y2='163.65'/%3E%3Cline x1='100' y1='100' x2='36.35' y2='163.65'/%3E%3Cline x1='100' y1='100' x2='100' y2='36.35'/%3E%3Cline x1='100' y1='100' x2='163.65' y2='100'/%3E%3Cline x1='100' y1='100' x2='100' y2='163.65'/%3E%3Cline x1='100' y1='100' x2='36.35' y2='100'/%3E%3C/g%3E%3Cg fill='%23FFD500'%3E%3Ccircle cx='36.35' cy='36.35' r='9'/%3E%3Ccircle cx='163.65' cy='36.35' r='9'/%3E%3Ccircle cx='163.65' cy='163.65' r='9'/%3E%3Ccircle cx='36.35' cy='163.65' r='9'/%3E%3Ccircle cx='100' cy='36.35' r='7'/%3E%3Ccircle cx='163.65' cy='100' r='7'/%3E%3Ccircle cx='100' cy='163.65' r='7'/%3E%3Ccircle cx='36.35' cy='100' r='7'/%3E%3C/g%3E%3Ccircle cx='100' cy='100' r='11' fill='none' stroke='%23FFD500' stroke-width='4'/%3E%3Ccircle cx='100' cy='100' r='5' fill='%23FFD500'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
 <!--
   Washington Square · Room #1 of the 37-Chamber Dojo · domain: chess
   v0.4.0 · the chess chamber · built by bd8 + AI
@@ -206,8 +210,8 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
      · capture target → electric-blue ring hugging the square edge (so the piece under it still reads) */
 .sq.legal::after {
   content: ''; position: absolute; left: 50%; top: 50%;
-  width: 30%; height: 30%; transform: translate(-50%, -50%);
-  border-radius: 50%; background: var(--electric);
+  width: 38%; height: 38%; transform: translate(-50%, -50%);
+  border-radius: 50%; background: transparent; border: 3px solid var(--electric);
   box-shadow: 0 0 8px 1px var(--electric); opacity: 0.85;
   pointer-events: none; z-index: 3;
 }
@@ -251,7 +255,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 .turn-indicator .turn-dot {
   width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--gold); flex-shrink: 0;
 }
-.turn-indicator.white .turn-dot { background: var(--electric); border-color: var(--electric); }  /* you = white = electric blue */
+.turn-indicator.white .turn-dot { background: #efe9da; border-color: var(--electric); box-shadow: 0 0 6px var(--electric); }  /* you = white = electric ring + glow (Blue Law: fill is white, ring is the charge) */
 .turn-indicator.black .turn-dot { background: #16160f; }
 .turn-indicator.hidden { display: none; }
 
@@ -324,14 +328,17 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 .log-entry .ok { color: var(--green); }
 .log-entry .warn { color: var(--amber); }
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:none}
+.skip-link:focus{left:1rem;outline:3px solid var(--gold);outline-offset:0}
 :focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+.back-fixed{position:fixed;top:.6rem;left:.6rem;z-index:60;display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .72rem;font-family:'Bahnschrift','DIN Alternate','Century Gothic',system-ui,sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#FFD60A;text-decoration:none;background:rgba(8,8,10,.72);border:1px solid rgba(255,214,10,.32);border-radius:2px;backdrop-filter:blur(5px)}
+.back-fixed:hover,.back-fixed:focus-visible{border-color:#FFD60A;outline:2px solid var(--gold);outline-offset:2px}
+@media(max-width:400px){body{padding-left:8px;padding-right:8px}.board{grid-template-columns:16px repeat(8,1fr)}}
 </style>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<a href="/" aria-label="Back to the 37th Chamber" style="position:fixed;top:.6rem;left:.6rem;z-index:60;display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .72rem;font-family:'Bahnschrift','DIN Alternate','Century Gothic',system-ui,sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#FFD60A;text-decoration:none;background:rgba(8,8,10,.72);border:1px solid rgba(255,214,10,.32);border-radius:2px;backdrop-filter:blur(5px)" onmouseover="this.style.borderColor='#FFD60A'" onmouseout="this.style.borderColor='rgba(255,214,10,.32)'">&larr;&nbsp;37th&nbsp;Chamber</a>
+<a href="/" aria-label="Back to the 37th Chamber" class="back-fixed" id="back-home">&larr;&nbsp;37th&nbsp;Chamber</a>
 <main class="wrap" id="main">
 
 <!-- THE SIGIL (CREST) — the simple, circular 37th-chamber logo · the canonical mark.
@@ -444,8 +451,8 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   <div>
     <div class="panel">
       <h2>The Board</h2>
-      <div id="prompt" class="prompt-line">Press <b>Begin the Climb</b> — the grandmaster will find your level.</div>
-      <div id="turn" class="turn-indicator hidden"><span class="turn-dot"></span><span id="turn-text">White to move</span></div>
+      <div id="prompt" aria-live="assertive" aria-atomic="true" class="prompt-line">Press <b>Begin the Climb</b> — the grandmaster will find your level.</div>
+      <div id="turn" class="turn-indicator hidden" aria-live="polite" aria-atomic="true"><span class="turn-dot"></span><span id="turn-text">White to move</span></div>
       <div class="board-frame">
         <div class="board-stage">
           <div class="board-holder">
@@ -462,10 +469,10 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
       <h2>The Grandmaster</h2>
       <div class="sensei">
         <div id="resume-host" class="resume-host" style="display:none"></div>
-        <div id="sensei-text">Washington Square doesn't ask what you know — it watches you climb and finds out.
+        <div id="sensei-text" aria-live="polite">Washington Square doesn't ask what you know — it watches you climb and finds out.
           We start easy and go up one rung at a time. The moment a rung gives you trouble,
           that's your edge — and that's where we train.</div>
-        <div class="why" id="why"></div>
+        <div class="why" id="why" aria-live="polite"></div>
         <div class="btn-row" id="sensei-btns">
           <button class="btn" id="begin-btn" onclick="DOJO.begin()">Begin the Climb ▸</button>
           <button class="btn ghost" id="dunno-btn" onclick="DOJO.dontKnow()" style="display:none">I don't know — show me</button>
@@ -4047,15 +4054,15 @@ const Engine = {
       const current = idx === this.i && !done && document.getElementById('begin-btn').style.display === 'none';
       const cls = ['rung', done ? 'done' : '', current ? 'current' : ''].filter(Boolean).join(' ');
       return '<div class="' + cls + '"><span class="dot"></span>'
-        + '<span class="rname">' + r.name + '</span>'
-        + '<span class="rtier">' + r.tier + '</span></div>';
+        + '<span class="rname">' + escHtml(r.name) + '</span>'
+        + '<span class="rtier">' + escHtml(r.tier) + '</span></div>';
     }).join('');
   },
   renderLog() {
     const el = document.getElementById('log');
     if (!this.log.length) { el.innerHTML = '<div class="log-entry">no moves yet</div>'; return; }
     el.innerHTML = this.log.map(e =>
-      '<div class="log-entry"><span class="' + (e.t==='ok'?'ok':'warn') + '">' + e.m + '</span></div>'
+      '<div class="log-entry"><span class="' + (e.t==='ok'?'ok':'warn') + '">' + escHtml(e.m) + '</span></div>'
     ).join('');
   }
 };

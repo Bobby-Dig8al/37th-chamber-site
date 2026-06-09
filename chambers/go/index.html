@@ -7,14 +7,21 @@
 <meta name="description" content="Train to play Go like a master. The AlphaGo parable: AI didn't end the game — it deepened it. One of the many ways AI can help humanity reach the stars — if we align it, and put our acts together.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/chambers/go/">
-<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
 <meta property="og:title" content="GO: LeeDemis v1.0 — the AlphaGo parable · 37th Chamber">
 <meta property="og:description" content="The AlphaGo parable: AI didn't end Go — it deepened it. AI can help us reach the stars — if we align it and put our acts together.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://37th-chamber.com/chambers/go/">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The 37th Chamber — the Sigil. Knowledge is free, forever.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GO: LeeDemis v1.0 — the AlphaGo parable · 37th Chamber">
+<meta name="twitter:description" content="The AlphaGo parable: AI didn't end Go — it deepened it. Train to play like a master. Free, forever.">
+<meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
 <style>
 :root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#ece7d6;--dim:#8f8a73;--electric:#0E44FF;
   --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
@@ -26,7 +33,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);
   background-size:46px 46px;mask-image:radial-gradient(circle at 50% 16%,#000 28%,transparent 86%)}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:none}
+.skip-link:focus{left:1rem}
 :focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
 .back{align-self:flex-start;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.5rem;z-index:1;
   font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.3);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
@@ -38,7 +45,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   text-shadow:0 1px 0 #b88e00,0 2px 5px rgba(0,0,0,.5)}
 .names{margin-top:.8rem;text-align:center;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-soft)}
 .hook{margin:1.4rem auto 0;max-width:34rem;text-align:center;font-size:clamp(1.05rem,3vw,1.3rem);line-height:1.5;color:#fff;font-weight:600}
-.hook .glow{text-shadow:0 0 6px rgba(14,68,255,.9),0 0 16px rgba(14,68,255,.5)}
+.hook .glow{text-shadow:0 0 8px rgba(255,214,10,.7),0 0 18px rgba(255,214,10,.35)}
 .chip{display:inline-block;margin:1.3rem auto 0;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,214,10,.5);padding:.2rem .6rem;border-radius:2px}
 .section-label{margin:3rem 0 1.1rem;display:flex;align-items:center;gap:1rem;color:var(--dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase}
 .section-label::before,.section-label::after{content:'';height:1px;background:rgba(143,138,115,.28);flex:1}
@@ -51,7 +58,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .close p{margin:0 0 .9rem;font-size:clamp(1rem,2.7vw,1.12rem)}
 .close p:last-child{margin:0}
 .close .stars{color:var(--gold);font-weight:600}
-.close .cond{color:#fff;font-weight:600;text-shadow:0 0 6px rgba(14,68,255,.85),0 0 14px rgba(14,68,255,.45)}
+.close .cond{color:#fff;font-weight:600;text-shadow:0 0 8px rgba(255,214,10,.7),0 0 16px rgba(255,214,10,.4)}
 .vision{margin-top:2.4rem;font-size:clamp(1rem,2.6vw,1.08rem);line-height:1.6;color:var(--text)}
 .vision .soon{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,214,10,.5);padding:.12rem .45rem;border-radius:2px;margin-left:.4rem;white-space:nowrap}
 .xlink{margin-top:1.4rem;font-size:.95rem;color:var(--dim)}
@@ -60,19 +67,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .record a{color:var(--gold-soft);text-decoration:none}.record a:hover{text-decoration:underline}
 footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);box-shadow:0 -10px 24px -16px var(--electric);padding:1.5rem .25rem 2.4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .foot-creed{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
 .foot-back{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .foot-back:hover{text-decoration:underline}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+@media(max-width:400px){.names{letter-spacing:.12em;font-size:.68rem}.chip{font-size:.68rem}}
 </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
+  <nav aria-label="Site navigation"><a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a></nav>
   <main class="wrap" id="main">
     <div class="eyebrow">Chamber · the games</div>
     <h1 class="title">GO: LeeDemis v1.0</h1>
-    <div class="names">Go &middot; 圍棋 &middot; 바둑 &middot; 囲碁 &mdash; named for Lee Sedol &amp; Demis Hassabis</div>
+    <div class="names">Go &middot; <span lang="zh">圍棋</span> &middot; <span lang="ko">바둑</span> &middot; <span lang="ja">囲碁</span> &mdash; named for Lee Sedol &amp; Demis Hassabis</div>
     <p class="hook">Train to play like a 9-dan master &mdash; <span class="glow">like Lee Sedol.</span></p>
     <div style="text-align:center"><span class="chip">&#9679; The parable</span></div>
 
@@ -86,13 +94,13 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
       <p>And now the machine <em>teaches.</em> It shows you how to play like a master. It shows you moves that look <em>insane</em> &mdash; until you see, for yourself, that they're beautiful. Players at every level are testing moves no human had dared, re-reading thousands of years of received wisdom. The student finally has a teacher that never tires.</p>
     </div>
 
-    <div class="section-label">Eyes open</div>
+    <h2 class="section-label">Eyes open</h2>
     <div class="close">
       <p>This is one of the many ways AI can help humanity <span class="stars">reach the stars</span> &mdash; not by replacing the player, but by making the player greater than they could have been alone.</p>
       <p><span class="cond">Can. Not will.</span> The stars are conditional: only if we build the machine for <em>loving grace</em>, and only if we put our acts together. Eyes open &mdash; then up.</p>
     </div>
 
-    <p class="vision">The chamber will teach you Go from the first stone, and let you train against an AI that isn't here to <em>beat</em> you &mdash; it's here to make you a master.<span class="soon">In build</span></p>
+    <p class="vision">The chamber will teach you Go from the first stone, and let you train against an AI that isn't here to <em>beat</em> you &mdash; it's here to make you a master. <span class="soon" aria-label="(Status: In build)">In build</span></p>
     <p class="xlink">The first game chamber is already live &mdash; <a href="/chambers/washington-square/">Washington Square</a> (chess), with a real engine that explains every move.</p>
     <p class="xlink">Want to bring this kind of thinking to your org? <a href="/work/">Work with me &rarr;</a></p>
 
