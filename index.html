@@ -247,7 +247,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </div>
 
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
-    <div id="now-playing" data-worker-url=""></div>
+    <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
 
     <!-- TEASER (temporary — remove ~07:00 when the live now-playing widget takes over) -->
     <p class="np-tease" style="text-align:center;max-width:34rem;margin:1.6rem auto 1.8rem;font-size:clamp(.78rem,2.2vw,.9rem);letter-spacing:.05em;line-height:1.6;color:var(--dim)"><span style="color:var(--gold);font-weight:600;text-shadow:0 0 7px rgba(14,68,255,.6),0 0 16px rgba(14,68,255,.35)">&#9834; See the waveform come to life &mdash; tonight at 21:00</span> &mdash; for the first time: the full <em style="color:var(--gold);font-style:normal">Interstellar</em> soundtrack, on loop for 24 hours.</p>
