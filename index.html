@@ -242,18 +242,18 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p style="margin:0;color:var(--dim)">marc.</p>
       <p style="margin:0;color:var(--dim)">hey, marc.</p>
       <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
-      <p style="margin:0;color:var(--text)"><span style="color:var(--gold);font-weight:600">39</span> days ago i wasn't sure i could do this.</p>
+      <p style="margin:0;color:var(--text)"><span id="day-count" style="color:var(--gold);font-weight:600">40</span> days ago i wasn't sure i could do this.</p>
       <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
     </div>
 
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
-    <div id="now-playing" data-worker-url=""></div>
+    <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
 
     <!-- TEASER (temporary — remove ~07:00 when the live now-playing widget takes over) -->
-    <p class="np-tease" style="text-align:center;max-width:34rem;margin:-.2rem auto 1.7rem;font-size:clamp(.78rem,2.2vw,.9rem);letter-spacing:.05em;line-height:1.6;color:var(--dim)"><span style="color:var(--gold);font-weight:600;text-shadow:0 0 7px rgba(14,68,255,.6),0 0 16px rgba(14,68,255,.35)">&#9834; See the waveform come to life &mdash; tonight at 21:00</span> &mdash; for the first time: the full <em style="color:var(--gold);font-style:normal">Interstellar</em> soundtrack, on loop for 24 hours.</p>
+    <p class="np-tease" style="text-align:center;max-width:34rem;margin:1.6rem auto 1.8rem;font-size:clamp(.78rem,2.2vw,.9rem);letter-spacing:.05em;line-height:1.6;color:var(--dim)"><span style="color:var(--gold);font-weight:600;text-shadow:0 0 7px rgba(14,68,255,.6),0 0 16px rgba(14,68,255,.35)">&#9834; See the waveform come to life &mdash; tonight at 21:00</span> &mdash; for the first time: the full <em style="color:var(--gold);font-style:normal">Interstellar</em> soundtrack, on loop for 24 hours.</p>
 
     <!-- LINER NOTE (opening-night grace) -->
-    <p class="np-liner" style="text-align:center;max-width:32rem;margin:-.9rem auto 1.9rem;font-size:clamp(.72rem,2vw,.82rem);letter-spacing:.04em;line-height:1.65;color:var(--dim)">Opening with <em style="color:var(--gold-soft)">Lux Aeterna</em>. May eternal light shine on this place.</p>
+    <p class="np-liner" style="text-align:center;max-width:32rem;margin:.8rem auto 2.1rem;font-size:clamp(.72rem,2vw,.82rem);letter-spacing:.04em;line-height:1.65;color:var(--dim)">Opening with <em style="color:var(--gold-soft)">Lux Aeterna</em>. May eternal light shine on this place.</p>
 
     <!-- THE DAILY: six good people, every day -->
     <section id="the-daily" aria-label="The Daily">
@@ -484,5 +484,6 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   </footer>
   <script src="/daily.js?v=9" defer></script>
   <script type="module" src="/nowplaying.js"></script>
+<script>(function(){try{var s=Date.parse("2026-05-01T00:00:00-05:00");var d=Math.floor((Date.now()-s)/864e5)+1;var el=document.getElementById("day-count");if(el&&d>0)el.textContent=d;}catch(e){}})();</script>
 </body>
 </html>
