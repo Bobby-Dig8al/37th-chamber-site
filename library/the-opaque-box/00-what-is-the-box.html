@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 0 · What Is the Box? — The Opaque Box · 37th Chamber</title>
+<meta name="description" content="Chapter 0 of The Opaque Box. The honest ground floor: what AI actually is, why nobody — including its makers — can fully see inside it, and why we're going to build one from scratch anyway.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/00-what-is-the-box.html">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="Ch 0 · What Is the Box? — The Opaque Box">
+<meta property="og:description" content="The honest ground floor: what AI actually is, why nobody can fully see inside it, and why we build one from scratch anyway.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://37th-chamber.com/library/the-opaque-box/00-what-is-the-box.html">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "headline": "Ch 0 · What Is the Box?",
+  "description": "Chapter 0 of The Opaque Box. The honest ground floor: what AI actually is, why nobody — including its makers — can fully see inside it, and why we're going to build one from scratch anyway.",
+  "url": "https://37th-chamber.com/library/the-opaque-box/00-what-is-the-box.html",
+  "isPartOf": {
+    "@type": "Book",
+    "name": "The Opaque Box",
+    "url": "https://37th-chamber.com/library/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Kyle Sullivan",
+    "url": "https://37th-chamber.com/about/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "37th Chamber",
+    "url": "https://37th-chamber.com/"
+  },
+  "educationalLevel": "Absolute beginner",
+  "learningResourceType": "Article",
+  "inLanguage": "en",
+  "image": "https://37th-chamber.com/assets/og.png"
+}
+</script>
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Consolas','SFMono-Regular','Menlo','Liberation Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem 0;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:760px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav{display:flex;gap:.45rem;flex-wrap:wrap}
+.chnav a, .chnav span{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid rgba(255,214,10,.22);padding:.36rem .62rem;border-radius:2px;transition:.16s ease}
+.chnav a:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav span{color:var(--dim);border-color:rgba(143,138,115,.22);cursor:default}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.78rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.85rem,6.4vw,2.85rem);line-height:1.05;font-weight:600;text-transform:uppercase;letter-spacing:.025em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1.2rem}
+.epigraph{margin:1rem 0 2rem;padding:.85rem 1rem .85rem 1.1rem;border-left:2px solid var(--gold-soft);background:rgba(255,214,10,.025);
+  font-style:italic;color:var(--gold-soft);font-size:clamp(.94rem,2.6vw,1.02rem);line-height:1.6}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2.2rem 0}
+h2{margin:2.4rem 0 1rem;font-size:clamp(1.18rem,3.6vw,1.42rem);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h3{margin:1.8rem 0 .8rem;font-size:clamp(1.02rem,2.9vw,1.14rem);color:var(--gold-soft);font-weight:600;letter-spacing:.01em}
+p, ul, ol{font-size:clamp(.98rem,2.55vw,1.05rem);line-height:1.72;margin:.95rem 0;color:var(--text)}
+ul, ol{padding-left:1.4rem}
+li{margin:.42rem 0}
+strong{color:var(--gold)}
+em{color:var(--gold-soft);font-style:italic}
+a.inline{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+a.inline:hover{border-bottom-style:solid}
+code{font-family:var(--mono);font-size:.92em;color:var(--gold-soft);background:rgba(255,214,10,.05);padding:.08em .35em;border-radius:2px;letter-spacing:0}
+pre{font-family:var(--mono);font-size:clamp(.78rem,2.1vw,.86rem);line-height:1.55;color:var(--text);
+  background:rgba(255,214,10,.018);border:1px solid rgba(255,214,10,.13);border-left:2px solid var(--electric);
+  padding:.85rem 1rem;margin:1.1rem 0;overflow-x:auto;border-radius:0;
+  box-shadow:inset 0 0 0 0 transparent}
+pre code{font-size:1em;color:inherit;background:none;padding:0;border-radius:0;letter-spacing:0}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.6);background:rgba(14,68,255,.04);color:var(--text);font-size:clamp(.95rem,2.55vw,1.02rem);line-height:1.62}
+blockquote em{color:#cfe0ff}
+.takeaway{margin:1.4rem 0;padding:1rem 1.15rem;border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.025)}
+.takeaway h3{margin-top:0}
+.next-up{margin:2.6rem 0 1.4rem;padding:1.1rem 1.2rem;border:1px solid rgba(255,214,10,.30);background:rgba(255,214,10,.02);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.next-up .label{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.next-up .target{font-size:clamp(1rem,2.7vw,1.1rem);color:var(--gold);font-weight:600}
+.next-up a{color:var(--gold);text-decoration:none}
+.next-up a:hover{text-decoration:underline}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);
+  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.note-source{margin-top:2rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
+<script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
+<nav class="topnav" aria-label="Chapter navigation">
+  <a class="back" href="/library/">&larr;&nbsp;The Library</a>
+  <div class="chnav">
+    <span>Ch&nbsp;0</span>
+    <a href="/library/the-opaque-box/01-from-text-to-numbers.html">Ch&nbsp;1 &rarr;</a>
+    <a href="/library/the-opaque-box/02-words-as-directions.html">Ch&nbsp;2</a>
+    <a href="/library/the-opaque-box/03-attention.html">Ch&nbsp;3</a>
+    <a href="04-many-eyes.html">Ch&nbsp;4</a>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">The Opaque Box · Chapter 0</div>
+  <h1 class="title">What Is the Box?</h1>
+
+  <blockquote class="epigraph">You use it every day. It answers questions, writes paragraphs, explains things patiently. And yet the people who built it cannot fully tell you how it does any of that. That&rsquo;s not a confession of incompetence. It&rsquo;s just the honest state of the science.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s0-1">The thing nobody can see into</h2>
+
+  <p>When you ask an AI a question and it answers well, something is happening inside it &mdash; some chain of calculation that turns your words into its words. That chain is real. It runs on a computer. Its results can be remarkable. But if you ask one of its makers to point at a specific part of the system and say <em>&ldquo;this is where it decided to say that,&rdquo;</em> they can&rsquo;t. Not fully. Not yet.</p>
+
+  <p>This is not a secret being kept from you. It is a genuine open problem in science, one important enough that Anthropic &mdash; the company that builds Claude &mdash; runs a dedicated <a class="inline" href="https://www.anthropic.com/research/team/interpretability">interpretability research program</a> whose entire job is to try to see inside. The field is called <strong>mechanistic interpretability</strong>, and it exists precisely because the box is opaque. Researchers are not polishing something well understood. They are trying to understand something that already works without anyone having fully designed it.</p>
+
+  <p>That&rsquo;s the strange situation we are in. And this book is about that situation, from the ground up.</p>
+
+  <hr class="rule">
+
+  <h2 id="s0-2">Program vs. model &mdash; the one distinction that matters</h2>
+
+  <p>Before we go further, we need one load-bearing idea. There are two very different things that can run on a computer, and people use the word &ldquo;AI&rdquo; for both of them as if they were the same. They are not.</p>
+
+  <p>The first is a <strong>program</strong>. A program is a set of rules a human wrote down. Every branch of its behavior came from a decision a person made at a keyboard. If you open the file, the logic is there to read:</p>
+
+<pre><code>if temperature &gt; 100:
+    alert("too hot")
+else:
+    keep running</code></pre>
+
+  <p>You can trace every outcome. You can read every instruction. The program does exactly what the author said, no more and no less. There is no mystery in it, only the question of whether the author thought of everything.</p>
+
+  <p>The second is a <strong>model</strong>. A model is not rules a human wrote. It is a very large pile of numbers &mdash; billions of them &mdash; that nobody sat down and chose individually. Those numbers were <em>tuned</em> by showing the system enormous amounts of examples until its behavior became useful. Nobody wrote the instructions for how it would answer your question. The answer <em>emerged</em> from the numbers after training.</p>
+
+  <p>Written versus grown. That is the distinction. A program is written. A model is grown.</p>
+
+  <p>Modern AI &mdash; the kind that holds a conversation, writes code, explains a concept &mdash; is a model. The opacity follows directly from that fact. When nobody wrote the rules, there are no rules to read.</p>
+
+  <hr class="rule">
+
+  <h2 id="s0-3">What &ldquo;training&rdquo; means in one breath</h2>
+
+  <p>So where do the numbers come from? Here is the whole secret, stated plainly:</p>
+
+  <blockquote>Show the model a lot of text. Ask it to guess the next word. When it guesses wrong, nudge the numbers slightly in the direction that would have made a better guess. Repeat this an enormous number of times.</blockquote>
+
+  <p>That&rsquo;s it. Everything else &mdash; every refinement, every variation, every capability that surprises you &mdash; is detail on top of that one loop. The model starts as random noise and ends as something that has, in some sense, absorbed patterns from everything it read. GPT-2, an early model from 2019 that OpenAI published openly, reached 1.5 billion numbers tuned this way (Radford et al., 2019). The models you use today have grown much larger &mdash; but the loop is the same loop.</p>
+
+  <p>Notice that at no point in that description does anyone explain <em>anything</em> to the model. Nobody says &ldquo;a sentence has a subject and a verb&rdquo; or &ldquo;France is in Europe.&rdquo; The model infers all of that, if it does, from seeing patterns recur across billions of examples. What it learns is real. How it stores what it learned, and exactly how it retrieves it &mdash; that is the opaque part.</p>
+
+  <hr class="rule">
+
+  <h2 id="s0-4">Why &ldquo;opaque&rdquo;</h2>
+
+  <p>Imagine you could read every single number in a trained model &mdash; all 1.5 billion, or all 70 billion, laid out in front of you. You still could not read off what the model &ldquo;knows&rdquo; or &ldquo;believes&rdquo; the way you could read a program. The numbers do not say &ldquo;Paris is the capital of France.&rdquo; They say things like <code>&minus;0.3812</code> and <code>1.0047</code>. Their meaning only becomes apparent when they work together, in combinations that interact in ways nobody designed.</p>
+
+  <p>This is not a flaw to be embarrassed about. It is what the training process produces. The system that comes out the other end genuinely works &mdash; often beautifully. But &ldquo;works&rdquo; and &ldquo;is understood&rdquo; are not the same thing, and conflating them leads to confusion about what AI can and can&rsquo;t do, what it is and isn&rsquo;t.</p>
+
+  <p>There is nothing catastrophic in this admission. Lots of things work before they are fully understood. What matters is knowing the difference between <em>the behavior</em> (observable, testable, improvable) and <em>the mechanism</em> (the object of active research). We will be honest about both throughout this book.</p>
+
+  <hr class="rule">
+
+  <h2 id="s0-5">Why we build one</h2>
+
+  <p>Here is our answer to the opacity: we are going to build a small language model ourselves, from scratch, step by step, in plain code that you will be able to read in full.</p>
+
+  <p>Not a toy that pretends. A real one &mdash; the same architecture, the same training loop, the same components that sit inside the large models you use, just smaller. Small enough that it trains on a laptop. Small enough that every piece of it fits in a single screen.</p>
+
+  <p>We are doing this because the only honest path to understanding something you cannot see through is to build one you can. When you have assembled each piece with your own hands and watched it fail and then not fail, the large systems stop being magic and start being <em>the same thing, much bigger</em>. That is a very different relationship to have with technology you use every day.</p>
+
+  <p>There are no prerequisites here. We will explain every concept before we use it and every line of code before we run it. This book is free, and it will stay free. Knowledge free, forever.</p>
+
+  <hr class="rule">
+
+  <h2 id="s0-6">One problem left to solve before we can begin</h2>
+
+  <p>We said the model reads text and learns from it. But a model cannot actually read. It is arithmetic &mdash; it works on numbers. So the very first thing we need, before any training can happen, is a way to convert text into numbers and back again without losing anything.</p>
+
+  <p>That sounds small. It is not. The way you make that conversion quietly shapes what the model can and cannot learn. Getting it right turns out to be its own interesting problem, with a genuinely clever solution.</p>
+
+  <p><strong>Chapter 1 is how text becomes numbers.</strong></p>
+
+  <div class="next-up">
+    <div>
+      <div class="label">What&rsquo;s next</div>
+      <div class="target">Ch 1 &mdash; From Text to Numbers: Tokenization</div>
+    </div>
+    <a href="/library/the-opaque-box/01-from-text-to-numbers.html">Read Ch&nbsp;1 &rarr;</a>
+  </div>
+
+  <p class="note-source">Anthropic interpretability research program: <a class="inline" href="https://www.anthropic.com/research/team/interpretability">anthropic.com/research/team/interpretability</a>. GPT-2 parameter count: Radford, A., Wu, J., Child, R., Luan, D., Amodei, D., &amp; Sutskever, I. (2019). &ldquo;Language Models are Unsupervised Multitask Learners.&rdquo; All other prose original.</p>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/library/">&larr; back to the library</a>
+</footer>
+</body>
+</html>
