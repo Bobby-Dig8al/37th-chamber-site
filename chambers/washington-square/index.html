@@ -336,8 +336,10 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
    ----------------------------------------------------------------------- */
 /* role="row" wrappers are transparent to the CSS grid layout (display:contents
    makes them invisible to the grid formatting context while preserving the ARIA
-   grid → row → gridcell ownership chain). */
-[role="row"] { display: contents; }
+   grid → row → gridcell ownership chain). The file-label row is role="presentation"
+   (decorative coords, aria-hidden) and must ALSO be transparent — without this it
+   stays a single block grid-cell in column 1 and the a–h labels stack vertically. */
+[role="row"], .board > [role="presentation"] { display: contents; }
 /* Board keyboard cursor — gold focus ring on focused gridcell.
    Gold = "where you are looking" (navigation/substance).
    Blue sel ring = "what you picked" (the learner's choice).
