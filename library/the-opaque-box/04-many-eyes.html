@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 4 · Many Eyes — Multi-Head Attention — The Opaque Box · 37th Chamber</title>
+<meta name="description" content="Chapter 4 of The Opaque Box. Multi-head attention from scratch — parallel heads, subspace projections, concatenation, final linear projection. The fix for the single-head bottleneck.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/04-many-eyes.html">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="Ch 4 · Many Eyes — Multi-Head Attention — The Opaque Box">
+<meta property="og:description" content="Multi-head attention from scratch. Parallel heads, subspace projections, concatenation, final linear mix. The fix for the single-head bottleneck.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://37th-chamber.com/library/the-opaque-box/04-many-eyes.html">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "headline": "Ch 4 · Many Eyes — Multi-Head Attention",
+  "description": "Chapter 4 of The Opaque Box. Multi-head attention from scratch — parallel heads, subspace projections, concatenation, final linear projection. The fix for the single-head bottleneck.",
+  "url": "https://37th-chamber.com/library/the-opaque-box/04-many-eyes.html",
+  "isPartOf": {
+    "@type": "Book",
+    "name": "The Opaque Box",
+    "url": "https://37th-chamber.com/library/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Kyle Sullivan",
+    "url": "https://37th-chamber.com/about/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "37th Chamber",
+    "url": "https://37th-chamber.com/"
+  },
+  "educationalLevel": "Beginner",
+  "learningResourceType": "Article",
+  "inLanguage": "en",
+  "image": "https://37th-chamber.com/assets/og.png"
+}
+</script>
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Consolas','SFMono-Regular','Menlo','Liberation Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem 0;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:760px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav{display:flex;gap:.45rem;flex-wrap:wrap}
+.chnav a, .chnav span{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid rgba(255,214,10,.22);padding:.36rem .62rem;border-radius:2px;transition:.16s ease}
+.chnav a:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav span{color:var(--dim);border-color:rgba(143,138,115,.22);cursor:default}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.78rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.85rem,6.4vw,2.85rem);line-height:1.05;font-weight:600;text-transform:uppercase;letter-spacing:.025em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1.2rem}
+.epigraph{margin:1rem 0 2rem;padding:.85rem 1rem .85rem 1.1rem;border-left:2px solid var(--gold-soft);background:rgba(255,214,10,.025);
+  font-style:italic;color:var(--gold-soft);font-size:clamp(.94rem,2.6vw,1.02rem);line-height:1.6}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2.2rem 0}
+h2{margin:2.4rem 0 1rem;font-size:clamp(1.18rem,3.6vw,1.42rem);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h3{margin:1.8rem 0 .8rem;font-size:clamp(1.02rem,2.9vw,1.14rem);color:var(--gold-soft);font-weight:600;letter-spacing:.01em}
+p, ul, ol{font-size:clamp(.98rem,2.55vw,1.05rem);line-height:1.72;margin:.95rem 0;color:var(--text)}
+ul, ol{padding-left:1.4rem}
+li{margin:.42rem 0}
+strong{color:var(--gold)}
+em{color:var(--gold-soft);font-style:italic}
+a.inline{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+a.inline:hover{border-bottom-style:solid}
+code{font-family:var(--mono);font-size:.92em;color:var(--gold-soft);background:rgba(255,214,10,.05);padding:.08em .35em;border-radius:2px;letter-spacing:0}
+pre{font-family:var(--mono);font-size:clamp(.78rem,2.1vw,.86rem);line-height:1.55;color:var(--text);
+  background:rgba(255,214,10,.018);border:1px solid rgba(255,214,10,.13);border-left:2px solid var(--electric);
+  padding:.85rem 1rem;margin:1.1rem 0;overflow-x:auto;border-radius:0}
+pre code{font-size:1em;color:inherit;background:none;padding:0;border-radius:0;letter-spacing:0}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.6);background:rgba(14,68,255,.04);color:var(--text);font-size:clamp(.95rem,2.55vw,1.02rem);line-height:1.62}
+blockquote em{color:#cfe0ff}
+.takeaway{margin:1.4rem 0;padding:1rem 1.15rem;border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.025)}
+.takeaway h3{margin-top:0}
+.next-up{margin:2.6rem 0 1.4rem;padding:1.1rem 1.2rem;border:1px solid rgba(255,214,10,.30);background:rgba(255,214,10,.02);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.next-up .label{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.next-up .target{font-size:clamp(1rem,2.7vw,1.1rem);color:var(--gold);font-weight:600}
+.next-up .soon{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);
+  border:1px solid rgba(255,214,10,.32);padding:.36rem .7rem;border-radius:2px}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);
+  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.note-source{margin-top:2rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+
+/* the corridor */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
+<script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
+<nav class="topnav" aria-label="Chapter navigation">
+  <a class="back" href="/library/">&larr;&nbsp;The Library</a>
+  <div class="chnav">
+    <a href="00-what-is-the-box.html">Ch&nbsp;0</a>
+    <a href="01-from-text-to-numbers.html">Ch&nbsp;1</a>
+    <a href="02-words-as-directions.html">Ch&nbsp;2</a>
+    <a href="03-attention.html">Ch&nbsp;3</a>
+    <span>Ch&nbsp;4</span>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">The Opaque Box · Chapter 4</div>
+  <h1 class="title">Many Eyes</h1>
+
+  <blockquote class="epigraph">Chapter 3 built one head &mdash; one clean mechanism for selective gathering. But a sentence is not one thing. <em>&ldquo;The lawyer who the jury believed told the truth.&rdquo;</em> To read that, something has to track syntax, something else has to track who believes whom, something else has to track the gap in the relative clause. One head cannot do all of that at once. The fix is embarrassingly direct: run several heads in parallel, let each look in its own direction, then pool the results.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s4-1">4.1&nbsp;&nbsp;The limit of one head</h2>
+  <p>At the end of Chapter 3, <code>SelfAttentionHead</code> produced <code>(B, T, head_size)</code> from <code>(B, T, C)</code>. That head computed exactly <strong>one pattern of relationships</strong> across the sequence: one set of Q/K/V projections, one attention matrix, one weighted average of values. It is, in one sense, one <em>question</em> the model asks of the sequence per forward pass.</p>
+  <p>Consider the sentence: <em>&ldquo;The cat sat on the mat because it was tired.&rdquo;</em> At the position <code>"it"</code>, the model needs to resolve at least two things simultaneously &mdash; that <em>it</em> refers to <em>the cat</em> (coreference, backward-looking), and that <em>tired</em> is the predicate that governs it (grammatical dependency, forward-looking in meaning). A single head attending over the sequence generates one scalar score between <code>"it"</code> and every other token. It can learn to weight <em>&ldquo;cat&rdquo;</em> highly <em>or</em> weight <em>&ldquo;tired&rdquo;</em> highly &mdash; but a single weighted-average output conflates the two. There is no mechanism for the head to simultaneously &ldquo;return&rdquo; both a coreference signal and a dependency signal through one <code>head_size</code>-dimensional vector.</p>
+  <p>Language routinely requires several such simultaneous lookups. The single-head design is a bottleneck not because the math is wrong, but because one attention pattern is one degree of freedom, and a sequence has many independent things to say about itself at once.</p>
+
+  <hr class="rule">
+
+  <h2 id="s4-2">4.2&nbsp;&nbsp;The fix: parallel smaller heads</h2>
+  <p>The solution in Vaswani et al. (&ldquo;Attention Is All You Need,&rdquo; 2017, §3.2.2) is to run <strong><em>h</em> heads in parallel</strong>, each with its own Q, K, and V projection matrices, each projecting into a smaller subspace of size <code>head_size = d_model / h</code>. The outputs of all heads &mdash; each <code>(B, T, head_size)</code> &mdash; are then <strong>concatenated</strong> back into a <code>(B, T, d_model)</code> tensor, and a final learned linear layer mixes the concatenated result.</p>
+  <p>In the paper&rsquo;s base model: <code>d_model = 512</code>, <code>h = 8</code>, so <code>head_size = d_k = d_v = 512 / 8 = 64</code>. Each head operates on a 64-dimensional slice of the representation space; together they reconstitute the full 512 dimensions. The total parameter count stays comparable to one large head, but now the model has eight independent subspaces to specialize in.</p>
+  <p>Formally (Vaswani et al. 2017, §3.2.2):</p>
+<pre><code>MultiHead(Q, K, V) = Concat(head_1, ..., head_h) W^O
+
+where  head_i = Attention(Q W_i^Q,  K W_i^K,  V W_i^V)</code></pre>
+  <p>Each <code>W_i^Q</code>, <code>W_i^K</code>, <code>W_i^V</code> is a learned projection into a <code>head_size</code>-dimensional subspace. <code>W^O</code> is the final projection that takes the concatenated <code>(B, T, h * head_size) = (B, T, d_model)</code> back to <code>(B, T, d_model)</code>. Everything in the projection matrices is learned by gradient descent &mdash; there is no hand-assignment of which head covers coreference and which covers syntax.</p>
+  <blockquote><strong>Why not just use one big head at full <code>d_model</code>?</strong> You could &mdash; and for a single pass it would have more expressive capacity per head. But it would have one attention matrix and therefore one routing pattern. Multiple smaller heads each produce their own <code>(T, T)</code> attention matrix, which means <em>h</em> independent routing patterns operating in parallel. The cost is the same; the diversity is new.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s4-3">4.3&nbsp;&nbsp;The code</h2>
+  <p>Here is <code>MultiHeadAttention</code> built directly on top of the <code>SelfAttentionHead</code> from Chapter 3. Read the shapes in every comment.</p>
+<pre><code>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# ── Brought forward from Chapter 3 ────────────────────────────────────────────
+class SelfAttentionHead(nn.Module):
+    """One head of causal self-attention. Input (B,T,C) -> output (B,T,head_size)."""
+    def __init__(self, d_model, head_size, context_length, dropout=0.0):
+        super().__init__()
+        self.key   = nn.Linear(d_model, head_size, bias=False)
+        self.query = nn.Linear(d_model, head_size, bias=False)
+        self.value = nn.Linear(d_model, head_size, bias=False)
+        self.register_buffer("tril", torch.tril(torch.ones(context_length, context_length)))
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):                        # x: (B, T, C)
+        B, T, C = x.shape
+        k = self.key(x)                          # (B, T, head_size)
+        q = self.query(x)                        # (B, T, head_size)
+        wei = q @ k.transpose(-2, -1) * k.shape[-1]**-0.5   # (B, T, T), scaled
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, float('-inf'))
+        wei = F.softmax(wei, dim=-1)             # (B, T, T)
+        wei = self.dropout(wei)
+        v = self.value(x)                        # (B, T, head_size)
+        return wei @ v                           # (B, T, head_size)
+
+# ── Chapter 4 addition ─────────────────────────────────────────────────────────
+class MultiHeadAttention(nn.Module):
+    """
+    h independent heads of causal self-attention, concatenated + projected.
+    Input:  (B, T, d_model)
+    Output: (B, T, d_model)   — same shape as input, so it can stack cleanly.
+    """
+    def __init__(self, d_model, num_heads, context_length, dropout=0.0):
+        super().__init__()
+        assert d_model % num_heads == 0, "d_model must be divisible by num_heads"
+        head_size = d_model // num_heads         # each head works in a subspace of this width
+
+        # num_heads independent heads, each (B,T,d_model) -> (B,T,head_size)
+        self.heads = nn.ModuleList([
+            SelfAttentionHead(d_model, head_size, context_length, dropout)
+            for _ in range(num_heads)
+        ])
+        # after concat: (B, T, num_heads * head_size) = (B, T, d_model)
+        # W^O in the paper: mix the concatenated head outputs back into d_model
+        self.proj = nn.Linear(d_model, d_model)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):                        # x: (B, T, d_model)
+        # run all heads in parallel; each returns (B, T, head_size)
+        head_outputs = [h(x) for h in self.heads]   # list of num_heads tensors
+
+        # concatenate along the last dim: (B, T, num_heads * head_size) = (B, T, d_model)
+        out = torch.cat(head_outputs, dim=-1)    # (B, T, d_model)
+
+        # final linear mix (W^O): (B, T, d_model) -> (B, T, d_model)
+        out = self.proj(out)                     # (B, T, d_model)
+        out = self.dropout(out)
+        return out                               # (B, T, d_model)
+
+# ── sanity check ──────────────────────────────────────────────────────────────
+B, T, C = 4, 8, 384            # batch=4, sequence_len=8, d_model=384
+x = torch.randn(B, T, C)
+
+mha = MultiHeadAttention(d_model=384, num_heads=6, context_length=256)
+out = mha(x)
+print(out.shape)               # torch.Size([4, 8, 384]) — same shape as input</code></pre>
+
+  <h3>Line-by-line walk</h3>
+  <ul>
+    <li><code>head_size = d_model // num_heads</code> &mdash; the width of each head&rsquo;s private subspace. With <code>d_model=384, num_heads=6</code> that is <code>64</code>; with the paper&rsquo;s <code>d_model=512, num_heads=8</code> it is also <code>64</code>.</li>
+    <li><code>nn.ModuleList([SelfAttentionHead(...) for _ in range(num_heads)])</code> &mdash; creates <code>num_heads</code> independent heads. Each has its own <code>key</code>, <code>query</code>, <code>value</code> weight matrices and its own <code>tril</code> buffer. They share nothing. PyTorch sees all of them as sub-modules and will include their parameters in <code>model.parameters()</code>.</li>
+    <li><code>[h(x) for h in self.heads]</code> &mdash; runs all heads on the same input <code>x</code>. This is sequential Python here; in practice frameworks can run them in parallel on the GPU. Each head gets the full <code>(B, T, d_model)</code> input and returns <code>(B, T, head_size)</code>.</li>
+    <li><code>torch.cat(head_outputs, dim=-1)</code> &mdash; stacks those <code>num_heads</code> tensors along the channel axis: <code>(B, T, head_size) &times; num_heads</code> &rarr; <code>(B, T, num_heads * head_size)</code> = <code>(B, T, d_model)</code>. This is the <em>Concat</em> in the paper&rsquo;s formula.</li>
+    <li><code>self.proj(out)</code> &mdash; this is <em>W<sup>O</sup></em>: a <code>(d_model, d_model)</code> linear layer that mixes across the concatenated heads. Without it, each head&rsquo;s <code>head_size</code>-slice in the output would be independent of the other heads &mdash; no cross-head interaction. The projection is where the heads&rsquo; findings are combined into one view.</li>
+    <li><strong>Output shape: <code>(B, T, d_model)</code></strong> &mdash; the same shape as the input. This is intentional. The transformer block (Chapter 5) feeds the output of multi-head attention directly into a residual connection that adds it back onto the input. Same shape is the contract.</li>
+  </ul>
+
+  <hr class="rule">
+
+  <h2 id="s4-4">4.4&nbsp;&nbsp;What heads actually learn — and what we honestly know</h2>
+  <p>It is tempting to say: <em>head 1 learns syntax, head 2 learns coreference, head 3 learns distance.</em> That story is cleaner than the evidence supports.</p>
+  <p>What we can say with reasonable confidence: heads <strong>empirically develop differentiated behavior</strong>. Researchers have visualized attention matrices in trained transformers and found that some heads consistently attend to adjacent tokens, some attend to sentence-initial positions, some attend to matching part-of-speech tags. These are observations from probing and visualization, not designed roles &mdash; nothing in the loss function says &ldquo;head 4, you cover syntax.&rdquo; Specialization, when it appears, is an emergent property of gradient descent on a prediction task.</p>
+  <p>One of the better-studied examples is the <strong>induction head</strong>, characterized in Olsson et al. (2022, <em>&ldquo;In-context Learning and Induction Heads,&rdquo;</em> Transformer Circuits Thread, transformer-circuits.pub). An induction head implements a specific copying pattern: if the model has seen the token sequence <code>[A][B]</code> earlier in the context, an induction head at a later occurrence of <code>[A]</code> attends strongly to the earlier <code>[A]</code> and thereby predicts <code>[B]</code> as the next token. Olsson et al. found that these heads emerge sharply at a specific point in training, coinciding with a detectable drop in loss &mdash; one of the cleaner mechanistic stories we have about what individual heads do.</p>
+  <p>But the honest picture is messier: most heads in a large trained model do not resolve into one neat linguistic role. Many heads appear to collaborate &mdash; their individual attention patterns are not obviously interpretable, but together they enable the model to route the right information to the right positions. The multi-head design gives the model the <em>capacity</em> for differentiated attention. Whether and how that capacity is used is determined by training, not by the architecture.</p>
+  <blockquote><em>Heads can specialize. Some do. We can observe it in trained models. We did not build it in.</em> That gap between design and behavior is the thing that makes transformer interpretability an open research problem.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s4-5">4.5&nbsp;&nbsp;An honest note on concatenation</h2>
+  <p>Why concatenate, specifically? It is worth being direct: concatenation is an <strong>engineering choice that works</strong>, not a result derived from first principles.</p>
+  <p>The alternatives are obvious &mdash; you could average the head outputs, sum them, or feed them into a more complex combiner. Concatenation followed by a linear projection was the choice Vaswani et al. made, and it has held up across years of scaled models. The linear projection after the concat (<em>W<sup>O</sup></em>) means the network can learn any linear combination of the heads &mdash; it can up-weight some heads and down-weight others for different positions, making it strictly more flexible than a fixed average. That flexibility, at the cost of one <code>(d_model, d_model)</code> weight matrix, is probably why it has stuck.</p>
+  <p>The <em>W<sup>O</sup></em> layer also does something geometrically useful: it projects the concatenated output back into the <em>same</em> <code>d_model</code>-dimensional residual stream that will persist through the rest of the network. Keeping the residual stream&rsquo;s shape constant at <code>d_model</code> across all sub-layers is a key architectural choice we will revisit in Chapter 5.</p>
+
+  <hr class="rule">
+
+  <h2 id="s4-6">4.6&nbsp;&nbsp;The thing to actually understand</h2>
+  <div class="takeaway">
+    <ul>
+      <li><strong>Many heads = many attention matrices.</strong> Each head produces its own <code>(B, T, T)</code> routing pattern independently. The expressiveness gain is not in wider projections but in multiple independent views of the sequence.</li>
+      <li><strong><code>head_size = d_model / num_heads</code></strong> keeps the total computation comparable to one head at full width. You trade depth-per-head for breadth-of-coverage.</li>
+      <li><strong>Concat + <em>W<sup>O</sup></em> is the glue.</strong> Concatenation gathers the heads; the final linear projection mixes them and restores the <code>(B, T, d_model)</code> shape the residual stream expects.</li>
+      <li><strong>Specialization is observed, not designed.</strong> The architecture creates the capacity for heads to diverge; gradient descent decides whether they do and what they cover. Induction heads (Olsson et al. 2022) are one of the cleaner mechanistic examples &mdash; most heads are harder to read.</li>
+      <li><strong><code>(B, T, d_model)</code> in, <code>(B, T, d_model)</code> out.</strong> Multi-head attention is shape-preserving. Chapter 5 wraps it &mdash; along with a feed-forward net and two layer norms &mdash; into the transformer block, which is also shape-preserving. That&rsquo;s what lets them stack.</li>
+    </ul>
+  </div>
+
+  <hr class="rule">
+
+  <h2 id="s4-7">4.7&nbsp;&nbsp;Exercises</h2>
+  <ol>
+    <li><strong>Confirm the shape contract.</strong> Instantiate <code>MultiHeadAttention(d_model=256, num_heads=4, context_length=128)</code> and pass a random <code>(2, 16, 256)</code> tensor through it. Assert that <code>output.shape == (2, 16, 256)</code>. Then change <code>num_heads</code> to 8 and repeat. The output shape should not change.</li>
+    <li><strong>Audit the parameter count.</strong> Call <code>sum(p.numel() for p in mha.parameters())</code> for your multi-head module. Compare it to a single <code>SelfAttentionHead(d_model=256, head_size=256, context_length=128)</code> without the final projection. Where does most of the parameter budget live? (Hint: the Q/K/V projections across all heads add up; <code>proj</code> is another <code>d_model &times; d_model</code> block.)</li>
+    <li><strong>Remove <code>W<sup>O</sup></strong>.</code> Comment out <code>self.proj</code> and return <code>torch.cat(head_outputs, dim=-1)</code> directly. Check the shape is still <code>(B, T, d_model)</code>. Now train a tiny character-level model for 100 steps with and without the projection. Does loss differ? Why might the projection matter even early in training?</li>
+    <li><strong>Watch the attention matrices diverge.</strong> After the module runs a forward pass, inspect <code>mha.heads[0].dropout</code> and rewrite <code>SelfAttentionHead.forward</code> to also return <code>wei</code> (alongside the value output). Run the same input through four heads and print each head&rsquo;s <code>wei[0]</code> (the first example&rsquo;s attention matrix). Are they identical? Should they be?</li>
+    <li><strong>Break the divisibility constraint.</strong> Try <code>MultiHeadAttention(d_model=256, num_heads=3, ...)</code>. The <code>assert</code> should raise before any tensor is created. Then fix it: find the nearest <code>num_heads</code> that divides evenly and verify the module builds.</li>
+  </ol>
+
+  <div class="next-up">
+    <div>
+      <div class="label">What&rsquo;s next</div>
+      <div class="target">Ch 5 &mdash; The transformer block &mdash; Soon</div>
+    </div>
+    <span class="soon">Coming soon</span>
+  </div>
+
+  <p class="note-source">A 37th-Chamber original. Methods cited: Vaswani et al. (2017), &ldquo;Attention Is All You Need,&rdquo; arXiv:1706.03762, §3.2.2 (h=8, d_k=d_v=64 confirmed); Olsson et al. (2022), &ldquo;In-context Learning and Induction Heads,&rdquo; Transformer Circuits Thread, transformer-circuits.pub (confirmed at arxiv.org/abs/2209.11895). All prose and code written fresh.</p>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/library/">&larr; back to the library</a>
+</footer>
+</body>
+</html>
