@@ -124,6 +124,8 @@ mount.appendChild(wrapper);
 // ─── Electric-Hex init ────────────────────────────────────────────────────────
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hexController = initElectricHex(canvas, { reducedMotion });
+// Dev tuning-bench hook (only attaches when the page is opened with ?tune-bench)
+if (location.search.indexOf('tune-bench') !== -1) { window.__hex = hexController; }
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let state = {
@@ -143,33 +145,8 @@ let pollTimeoutId    = null;
 let lastRenderedKey  = '';  // detect track changes for aria-live
 
 // ─── Render ───────────────────────────────────────────────────────────────────
-function renderIdle() {
-  titleEl.textContent  = 'Nothing playing';
-  artistEl.textContent = '';
-  albumEl.textContent  = '';
-  artImg.src           = '';
-  artImg.style.display = 'none';
-  trackLink.style.display = 'none';
-  statusDot.classList.remove('np-status-dot--playing');
-  statusDot.classList.add('np-status-dot--idle');
-  progressFill.style.width = '0%';
-  hexController.setPlaying(false);
-  hexController.setIntensity(0);
-}
-
-function renderState(s) {
-  if (!s.isPlaying) {
-    renderIdle();
-    return;
-  }
-
-  // textContent only — no innerHTML — for all external Spotify data
-  titleEl.textContent  = s.title  ?? '';
-  artistEl.textContent = s.artist ?? '';
-  albumEl.textContent  = s.album  ?? '';
-
-  // Validate origin before assigning to img.src — Spotify art is always i.scdn.co.
-  // Defense-in-depth: a tampered/buggy response can't point the <img> elsewhere.
+// Album-art origin validation, shared by playing + at-rest renders.
+function setArt(s) {
   if (s.albumArtUrl && /^https:\/\/(i\.scdn\.co|lastfm\.freetls\.fastly\.net|[a-z0-9-]+\.last\.fm)\//i.test(s.albumArtUrl)) {
     artImg.src           = s.albumArtUrl;
     artImg.style.display = '';
@@ -178,6 +155,47 @@ function renderState(s) {
     artImg.removeAttribute('src');
     artImg.style.display = 'none';
   }
+}
+
+// At rest the room REMEMBERS: if we know the last track (Last.fm keeps it),
+// the card holds it with the idle dot — "last played," not amnesia. The lattice
+// drops to a resting heartbeat, never to flatline (0 read as "broken").
+function renderIdle(s) {
+  const remembers = !!(s && s.title && s.artist);
+  if (remembers) {
+    titleEl.textContent  = s.title;
+    artistEl.textContent = s.artist;
+    albumEl.textContent  = s.album ?? '';
+    setArt(s);
+  } else {
+    titleEl.textContent  = 'The room is quiet';
+    artistEl.textContent = '';
+    albumEl.textContent  = '';
+    setArt({});
+  }
+  trackLink.style.display = 'none';
+  statusDot.classList.remove('np-status-dot--playing');
+  statusDot.classList.add('np-status-dot--idle');
+  progressBar.style.display = 'none';
+  progressFill.style.width = '0%';
+  hexController.setPlaying(false);
+  hexController.setIntensity(remembers ? 0.18 : 0.12);   // resting heart
+}
+
+function renderState(s) {
+  if (!s.isPlaying) {
+    renderIdle(s);
+    return;
+  }
+
+  // textContent only — no innerHTML — for all external Spotify data
+  titleEl.textContent  = s.title  ?? '';
+  artistEl.textContent = s.artist ?? '';
+  albumEl.textContent  = s.album  ?? '';
+
+  // Album art via the shared origin-validating setter (same one the at-rest
+  // render uses) — Spotify art is i.scdn.co; Last.fm art is last.fm/fastly.
+  setArt(s);
 
   // Validate scheme before assigning to href — blocks javascript: URIs (XSS).
   if (s.trackUrl && /^https:\/\//i.test(s.trackUrl)) {
@@ -192,9 +210,12 @@ function renderState(s) {
   statusDot.classList.add('np-status-dot--playing');
 
   hexController.setPlaying(true);
-  // Intensity: fraction through the track, boosted toward middle for energy
+  // Intensity: arc over the track when progress is known (Worker mode).
+  // Last.fm provides no position (durationMs=0) — previously this froze the
+  // lattice at 0.4 forever; now it rests at a living mid-energy and lets the
+  // phrasing swells + per-track signature carry the motion honestly.
   const frac      = s.durationMs > 0 ? Math.min(s.progressMs / s.durationMs, 1) : 0;
-  const intensity = 0.4 + 0.6 * Math.sin(frac * Math.PI);
+  const intensity = s.durationMs > 0 ? (0.4 + 0.6 * Math.sin(frac * Math.PI)) : 0.55;
   hexController.setIntensity(intensity);
 
   // Paint progress immediately; rAF interpolation refines it between polls. This
@@ -209,6 +230,8 @@ function renderState(s) {
   // aria-live: announce track change (not every progress tick)
   const key = `${s.title}|${s.artist}`;
   if (key !== lastRenderedKey) {
+    // Per-track visual signature — honest: derived from identity, not audio.
+    hexController.setSeed(key);
     live.textContent = s.title && s.artist
       ? `Now playing: ${s.title} by ${s.artist}`
       : 'Now playing';

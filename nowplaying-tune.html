@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waveform Tuning Bench · DEV ONLY</title>
+<meta name="robots" content="noindex, nofollow">
+<!-- DEV BENCH — never linked, never in the sitemap. The live widget below runs on
+     real Last.fm data: play music and watch. Buttons flip tuning presets and
+     simulate song-changes so signatures can be compared without changing tracks. -->
+<link rel="stylesheet" href="/nowplaying.css">
+<style>
+  :root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+    --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;gap:1.2rem;padding:2.4rem 1.2rem}
+  h1{font-size:1rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+  .note{font-size:.78rem;color:var(--dim);letter-spacing:.06em;max-width:34rem;text-align:center;line-height:1.6}
+  #now-playing{width:100%;max-width:560px}
+  .bench{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.6rem}
+  .bench button{font-family:inherit;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold);background:transparent;border:1px solid rgba(255,214,10,.35);
+    padding:.5rem .8rem;border-radius:2px;cursor:pointer;transition:.15s ease}
+  .bench button:hover{border-color:var(--gold);background:rgba(255,214,10,.06)}
+  .bench button.on{color:#fff;border-color:rgba(14,68,255,.8);background:rgba(14,68,255,.14);
+    text-shadow:0 0 6px rgba(14,68,255,.8)}
+  .row-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);width:100%;text-align:center;margin-top:.4rem}
+  #seedlog{font-size:.7rem;color:var(--dim);letter-spacing:.05em;min-height:1.2em}
+</style>
+</head>
+<body>
+  <h1>Waveform Tuning Bench</h1>
+  <p class="note">DEV ONLY. The widget below is LIVE (your real Last.fm scrobbles). Play the sequence —
+    Intermission → B.O.B.B.Y. → Lux Aeterna → Interstellar — and watch each song wear its own face.
+    Flip presets mid-song to compare characters.</p>
+
+  <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
+
+  <div class="bench">
+    <span class="row-label">Tuning preset</span>
+    <button id="b-phr" class="on" onclick="window.__hex.setTune('phrasing');mark(this)">Phrasing (BD82 tune)</button>
+    <button id="b-base" onclick="window.__hex.setTune('baseline');mark(this)">Baseline (shipped)</button>
+    <span class="row-label">Signature preview (simulated song-changes — does not touch your music)</span>
+    <button onclick="fakeSeed('Intermission|TOOL')">Seed: Intermission</button>
+    <button onclick="fakeSeed('B.O.B.B.Y.|RZA')">Seed: B.O.B.B.Y.</button>
+    <button onclick="fakeSeed('Lux Aeterna|Clint Mansell')">Seed: Lux Aeterna</button>
+    <button onclick="fakeSeed('Dreaming of the Crash|Hans Zimmer')">Seed: Interstellar</button>
+    <button onclick="fakeSeed(String(Math.random()))">Seed: random</button>
+  </div>
+  <div id="seedlog"></div>
+
+  <script>
+    function mark(btn){ document.getElementById('b-phr').classList.remove('on');
+      document.getElementById('b-base').classList.remove('on'); btn.classList.add('on'); }
+    function fakeSeed(k){ if(window.__hex){ window.__hex.setSeed(k);
+      document.getElementById('seedlog').textContent = 'signature: ' + k; } }
+    // ensure the bench hook engages even without ?tune-bench in the URL
+    if (location.search.indexOf('tune-bench') === -1) {
+      history.replaceState(null, '', location.pathname + '?tune-bench');
+    }
+  </script>
+  <script type="module" src="/nowplaying.js?v=bench"></script>
+</body>
+</html>
