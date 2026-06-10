@@ -48,7 +48,7 @@ const DAILY = [
     science: { label:"Gravitational Lensing", name:"the wrapped disk",  work:"why it's above and below",   why:"Gargantua bends the far side of the accretion disk up and over the shadow — so you see the same disk twice, around the equator and arching overhead.", link:"https://en.wikipedia.org/wiki/Gravitational_lens" },
     book:    { label:"The Singularity", name:"Kip Thorne",              work:"The Science of Interstellar", why:"At the center, relativity predicts infinite curvature and then breaks down — the one place the film's science is honestly speculation.", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar" },
     artist:  { label:"The Disk, Real", name:"Event Horizon Telescope", work:"M87*, 2019",                 why:"Five years after Gargantua, 200+ scientists photographed a real black hole — brighter on one side from Doppler beaming, the asymmetry the film left out.", link:"https://en.wikipedia.org/wiki/Messier_87" },
-    show:    { label:"Near-Maximal Spin", name:"the Kerr limit",        work:"~99.8% of maximum",          why:"Gargantua must spin almost as fast as physics allows — only that extreme keeps Miller's planet in its close, time-warped orbit.", link:"https://en.wikipedia.org/wiki/Kerr_metric" }
+    show:    { label:"Near-Maximal Spin", name:"the Kerr limit",        work:"~99.8% of maximum",          why:"Gargantua must spin almost as fast as physics allows — only that extreme keeps Miller's planet in its close, time-warped orbit.", link:"/references/kerr-metric/" }
   },
   {
     num: "005", theme: "Interstellar", date: "2026-06-12",
@@ -63,11 +63,11 @@ const DAILY = [
   {
     num: "006", theme: "Interstellar", date: "2026-06-13",
     intro: "Interstellar week, Saturday — <em>the summit.</em> Where the beauty dissolves into the machinery: a two-page 1963 paper, a renderer built on geodesics, and one honest physicist who labels his own climax \"speculation.\"",
-    music:   { label:"The Kerr Metric", name:"Roy Kerr, 1963",        work:"the spinning-hole solution", why:"In two pages, Kerr solved Einstein's equations for a rotating mass — the one object that governs every spinning black hole, Gargantua included.", link:"https://en.wikipedia.org/wiki/Kerr_metric" },
+    music:   { label:"The Kerr Metric", name:"Roy Kerr, 1963",        work:"the spinning-hole solution", why:"In two pages, Kerr solved Einstein's equations for a rotating mass — the one object that governs every spinning black hole, Gargantua included.", link:"/references/kerr-metric/" },
     film:    { label:"The Renderer", name:"DNGR",                     work:"ray-bundles through spacetime", why:"Instead of one ray per pixel, it pushed whole bundles through Kerr geometry — the first IMAX-grade images of a physically correct spinning black hole.", link:"https://iopscience.iop.org/article/10.1088/0264-9381/32/6/065001" },
     science: { label:"The Paper from the Movie", name:"James, von Tunzelmann, Franklin & Thorne", work:"Class. Quantum Gravity, 2015", why:"Run as a research instrument, the renderer found caustics near a fast-spinning hole make up to 13 images of one star — a real result the VFX set up.", link:"https://arxiv.org/abs/1502.03808" },
     book:    { label:"The Equations, Shown", name:"Kip Thorne",        work:"The Science of Interstellar", why:"He walks every established result equation by equation, then draws a hard line: the bulk, the tesseract — labeled, explicitly, an educated guess.", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar" },
-    artist:  { label:"The Man Who Found It", name:"Roy Kerr",         work:"and the 2023 stability proof", why:"Kerr found his solution by spotting the flaw in a proof it couldn't exist — and six decades later, mathematicians proved Kerr black holes are stable.", link:"https://www.britannica.com/biography/Roy-P-Kerr" },
+    artist:  { label:"The Man Who Found It", name:"Roy Kerr",         work:"and the 2023 stability proof", why:"Kerr found his solution by spotting the flaw in a proof it couldn't exist — and six decades later, mathematicians proved Kerr black holes are stable.", link:"/references/kerr-metric/" },
     show:    { label:"The Honest Edge", name:"truth / guess / speculation", work:"Thorne's own taxonomy",  why:"He sorts the film's science into three tiers, so you know exactly where established physics ends and the story takes over.", link:"https://www.sciencefriday.com/articles/truth-educated-guesses-and-speculations-in-interstellar/" }
   },
   {
