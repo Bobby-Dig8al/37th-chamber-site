@@ -175,6 +175,24 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://37th-chamber.com/references/kierkegaard/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://37th-chamber.com/references/sartre/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://37th-chamber.com/references/frankl/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://37th-chamber.com/montage/</loc>
     <lastmod>2026-06-10</lastmod>
     <changefreq>monthly</changefreq>
