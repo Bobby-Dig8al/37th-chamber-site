@@ -1,0 +1,16 @@
+{
+  "name": "37th-chamber-tests",
+  "private": true,
+  "type": "module",
+  "description": "Browser + a11y regression tests for the 37th Chamber site (Washington Square board first).",
+  "scripts": {
+    "test": "playwright test",
+    "test:desktop": "playwright test --project=desktop",
+    "test:mobile": "playwright test --project=mobile",
+    "install:browser": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@axe-core/playwright": "^4.9.0"
+  }
+}

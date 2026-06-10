@@ -88,11 +88,26 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Dispatch navigation">
   <a class="back" href="/dispatches/">&larr;&nbsp;Dispatches</a>
   <span class="meta-pill"><span class="num">Field Note 001</span> &middot; 2026&middot;06&middot;06 &middot; AI &middot; practice</span>
@@ -128,7 +143,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   <div class="move">
     <h3><span class="num">02</span>Read the code, not just the comment</h3>
     <h4 class="h">For code: ignore the explanation. Read the body.</h4>
-    <p>AI-written code comes with a story: &ldquo;This function does X by doing Y.&rdquo; The story is often correct and pleasant. It is also <em>generated separately from the code itself</em>. The two can drift. The story can describe behavior the code doesn&rsquo;t implement, or paper over a subtle bug the code has.</p>
+    <p>AI-written code comes with a story: &ldquo;This function does X by doing Y.&rdquo; The story is often correct and pleasant. But the model writes it <em>without re-reading or verifying the code it just produced</em> &mdash; there is no checking step between them. The two can drift. The story can describe behavior the code doesn&rsquo;t implement, or paper over a subtle bug the code has.</p>
     <p>The move is simple: <strong>cover the comments and explanations and read what the code actually does, line by line.</strong> Trace one input through it by hand. If it does what the story says, fine. If it doesn&rsquo;t, you&rsquo;ve just caught the drift &mdash; before production caught it for you.</p>
   </div>
 

@@ -107,6 +107,12 @@ body::before{
   font-size:clamp(1rem,3vw,1.18rem);line-height:1.62}
 .lede em{color:var(--gold);font-style:normal}
 
+/* ---- the Hearth (now-playing) — match the Daily's spine ----
+   .wrap is a centered flex column, so an unsized child shrink-wraps to content:
+   the widget's width was breathing with the SONG TITLE length (operator-caught,
+   Day-41). width:100% pins it to the column — stable, aligned, no per-track jump. */
+#now-playing{width:100%}
+
 /* ---- section label ---- */
 .section-label{margin:3.4rem 0 1.1rem;align-self:stretch;display:flex;align-items:center;gap:1rem;
   color:var(--dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase}
@@ -202,11 +208,26 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 .skip-link:focus{left:.5rem;top:.5rem}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 .card:hover,.flagship:hover,.ch.built:hover{transform:none}}
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
   <main class="wrap" id="main">
     <header style="display:flex;flex-direction:column;align-items:center;width:100%">
       <div class="eyebrow">Est. at the base of the AI tsunami · The Woodlands, TX</div>
@@ -242,23 +263,19 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p style="margin:0;color:var(--dim)">marc.</p>
       <p style="margin:0;color:var(--dim)">hey, marc.</p>
       <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
-      <p style="margin:0;color:var(--text)"><span style="color:var(--gold);font-weight:600">39</span> days ago i wasn't sure i could do this.</p>
+      <p style="margin:0;color:var(--text)"><span id="day-count" style="color:var(--gold);font-weight:600">41</span> days ago i wasn't sure i could do this.</p>
       <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
     </div>
 
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
-    <div id="now-playing" data-worker-url=""></div>
+    <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
 
-    <!-- TEASER (temporary — remove ~07:00 when the live now-playing widget takes over) -->
-    <p class="np-tease" style="text-align:center;max-width:34rem;margin:-.2rem auto 1.7rem;font-size:clamp(.78rem,2.2vw,.9rem);letter-spacing:.05em;line-height:1.6;color:var(--dim)"><span style="color:var(--gold);font-weight:600;text-shadow:0 0 7px rgba(14,68,255,.6),0 0 16px rgba(14,68,255,.35)">&#9834; See the waveform come to life &mdash; tonight at 21:00</span> &mdash; for the first time: the full <em style="color:var(--gold);font-style:normal">Interstellar</em> soundtrack, on loop for 24 hours.</p>
-
-    <!-- LINER NOTE (opening-night grace) -->
-    <p class="np-liner" style="text-align:center;max-width:32rem;margin:-.9rem auto 1.9rem;font-size:clamp(.72rem,2vw,.82rem);letter-spacing:.04em;line-height:1.65;color:var(--dim)">Opening with <em style="color:var(--gold-soft)">Lux Aeterna</em>. May eternal light shine on this place.</p>
+    <!-- WEEKLY LINER SLOT — teaser + opening-night liner retired 2026-06-10 (launch-night artifacts; opening night was 2026-06-09 21:00, Lux Aeterna → Interstellar). The slot returns Sunday night → Monday with each new themed week. -->
 
     <!-- THE DAILY: six good people, every day -->
     <section id="the-daily" aria-label="The Daily">
       <div class="section-label">The Daily</div>
-      <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to producer Lynda Obst (~1980 blind date); together they conceived the film twenty-five years later. Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
+      <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to Lynda Obst (~1980 blind date); she became a Hollywood producer, and together they conceived the film twenty-five years later. Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
 
       <div class="grid">
         <a class="card" href="https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" target="_blank" rel="noopener"><span class="k">&#127925; Hans Zimmer &mdash; Interstellar (OST)</span><span class="d">The organ that turns a docking scene into a prayer.</span><span class="go">listen &rarr;</span></a>
@@ -270,15 +287,16 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       </div>
     </section>
 
-    <!-- FLAGSHIP: the live chamber -->
+    <!-- FLAGSHIP: the starting point — the Opaque Box (operator call, Day-41 night:
+         the chess chamber returns to the workshop until it earns the front door) -->
     <h2 class="section-label">Start here</h2>
-    <a class="flagship" href="chambers/washington-square/">
+    <a class="flagship" href="library/the-opaque-box/01-from-text-to-numbers.html">
       <div class="tagrow">
         <span class="chip live">● Live</span>
-        <span class="k">Washington Square</span>
+        <span class="k">The Opaque Box</span>
       </div>
-      <p class="d">The chess chamber — and the prototype that proves the engine. Step in and train against a board that knows the rules cold, explains the idea behind every challenge, and meets you where you are. Honest, engine-verified, free. The pattern every chamber inherits.</p>
-      <span class="go">Enter the chamber →</span>
+      <p class="d">How the mind made of numbers actually works — starting from the only honest place: how text becomes numbers at all. No prerequisites, no hand-waving, every claim cited. The book this whole temple is built to give away. This is the starting point.</p>
+      <span class="go">Open the book →</span>
     </a>
 
     <!-- WORK WITH ME — the revenue bridge (the door the free chambers fund) -->
@@ -360,7 +378,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <h3>The Games — the founding form</h3>
         <div class="chambers">
           <a class="ch built" href="chambers/washington-square/"><span class="n">01</span> Chess · Washington Square <span class="tag">Live</span></a>
-          <a class="ch built" href="chambers/go/"><span class="n">19</span> Go · GO: LeeDemis v1.0 <span class="tag">Parable</span></a>
+          <a class="ch built" href="chambers/go/"><span class="n">19</span> Go · Move 37 <span class="tag">Parable</span></a>
           <span class="ch"><span class="n">02</span> Poker — learn to play</span>
           <span class="ch"><span class="n">03</span> Poker dealing</span>
         </div>
@@ -445,6 +463,17 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="go">The faceless man →</span>
       </a>
     </div>
+
+    <!-- THE DECLARATION — operator-authored, operator-placed Day-41 ("unapologetically"),
+         moved to the page's close same night ("too long up top… don't want to lose any of it. maybe move").
+         The signature line: manifestos END with declarations. Basquiat signed at the bottom.
+         The visitor's last word on leaving is "freedom." Verbatim; the Blue Law's one permitted fire. -->
+    <div class="declaration" style="max-width:34rem;margin:4.5rem auto 1rem;text-align:center;line-height:2;letter-spacing:.12em;text-transform:uppercase;font-size:clamp(.78rem,2.3vw,.92rem)">
+      <p style="margin:0;color:var(--dim)">fuck the ministries of truth, war, plenty and pigs:</p>
+      <p style="margin:.4rem 0 0;color:var(--text)">war is not peace</p>
+      <p style="margin:0;color:var(--text)">ignorance is weakness</p>
+      <p style="margin:.6rem 0 0;font-weight:700;letter-spacing:.2em;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)">freedom.</p>
+    </div>
   </main>
 
   <footer>
@@ -484,5 +513,6 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   </footer>
   <script src="/daily.js?v=9" defer></script>
   <script type="module" src="/nowplaying.js"></script>
+<script>(function(){try{var s=Date.parse("2026-05-01T00:00:00-05:00");var d=Math.floor((Date.now()-s)/864e5)+1;var el=document.getElementById("day-count");if(el&&d>0)el.textContent=d;}catch(e){}})();</script>
 </body>
 </html>

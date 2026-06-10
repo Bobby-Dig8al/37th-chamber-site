@@ -114,11 +114,26 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Chapter navigation">
   <a class="back" href="/library/">&larr;&nbsp;The Library</a>
   <div class="chnav">
@@ -137,7 +152,7 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
 
   <h2 id="s2-1">2.1&nbsp;&nbsp;Why an ID isn&rsquo;t enough</h2>
   <p>After Chapter 1, <code>"the"</code> might be token <code>256</code>. But if we feed the raw integer <code>256</code> into the network, we&rsquo;ve told it a lie: that <code>256</code> is &ldquo;more&rdquo; than <code>255</code> and &ldquo;half of&rdquo; <code>512</code>. Integers carry an ordering and a magnitude that token IDs do not have. The IDs are <em>categorical</em> &mdash; arbitrary labels.</p>
-  <p>The fix: give every token its own <strong>vector</strong> &mdash; a list of <code>d_model</code> real numbers (we&rsquo;ll use 384). Now a token isn&rsquo;t a scalar with a fake magnitude; it&rsquo;s a <em>direction</em> in a 384-dimensional space, and the model is free to <em>learn</em> where each token should sit. Tokens used in similar ways drift to similar directions. This is the famous result where <em>&ldquo;king &minus; man + woman &asymp; queen&rdquo;</em> &mdash; relationships become geometry. We don&rsquo;t hand-build that; we give each token a learnable vector and let training move it.</p>
+  <p>The fix: give every token its own <strong>vector</strong> &mdash; a list of <code>d_model</code> real numbers (we&rsquo;ll use 384). Now a token isn&rsquo;t a scalar with a fake magnitude; it&rsquo;s a <em>direction</em> in a 384-dimensional space, and the model is free to <em>learn</em> where each token should sit. Tokens used in similar ways drift to similar directions. This is the famous result where <em>&ldquo;king &minus; man + woman &asymp; queen&rdquo;</em> (Mikolov et&nbsp;al., 2013) &mdash; relationships become geometry. We don&rsquo;t hand-build that; we give each token a learnable vector and let training move it.</p>
 
   <hr class="rule">
 
@@ -288,7 +303,7 @@ print(out.shape)        # (32, 256, 384)  == (B, T, C)</code></pre>
     <a href="/library/the-opaque-box/03-attention.html">Read Ch&nbsp;3 &rarr;</a>
   </div>
 
-  <p class="note-source">A 37th-Chamber original. Mechanism cited (Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017); all prose and code written fresh.</p>
+  <p class="note-source">A 37th-Chamber original. Mechanism cited (Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017; Mikolov et al., <em>&ldquo;Linguistic Regularities in Continuous Space Word Representations,&rdquo;</em> 2013); all prose and code written fresh.</p>
 </main>
 
 <footer>

@@ -63,11 +63,26 @@ footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
 :focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
   <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
   <main class="wrap" id="main">
     <h1>References</h1>
@@ -79,7 +94,7 @@ footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
 
     <h2>Methods &amp; Code</h2>
     <ul>
-      <li><a href="https://github.com/jhlywa/chess.js" target="_blank" rel="noopener noreferrer">chess.js<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Jeff Hlywa (BSD-2). The real engine inside the Washington Square chess chamber.</span></li>
+      <li><a href="https://github.com/jhlywa/chess.js" target="_blank" rel="noopener noreferrer">chess.js<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Jeff Hlywa (BSD-2-Clause). The real engine inside the Washington Square chess chamber.</span></li>
       <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">Attention Is All You Need<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Vaswani et al., 2017. The transformer; the spine of The Opaque Box.</span></li>
       <li><a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener noreferrer">Neural Machine Translation by Jointly Learning to Align and Translate<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Bahdanau et al., 2014. The roots of attention.</span></li>
       <li><a href="https://arxiv.org/abs/1508.07909" target="_blank" rel="noopener noreferrer">Neural Machine Translation of Rare Words with Subword Units<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Sennrich, Haddow &amp; Birch, 2016. Byte-pair encoding.</span></li>
@@ -89,17 +104,18 @@ footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
     <h2>Books &amp; Ideas</h2>
     <ul>
       <li><a href="https://en.wikipedia.org/wiki/Nineteen_Eighty-Four" target="_blank" rel="noopener noreferrer">Nineteen Eighty-Four<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— George Orwell, 1949.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/All_Watched_Over_by_Machines_of_Loving_Grace" target="_blank" rel="noopener noreferrer">All Watched Over by Machines of Loving Grace<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Richard Brautigan, 1967. The lineage of the mission.</span></li>
+      <li><a href="/references/loving-grace/">All Watched Over by Machines of Loving Grace</a> <span class="what">— Richard Brautigan, 1967. The lineage of the mission.</span></li>
+      <li><a href="/references/contact/">Contact</a> <span class="what">— Carl Sagan, 1985. The novel that asked a physicist for honesty and got a new branch of science.</span></li>
     </ul>
 
     <h2>Philosophy &amp; the Existential</h2>
     <ul>
-      <li><a href="https://en.wikipedia.org/wiki/S%C3%B8ren_Kierkegaard" target="_blank" rel="noopener noreferrer">Søren Kierkegaard<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— the individual before the infinite; the leap.</span></li>
+      <li><a href="/references/kierkegaard/">Søren Kierkegaard</a> <span class="what">— the individual before the infinite; the leap.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Friedrich_Nietzsche" target="_blank" rel="noopener noreferrer">Friedrich Nietzsche<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— create your own values; amor fati.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Jean-Paul_Sartre" target="_blank" rel="noopener noreferrer">Jean-Paul Sartre<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— existence precedes essence; condemned to be free.</span></li>
+      <li><a href="/references/sartre/">Jean-Paul Sartre</a> <span class="what">— existence precedes essence; condemned to be free.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Albert_Camus" target="_blank" rel="noopener noreferrer">Albert Camus<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— the absurd, and the revolt that answers it.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Simone_de_Beauvoir" target="_blank" rel="noopener noreferrer">Simone de Beauvoir<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— freedom is always situated; the ethics of ambiguity.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Viktor_Frankl" target="_blank" rel="noopener noreferrer">Viktor Frankl<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— meaning as the last freedom we keep.</span></li>
+      <li><a href="/references/frankl/">Viktor Frankl</a> <span class="what">— meaning as the last freedom we keep.</span></li>
     </ul>
 
     <h2>Music</h2>
@@ -107,10 +123,30 @@ footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
       <li><a href="https://www.benharper.com" target="_blank" rel="noopener noreferrer">Ben Harper<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— a conscience with a slide guitar.</span></li>
       <li><a href="https://www.radiohead.com" target="_blank" rel="noopener noreferrer">Radiohead<span class="sr-only"> (opens in new tab)</span></a> / Thom Yorke <span class="what">— saved for last.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Rival_Consoles" target="_blank" rel="noopener noreferrer">Rival Consoles<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— the anchor of the soundtrack that was, and is, the project.</span></li>
+      <li><a href="/references/interstellar-soundtrack/">The Interstellar Soundtrack</a> <span class="what">— Hans Zimmer, 2014. One page, one night, one organ.</span></li>
+    </ul>
+
+    <h2>Art</h2>
+    <ul>
+      <li><a href="/references/chesley-bonestell/">Chesley Bonestell</a> <span class="what">— the father of space art; made the cosmos visible decades before any probe could.</span></li>
+      <li><a href="/references/persistence-of-memory/">The Persistence of Memory</a> <span class="what">— Salvador Dal&iacute;, 1931. Time made liquid &mdash; read honestly, both ways.</span></li>
+    </ul>
+
+    <h2>Film &amp; Science</h2>
+    <ul>
+      <li><a href="/references/interstellar-film/">Interstellar</a> <span class="what">— Christopher Nolan, 2014. The film that ran real physics through a renderer and called it art.</span></li>
+      <li><a href="/references/making-interstellar/">The Making of Interstellar</a> <span class="what">— Eight years, two directors, one pact. From a 1980 blind date to a peer-reviewed black hole.</span></li>
+      <li><a href="/references/kip-thorne/">Kip Thorne</a> <span class="what">— The physicist who held the line. Nobel laureate, wormhole theorist, executive producer.</span></li>
+      <li><a href="/references/kerr-metric/">The Kerr Metric</a> <span class="what">— Roy Kerr, 1963. Two pages, found at UT Austin, that govern every spinning black hole there is.</span></li>
+      <li><a href="/references/the-wormhole/">The Wormhole</a> <span class="what">— From Einstein&rsquo;s wall (1935) to Thorne&rsquo;s door (1988).</span></li>
+      <li><a href="/references/time-dilation/">Time Dilation</a> <span class="what">— Langevin&rsquo;s twin, atomic clocks on airliners, and the GPS in your pocket.</span></li>
+      <li><a href="/references/gravitational-lensing/">Gravitational Lensing</a> <span class="what">— Eddington&rsquo;s eclipse to the photograph of M87*. Why you can see behind a black hole.</span></li>
+      <li><a href="/references/dark/">Dark</a> <span class="what">— Odar &amp; Friese, 2017&ndash;2020. Time&rsquo;s violence on family, taken further.</span></li>
     </ul>
 
     <h2>Minds &amp; Makers</h2>
     <ul>
+      <li><a href="/references/carl-sagan/">Carl Sagan</a> <span class="what">— the astronomer who made a generation feel the universe. Cosmos, Contact, and the Pale Blue Dot.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Nikola_Tesla" target="_blank" rel="noopener noreferrer">Nikola Tesla<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— built the modern world out of electrons, and gave it away.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Hayao_Miyazaki" target="_blank" rel="noopener noreferrer">Hayao Miyazaki<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— craft as devotion.</span></li>
       <li><a href="https://en.wikipedia.org/wiki/Vincent_van_Gogh" target="_blank" rel="noopener noreferrer">Vincent van Gogh<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— unseen in his own time.</span></li>
