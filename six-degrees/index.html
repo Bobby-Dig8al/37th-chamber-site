@@ -596,14 +596,24 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       - shows "Chain started" mark on cards the visitor has already shared from
       - shows total count above the grid ("Chains you've started: N")
     - No network calls; no remote state. Real interactivity, no backend.
+    - Real chains get a public ledger (a GitHub issue, label "six-degrees"); the LEDGERS
+      map in the script carries one line per REAL chain - born when a hand moves, never
+      pre-stocked. Share text links the ledger (or the progress page if none exists yet).
     - Falls back gracefully when JS is disabled (v0 informational layout still renders).
   -->
   <script>
   (function () {
     var STORAGE_KEY = '37chain.started';
     var SITE_URL = 'https://37th-chamber.com/six-degrees/';
+    var PROGRESS_URL = 'https://37th-chamber.com/six-degrees/progress/';
+    // LEDGERS — one line per REAL chain (mesa rule: a ledger is born when a hand
+    // actually moves; never pre-stocked). A chain's public ledger = its GitHub issue.
+    var LEDGERS = {
+      'Marc Maron': 'https://github.com/Bobby-Dig8al/37th-chamber-site/issues/15'
+    };
     function template(giant) {
-      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\n" + SITE_URL;
+      var ledger = LEDGERS[giant] || PROGRESS_URL;
+      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\nFollow this chain in the open: " + ledger + "\n" + SITE_URL;
     }
 
     var cs = document.getElementById('chainstarter');
