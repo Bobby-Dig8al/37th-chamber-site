@@ -82,11 +82,26 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Philosophy</span> &middot; Viktor Frankl &middot; 1905&ndash;1997</span>
@@ -99,7 +114,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 
   <hr class="rule">
 
-  <p>Vienna, 1942. A psychiatrist of growing reputation &mdash; one who had already spent years developing a therapy built on the premise that meaning sustains human life &mdash; was deported with his family to <strong>Theresienstadt</strong>. His father Gabriel died there, of starvation and pneumonia, in February 1943. In 1944 Frankl was transported to <strong>Auschwitz</strong>, where his mother and his brother Walter were killed. His wife Tilly was separated from him and died of typhus at Bergen-Belsen. He moved on through the Dachau subcamps <strong>Kaufering III</strong> and <strong>T&uuml;rkheim</strong>, arriving at liberation on 27 April 1945.</p>
+  <p>Vienna, 1942. A psychiatrist of growing reputation &mdash; one who had already spent years developing a therapy built on the premise that meaning sustains human life &mdash; was deported along with his parents to <strong>Theresienstadt</strong>; his wife Tilly, who held a temporary exemption, was forced to follow. His father Gabriel died there, of starvation and pneumonia, in February 1943. In 1944 Frankl was transported to <strong>Auschwitz</strong>, where his mother and his brother Walter were killed. His wife Tilly was separated from him and died of typhus at Bergen-Belsen. He moved on through the Dachau subcamps <strong>Kaufering III</strong> and <strong>T&uuml;rkheim</strong>, arriving at liberation on 27 April 1945.</p>
   <p>He lost nearly everyone. What he did not lose, and what he had been building arguments about before any of it happened, was the conviction that <em>meaning cannot be taken by force</em>. The Nazis could control every physical condition of his existence. They could not determine what he made of it.</p>
 
   <h2>The argument, sharpened in the camps</h2>
@@ -119,7 +134,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 
   <h2>A note on one famous misattribution</h2>
   <p>The line &ldquo;Between stimulus and response there is a space. In that space is our power to choose our response&rdquo; is attributed to Frankl almost everywhere it appears. It is not from his work. Researchers have found no trace of it in anything he wrote. The Viktor Frankl Institute Vienna has stated the same directly on their website.</p>
-  <p>The trail runs through Stephen Covey, who used language close to it in <em>The 7 Habits of Highly Effective People</em> (1989) while discussing Frankl &mdash; but Covey did not claim to be quoting Frankl directly, and later said he had encountered the formulation in a library book he could not identify. Quote Investigator has traced the most likely source to Rollo May, whose 1963 article &ldquo;Freedom and Responsibility Re-Examined&rdquo; and 1975 book <em>The Courage to Create</em> both contain the core idea in recognizable form.</p>
+  <p>The trail runs through Stephen Covey, who used language close to it in <em>The 7 Habits of Highly Effective People</em> (1989) while discussing Frankl &mdash; but Covey did not claim to be quoting Frankl directly, and later said he had encountered the formulation in a library book he could not identify. Quote Investigator has traced the most likely source to Rollo May, whose 1963 article &ldquo;Freedom and Responsibility Re-Examined&rdquo; contains the core idea in recognizable form.</p>
   <p>The sentiment is real Frankl territory. The words are not his. This house prefers the real over the convenient, so the record is corrected here.</p>
 
   <h2>Died in Vienna, 1997</h2>

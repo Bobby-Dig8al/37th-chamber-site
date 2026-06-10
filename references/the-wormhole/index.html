@@ -81,11 +81,26 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Science</span> &middot; Einstein &rarr; Thorne &middot; 1935&ndash;1988</span>
@@ -102,7 +117,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   <p>They published the idea in <em>Physical Review</em> in 1935. The structure they found was real &mdash; a genuine solution to Einstein&rsquo;s equations. Later it would be called an Einstein&ndash;Rosen bridge. But there was a problem, and it was decisive: the bridge was <em>not a door.</em> It snapped shut instantly. Nothing &mdash; no signal, no particle, not even a photon moving at the speed of light &mdash; could pass through before the throat pinched off. It was a wall wearing the shape of a passage.</p>
 
   <h2>Wheeler names it</h2>
-  <p>For two decades the bridge sat in the literature as a mathematical object, more curiosity than physics. Then, in <strong>1957</strong>, John Archibald Wheeler came along. Wheeler was one of the great renamers of physics &mdash; he gave us &ldquo;black hole,&rdquo; &ldquo;neutron star,&rdquo; a dozen others &mdash; and he gave us this one too. He called it a <strong>wormhole</strong>. He also described <em>quantum foam</em>: the idea that at the very smallest scales of spacetime, at distances so tiny they make an atom look like a galaxy, the geometry is not smooth but seething &mdash; wormholes blinking into and out of existence at the Planck scale, a constant fizz beneath the fabric of everything.</p>
+  <p>For two decades the bridge sat in the literature as a mathematical object, more curiosity than physics. Then, in <strong>1957</strong>, John Archibald Wheeler came along. Wheeler was one of the great renamers of physics &mdash; he gave us &ldquo;black hole,&rdquo; &ldquo;quantum foam,&rdquo; a dozen others &mdash; and he gave us this one too. He called it a <strong>wormhole</strong>. He also described <em>quantum foam</em>: the idea that at the very smallest scales of spacetime, at distances so tiny they make an atom look like a galaxy, the geometry is not smooth but seething &mdash; wormholes blinking into and out of existence at the Planck scale, a constant fizz beneath the fabric of everything.</p>
   <p>The name stuck. The concept was vivid and precise. But the original verdict held: wormholes, as Einstein and Rosen found them, were not traversable. The question of whether any wormhole <em>could</em> be traversable lay dormant for another three decades.</p>
 
   <h2>The novelist&rsquo;s question</h2>

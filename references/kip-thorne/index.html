@@ -81,11 +81,26 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Science</span> &middot; Kip Thorne &middot; b. 1940</span>
@@ -113,7 +128,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 
   <h2>Half a century of patience</h2>
   <p>While Thorne was advising films, he was also tending something older and larger. <strong>LIGO</strong> &mdash; the Laser Interferometer Gravitational-Wave Observatory &mdash; had been his project for decades, built on a prediction in Einstein&rsquo;s equations that almost no one believed could be tested. The idea: when two massive objects merge somewhere in the universe, they send ripples through spacetime itself. Those ripples, called gravitational waves, would arrive at Earth as a compression and stretching of space smaller than a thousandth the width of a proton. To detect them, you would need a machine of almost impossible precision and the patience to wait for the right event.</p>
-  <p>On September 14, 2015, LIGO heard it: two black holes, each roughly thirty times the mass of the Sun, spiraling together and merging <em>1.3 billion light-years away</em>. The signal lasted a fifth of a second. The spacetime distortion it produced, arriving at Earth, was twenty-one orders of magnitude smaller than the arm length of the detector. The instrument caught it anyway. Einstein had predicted gravitational waves in 1916. It took <strong>a century</strong> to confirm them.</p>
+  <p>On September 14, 2015, LIGO heard it: two black holes &mdash; roughly 36 and 29 times the mass of the Sun, spiraling together and merging <em>1.3 billion light-years away</em>. The signal lasted a fifth of a second. The spacetime distortion it produced, arriving at Earth, was twenty-one orders of magnitude smaller than the arm length of the detector. The instrument caught it anyway. Einstein had predicted gravitational waves in 1916. It took <strong>a century</strong> to confirm them.</p>
   <p>In 2017, Kip Thorne shared the Nobel Prize in Physics with Rainer Weiss and Barry Barish for their decisive contributions to LIGO and the observation of gravitational waves. The citation is exact: <em>decisive contributions</em>. Not building it alone. Decades of scientific case-making, collaboration, and insistence that the measurement was worth attempting &mdash; that the universe owed us the signal if we built the ear.</p>
 
   <div class="roots">

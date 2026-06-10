@@ -225,11 +225,26 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
   <main class="wrap" id="main">
     <a class="back" href="/">&larr; 37th Chamber</a>
 
@@ -399,7 +414,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="chip">Comedy · podcast</span>
         <span class="who">Marc Maron</span>
         <span class="role">WTF</span>
-        <span class="d">A master interviewer who&rsquo;d <em>get</em> the story instantly &mdash; the podcast&rsquo;s openness makes him reachable.</span>
+        <span class="d">A master interviewer who&rsquo;d <em>get</em> the story instantly &mdash; sixteen years of WTF (ended 2025) made him the openest door in comedy, and he&rsquo;s still out there on the road.</span>
         <span class="winnable">&#9733; Reachable &mdash; an early-win candidate</span>
       </div>
 
@@ -449,7 +464,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="chip">DeepMind</span>
         <span class="who">Demis Hassabis</span>
         <span class="role">DeepMind &middot; AlphaGo &middot; AlphaFold</span>
-        <span class="d">He led the team that taught a machine the most intuitive game humans made &mdash; then turned it on protein folding (AlphaFold) and shared the 2024 Nobel Prize in Chemistry (with John Jumper and David Baker). AI aimed straight at the good of humanity.</span>
+        <span class="d">He led the team that taught a machine the most intuitive game humans made &mdash; then turned it on protein folding (AlphaFold) and shared the 2024 Nobel Prize in Chemistry &mdash; half to David Baker, half jointly to Hassabis and John Jumper. AI aimed straight at the good of humanity.</span>
       </div>
 
       <div class="team">

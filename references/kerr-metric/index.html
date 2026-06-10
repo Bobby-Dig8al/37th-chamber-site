@@ -76,6 +76,12 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
   text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
 .skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:1;margin:0 0 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}
 :focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
@@ -86,6 +92,15 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Science</span> &middot; Roy Kerr &middot; 1963</span>

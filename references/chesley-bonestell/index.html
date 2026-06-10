@@ -81,11 +81,26 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Art</span> &middot; Chesley Bonestell &middot; 1888&ndash;1986</span>
@@ -98,9 +113,9 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 
   <hr class="rule">
 
-  <p>Chesley Bonestell was born on January 1, 1888, in San Francisco &mdash; two years before the Eiffel Tower was finished, fifteen years before the Wright Brothers flew. He died on June 11, 1986, two years before the Voyager probes reached the edge of the solar system. In the span of that one life, humanity went from <em>no one had ever seen what lay beyond the atmosphere</em> to <em>we have photographs from the surface of Mars.</em> Bonestell didn&rsquo;t just witness that arc. He helped pull it forward.</p>
+  <p>Chesley Bonestell was born on January 1, 1888, in San Francisco &mdash; one year before the Eiffel Tower was finished, fifteen years before the Wright Brothers flew. He died on June 11, 1986, two years before the Voyager probes reached the edge of the solar system. In the span of that one life, humanity went from <em>no one had ever seen what lay beyond the atmosphere</em> to <em>we have photographs from the surface of Mars.</em> Bonestell didn&rsquo;t just witness that arc. He helped pull it forward.</p>
 
-  <p>He had three careers, and any one of them would be enough for a good life. The first was architecture: he studied at Columbia and spent nearly three decades as an architectural renderer, most famously contributing illustrations for the <strong>Golden Gate Bridge</strong> &mdash; paintings that helped convince a skeptical public the bridge could actually be built. The second career was Hollywood. From 1938 onward he became the most sought-after <strong>matte painter</strong> in the industry, his invented backgrounds slipping invisibly into <em>Citizen Kane</em> (1941), <em>The Hunchback of Notre Dame</em> (1939), and others. He built Xanadu for Orson Welles out of paint and light. He was already fifty years old. The third career was the one that changed everything.</p>
+  <p>He had three careers, and any one of them would be enough for a good life. The first was architecture: he studied at Columbia and spent more than two decades as an architectural renderer, most famously contributing illustrations for the <strong>Golden Gate Bridge</strong> &mdash; paintings that helped convince a skeptical public the bridge could actually be built. The second career was Hollywood. From 1938 onward he became the most sought-after <strong>matte painter</strong> in the industry, his invented backgrounds slipping invisibly into <em>Citizen Kane</em> (1941), <em>The Hunchback of Notre Dame</em> (1939), and others. He built Xanadu for Orson Welles out of paint and light. He was already fifty years old. The third career was the one that changed everything.</p>
 
   <h2>Saturn, seen from Titan</h2>
   <p>In May 1944, <em>Life</em> magazine published a Bonestell painting: <strong>Saturn as seen from its moon Titan.</strong> The image was meticulous. He had calculated the angle, size, and crescent phase of Saturn and its rings from Titan&rsquo;s vantage point with mathematical precision, then rendered it in gouache and oil against a sky he reasonably assumed would be blue and clear. The response was immediate. People had seen astronomical diagrams before &mdash; they had never <em>stood there.</em> His painting did not show Saturn from a distance. It put you on the ground.</p>

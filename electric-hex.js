@@ -1,12 +1,16 @@
 /**
  * electric-hex.js — Electric Hex canvas visualizer for 37th Chamber
  *
- * HONESTY NOTICE: This is a live canvas animation modulated by Spotify playback
- * progress and an estimated cadence derived from track position and duration.
- * It is NOT audio-reactive in any signal-processing sense — Spotify's Web API
- * provides no raw audio data. It reacts to PROGRESS (time elapsed in the track)
- * and to the playing/paused state. It is honest to call it "live"; it is
- * dishonest to call it "audio-reactive."
+ * HONESTY NOTICE: This is a live canvas animation modulated by playback state
+ * and track identity. It is NOT audio-reactive in any signal-processing sense —
+ * no audio data is available or analyzed. What actually drives it:
+ *   - playing/paused state (real, from the playback source)
+ *   - playback progress when the source provides it (Worker mode; Last.fm does not)
+ *   - the track's IDENTITY (title+artist), which deterministically seeds a
+ *     per-song visual signature — same song, same face, every time
+ *   - slow time-based "phrasing" swells (decorative, ~9s and ~37s periods)
+ * It is honest to call it "live" and "track-aware"; it is dishonest to call it
+ * "audio-reactive," and we never do.
  *
  * BLUE LAW: The only blue in the widget lives here. All text in the card
  * (title, artist, status) must be gold (#FFD60A) on near-black (#08080a).
@@ -38,6 +42,67 @@
  */
 
 const MAX_DPR = 2;
+
+// ── Track-signature helpers (HONEST: deterministic from track identity only) ──
+// FNV-1a 32-bit hash of a string (e.g. "Title|Artist"). Same track → same hash.
+function fnv1a(str) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = (h * 0x01000193) >>> 0;
+  }
+  return h >>> 0;
+}
+// mulberry32 PRNG — tiny, deterministic, seeded by the track hash.
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// ── Tuning presets ────────────────────────────────────────────────────────────
+// 'baseline'  — the original shipped character (numbers preserved exactly).
+// 'phrasing'  — BD82 tune: calmer breath, coherent pulse-weather, slow master
+//               swells (time-based, decorative, declared), per-track signatures.
+const TUNES = {
+  baseline: {
+    ambientFreqPlay: (i) => 1.2 + i * 1.8,
+    ambientAmpPlay:  (i) => 0.08 + i * 0.14,
+    ambientFreqIdle: 0.35,
+    ambientAmpIdle:  0.04,
+    speedPlay:       (i) => 0.18 + i * 0.34,
+    speedIdle:       (i) => 0.04 + i * 0.06,
+    maxPulsesPlay:   4,
+    spawnRatePlay:   (i) => 0.8 + i * 1.6,
+    widthFor:        () => 0.06 + Math.random() * 0.10,
+    dotThreshold:    0.45,
+    masterLFO:       null,           // no phrasing swell
+    weather:         false,          // fully random pulse directions
+  },
+  phrasing: {
+    ambientFreqPlay: (i) => 0.7 + i * 0.9,     // calmer base breath
+    ambientAmpPlay:  (i) => 0.10 + i * 0.12,
+    ambientFreqIdle: 0.22,                      // tide-like rest
+    ambientAmpIdle:  0.07,                      // ALIVE at rest — resting heart, not flatline
+    speedPlay:       (i) => 0.14 + i * 0.30,    // gravitas over frenzy
+    speedIdle:       (i) => 0.035 + i * 0.05,
+    maxPulsesPlay:   3,
+    spawnRatePlay:   (i) => 0.6 + i * 1.2,
+    // calm = broad swells; climax = tighter, sharper fronts
+    widthFor:        (i, rnd) => (0.13 - i * 0.06) + rnd * 0.08,
+    dotThreshold:    0.42,
+    // two slow swells multiplying brightness: ~9s phrase + ~37s movement.
+    // Time-based and decorative — declared in the honesty note.
+    masterLFO:       (ts) => 1
+                       + 0.10 * Math.sin(ts * 0.001 * (2 * Math.PI / 9))
+                       + 0.08 * Math.sin(ts * 0.001 * (2 * Math.PI / 37)),
+    weather:         true,           // coherent dominant direction, slow drift
+  },
+};
 
 // Palette — Blue Law: ONLY blue. No gold used here.
 const BG        = '#08080a';                          // --bg
@@ -106,6 +171,23 @@ export function initElectricHex(canvas, opts = {}) {
   // Timing
   let lastT     = 0;
 
+  // Tuning preset (default: phrasing — the BD82 tune; 'baseline' = shipped original)
+  let tune      = TUNES.phrasing;
+
+  // Per-track signature traits (HONEST: derived only from track identity via setSeed).
+  // Defaults = neutral character when no track has been seeded yet.
+  let traits = {
+    speedMul: 1,        // 0.82..1.22  per-track tempo of the lattice
+    freqMul:  1,        // 0.85..1.20  breath rate flavor
+    widthMul: 1,        // 0.85..1.25  wavefront breadth flavor
+    dirBias:  [1, 1, 1, 1], // weights over the 4 pulse directions
+  };
+
+  // Pulse-weather: a dominant direction that persists and slowly drifts,
+  // so waves read as weather systems instead of noise (phrasing tune only).
+  let weatherDir   = Math.floor(Math.random() * 4);
+  let weatherNext  = 0;   // timestamp (ms) of next drift
+
   // ── Build the flat-top hex grid ────────────────────────────────────────────
   function buildGrid() {
     const W = canvas.width;
@@ -162,19 +244,36 @@ export function initElectricHex(canvas, opts = {}) {
   // ── Spawn a pulse stream ────────────────────────────────────────────────────
   // A pulse is a wave-front travelling across the grid in a direction.
   // direction: 0=left-to-right, 1=top-to-bottom, 2=diagonal, 3=diagonal-back
-  function spawnPulse() {
-    const dir = Math.floor(Math.random() * 4);
+  function spawnPulse(ts) {
+    let dir;
+    if (tune.weather) {
+      // Weather model: mostly the dominant direction (drifting slowly), with the
+      // track's own directional bias folded in; occasional cross-current.
+      if (ts >= weatherNext) {
+        weatherDir  = pickWeightedDir();
+        weatherNext = ts + 18000 + Math.random() * 14000;  // drift every 18–32s
+      }
+      dir = Math.random() < 0.72 ? weatherDir : pickWeightedDir();
+    } else {
+      dir = Math.floor(Math.random() * 4);
+    }
     // progress 0..1 across the grid; speed varies with playing+intensity
-    const baseSpeed = playing
-      ? 0.18 + intensity * 0.34
-      : 0.04 + intensity * 0.06;
+    const baseSpeed = (playing ? tune.speedPlay(intensity) : tune.speedIdle(intensity)) * traits.speedMul;
     pulses.push({
       progress: 0,
       speed: baseSpeed * (0.7 + Math.random() * 0.6),
       dir,
-      width: 0.06 + Math.random() * 0.10,   // fraction of grid width
+      width: tune.widthFor(intensity, Math.random()) * traits.widthMul,
       brightness: (playing ? 0.55 : 0.25) * (0.7 + intensity * 0.6),
     });
+  }
+
+  function pickWeightedDir() {
+    const w = traits.dirBias;
+    const total = w[0] + w[1] + w[2] + w[3];
+    let r = Math.random() * total;
+    for (let d = 0; d < 4; d++) { r -= w[d]; if (r <= 0) return d; }
+    return 3;
   }
 
   // ── Hex charge from pulse ───────────────────────────────────────────────────
@@ -223,17 +322,21 @@ export function initElectricHex(canvas, opts = {}) {
     }
 
     // Spawn new pulses on cadence
-    const maxPulses = playing ? 4 : 1;
+    const maxPulses = playing ? tune.maxPulsesPlay : 1;
     const spawnRate  = playing
-      ? (0.8 + intensity * 1.6)   // pulses/sec
+      ? tune.spawnRatePlay(intensity)   // pulses/sec
       : (0.15 + intensity * 0.2);
     if (pulses.length < maxPulses && Math.random() < spawnRate * dt) {
-      spawnPulse();
+      spawnPulse(ts);
     }
 
+    // Phrasing swell: slow time-based undulation of overall energy (decorative,
+    // declared in the honesty note; null in baseline tune).
+    const swell = tune.masterLFO ? Math.max(0.75, tune.masterLFO(ts)) : 1;
+
     // Update hex charges from pulses + ambient breathing
-    const ambientFreq = playing ? (1.2 + intensity * 1.8) : 0.35;
-    const ambientAmp  = playing ? (0.08 + intensity * 0.14) : 0.04;
+    const ambientFreq = (playing ? tune.ambientFreqPlay(intensity) : tune.ambientFreqIdle) * traits.freqMul;
+    const ambientAmp  = (playing ? tune.ambientAmpPlay(intensity) : tune.ambientAmpIdle) * swell;
 
     for (const h of hexes) {
       // Ambient base: slow sinusoidal breathing
@@ -243,7 +346,7 @@ export function initElectricHex(canvas, opts = {}) {
       let pulseSum = 0;
       for (const p of pulses) pulseSum += pulseChargeFor(h, p);
 
-      h.charge = Math.min(1, ambient + pulseSum);
+      h.charge = Math.min(1, (ambient + pulseSum) * swell);
     }
 
     // ── Draw hex grid — two passes for depth ──────────────────────────────
@@ -275,9 +378,10 @@ export function initElectricHex(canvas, opts = {}) {
     }
 
     // Pass 3: core dots at peak-charged hexes (the "lit nodes")
+    const dotTh = tune.dotThreshold;
     for (const h of hexes) {
-      if (h.charge < 0.45) continue;
-      const dotR = Math.max(1, (h.charge - 0.45) * hexR * dpr * 0.5);
+      if (h.charge < dotTh) continue;
+      const dotR = Math.max(1, (h.charge - dotTh) * hexR * dpr * 0.5);
       ctx.beginPath();
       ctx.arc(h.cx, h.cy, dotR, 0, Math.PI * 2);
       ctx.fillStyle = rgba(HEX_CORE, h.charge * 0.7);
@@ -367,6 +471,34 @@ export function initElectricHex(canvas, opts = {}) {
      */
     setIntensity(n) {
       intensity = Math.max(0, Math.min(1, n));
+    },
+
+    /**
+     * setSeed(str) — give the lattice a per-track signature. HONEST: the input
+     * is the track's identity ("Title|Artist"); everything derived is
+     * deterministic — the same song always wears the same face, different
+     * songs differ. No audio analysis is involved or implied.
+     */
+    setSeed(str) {
+      const rnd = mulberry32(fnv1a(String(str)));
+      traits.speedMul = 0.82 + rnd() * 0.40;          // 0.82 .. 1.22
+      traits.freqMul  = 0.85 + rnd() * 0.35;          // 0.85 .. 1.20
+      traits.widthMul = 0.85 + rnd() * 0.40;          // 0.85 .. 1.25
+      traits.dirBias  = [0.4 + rnd(), 0.4 + rnd(), 0.4 + rnd(), 0.4 + rnd()];
+      weatherDir  = (rnd() * 4) | 0;                  // each song opens on its own wind
+      weatherNext = 0;                                 // allow immediate re-pick on next spawn
+      // Re-phase a third of the lattice so the change of song is felt, gently.
+      for (const h of hexes) {
+        if (rnd() < 0.33) h.phase = rnd() * Math.PI * 2;
+      }
+    },
+
+    /**
+     * setTune(name) — switch tuning preset: 'baseline' (shipped original) or
+     * 'phrasing' (calmer breath, pulse-weather, slow swells). Unknown names no-op.
+     */
+    setTune(name) {
+      if (TUNES[name]) { tune = TUNES[name]; pulses = []; }
     },
 
     /**

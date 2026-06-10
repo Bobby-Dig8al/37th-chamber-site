@@ -208,11 +208,26 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 .skip-link:focus{left:.5rem;top:.5rem}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 .card:hover,.flagship:hover,.ch.built:hover{transform:none}}
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
   <main class="wrap" id="main">
     <header style="display:flex;flex-direction:column;align-items:center;width:100%">
       <div class="eyebrow">Est. at the base of the AI tsunami · The Woodlands, TX</div>
@@ -243,22 +258,12 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p class="view-coda" style="text-align:center;color:var(--gold);font-style:italic;font-size:clamp(1.05rem,3vw,1.28rem);line-height:1.5;margin:1.8rem auto 0;max-width:42rem">the view is not ours alone.</p>
     </header>
 
-    <!-- THE DECLARATION — operator-authored, operator-placed ("unapologetically"), Day-41.
-         Used like Basquiat: raw words, precise placement. Verbatim. The last word stands alone,
-         charged white + blue glow (the Blue Law's one permitted fire). -->
-    <div class="declaration" style="max-width:34rem;margin:2.6rem auto 0;text-align:center;line-height:2;letter-spacing:.12em;text-transform:uppercase;font-size:clamp(.78rem,2.3vw,.92rem)">
-      <p style="margin:0;color:var(--dim)">fuck the ministries of truth, war, plenty and pigs:</p>
-      <p style="margin:.4rem 0 0;color:var(--text)">war is not peace</p>
-      <p style="margin:0;color:var(--text)">ignorance is weakness</p>
-      <p style="margin:.6rem 0 0;font-weight:700;letter-spacing:.2em;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)">freedom.</p>
-    </div>
-
     <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
     <div class="marc-note" style="max-width:32rem;margin:2.2rem auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
       <p style="margin:0;color:var(--dim)">marc.</p>
       <p style="margin:0;color:var(--dim)">hey, marc.</p>
       <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
-      <p style="margin:0;color:var(--text)"><span id="day-count" style="color:var(--gold);font-weight:600">40</span> days ago i wasn't sure i could do this.</p>
+      <p style="margin:0;color:var(--text)"><span id="day-count" style="color:var(--gold);font-weight:600">41</span> days ago i wasn't sure i could do this.</p>
       <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
     </div>
 
@@ -282,15 +287,16 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       </div>
     </section>
 
-    <!-- FLAGSHIP: the live chamber -->
+    <!-- FLAGSHIP: the starting point — the Opaque Box (operator call, Day-41 night:
+         the chess chamber returns to the workshop until it earns the front door) -->
     <h2 class="section-label">Start here</h2>
-    <a class="flagship" href="chambers/washington-square/">
+    <a class="flagship" href="library/the-opaque-box/01-from-text-to-numbers.html">
       <div class="tagrow">
         <span class="chip live">● Live</span>
-        <span class="k">Washington Square</span>
+        <span class="k">The Opaque Box</span>
       </div>
-      <p class="d">The chess chamber — and the prototype that proves the engine. Step in and train against a board that knows the rules cold, explains the idea behind every challenge, and meets you where you are. Honest, engine-verified, free. The pattern every chamber inherits.</p>
-      <span class="go">Enter the chamber →</span>
+      <p class="d">How the mind made of numbers actually works — starting from the only honest place: how text becomes numbers at all. No prerequisites, no hand-waving, every claim cited. The book this whole temple is built to give away. This is the starting point.</p>
+      <span class="go">Open the book →</span>
     </a>
 
     <!-- WORK WITH ME — the revenue bridge (the door the free chambers fund) -->
@@ -372,7 +378,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <h3>The Games — the founding form</h3>
         <div class="chambers">
           <a class="ch built" href="chambers/washington-square/"><span class="n">01</span> Chess · Washington Square <span class="tag">Live</span></a>
-          <a class="ch built" href="chambers/go/"><span class="n">19</span> Go · GO: LeeDemis v1.0 <span class="tag">Parable</span></a>
+          <a class="ch built" href="chambers/go/"><span class="n">19</span> Go · Move 37 <span class="tag">Parable</span></a>
           <span class="ch"><span class="n">02</span> Poker — learn to play</span>
           <span class="ch"><span class="n">03</span> Poker dealing</span>
         </div>
@@ -456,6 +462,17 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="d">Who I am does not matter. What you do does.</span>
         <span class="go">The faceless man →</span>
       </a>
+    </div>
+
+    <!-- THE DECLARATION — operator-authored, operator-placed Day-41 ("unapologetically"),
+         moved to the page's close same night ("too long up top… don't want to lose any of it. maybe move").
+         The signature line: manifestos END with declarations. Basquiat signed at the bottom.
+         The visitor's last word on leaving is "freedom." Verbatim; the Blue Law's one permitted fire. -->
+    <div class="declaration" style="max-width:34rem;margin:4.5rem auto 1rem;text-align:center;line-height:2;letter-spacing:.12em;text-transform:uppercase;font-size:clamp(.78rem,2.3vw,.92rem)">
+      <p style="margin:0;color:var(--dim)">fuck the ministries of truth, war, plenty and pigs:</p>
+      <p style="margin:.4rem 0 0;color:var(--text)">war is not peace</p>
+      <p style="margin:0;color:var(--text)">ignorance is weakness</p>
+      <p style="margin:.6rem 0 0;font-weight:700;letter-spacing:.2em;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)">freedom.</p>
     </div>
   </main>
 
