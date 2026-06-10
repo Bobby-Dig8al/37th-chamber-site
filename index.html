@@ -249,16 +249,12 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
     <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
 
-    <!-- TEASER (temporary — remove ~07:00 when the live now-playing widget takes over) -->
-    <p class="np-tease" style="text-align:center;max-width:34rem;margin:1.6rem auto 1.8rem;font-size:clamp(.78rem,2.2vw,.9rem);letter-spacing:.05em;line-height:1.6;color:var(--dim)"><span style="color:var(--gold);font-weight:600;text-shadow:0 0 7px rgba(14,68,255,.6),0 0 16px rgba(14,68,255,.35)">&#9834; See the waveform come to life &mdash; tonight at 21:00</span> &mdash; for the first time: the full <em style="color:var(--gold);font-style:normal">Interstellar</em> soundtrack, on loop for 24 hours.</p>
-
-    <!-- LINER NOTE (opening-night grace) -->
-    <p class="np-liner" style="text-align:center;max-width:32rem;margin:.8rem auto 2.1rem;font-size:clamp(.72rem,2vw,.82rem);letter-spacing:.04em;line-height:1.65;color:var(--dim)">Opening with <em style="color:var(--gold-soft)">Lux Aeterna</em>. May eternal light shine on this place.</p>
+    <!-- WEEKLY LINER SLOT — teaser + opening-night liner retired 2026-06-10 (launch-night artifacts; opening night was 2026-06-09 21:00, Lux Aeterna → Interstellar). The slot returns Sunday night → Monday with each new themed week. -->
 
     <!-- THE DAILY: six good people, every day -->
     <section id="the-daily" aria-label="The Daily">
       <div class="section-label">The Daily</div>
-      <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to producer Lynda Obst (~1980 blind date); together they conceived the film twenty-five years later. Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
+      <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to Lynda Obst (~1980 blind date); she became a Hollywood producer, and together they conceived the film twenty-five years later. Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
 
       <div class="grid">
         <a class="card" href="https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" target="_blank" rel="noopener"><span class="k">&#127925; Hans Zimmer &mdash; Interstellar (OST)</span><span class="d">The organ that turns a docking scene into a prayer.</span><span class="go">listen &rarr;</span></a>
