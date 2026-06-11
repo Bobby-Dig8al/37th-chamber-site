@@ -81,3 +81,19 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 .corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
 .corridor .c-home{color:var(--gold-soft)}
+
+/* ═ PRINT — knowledge-free includes paper (Day-42) ═ */
+@media print{
+  body{background:#fff;color:#000;padding:0;display:block}
+  body::before{display:none}
+  .corridor,.topnav,.skip-link,footer,.next-up,.chnav,canvas,#now-playing,#mini-hearth{display:none!important}
+  .wrap{max-width:100%;animation:none}
+  h1.title,h2,h3,strong{color:#000;text-shadow:none}
+  p,li,blockquote,.dek{color:#000}
+  blockquote{border-left:2px solid #000;background:none}
+  .roots{border:1px solid #000;background:none;box-shadow:none}
+  .roots a,a.inline{color:#000;border-bottom:none}
+  .roots a::after,a.inline::after{content:" (" attr(href) ")";font-size:.8em;word-break:break-all}
+  pre{border:1px solid #000;background:none;color:#000}
+  code{background:none;color:#000}
+}

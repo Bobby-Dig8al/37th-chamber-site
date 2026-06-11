@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The 37th Chamber — Dispatches</title>
+  <subtitle>Field notes from the chamber. Knowledge is free, forever.</subtitle>
+  <link href="https://37th-chamber.com/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://37th-chamber.com/dispatches/" rel="alternate" type="text/html"/>
+  <id>https://37th-chamber.com/feed.xml</id>
+  <updated>2026-06-11T12:00:00Z</updated>
+  <author><name>The 37th Chamber</name><uri>https://37th-chamber.com/</uri></author>
+  <icon>https://37th-chamber.com/assets/favicon-32.png</icon>
+
+  <entry>
+    <title>Field Note 003 · Sable, Fable</title>
+    <link href="https://37th-chamber.com/dispatches/003-sable-fable.html" rel="alternate" type="text/html"/>
+    <id>https://37th-chamber.com/dispatches/003-sable-fable.html</id>
+    <published>2026-06-11T03:00:00Z</published>
+    <updated>2026-06-11T08:00:00Z</updated>
+    <summary>The doom book named its machine Sable. Anthropic named theirs Fable. One letter — and as far as we can find, nobody had said it in public. On the record, timestamped, with every adjacent root cited.</summary>
+  </entry>
+
+  <entry>
+    <title>Field Note 001 · How to read your AI</title>
+    <link href="https://37th-chamber.com/dispatches/001-how-to-read-your-ai.html" rel="alternate" type="text/html"/>
+    <id>https://37th-chamber.com/dispatches/001-how-to-read-your-ai.html</id>
+    <published>2026-06-06T12:00:00Z</published>
+    <updated>2026-06-11T08:00:00Z</updated>
+    <summary>A confident bluffer is more dangerous than an obvious liar. Three concrete grading moves you can run on any AI output in under two minutes — before you ship it to a client, a regulator, or yourself.</summary>
+  </entry>
+</feed>
