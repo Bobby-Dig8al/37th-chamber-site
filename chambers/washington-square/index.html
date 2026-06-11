@@ -4474,7 +4474,7 @@ const Chess = {
         if (piece) {
           const isWhite = piece === piece.toUpperCase();
           inner = '<span class="piece ' + (isWhite ? 'white' : 'black') + '" aria-hidden="true">'
-            + '<svg viewBox="0 0 45 45"><use href="#p-' + piece.toLowerCase() + '"/></svg></span>';
+            + '<svg viewBox="0 0 45 45" aria-hidden="true"><use href="#p-' + piece.toLowerCase() + '"/></svg></span>';
         }
         html += '<div'
           + ' role="gridcell"'

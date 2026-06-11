@@ -68,7 +68,7 @@ a.ch .s{color:var(--gold)}
 footer{margin-top:4rem;width:100%;max-width:860px;position:relative;z-index:1;border-top:1px solid var(--electric);
   box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .25rem 2.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .foot-creed{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-back{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .foot-back:hover{text-decoration:underline}
 /* a11y polish */
@@ -86,7 +86,9 @@ footer{margin-top:4rem;width:100%;max-width:860px;position:relative;z-index:1;bo
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
 .corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
-.corridor .c-home{color:var(--gold-soft)}</style>
+.corridor .c-home{color:var(--gold-soft)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -103,7 +105,7 @@ footer{margin-top:4rem;width:100%;max-width:860px;position:relative;z-index:1;bo
   <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
   <main class="wrap" id="main">
     <div class="eyebrow">The Library · free, forever</div>
-    <svg class="sigil" viewBox="0 0 200 200" aria-label="The Sigil">
+    <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil">
       <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
       <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
       <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
@@ -121,12 +123,12 @@ footer{margin-top:4rem;width:100%;max-width:860px;position:relative;z-index:1;bo
 
     <div class="section-label">First on the shelf</div>
     <div class="book">
-      <div class="tagrow"><span class="chip">Ch 0–4 ready</span></div>
+      <div class="tagrow"><span class="chip">Ch 0–5 ready</span></div>
       <div class="k">The Opaque Box</div>
       <div class="sub">Building a Language Model from First Principles</div>
       <p class="d">They call AI a <em>black box</em> &mdash; sealed, unknowable. But that&rsquo;s only half true: we have every number, we just can&rsquo;t read them. The honest word is <em>opaque</em> &mdash; fully in your hands, not see-through. This book builds one with you, line by line: a small but <em>real</em> GPT-style model &mdash; tokenizer, embeddings, attention, the training loop, the sampler. Nothing imported you don&rsquo;t understand. You&rsquo;ll know the machine cold &mdash; and meet the part that stays opaque even when you built it yourself: the weights, where the intelligence actually lives.</p>
 
-      <p class="credit" style="font-size:.82rem;line-height:1.62;color:var(--dim);margin:0 0 1.6rem;max-width:46rem">A quick run-through for the initiated. The full, build-it-yourself treatment is <a href="https://www.manning.com/books/build-a-large-language-model-from-scratch" target="_blank" rel="noopener noreferrer" style="color:var(--gold-soft)"><em style="font-style:normal">Build a Large Language Model (From Scratch)</em></a> by Sebastian Raschka &mdash; the source of inspiration for this series. Go there for the real thing, and <strong style="color:var(--gold-soft);font-weight:600">support the author</strong>. <a href="https://github.com/rasbt/LLMs-from-scratch" target="_blank" rel="noopener noreferrer" style="color:var(--dim)">(free code &rarr;)</a></p>
+      <p class="credit" style="font-size:.82rem;line-height:1.62;color:var(--dim);margin:0 0 1.6rem;max-width:46rem">A quick run-through for the initiated. The full, build-it-yourself treatment is <a href="https://www.manning.com/books/build-a-large-language-model-from-scratch" target="_blank" rel="noopener noreferrer" style="color:var(--gold-soft)"><em style="font-style:normal">Build a Large Language Model (From Scratch)</em><span class="sr-only"> (opens in new tab)</span></a> by Sebastian Raschka &mdash; the source of inspiration for this series. Go there for the real thing, and <strong style="color:var(--gold-soft);font-weight:600">support the author</strong>. <a href="https://github.com/rasbt/LLMs-from-scratch" target="_blank" rel="noopener noreferrer" style="color:var(--dim)">(free code &rarr;)<span class="sr-only"> (opens in new tab)</span></a></p>
 
       <div class="toc">
         <a class="ch" href="the-opaque-box/00-what-is-the-box.html"><span class="n">Ch 0</span><span class="t">What is the box? — the true ground floor</span><span class="s">Read →</span></a>
@@ -134,7 +136,7 @@ footer{margin-top:4rem;width:100%;max-width:860px;position:relative;z-index:1;bo
         <a class="ch" href="the-opaque-box/02-words-as-directions.html"><span class="n">Ch 2</span><span class="t">Words as directions — embeddings &amp; the input pipeline</span><span class="s">Read →</span></a>
         <a class="ch" href="the-opaque-box/03-attention.html"><span class="n">Ch 3</span><span class="t">Attention, the whole game</span><span class="s">Read →</span></a>
         <a class="ch" href="the-opaque-box/04-many-eyes.html"><span class="n">Ch 4</span><span class="t">Many eyes — multi-head attention</span><span class="s">Read →</span></a>
-        <div class="ch"><span class="n">Ch 5</span><span class="t">The transformer block</span><span class="s">Soon</span></div>
+        <a class="ch" href="the-opaque-box/05-the-transformer-block.html"><span class="n">Ch 5</span><span class="t">The transformer block</span><span class="s">Read →</span></a>
         <div class="ch"><span class="n">Ch 6</span><span class="t">Assembling the GPT</span><span class="s">Soon</span></div>
         <div class="ch"><span class="n">Ch 7</span><span class="t">Teaching it to predict</span><span class="s">Soon</span></div>
         <div class="ch"><span class="n">Ch 8</span><span class="t">Making it speak — sampling</span><span class="s">Soon</span></div>
