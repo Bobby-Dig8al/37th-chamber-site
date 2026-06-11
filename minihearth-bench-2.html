@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini-Hearth Bench · Room B — 37th Chamber (dev)</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#08080a">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:3rem 1.5rem 6rem;letter-spacing:.01em}
+.wrap{max-width:720px;margin:0 auto}
+h1{color:var(--gold);text-transform:uppercase;letter-spacing:.05em;font-size:1.6rem;margin-bottom:.4rem}
+.tag{color:var(--dim);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:2rem}
+p{line-height:1.7;margin:0 0 1.1rem;color:var(--text)}
+p em{color:var(--gold);font-style:normal}
+.go{display:inline-block;margin:1.4rem 0;color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.4);padding:.6rem 1rem;letter-spacing:.14em;text-transform:uppercase;font-size:.74rem}
+.go:hover{background:rgba(255,214,10,.06)}
+.filler{color:var(--dim);font-size:.92rem}
+/* ── the mini-Hearth (bench) ── */
+#mini-hearth{position:fixed;right:1rem;bottom:1rem;z-index:50;width:min(248px,calc(100vw - 2rem))}
+.mh-card{display:flex;flex-direction:column;text-decoration:none;color:inherit;overflow:hidden;
+  background:rgba(8,8,10,.92);border:1px solid rgba(255,214,10,.32);backdrop-filter:blur(4px);
+  box-shadow:0 6px 24px rgba(0,0,0,.5);transition:.16s ease}
+.mh-card:hover{border-color:var(--gold)}
+.mh-row{display:flex;align-items:center;gap:.6rem;padding:.55rem .65rem}
+.mh-art{width:34px;height:34px;object-fit:cover;border:1px solid rgba(255,214,10,.25)}
+.mh-meta{min-width:0;flex:1}
+.mh-title{font-size:.78rem;color:var(--gold);font-weight:600;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mh-artist{font-size:.68rem;color:var(--dim);letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mh-hex{width:100%;height:34px;display:block}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mini-Hearth Bench — Room B</h1>
+  <div class="tag">dev bench · noindex · taste-pass surface</div>
+  <p>The corner card below-right is the <em>mini-Hearth</em>: the same window as the homepage Hearth, compacted to travel. It polls the same public data, seeds the same per-track signature, and clicking it walks home to the full Hearth.</p>
+  <p><em>The continuity test:</em> play a song, watch the card, then walk back to Room A. The card resyncs to the same track instantly and the lattice wears the same per-song pattern — the state lives in the data, not the page.</p>
+  <a class="go" href="/minihearth-bench.html">&larr; Walk back to Room A</a>
+  <p class="filler">Scroll filler so the fixed card can prove itself against a moving page. The temple corridor metaphor holds: rooms change, the music doesn't. Nothing on this page makes sound — the mini-Hearth is a window, not a speaker; the only ears in the temple are yours.</p>
+  <p class="filler">v1 option on request: exact animation-phase carry between pages via a tiny engine state hand-off (sessionStorage). v0 ships the honest version — identical pattern per song, fresh breath per room.</p>
+</div>
+<div id="mini-hearth" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
+<script type="module" src="/minihearth.js"></script>
+</body>
+</html>
