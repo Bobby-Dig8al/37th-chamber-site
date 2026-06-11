@@ -260,7 +260,19 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p class="view-coda" style="text-align:center;color:var(--gold);font-style:italic;font-size:clamp(1.05rem,3vw,1.28rem);line-height:1.5;margin:1.8rem auto 0;max-width:42rem">the view is not ours alone.</p>
       <!-- THE GLOW HEADLINE — operator edit, Day-41 night: "leave freedom. as the glow headline."
            The one-word bell up top; the full declaration peals at the page's close. -->
-      <p class="freedom-line" style="text-align:center;margin:2.8rem auto 3.2rem;font-size:clamp(.98rem,3vw,1.2rem);letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)">freedom.</p>
+      <!-- THE 12 JEWELZ — the door wears one jewel per day, turning at 04:00 with the Daily's breath.
+           Doctrine order (Nation of Gods and Earths; the Wu lineage — source-verified Day-41):
+           Knowledge · Wisdom · Understanding · Freedom · Justice · Equality · Food · Clothing ·
+           Shelter · Love · Peace · Happiness. The creed above wears #1 permanently ("Knowledge is
+           free") — the door carries all twelve for whoever comes back and counts. Anchored so
+           2026-06-10 = freedom. No animation: a TURNING — returners spot it. -->
+      <p class="freedom-line" id="jewel-line" style="text-align:center;margin:2.8rem auto 3.2rem;font-size:clamp(.98rem,3vw,1.2rem);letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)">freedom.</p>
+      <script>(function(){try{
+        var J=["knowledge.","wisdom.","understanding.","freedom.","justice.","equality.","food.","clothing.","shelter.","love.","peace.","happiness."];
+        var a=Date.parse("2026-06-10T04:00:00-05:00");
+        var d=Math.floor((Date.now()-a)/864e5);
+        document.getElementById("jewel-line").textContent=J[((3+d)%12+12)%12];
+      }catch(e){}})();</script>
     </header>
 
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
