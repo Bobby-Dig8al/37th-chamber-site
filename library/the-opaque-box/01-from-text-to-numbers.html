@@ -200,13 +200,13 @@ print(decode(encode(sample)))</code></pre>
   </ul>
 
   <h3 id="s1-2b">Why we don&rsquo;t stop here</h3>
-  <p>Look at what the model must learn. To &ldquo;understand&rdquo; the word <code>the</code>, a character model must learn the <em>sequence</em> <code>t &rarr; h &rarr; e</code> from scratch, across every context, using up positions in its limited attention window. A 256-character context is only ~50 English words. The model spends enormous capacity just re-discovering that letters clump into words. We&rsquo;re making it learn spelling before it can learn meaning.</p>
+  <p>Look at what the model must learn. To &ldquo;understand&rdquo; the word <code>the</code>, a character model must learn the <em>sequence</em> <code>t &rarr; h &rarr; e</code> from scratch, across every context, using up positions in its limited attention window. A 256-character context is only ~45 English words. The model spends enormous capacity just re-discovering that letters clump into words. We&rsquo;re making it learn spelling before it can learn meaning.</p>
   <p>We want a middle ground: units bigger than a character (so sequences are short and word-structure comes for free) but smaller than a word (so we never hit a word we can&rsquo;t represent). That middle ground is <strong>subword tokenization</strong>, and the workhorse algorithm is <strong>byte-pair encoding</strong>.</p>
 
   <hr class="rule">
 
   <h2 id="s1-3">1.3&nbsp;&nbsp;Byte-pair encoding (BPE), from scratch</h2>
-  <p>BPE (adapted to NLP by Sennrich, Haddow &amp; Birch, 2016; used by GPT-2, Radford et al. 2019) has one idea, applied repeatedly:</p>
+  <p>BPE (adapted to NLP by <a class="inline" href="https://aclanthology.org/P16-1162/">Sennrich, Haddow &amp; Birch, 2016</a>; used by GPT-2, Radford et al. 2019) has one idea, applied repeatedly:</p>
   <blockquote><strong>Find the most frequent adjacent pair of tokens in the data, and merge it into a single new token. Repeat until you have the vocabulary size you want.</strong></blockquote>
   <p>You start with the smallest possible alphabet and <em>grow</em> the vocabulary by gluing together pairs that occur a lot. Common chunks like <code>th</code>, <code>the</code>, <code>&nbsp;and</code> become single tokens; rare stuff stays in small pieces. Nothing is ever unrepresentable, because the foundation is always there underneath.</p>
 

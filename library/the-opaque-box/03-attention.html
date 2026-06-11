@@ -153,7 +153,7 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <h2 id="s3-1">3.1&nbsp;&nbsp;The one thing that&rsquo;s missing</h2>
   <p>At the end of Chapter 2 we had a tensor of shape <code>(B, T, C)</code> &mdash; a batch of sequences, each token a 384-dimensional vector that knows <em>what</em> it is and <em>where</em> it sits. But every vector still sits in isolation. Nothing has let <code>"bites"</code> look back at <code>"dog"</code> to work out who is doing the biting.</p>
   <p>That&rsquo;s the hole. Language is contextual: the meaning of a word depends on the words around it. <em>&ldquo;bank&rdquo;</em> near <em>&ldquo;river&rdquo;</em> is a shoreline; <em>&ldquo;bank&rdquo;</em> near <em>&ldquo;money&rdquo;</em> is a vault. For the model to disambiguate, each token must be able to <strong>gather information from the other tokens</strong> &mdash; and not equally, but <em>selectively</em>, weighting the ones that matter to it and ignoring the rest.</p>
-  <p>That selective gathering is <strong>attention</strong>. The version we build &mdash; where a sequence attends to <em>itself</em> &mdash; is <strong>self-attention</strong> (Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017). The idea has older roots in machine translation, where Bahdanau et al. (2014) first let a decoder &ldquo;attend&rdquo; to different parts of a source sentence; Vaswani&rsquo;s contribution was to throw away everything <em>else</em> (the recurrence, the convolutions) and show that attention alone was enough.</p>
+  <p>That selective gathering is <strong>attention</strong>. The version we build &mdash; where a sequence attends to <em>itself</em> &mdash; is <strong>self-attention</strong> (<a class="inline" href="https://arxiv.org/abs/1706.03762">Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017</a>). The idea has older roots in machine translation, where Bahdanau et al. (2014) first let a decoder &ldquo;attend&rdquo; to different parts of a source sentence; Vaswani&rsquo;s contribution was to throw away everything <em>else</em> (the recurrence, the convolutions) and show that attention alone was enough.</p>
 
   <hr class="rule">
 
@@ -185,7 +185,7 @@ v (what I'll give) ────────────────────�
   <h2 id="s3-4">3.4&nbsp;&nbsp;From scores to weights: softmax</h2>
   <p>Raw scores are arbitrary real numbers. We want, for each token, a set of <strong>weights that are positive and sum to 1</strong> &mdash; a proper mixture saying &ldquo;spend 70% of my attention here, 20% there, 10% there.&rdquo; That&rsquo;s exactly what <strong>softmax</strong> does, applied across each row:</p>
 <pre><code>weights[t] = softmax(scores[t])     # over the columns i</code></pre>
-  <p>Softmax exponentiates (making everything positive, and amplifying the biggest scores) then normalizes (so the row sums to 1). After softmax, row <code>t</code> is a probability distribution over which tokens <code>t</code> is paying attention to.</p>
+  <p>Softmax exponentiates (making everything positive, and sharpening the distribution toward the largest scores) then normalizes (so the row sums to 1). After softmax, row <code>t</code> is a probability distribution over which tokens <code>t</code> is paying attention to.</p>
 
   <hr class="rule">
 
@@ -329,7 +329,7 @@ print(head(x).shape)              # torch.Size([4, 8, 16])</code></pre>
     <a class="soon" href="/library/the-opaque-box/04-many-eyes.html" style="color:var(--gold);border-color:rgba(255,214,10,.45);text-decoration:none">Read Ch&nbsp;4 &rarr;</a>
   </div>
 
-  <p class="note-source">A 37th-Chamber original. Methods cited (Bahdanau et al. 2014; Vaswani et al. 2017); all prose and code written fresh.</p>
+  <p class="note-source">A 37th-Chamber original. Methods cited (Bahdanau et al. 2014; <a class="inline" href="https://arxiv.org/abs/1706.03762">Vaswani et al. 2017</a>); all prose and code written fresh.</p>
 </main>
 
 <footer>
