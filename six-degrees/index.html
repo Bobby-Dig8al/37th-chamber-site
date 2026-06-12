@@ -672,9 +672,18 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     var LEDGERS = {
       'Marc Maron': 'https://github.com/Bobby-Dig8al/37th-chamber-site/issues/15'
     };
+    // H4 (analytics window-1): tag the URL that travels in shares so inbound
+    // chain clicks surface in GoatCounter Campaigns — ?ref=chain-<team-slug>.
+    function chainSlug(name) {
+      return String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+    function chainUrl(name) {
+      var s = chainSlug(name);
+      return SITE_URL + '?ref=chain' + (s ? '-' + s : '');
+    }
     function template(giant) {
       var ledger = LEDGERS[giant] || PROGRESS_URL;
-      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\nFollow this chain in the open: " + ledger + "\n" + SITE_URL;
+      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\nFollow this chain in the open: " + ledger + "\n" + chainUrl(giant);
     }
 
     var cs = document.getElementById('chainstarter');
@@ -709,7 +718,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     function refreshShareUrls() {
       var text = textArea.value;
       shareX.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
-      shareLi.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(SITE_URL) + '&summary=' + encodeURIComponent(text);
+      shareLi.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(chainUrl(teamSpan.textContent)) + '&summary=' + encodeURIComponent(text);
     }
 
     function openFor(name) {
