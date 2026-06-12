@@ -103,6 +103,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://37th-chamber.com/references/other-minds/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://37th-chamber.com/references/ai-explainability/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://37th-chamber.com/references/the-wormhole/</loc>
     <lastmod>2026-06-10</lastmod>
     <changefreq>monthly</changefreq>
