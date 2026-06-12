@@ -161,7 +161,8 @@ extreme claim, and its most carefully checked.`,
     intro: "Interstellar week, Friday — <em>time.</em> Not the abstract kind — the kind that costs you your daughter's childhood while you step off a ship.",
     music:   { label:"The Ticking Clock", name:"Hans Zimmer",          work:"'Mountains' (OST)",          why:"Built on a ticking pulse — each tick a day passing on Earth — so you feel the dilation before you understand it.", link:"https://en.wikipedia.org/wiki/Interstellar_(soundtrack)" },
     film:    { label:"The Cost", name:"the reunion",                   work:"Cooper & Murph",             why:"He comes back younger than his dying, elderly daughter — the twin effect dramatized so exactly Thorne checked the math for years.", link:"https://en.wikipedia.org/wiki/Interstellar_(film)" },
-    science: { label:"The Math of It", name:"Kip Thorne",              work:"The Science of Interstellar", why:"He works out the exact conditions — a huge, near-maximally-spinning Gargantua — that make Miller's planet's 60,000× dilation 'marginally possible.'", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar" },
+    science: { label:"The Math of It", name:"Kip Thorne",              work:"The Science of Interstellar", why:"He works out the exact conditions — a huge, near-maximally-spinning Gargantua — that make Miller's planet's 60,000× dilation 'marginally possible.'", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar",
+               img:"/assets/daily/005-accretion-disk.webp", imgAlt:"NASA visualization of a black hole: the accretion disk's far side warped above and below the shadow by gravity", imgCredit:"NASA Goddard / J. Schnittman" },
     book:    { label:"The Twin Paradox", name:"Einstein / Langevin",   work:"the 1911 thought experiment", why:"Relativity says the traveler returns younger than the one who stayed — the physics that makes Cooper and Murph's reunion a tragedy, not a miracle.", link:"https://en.wikipedia.org/wiki/Twin_paradox" },
     artist:  { label:"Time Made Liquid", name:"Salvador Dalí",         work:"The Persistence of Memory (1931)", why:"The melting watches have been popularly read as time refusing to stay rigid — though Dalí credited the image to a vision of melting Camembert, not Einstein. Whatever the source, the resonance with relativity outlasted his disclaimer.", link:"https://en.wikipedia.org/wiki/The_Persistence_of_Memory" },
     show:    { label:"Time as Family", name:"Dark",                    work:"Netflix (2017–2020)",        why:"Where Interstellar separates a father and daughter across decades, Dark loops time until characters parent themselves — time's violence on family, taken further.", link:"https://en.wikipedia.org/wiki/Dark_(TV_series)" }
@@ -499,6 +500,18 @@ NWA 12774 is one of the surviving receipts.`,
   const SLOT_DISPLAY = { music:"Music", film:"Film", science:"Science",
                          book:"Book", artist:"Artist", show:"Show" };
 
+  /* ── Shared: optional media slot (v2.1) ──────────────────────────────────
+     Additive + backward-compatible: entries MAY carry img / imgAlt / imgCredit.
+     Absent img → empty string → zero rendering change (degrade-gracefully contract).
+     imgCredit renders as a VISIBLE caption — required for CC-BY sources (e.g.
+     "EHT Collaboration" is a license condition, not a courtesy). */
+  function renderMedia(e) {
+    if (!e || !e.img) return "";
+    const credit = e.imgCredit
+      ? `<span class="media-credit">${esc(e.imgCredit)}</span>` : "";
+    return `<span class="card-media"><img src="${esc(e.img)}" alt="${esc(e.imgAlt || e.name)}" loading="lazy" decoding="async">${credit}</span>`;
+  }
+
   /* ── Shared: one standard card (v1 format, used in MAP + dispatch chapter rows) ── */
   function renderCard(slot, e) {
     if (!e) return "";
@@ -507,6 +520,7 @@ NWA 12774 is one of the surviving receipts.`,
     const work = e.work ? ` — ${esc(e.work)}` : "";
     return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">
       <span class="chip">${esc(lbl)}</span>
+      ${renderMedia(e)}
       <span class="k">${esc(e.name)}${work}</span>
       <span class="d">${esc(e.why)}</span>
       <span class="go">${esc(verb)} →</span>
@@ -553,6 +567,7 @@ NWA 12774 is one of the surviving receipts.`,
       ${day.intro ? `<p class="dly-intro">${day.intro}</p>` : ""}
       <a class="dly-deepdive" href="${esc(spotSlot.link)}" target="_blank" rel="noopener noreferrer">
         <span class="chip">${esc(lbl)}</span>
+        ${renderMedia(spotSlot)}
         <span class="dly-dd-name">${esc(spotSlot.name)}${work}</span>
         <p class="dly-dd-why">${whyText}</p>
         <span class="go">${esc(verb)} →</span>
@@ -705,6 +720,18 @@ NWA 12774 is one of the surviving receipts.`,
     .dly-also-chip:hover{color:#FFD60A;border-color:rgba(255,214,10,.5)}
     .dly-also-plain{cursor:default}
     .dly-also-plain:hover{color:#8f8a73;border-color:rgba(143,138,115,.3)}
+
+    /* ── v2.1: optional card media (absent img → nothing renders) ──
+       Canon: gold hairline frame; electric blue GLOW-only on hover (the Blue Law);
+       visible credit caption (CC-BY legal condition for EHT-class sources). */
+    .card-media{display:block;margin:0 0 .2rem;border:1px solid rgba(255,214,10,.28);
+      overflow:hidden;position:relative}
+    .card-media img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+    .media-credit{position:absolute;right:.35rem;bottom:.3rem;font-size:.56rem;letter-spacing:.08em;
+      text-transform:uppercase;color:#cbc6b4;background:rgba(8,8,10,.72);
+      padding:.1rem .35rem;border-radius:2px}
+    .card:hover .card-media,.dly-deepdive:hover .card-media{border-color:#FFD60A;
+      box-shadow:0 0 8px rgba(14,68,255,.55)}
 
     /* ── v2: DISPATCH layout ── */
     .dly-rule{width:100%;height:2px;background:#0E44FF;border-radius:2px;margin:1.3rem 0;
