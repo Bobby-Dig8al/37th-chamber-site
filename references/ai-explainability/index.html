@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Explainability · The Roots — 37th Chamber</title>
+<meta name="description" content="Interpretable is not explainable, an explanation is not understanding, and an explanation alone was never how trust got earned. The scholarly floor under The Opaque Box.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/references/ai-explainability/">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
+<meta property="og:title" content="AI Explainability · The Roots">
+<meta property="og:description" content="Interpretable is not explainable, and an explanation alone was never how trust got earned. The scholarly floor under The Opaque Box.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The 37th Chamber">
+<meta property="og:url" content="https://37th-chamber.com/references/ai-explainability/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Roots of the 37th Chamber — the Sigil, gold on black.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Explainability · The Roots">
+<meta name="twitter:description" content="Interpretable is not explainable, and an explanation alone was never how trust got earned.">
+<link rel="stylesheet" href="/assets/temple.css">
+<script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/work/">work</a>
+</nav>
+<nav class="topnav" aria-label="Reference navigation">
+  <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
+  <span class="meta-pill"><span class="num">AI</span> &middot; interpretability &amp; explainability</span>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">The Roots &middot; <span translate="no">The 37th Chamber</span></div>
+  <h1 class="title">AI Explainability</h1>
+  <p class="dek">The library&rsquo;s long explainer is called <em>The Opaque Box</em> for a reason. This page is the reason&rsquo;s paper trail: what the research literature actually says about seeing into machine-learning systems &mdash; how far sight goes, where it stops, and what an explanation does and does not buy you.</p>
+
+  <hr class="rule">
+
+  <p>Two words get blurred together whenever this subject comes up, and the literature is careful to keep them apart. A model is <strong>interpretable</strong> when it is built, from the start, in a form a person can follow &mdash; small enough, structured enough, that the path from input to output can be read directly. A model is merely <strong>explainable</strong> when it is too large or too tangled to read, so a second account gets constructed <em>after the fact</em> &mdash; a story about the box, produced from outside it. The overview by Marcinkevi&#269;s and Vogt in the roots below is a clean, methods-first map of that terrain, and it is open access all the way through.</p>
+  <p>The distinction matters because the systems this site writes about &mdash; the large language models, transformers carrying hundreds of billions of weights and more &mdash; live almost entirely on the second side of it. Chapter&nbsp;0 of <a href="/library/the-opaque-box/00-what-is-the-box.html"><em>The Opaque Box</em></a> states the house position plainly: nobody, including the people who built these systems, can yet point inside one and say <em>this is where it decided that</em>. The walls are real. What the field can produce is explanations &mdash; partial, after-the-fact, often useful, never the wiring itself.</p>
+
+  <h2>What an explanation buys &mdash; and what it doesn&rsquo;t</h2>
+  <p>It is tempting to treat &ldquo;explainability&rdquo; as the cure for opacity: add explanations until trust is warranted. The evidence is less convenient, and this site already carries it &mdash; <a href="/dispatches/004-black-opaque.html">Field Note 004</a> cites the open study by de&nbsp;Brito&nbsp;Duarte, Correia &amp; Arriaga on exactly this: whether explainable-AI techniques actually produce <em>warranted</em> trust, and the ways explanation can instead breed overreliance. An explanation is an artifact. It can be accurate, partial, or flattering &mdash; and a fluent one can raise confidence without raising correctness. Which is why this house keeps repeating its older, harder rule: trust is earned <strong>behaviorally</strong> &mdash; track record, conduct over time, verification of outputs &mdash; never granted on the strength of a story about the inside. The temple&rsquo;s <a href="/work/">forensic-audit work</a> is that rule, practiced.</p>
+
+  <h2>The box, asked about your box</h2>
+  <p>There is a stranger question in the literature, and it belongs on this page because it closes a loop with <a href="/references/other-minds/">the other-minds room</a>: not <em>can we see into the model</em>, but <em>does the model track what is in us?</em> Trott, Jones, Chang, Michaelov and Bergen put it as bluntly as a journal allows &mdash; their open-access paper in <em>Cognitive Science</em> is titled &ldquo;Do Large Language Models Know What Humans Know?&rdquo; &mdash; and they took the question to the same instruments developmental psychologists use on children. Read it for the result; the point this page takes from it is the symmetry. Two kinds of sealed box, each running a model of the other&rsquo;s interior, neither with access. That is not a new predicament the machines invented. It is the oldest one there is, now with a new participant.</p>
+
+  <h2>Where the question lands next</h2>
+  <p>Explainability stopped being a laboratory question the moment these systems started making decisions about people. The philosopher Andr&eacute;s P&aacute;ez&rsquo;s chapter &ldquo;Explainability of Algorithms,&rdquo; in Wiley&rsquo;s <em>A Companion to Digital Ethics</em> (2025), sits in the roots as the pointer to that frontier &mdash; where the demand to explain a model stops being curiosity and starts being something owed to the person on the receiving end. That is the right closing note for this room: the box is opaque, the explanations are partial, and the obligation is real anyway. The work is learning to live honestly inside all three facts at once &mdash; teach everything that can be seen, say plainly where sight ends, and let conduct carry the rest.</p>
+
+  <div class="roots">
+    <span class="rlab">Take us to the root &rarr;</span>
+    <a href="/library/the-opaque-box/00-what-is-the-box.html">The Opaque Box, Chapter 0 &mdash; what the walls are made of (free, the library)</a>
+    <a href="https://doi.org/10.1002/widm.1493" target="_blank" rel="noopener noreferrer">Marcinkevi&#269;s &amp; Vogt &mdash; &ldquo;Interpretable and explainable machine learning: A methods-centric overview with concrete examples&rdquo; (<em>WIREs Data Mining and Knowledge Discovery</em>, 2023; open) &mdash; the map of the terrain<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://doi.org/10.1111/cogs.13309" target="_blank" rel="noopener noreferrer">Trott, Jones, Chang, Michaelov &amp; Bergen &mdash; &ldquo;Do Large Language Models Know What Humans Know?&rdquo; (<em>Cognitive Science</em>, 2023; open) &mdash; the other-minds question, pointed at the machine<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://doi.org/10.1155/2023/4637678" target="_blank" rel="noopener noreferrer">de Brito Duarte, Correia &amp; Arriaga &mdash; &ldquo;AI Trust: Can Explainable AI Enhance Warranted Trust?&rdquo; (<em>Human Behavior and Emerging Technologies</em>, 2023; open) &mdash; what explanation does to trust, measured<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://doi.org/10.1002/9781394240821.ch11" target="_blank" rel="noopener noreferrer">P&aacute;ez &mdash; &ldquo;Explainability of Algorithms,&rdquo; in <em>A Companion to Digital Ethics</em> (Wiley, 2025) &mdash; where the question becomes an ethical obligation, not merely a technical one<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">Vaswani et al. &mdash; &ldquo;Attention Is All You Need&rdquo; (2017; free) &mdash; the architecture all of this is about<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <p class="note">Three of the four journal doors here are open all the way through (Marcinkevi&#269;s &amp; Vogt; Trott et al.; de Brito Duarte et al.); the P&aacute;ez chapter sits behind a book door; the Vaswani paper is free on arXiv. We point; we don&rsquo;t reproduce. The free spine of this whole subject is in the library &mdash; start there.</p>
+  </div>
+
+  <div class="signoff">
+    Filed from the 37th Chamber &middot; The Woodlands, TX<br>
+    <a href="/references/">&larr; back to The Roots</a> &nbsp;|&nbsp; <a href="/library/the-opaque-box/00-what-is-the-box.html">The Opaque Box &rarr;</a>
+  </div>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/references/">&larr; back to The Roots</a>
+</footer>
+</body>
+</html>
