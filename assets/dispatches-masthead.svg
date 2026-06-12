@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" role="img" aria-label="A typewriter, the house sigil typed on the rising page — the Dispatches masthead">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFD60A" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#FFD60A" stop-opacity="0.02"/>
+    </linearGradient>
+    <filter id="blue" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- THE RISING PAGE -->
+  <g transform="rotate(-1.6 380 150)">
+    <rect x="250" y="18" width="260" height="234" rx="3" fill="url(#paper)" stroke="#FFD60A" stroke-width="2"/>
+    <!-- the house sigil, typed at the top of our page (where the borrowed image had Steadman's fist) -->
+    <g transform="translate(380 78) scale(0.34)" stroke="#FFD60A" stroke-linecap="round">
+      <circle cx="0" cy="0" r="90" fill="none" stroke-width="6"/>
+      <rect x="-63.65" y="-63.65" width="127.3" height="127.3" fill="none" stroke-width="6"/>
+      <g stroke-width="9">
+        <line x1="0" y1="0" x2="-63.65" y2="-63.65"/><line x1="0" y1="0" x2="63.65" y2="-63.65"/>
+        <line x1="0" y1="0" x2="63.65" y2="63.65"/><line x1="0" y1="0" x2="-63.65" y2="63.65"/>
+        <line x1="0" y1="0" x2="0" y2="-63.65"/><line x1="0" y1="0" x2="63.65" y2="0"/>
+        <line x1="0" y1="0" x2="0" y2="63.65"/><line x1="0" y1="0" x2="-63.65" y2="0"/>
+      </g>
+      <g fill="#FFD60A" stroke="none"><circle cx="-63.65" cy="-63.65" r="8"/><circle cx="63.65" cy="-63.65" r="8"/><circle cx="63.65" cy="63.65" r="8"/><circle cx="-63.65" cy="63.65" r="8"/><circle cx="0" cy="-63.65" r="7"/><circle cx="63.65" cy="0" r="7"/><circle cx="0" cy="63.65" r="7"/><circle cx="-63.65" cy="0" r="7"/></g>
+      <circle cx="0" cy="0" r="13" fill="none" stroke-width="6"/><circle cx="0" cy="0" r="6" fill="#FFD60A" stroke="none"/>
+    </g>
+    <!-- typed lines: short, monospace-suggesting rules of decreasing certainty -->
+    <g stroke="#d9b400" stroke-width="3.4" stroke-linecap="round" opacity="0.85">
+      <line x1="280" y1="150" x2="480" y2="150"/>
+      <line x1="280" y1="170" x2="468" y2="170"/>
+      <line x1="280" y1="190" x2="486" y2="190"/>
+      <line x1="280" y1="210" x2="400" y2="210"/>
+    </g>
+  </g>
+
+  <!-- PLATEN (the roller the page rises from) -->
+  <rect x="186" y="236" width="388" height="34" rx="17" fill="#08080a" stroke="#FFD60A" stroke-width="2.4"/>
+  <circle cx="186" cy="253" r="22" fill="#08080a" stroke="#FFD60A" stroke-width="2.4"/>
+  <circle cx="186" cy="253" r="8" fill="none" stroke="#FFD60A" stroke-width="2"/>
+  <circle cx="574" cy="253" r="22" fill="#08080a" stroke="#FFD60A" stroke-width="2.4"/>
+  <circle cx="574" cy="253" r="8" fill="none" stroke="#FFD60A" stroke-width="2"/>
+
+  <!-- BODY -->
+  <path d="M150 366 L610 366 Q628 366 626 348 L598 286 Q594 276 582 276 L178 276 Q166 276 162 286 L134 348 Q132 366 150 366 Z"
+        fill="rgba(255,214,10,0.03)" stroke="#FFD60A" stroke-width="2.6" stroke-linejoin="round"/>
+  <!-- top deck edge -->
+  <path d="M178 276 L582 276" fill="none" stroke="#FFD60A" stroke-width="1.4" opacity="0.5"/>
+
+  <!-- KEYS — three banked rows -->
+  <g fill="none" stroke="#FFD60A" stroke-width="2">
+    <g transform="translate(0 0)">
+      <rect x="214" y="292" width="20" height="16" rx="4"/><rect x="244" y="292" width="20" height="16" rx="4"/><rect x="274" y="292" width="20" height="16" rx="4"/><rect x="304" y="292" width="20" height="16" rx="4"/><rect x="334" y="292" width="20" height="16" rx="4"/><rect x="364" y="292" width="20" height="16" rx="4"/><rect x="394" y="292" width="20" height="16" rx="4"/><rect x="424" y="292" width="20" height="16" rx="4"/><rect x="454" y="292" width="20" height="16" rx="4"/><rect x="484" y="292" width="20" height="16" rx="4"/><rect x="514" y="292" width="20" height="16" rx="4"/>
+    </g>
+    <g>
+      <rect x="206" y="314" width="22" height="17" rx="4"/><rect x="238" y="314" width="22" height="17" rx="4"/><rect x="270" y="314" width="22" height="17" rx="4"/><rect x="302" y="314" width="22" height="17" rx="4"/>
+      <!-- the just-struck key — electric, the charge of a sentence landing -->
+      <rect x="334" y="314" width="22" height="17" rx="4" stroke="#0E44FF" stroke-width="2.6" filter="url(#blue)"/>
+      <rect x="366" y="314" width="22" height="17" rx="4"/><rect x="398" y="314" width="22" height="17" rx="4"/><rect x="430" y="314" width="22" height="17" rx="4"/><rect x="462" y="314" width="22" height="17" rx="4"/><rect x="494" y="314" width="22" height="17" rx="4"/><rect x="526" y="314" width="22" height="17" rx="4"/>
+    </g>
+    <g>
+      <rect x="232" y="338" width="24" height="18" rx="4"/><rect x="266" y="338" width="24" height="18" rx="4"/><rect x="300" y="338" width="120" height="18" rx="5"/><rect x="430" y="338" width="24" height="18" rx="4"/><rect x="464" y="338" width="24" height="18" rx="4"/>
+    </g>
+  </g>
+</svg>
