@@ -48,6 +48,7 @@
   .chain:hover{border-color:rgba(255,214,10,.4);box-shadow:0 0 22px -14px var(--gold)}
   .chain.reached{border-left:3px solid var(--gold)}
   .chain.forming{border-left:3px solid rgba(143,138,115,.5)}
+  .chain.retired{border-left:3px solid rgba(143,138,115,.3);opacity:.6}
   .cstat{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
   .chain.reached .cstat{color:var(--gold)}
   .ctitle{display:block;font-size:1.08rem;margin:.25rem 0;color:var(--text);overflow-wrap:break-word}
@@ -113,7 +114,7 @@
   </div>
 
   <div class="how">
-    <p>It runs on <b>GitHub Issues</b> — out in the open, no private database, nothing to trust but the public record. <b>One issue = one chain</b> toward a giant. Each comment is a hand added to the relay; an <b>open</b> chain is still <em>forming</em>, a <b>closed</b> one has <em>reached</em>. Anyone with a GitHub account can start a chain or add a link to one. Watching needs nothing at all.</p>
+    <p>It runs on <b>GitHub Issues</b> — out in the open, no private database, nothing to trust but the public record. <b>One issue = one chain</b> toward a giant. Each comment is a hand added to the relay; an <b>open</b> chain is still <em>forming</em>, one closed as completed has <em>reached</em>, and one closed as not-planned is <em>retired</em> — archived honestly, never counted as a win. Anyone with a GitHub account can start a chain or add a link to one. Watching needs nothing at all.</p>
     <div class="cta-row">
       <a class="cta go" href="https://github.com/Bobby-Dig8al/37th-chamber-site/issues/new?labels=six-degrees&amp;title=Reach%3A%20" target="_blank" rel="noopener noreferrer">Start a chain &rarr;<span class="sr-only"> (opens in new tab)</span></a>
       <a class="cta ghost" href="/six-degrees/">See the giants</a>
@@ -142,11 +143,16 @@
     }
     /* SECURITY: i.html_url piped through safeUrl() (https:// guard); i.title through clean()/esc().
        i.comments is a number from the API. All user-controlled strings are escaped before innerHTML. */
+    /* HONESTY: closed-as-completed = reached (gold); closed-as-not-planned = retired (dim) —
+       a retired chain is an honest archive (e.g. a season reset), never a false "reached". */
     function card(i){
-      var reached=i.state==='closed';
+      var retired=i.state==='closed'&&i.state_reason==='not_planned';
+      var reached=i.state==='closed'&&!retired;
+      var cls=reached?'reached':(retired?'retired':'forming');
+      var stat=reached?'● reached':(retired?'◌ retired':'○ forming');
       var hands=i.comments===1?'1 hand':(esc(i.comments)+' hands');
-      return '<a class="chain '+(reached?'reached':'forming')+'" href="'+safeUrl(i.html_url)+'" target="_blank" rel="noopener noreferrer">'
-        +'<span class="cstat">'+(reached?'● reached':'○ forming')+'</span>'
+      return '<a class="chain '+cls+'" href="'+safeUrl(i.html_url)+'" target="_blank" rel="noopener noreferrer">'
+        +'<span class="cstat">'+stat+'</span>'
         +'<span class="ctitle">'+clean(i.title)+'</span>'
         +'<span class="cmeta">'+hands+' in the chain</span><span class="sr-only"> (opens in new tab)</span></a>';
     }

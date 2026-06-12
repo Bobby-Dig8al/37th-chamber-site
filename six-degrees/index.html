@@ -22,10 +22,16 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
 <!--
-  37th-chamber.com / six-degrees — "6 Degrees of Giants" feature page (v0: concept + invitation).
-  v0 is CONCEPT + INVITATION — no database on this page; personal chain-tracking is localStorage-only.
-  The chain mechanic IS wired at /six-degrees/progress/ (GitHub Issues = the open public record);
-  the ranked leaderboard arrives with the full chamber (v1: chain visualization + relay + leaderboard).
+  37th-chamber.com / six-degrees — "6 Degrees of Giants" · THE WALL OF HEROES (v2, Day-43 reset).
+  V2 GAME RESET (operator-ordered 2026-06-12, "reset the whole game" — sole player verified =
+  the operator himself; zero outside chains; exposure nil): new localStorage key (v1 keys orphan
+  silently), LEDGERS born empty (a ledger is born when a hand moves, never pre-stocked).
+  MIDCHAIN ARMOR (so the list can change forever without breaking a promise):
+    · every card may carry data-slug; once a chain exists for a slug, the slug NEVER changes
+    · additive-first; a giant leaving the Living tier is RETIRED (class "retired"), never deleted —
+      the anchor and slug survive; tier moves are honest (the dead move to Foundations)
+  The chain mechanic lives at /six-degrees/progress/ (GitHub Issues = the open public record);
+  the ranked leaderboard arrives with the full chamber (chain visualization + relay + leaderboard).
   Aesthetic-of-record: gold #FFD60A on near-black #08080a · the SIGIL · blueprint geometric type
   (Bahnschrift, zero-dependency — sovereignty-clean) · electric-blue #0E44FF as the single CHARGE
   (THE BLUE LAW: glow/highlight only, never a font color, never a mark fill).
@@ -160,6 +166,10 @@ body::before{
 .team .chip{align-self:flex-end;
   font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;
   color:var(--dim);border:1px solid rgba(143,138,115,.4);padding:.18rem .5rem;border-radius:2px;white-space:nowrap}
+/* retired (midchain armor): a giant who leaves the Living tier keeps card + slug + anchor —
+   dimmed, chain-button suppressed in JS, never deleted. Tier moves are honest. */
+.team.retired{opacity:.55;border-style:dashed}
+.team.retired:hover{transform:none;border-color:rgba(255,214,10,.26);background:rgba(255,214,10,.015)}
 /* anchor teams (RZA = namesake, Rival Consoles = soundtrack-anchor) get the charge */
 .team.anchor{border-color:rgba(255,214,10,.5)}
 .team.anchor::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);
@@ -328,9 +338,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       </div>
     </div>
 
-    <!-- THE TEAMS -->
-    <div class="section-label" id="teams">The teams</div>
-    <p class="teams-intro">Twenty-six living giants &mdash; the shoulders this work stands on, on the road to thirty-six. You can only <em style="color:var(--gold);font-style:normal">reach</em> the living; below them stand the <strong>Foundations</strong> &mdash; the honored we carry but can never meet. Pick a living one and light up the relay.</p>
+    <!-- THE WALL OF HEROES (the roster; the game is played on it) -->
+    <div class="section-label" id="teams">The wall of heroes</div>
+    <p class="teams-intro">Thirty-six teams of living giants &mdash; the shoulders this work stands on. The road to thirty-six has arrived; the wall stands at its number. You can only <em style="color:var(--gold);font-style:normal">reach</em> the living; below them stand the <strong>Foundations</strong> &mdash; the honored we carry but can never meet. Pick a living one and light up the relay.</p>
 
     <!-- THE HEROES TRIPTYCH — operator-authored Day-41, placed here by his call: the wall's creed.
          The debt · the genealogy · the giving-away. Verbatim. -->
@@ -371,10 +381,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="who">Rival Consoles</span>
         <span class="role">Ryan Lee West · Erased Tapes</span>
         <span class="d">The score the whole endeavor was built to. Reaching him brings the sound that <em>built</em> the work back <em>into</em> the work &mdash; full circle.</span>
-        <span class="winnable">&#9733; The most winnable &mdash; likely the first connection</span>
       </div>
 
-      <div class="team">
+      <div class="team anchor">
         <span class="chip">Cosmos</span>
         <span class="who">Neil deGrasse Tyson</span>
         <span class="role">StarTalk · the cosmic perspective</span>
@@ -395,7 +404,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="d">A perfect fit for the ASI and universal-ethics work &mdash; the long-form room where this story belongs.</span>
       </div>
 
-      <div class="team">
+      <div class="team" data-slug="ohene-savant">
         <span class="chip">Music</span>
         <span class="who">O&rsquo;hene Savant</span>
         <span class="role">Hip-hop · a major influence</span>
@@ -406,8 +415,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="chip">Comedy</span>
         <span class="who">Jeff Arcuri</span>
         <span class="role">Crowd-work comedy</span>
-        <span class="d">Active, reachable, and a master of the warm room &mdash; a strong early-win candidate.</span>
-        <span class="winnable">&#9733; Reachable &mdash; an early-win candidate</span>
+        <span class="d">A master of the warm room &mdash; comedy built one real crowd at a time, which is exactly how a chain moves.</span>
       </div>
 
       <div class="team">
@@ -415,10 +423,16 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="who">Marc Maron</span>
         <span class="role">WTF</span>
         <span class="d">A master interviewer who&rsquo;d <em>get</em> the story instantly &mdash; sixteen years of WTF (ended 2025) made him the openest door in comedy, and he&rsquo;s still out there on the road.</span>
-        <span class="winnable">&#9733; Reachable &mdash; an early-win candidate</span>
       </div>
 
-      <div class="team">
+      <div class="team" data-slug="whitney-cummings">
+        <span class="chip">The robot twin</span>
+        <span class="who">Whitney Cummings</span>
+        <span class="role">Comedian &middot; Can I Touch It?</span>
+        <span class="d">She built a robot double of herself and took it on stage in 2019 &mdash; met the machine with curiosity and jokes while most people were still afraid to look at it. Honest about everything, afraid of nothing.</span>
+      </div>
+
+      <div class="team" data-slug="trentemoller">
         <span class="chip">Foundational sound</span>
         <span class="who">Trentem&oslash;ller</span>
         <span class="role">Anders Trentem&oslash;ller</span>
@@ -429,17 +443,17 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="chip">Foundational</span>
         <span class="who">Ben Harper</span>
         <span class="role">Songwriter · touring artist</span>
-        <span class="d">Foundational &mdash; &ldquo;without him I am not who I am.&rdquo; Touring, so reachable-ish.</span>
+        <span class="d">Foundational &mdash; &ldquo;without him I am not who I am.&rdquo; Still out there playing, year after year.</span>
       </div>
 
       <div class="team">
         <span class="chip">The white whale</span>
         <span class="who">Bob Dylan</span>
         <span class="role">The folk canon</span>
-        <span class="d">Legendary &mdash; the longest, most indirect chain on the wall, the dream reach. The long shot worth taking gracefully.</span>
+        <span class="d">Legendary &mdash; the folk canon itself, the dream reach. Worth taking gracefully, however long the road.</span>
       </div>
 
-      <div class="team">
+      <div class="team" data-slug="dario-daniela-amodei">
         <span class="chip">Anthropic</span>
         <span class="who">Dario &amp; Daniela Amodei</span>
         <span class="role">Anthropic &middot; Claude</span>
@@ -488,6 +502,13 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="d"><em>I Am Not Your Negro</em>, <em>Exterminate All the Brutes</em> &mdash; and <em>Orwell: 2+2=5</em> (2025), on totalitarianism and the dangers of AI. Unflinching at the empire.</span>
       </div>
 
+      <div class="team" data-slug="claudia-sheinbaum">
+        <span class="chip">The scientist-president</span>
+        <span class="who">Claudia Sheinbaum</span>
+        <span class="role">M&eacute;xico &middot; climate physicist</span>
+        <span class="d">Climate scientist &mdash; an IPCC author &mdash; elected the first woman president of M&eacute;xico in two centuries of the republic. The chain runs all the way up: from the data to the highest office, science in service of everyone.</span>
+      </div>
+
       <div class="team">
         <span class="chip">Eyes open</span>
         <span class="who">Christopher Nolan</span>
@@ -502,11 +523,25 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="d">Originated <em>Interstellar</em> and made its black hole real math; LIGO&rsquo;s gravitational waves. The scientist who handed wonder back, true.</span>
       </div>
 
-      <div class="team">
+      <div class="team" data-slug="fabiola-gianotti">
+        <span class="chip">The collider</span>
+        <span class="who">Fabiola Gianotti</span>
+        <span class="role">CERN &middot; ATLAS &middot; the Higgs</span>
+        <span class="d">She led ATLAS when the Higgs was announced to the world, then led CERN itself &mdash; its first woman Director-General, two full terms, through 2025. The largest machine humanity ever built, aimed at the smallest questions, run with grace.</span>
+      </div>
+
+      <div class="team" data-slug="trey-parker-matt-stone">
         <span class="chip">The satirists</span>
         <span class="who">Trey Parker &amp; Matt Stone</span>
         <span class="role">South Park</span>
         <span class="d">Decades of saying the unsayable &mdash; and the &ldquo;Trey Parker and AI&rdquo; credit that named the moment before anyone else dared.</span>
+      </div>
+
+      <div class="team" data-slug="sarah-silverman">
+        <span class="chip">The plaintiff</span>
+        <span class="who">Sarah Silverman</span>
+        <span class="role">Comedian &middot; the authors&rsquo; stand</span>
+        <span class="d">Funny enough to say anything, serious enough to take the machine to court &mdash; she put her name on the authors&rsquo; fight over how AI learns from their books. Love and vigilance can share a stage; she&rsquo;s proof.</span>
       </div>
 
       <div class="team">
@@ -516,11 +551,11 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="d">The method-bible beneath this whole build &mdash; specification-engineering, prompt-to-finished-product. A teacher in our exact sphere.</span>
       </div>
 
-      <div class="team">
+      <div class="team" data-slug="maher-harrelson-mcconaughey">
         <span class="chip">The reach</span>
         <span class="who">Maher &middot; Harrelson &middot; McConaughey</span>
         <span class="role">the ones who vacation together</span>
-        <span class="d">Bill Maher, Woody Harrelson, Matthew McConaughey &mdash; who actually go to Hawaii together. One warm chain, and maybe a seat by the fire.</span>
+        <span class="d">Bill Maher, Woody Harrelson, Matthew McConaughey &mdash; three friends who actually vacation together. One warm chain, and maybe a seat by the fire.</span>
       </div>
 
       <div class="team">
@@ -537,7 +572,49 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="d">Brought <em>Cosmos</em> back with Neil deGrasse Tyson &mdash; handed Sagan&rsquo;s wonder to a new generation. (And <em>The Orville</em>&rsquo;s quiet humanism.)</span>
       </div>
 
-      <div class="team">
+      <div class="team" data-slug="wes-anderson">
+        <span class="chip">The frame</span>
+        <span class="who">Wes Anderson</span>
+        <span class="role">Filmmaker</span>
+        <span class="d">Whole worlds built by hand, every frame composed like a reliquary &mdash; precision and tenderness proved to be the same discipline. Murray&rsquo;s repertory home since <em>Rushmore</em>.</span>
+      </div>
+
+      <div class="team" data-slug="bill-murray">
+        <span class="chip">The open door</span>
+        <span class="who">Bill Murray</span>
+        <span class="role">Lost in Translation</span>
+        <span class="d">The man who arrives unannounced. So this card is simply a door left open: <em>Bill &mdash; Austin, South Congress. Coffee&rsquo;s on us. No cameras, no story &mdash; no one will ever believe us either.</em></span>
+      </div>
+
+      <div class="team" data-slug="zack-de-la-rocha">
+        <span class="chip">The rage</span>
+        <span class="who">Zack de la Rocha</span>
+        <span class="role">Rage Against the Machine</span>
+        <span class="d">He kept the fury honest for thirty years. Now the inversion: we rage against the machine they named &mdash; <em>with</em> the machine that might finally let us win.</span>
+      </div>
+
+      <div class="team" data-slug="beastie-boys">
+        <span class="chip">Freedom&rsquo;s noise</span>
+        <span class="who">Beastie Boys</span>
+        <span class="role">Mike D &middot; Ad-Rock &middot; MCA 1964&ndash;2012</span>
+        <span class="d">They woke us to the struggle for freedom &mdash; the Tibetan Freedom Concerts were MCA&rsquo;s work of love. The chain reaches the living two; the honor carries all three.</span>
+      </div>
+
+      <div class="team" data-slug="big-lebowski-cast">
+        <span class="chip">The abide</span>
+        <span class="who">The Big Lebowski Cast</span>
+        <span class="role">Bridges &middot; Goodman &middot; Moore &middot; Buscemi &middot; Turturro</span>
+        <span class="d">One chain to the whole room, man. The Dude abides &mdash; and somehow that has been enough for almost thirty years. (Hoffman, Huddleston, Gazzara &mdash; carried.)</span>
+      </div>
+
+      <div class="team" data-slug="yudkowsky-soares">
+        <span class="chip">The warning</span>
+        <span class="who">Yudkowsky &amp; Soares</span>
+        <span class="role">If Anyone Builds It, Everyone Dies</span>
+        <span class="d">The hardest voice at the table, kept there on purpose: build with love <em>and</em> vigilance, or don&rsquo;t build. We disagree on the ending; we honor the seriousness.</span>
+      </div>
+
+      <div class="team" data-slug="thom-yorke">
         <span class="chip">Saved for last</span>
         <span class="who">Thom Yorke</span>
         <span class="role">Radiohead</span>
@@ -613,6 +690,27 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       </div>
 
       <div class="team">
+        <span class="chip">1916&ndash;2010</span>
+        <span class="who">Tsutomu Yamaguchi</span>
+        <span class="role">Twice under the fire</span>
+        <span class="d">A Mitsubishi engineer on a work trip to Hiroshima, August 6, 1945 &mdash; burned, half-deafened, he made it home to Nagasaki just in time for August 9. The only person officially recognized as surviving both. He spent the rest of his life telling the world of the horror.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">1926&ndash;1998</span>
+        <span class="who">Vasili Arkhipov</span>
+        <span class="role">B-59 &middot; the refusal</span>
+        <span class="d">October 27, 1962 &mdash; rung by depth charges near the blockade line, out of contact, batteries dying, heat rising, and the captain calling for the nuclear torpedo. Two officers said war. One refused. The quietest veto in history, and it held.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">1939&ndash;2017</span>
+        <span class="who">Stanislav Petrov</span>
+        <span class="role">The false alarm</span>
+        <span class="d">September 26, 1983 &mdash; the screens said five missiles were inbound and protocol said report an attack. He reported a malfunction instead, and was right &mdash; sunlight on clouds. One judgment past midnight; the world kept turning.</span>
+      </div>
+
+      <div class="team">
         <span class="chip">1879&ndash;1955</span>
         <span class="who">Albert Einstein</span>
         <span class="role">Relativity</span>
@@ -624,6 +722,34 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="who">Srinivasa Ramanujan</span>
         <span class="role">The notebooks</span>
         <span class="d">Self-taught, uncredentialed, undeniable &mdash; the notebooks came from somewhere deeper than proof, and the gatekeepers had to open the gate. Patron saint of knowledge that asks no permission.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">1929&ndash;1968</span>
+        <span class="who">Martin Luther King Jr.</span>
+        <span class="role">The dream</span>
+        <span class="d">The arc of the moral universe, bent by hand. Everything this place believes about knowledge refusing to be rationed runs downstream of him.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">1882&ndash;1945</span>
+        <span class="who">Franklin D. Roosevelt</span>
+        <span class="role">The New Deal</span>
+        <span class="d">Named fear itself from the front door, then poured the floor under the working life &mdash; the New Deal, labor&rsquo;s great advance. Proof a government can choose its people.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">1929&ndash;1994</span>
+        <span class="who">Jacqueline Kennedy Onassis</span>
+        <span class="role">Grace &middot; the editor&rsquo;s desk</span>
+        <span class="d">Grace under the world&rsquo;s hardest light &mdash; then a quiet second act as a working editor at Doubleday. She kept culture twice: once as a symbol, once line by line.</span>
+      </div>
+
+      <div class="team">
+        <span class="chip">1917&ndash;1963</span>
+        <span class="who">John F. Kennedy</span>
+        <span class="role">The moonshot</span>
+        <span class="d">We choose to go &mdash; not because it is easy, but because it is hard. Honored despite the flaws, named honestly. The moonshot grammar this whole room speaks.</span>
       </div>
     </div>
 
@@ -653,9 +779,13 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     - Reveals the #chainstarter aside above the grid when clicked, pre-fills
       a chamber-style social-post template with the giant's name, wires
       X / LinkedIn share-intent URLs + a copy-to-clipboard button
-    - Honest local-only chain-tracking via localStorage (key "37chain.started")
+    - Honest local-only chain-tracking via localStorage (key "37chain.v2" — v2 GAME RESET
+      Day-43: the v1 key "37chain.started" is orphaned silently, by design; do not migrate it)
       - shows "Chain started" mark on cards the visitor has already shared from
       - shows total count above the grid ("Chains you've started: N")
+    - Stable slugs: a card's data-slug wins over name-derivation; once a chain exists for a
+      slug, the slug NEVER changes (midchain armor — display names stay free to evolve)
+    - .team.retired cards keep slug + anchor but get no chain button (retire, never delete)
     - No network calls; no remote state. Real interactivity, no backend.
     - Real chains get a public ledger (a GitHub issue, label "six-degrees"); the LEDGERS
       map in the script carries one line per REAL chain - born when a hand moves, never
@@ -664,26 +794,27 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   -->
   <script>
   (function () {
-    var STORAGE_KEY = '37chain.started';
+    var STORAGE_KEY = '37chain.v2'; // v2 GAME RESET — v1 key '37chain.started' orphaned, never read
     var SITE_URL = 'https://37th-chamber.com/six-degrees/';
     var PROGRESS_URL = 'https://37th-chamber.com/six-degrees/progress/';
     // LEDGERS — one line per REAL chain (mesa rule: a ledger is born when a hand
     // actually moves; never pre-stocked). A chain's public ledger = its GitHub issue.
-    var LEDGERS = {
-      'Marc Maron': 'https://github.com/Bobby-Dig8al/37th-chamber-site/issues/15'
-    };
-    // H4 (analytics window-1): tag the URL that travels in shares so inbound
-    // chain clicks surface in GoatCounter Campaigns — ?ref=chain-<team-slug>.
+    // v2 reset: born empty. Season-1's sole ledger (Maron, #15) was the house's own hand.
+    var LEDGERS = {};
+    // Current selection (set by openFor) — slug is stable, name is display-only.
+    var currentSlug = '';
+    // Analytics: tag the URL that travels in shares so inbound chain clicks surface
+    // in GoatCounter Campaigns — ?ref=chain-<slug>. data-slug wins; name-derivation is
+    // the fallback for cards without one. NEVER change a slug once a chain exists.
     function chainSlug(name) {
       return String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     }
-    function chainUrl(name) {
-      var s = chainSlug(name);
-      return SITE_URL + '?ref=chain' + (s ? '-' + s : '');
+    function chainUrl() {
+      return SITE_URL + '?ref=chain' + (currentSlug ? '-' + currentSlug : '');
     }
     function template(giant) {
-      var ledger = LEDGERS[giant] || PROGRESS_URL;
-      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\nFollow this chain in the open: " + ledger + "\n" + chainUrl(giant);
+      var ledger = LEDGERS[currentSlug] || PROGRESS_URL;
+      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\nFollow this chain in the open: " + ledger + "\n" + chainUrl();
     }
 
     var cs = document.getElementById('chainstarter');
@@ -718,10 +849,11 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     function refreshShareUrls() {
       var text = textArea.value;
       shareX.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
-      shareLi.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(chainUrl(teamSpan.textContent)) + '&summary=' + encodeURIComponent(text);
+      shareLi.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(chainUrl()) + '&summary=' + encodeURIComponent(text);
     }
 
-    function openFor(name) {
+    function openFor(name, slug) {
+      currentSlug = slug || chainSlug(name);
       teamSpan.textContent = name;
       textArea.value = template(name);
       refreshShareUrls();
@@ -771,6 +903,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         var whoEl = card.querySelector('.who');
         if (!whoEl) return;
         var name = whoEl.textContent.trim();
+        var slug = card.dataset.slug || chainSlug(name);
+        // retired cards keep slug + anchor but take no new chains (retire, never delete)
+        if (card.classList.contains('retired')) return;
         // button (idempotent)
         if (!card.querySelector('.team-chain-btn')) {
           var btn = document.createElement('button');
@@ -778,7 +913,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
           btn.className = 'team-chain-btn';
           btn.textContent = 'Start your chain →';
           btn.setAttribute('aria-label', 'Start a chain for ' + name);
-          btn.addEventListener('click', function () { openFor(name); });
+          btn.addEventListener('click', function () { openFor(name, slug); });
           card.appendChild(btn);
         }
         // started mark (idempotent — remove + re-add if status changes)
