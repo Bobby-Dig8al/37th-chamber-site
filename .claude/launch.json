@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cloud",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8771", "--directory", "C:\\Users\\bobby-dig8al\\Repos\\_wt-cloud"],
+      "port": 8771
+    }
+  ]
+}
