@@ -226,7 +226,8 @@ function build(){
     }
     const t = document.createElementNS(SVGNS,"text");
     t.setAttribute("class","nlabel");
-    t.textContent = `${n.author} ${n.year||""}`.trim();
+    n.label = `${n.author} ${n.year||""}`.trim();
+    t.textContent = n.label;
     n.showLabel = (n.r >= showLabelDeg) || n.id===DATA.seed;
     if(!n.showLabel) t.style.opacity = "0";
     n.tEl = t; gLabels.appendChild(t);
@@ -242,12 +243,14 @@ function build(){
 // (gen) bias on y. Containment is by CENTROID RECENTERING (translate the whole
 // graph so its centre sits at the middle) — NOT a per-node inward pull, which
 // collapses a dense graph onto the centre axis.
-const CHARGE=-5600, LINK=74, SPRING=.02, DAMP=.85, DMIN=28;
+const CHARGE=-5600, LINK=72, SPRING=.026, DAMP=.85, DMIN=28, GRAVITY=.0045;
 let genPull=0, genSpread=VH*0.20;   // organic by default; lineage mode raises genPull
 function step(alpha, cx, cy){
-  if(genPull) for(const n of nodes){                      // lineage bias: roots low, branches high
+  for(const n of nodes){
     if(n.fixed) continue;
-    n.vy += ((cy - n.gen*genSpread) - n.y)*genPull;
+    n.vx += (cx-n.x)*GRAVITY*alpha;          // gentle, alpha-faded containment — reels in strays
+    n.vy += (cy-n.y)*GRAVITY*alpha;          // (alpha-scaled so it can't slow-collapse once cooled)
+    if(genPull) n.vy += ((cy - n.gen*genSpread) - n.y)*genPull;   // lineage bias: roots low, branches high
   }
   for(let i=0;i<nodes.length;i++){                        // repulsion O(n^2), fine for ~40 nodes
     for(let j=i+1;j<nodes.length;j++){
@@ -283,8 +286,25 @@ function settle(steps, cx, cy){
   let alpha=1;
   for(let k=0;k<steps;k++){ step(alpha,cx,cy); alpha*=0.99; if(alpha<0.003) break; }
   render();
+  declutter();
 }
 function reheat(){ settle(50); }
+// Greedy label declutter: place default-shown labels largest-first (seed wins),
+// hide any that would overlap one already placed. Keeps the field readable.
+function declutter(){
+  const placed=[];
+  for(const n of nodes) n._hideLabel=false;
+  const cand=nodes.filter(n=>n.showLabel).sort((a,b)=>
+    (b.id===DATA.seed?1e9:b.r) - (a.id===DATA.seed?1e9:a.r));
+  for(const n of cand){
+    const w=n.label.length*(n.id===DATA.seed?6.4:4.9), h=12;
+    const ly=(n.y>VH-34? n.y-n.r-14 : n.y+n.r+4);
+    const box={x1:n.x-w/2, y1:ly, x2:n.x+w/2, y2:ly+h};
+    if(placed.some(p=>!(box.x2<p.x1||box.x1>p.x2||box.y2<p.y1||box.y1>p.y2))) n._hideLabel=true;
+    else placed.push(box);
+  }
+  if(!focused) for(const n of nodes) n.tEl.style.opacity=(n.showLabel&&!n._hideLabel)?"1":"0";
+}
 function applyLayout(mode){
   genPull = (mode==="lineage") ? 0.016 : 0;
   nodes.forEach(n=>{ n.fixed=false; });   // release any pinned nodes so the shape can re-form
@@ -325,7 +345,7 @@ function clearFocus(){
   for(const m of nodes){
     m.cEl.classList.remove("dim","focus");
     m.tEl.classList.remove("lit","dim");
-    m.tEl.style.opacity=m.showLabel?"1":"0";
+    m.tEl.style.opacity=(m.showLabel && !m._hideLabel)?"1":"0";
   }
   for(const e of edges){ e.el && e.el.classList.remove("lit"); }
 }
