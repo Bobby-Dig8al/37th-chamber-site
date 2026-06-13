@@ -1,0 +1,1131 @@
+{
+ "seed": "W2088237123",
+ "source": "OpenAlex (api.openalex.org) — fetched live, real citation data",
+ "nodes": [
+  {
+   "id": "W2088237123",
+   "title": "Gravitational lensing by spinning black holes in astrophysics, and in the movie Interstellar",
+   "author": "James",
+   "year": 2015,
+   "citations": 109,
+   "gen": 0,
+   "url": "https://doi.org/10.1088/0264-9381/32/6/065001"
+  },
+  {
+   "id": "W2103819762",
+   "title": "Global Structure of the Kerr Family of Gravitational Fields",
+   "author": "Carter",
+   "year": 1968,
+   "citations": 2279,
+   "gen": -1,
+   "url": "https://doi.org/10.1103/physrev.174.1559"
+  },
+  {
+   "id": "W2017010109",
+   "title": "Disk-Accretion onto a Black Hole. II. Evolution of the Hole",
+   "author": "Thorne",
+   "year": 1974,
+   "citations": 1229,
+   "gen": -1,
+   "url": "https://doi.org/10.1086/152991"
+  },
+  {
+   "id": "W2031106768",
+   "title": "Viewing the Shadow of the Black Hole at the Galactic Center",
+   "author": "Falcke",
+   "year": 2000,
+   "citations": 1083,
+   "gen": -1,
+   "url": "https://doi.org/10.1086/312423"
+  },
+  {
+   "id": "W1969802368",
+   "title": "Black holes: The membrane paradigm",
+   "author": "Thorne",
+   "year": 2010,
+   "citations": 1061,
+   "gen": -1,
+   "url": "http://ci.nii.ac.jp/ncid/BA00684690"
+  },
+  {
+   "id": "W2078887476",
+   "title": "HARM: A Numerical Scheme for General Relativistic Magnetohydrodynamics",
+   "author": "Gammie",
+   "year": 2003,
+   "citations": 793,
+   "gen": -1,
+   "url": "https://doi.org/10.1086/374594"
+  },
+  {
+   "id": "W2159146375",
+   "title": "Internal structure of black holes",
+   "author": "Poisson",
+   "year": 1990,
+   "citations": 758,
+   "gen": -1,
+   "url": "https://doi.org/10.1103/physrevd.41.1796"
+  },
+  {
+   "id": "W2038915951",
+   "title": "Gravitational Lensing from a Spacetime Perspective",
+   "author": "Perlick",
+   "year": 2004,
+   "citations": 490,
+   "gen": -1,
+   "url": "https://doi.org/10.12942/lrr-2004-9"
+  },
+  {
+   "id": "W3015417472",
+   "title": "Gravitational lensing",
+   "author": "Bartelmann",
+   "year": 2010,
+   "citations": 439,
+   "gen": -1,
+   "url": "https://doi.org/10.1088/0264-9381/27/23/233001"
+  },
+  {
+   "id": "W1496439903",
+   "title": "Global General Relativistic Magnetohydrodynamic Simulation of a Tilted Black Hole Accretion Disk",
+   "author": "Fragile",
+   "year": 2007,
+   "citations": 379,
+   "gen": -1,
+   "url": "https://doi.org/10.1086/521092"
+  },
+  {
+   "id": "W2080448741",
+   "title": "Gravitational lensing by black holes",
+   "author": "Bozza",
+   "year": 2010,
+   "citations": 350,
+   "gen": -1,
+   "url": "https://doi.org/10.1007/s10714-010-0988-2"
+  },
+  {
+   "id": "W1665848147",
+   "title": "Image of a spherical black hole with thin accretion disk.",
+   "author": "Luminet",
+   "year": 1979,
+   "citations": 344,
+   "gen": -1,
+   "url": "https://inspirehep.net/literature/1730378"
+  },
+  {
+   "id": "W2150151189",
+   "title": "RADIATIVE MODELS OF SGR A* FROM GRMHD SIMULATIONS",
+   "author": "Gammie",
+   "year": 2009,
+   "citations": 320,
+   "gen": -1,
+   "url": "https://doi.org/10.1088/0004-637x/706/1/497"
+  },
+  {
+   "id": "W1670927892",
+   "title": "Spherical Photon Orbits Around a Kerr Black Hole",
+   "author": "Teo",
+   "year": 2003,
+   "citations": 290,
+   "gen": -1,
+   "url": "https://doi.org/10.1023/a:1026286607562"
+  },
+  {
+   "id": "W1651625227",
+   "title": "The Tycho-2 catalogue of the 2.5 million brightest stars",
+   "author": "Fabricius",
+   "year": 2000,
+   "citations": 240,
+   "gen": -1,
+   "url": "https://apps.dtic.mil/dtic/tr/fulltext/u2/a572009.pdf"
+  },
+  {
+   "id": "W3161457974",
+   "title": "Calculating black hole shadows: Review of analytical studies",
+   "author": "Perlick",
+   "year": 2021,
+   "citations": 589,
+   "gen": 1,
+   "url": "https://doi.org/10.1016/j.physrep.2021.10.004"
+  },
+  {
+   "id": "W1598518235",
+   "title": "Influence of a plasma on the shadow of a spherically symmetric black hole",
+   "author": "Perlick",
+   "year": 2015,
+   "citations": 389,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.92.104031"
+  },
+  {
+   "id": "W3005703510",
+   "title": "Lensing by Kerr black holes",
+   "author": "Gralla",
+   "year": 2020,
+   "citations": 218,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.101.044031"
+  },
+  {
+   "id": "W2593112502",
+   "title": "Light propagation in a plasma on Kerr spacetime: Separation of the Hamilton-Jacobi equation and calculation of the shadow",
+   "author": "Perlick",
+   "year": 2017,
+   "citations": 190,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.95.104003"
+  },
+  {
+   "id": "W2407146002",
+   "title": "Shadows of Kerr black holes with and without scalar hair",
+   "author": "Cunha",
+   "year": 2016,
+   "citations": 179,
+   "gen": 1,
+   "url": "https://doi.org/10.1142/s0218271816410212"
+  },
+  {
+   "id": "W1591089324",
+   "title": "Photon regions and shadows of accelerated black holes",
+   "author": "Grenzebach",
+   "year": 2015,
+   "citations": 176,
+   "gen": 1,
+   "url": "https://doi.org/10.1142/s0218271815420249"
+  },
+  {
+   "id": "W2736798409",
+   "title": "Gravitational Lensing in Presence of Plasma: Strong Lens Systems, Black Hole Lensing and Shadow",
+   "author": "Bisnovatyi-Kogan",
+   "year": 2017,
+   "citations": 148,
+   "gen": 1,
+   "url": "https://doi.org/10.3390/universe3030057"
+  },
+  {
+   "id": "W3129177192",
+   "title": "The imitation game: Proca stars that can mimic the Schwarzschild shadow",
+   "author": "Herdeiro",
+   "year": 2021,
+   "citations": 137,
+   "gen": 1,
+   "url": "https://doi.org/10.1088/1475-7516/2021/04/051"
+  },
+  {
+   "id": "W2211968252",
+   "title": "Sgr A* and general relativity",
+   "author": "Johannsen",
+   "year": 2016,
+   "citations": 132,
+   "gen": 1,
+   "url": "https://doi.org/10.1088/0264-9381/33/11/113001"
+  },
+  {
+   "id": "W3201315390",
+   "title": "Shadow analysis for rotating black holes in the presence of plasma for an expanding universe",
+   "author": "Chowdhuri",
+   "year": 2020,
+   "citations": 113,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.104.064039"
+  },
+  {
+   "id": "W2444448739",
+   "title": "Shadow of rotating wormhole in plasma environment",
+   "author": "Abdujabbarov",
+   "year": 2016,
+   "citations": 103,
+   "gen": 1,
+   "url": "https://doi.org/10.1007/s10509-016-2818-9"
+  },
+  {
+   "id": "W2597870484",
+   "title": "Analytical calculation of black hole spin using deformation of the shadow",
+   "author": "Tsupko",
+   "year": 2017,
+   "citations": 94,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.95.104058"
+  },
+  {
+   "id": "W2801526692",
+   "title": "Shadow of a black hole at cosmological distances",
+   "author": "Tsupko",
+   "year": 2018,
+   "citations": 89,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.98.084020"
+  },
+  {
+   "id": "W4360983554",
+   "title": "Black hole images: A review",
+   "author": "Chen",
+   "year": 2023,
+   "citations": 71,
+   "gen": 1,
+   "url": "https://doi.org/10.1007/s11433-022-2059-5"
+  },
+  {
+   "id": "W1916666649",
+   "title": "Visualizing Interstellar's Wormhole",
+   "author": "James",
+   "year": 2015,
+   "citations": 70,
+   "gen": 1,
+   "url": "https://doi.org/10.1119/1.4916949"
+  },
+  {
+   "id": "W2945348795",
+   "title": "Black hole shadow as a standard ruler in cosmology",
+   "author": "Tsupko",
+   "year": 2020,
+   "citations": 66,
+   "gen": 1,
+   "url": "https://doi.org/10.1088/1361-6382/ab6f7d"
+  },
+  {
+   "id": "W4220743130",
+   "title": "Analytical study of higher-order ring images of the accretion disk around a black hole",
+   "author": "Tsupko",
+   "year": 2022,
+   "citations": 65,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.105.064040"
+  },
+  {
+   "id": "W4283204800",
+   "title": "Photon ring test of the Kerr hypothesis: Variation in the ring shape",
+   "author": "Paugnat",
+   "year": 2022,
+   "citations": 56,
+   "gen": 1,
+   "url": "https://doi.org/10.1051/0004-6361/202244216"
+  },
+  {
+   "id": "W3133136066",
+   "title": "Strong field gravitational lensing by hairy Kerr black holes",
+   "author": "Islam",
+   "year": 2021,
+   "citations": 53,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.103.124052"
+  },
+  {
+   "id": "W4295929284",
+   "title": "Shape of higher-order images of equatorial emission rings around a Schwarzschild black hole: Analytical description with polar curves",
+   "author": "Tsupko",
+   "year": 2022,
+   "citations": 52,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.106.064033"
+  },
+  {
+   "id": "W1779444124",
+   "title": "Physical laboratory at the center of the Galaxy",
+   "author": "Dokuchaev",
+   "year": 2015,
+   "citations": 48,
+   "gen": 1,
+   "url": "https://doi.org/10.3367/ufne.0185.201508c.0829"
+  },
+  {
+   "id": "W2770251852",
+   "title": "Particle collisions and optical effects in the mining Kerr-Newman spacetimes",
+   "author": "Blaschke",
+   "year": 2017,
+   "citations": 46,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.96.104050"
+  },
+  {
+   "id": "W4321500824",
+   "title": "Adaptive analytical ray tracing of black hole photon rings",
+   "author": "Lupsasca",
+   "year": 2023,
+   "citations": 42,
+   "gen": 1,
+   "url": "https://doi.org/10.1103/physrevd.107.043030"
+  },
+  {
+   "id": "W2995126139",
+   "title": "First analytical calculation of black hole shadow in McVittie metric",
+   "author": "Tsupko",
+   "year": 2020,
+   "citations": 38,
+   "gen": 1,
+   "url": "https://doi.org/10.1142/s0218271820500625"
+  }
+ ],
+ "edges": [
+  {
+   "s": "W2088237123",
+   "t": "W1496439903"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W1651625227"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W1670927892"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W1916666649"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W1969802368"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2017010109"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2078887476"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W2159146375"
+  },
+  {
+   "s": "W2088237123",
+   "t": "W3015417472"
+  },
+  {
+   "s": "W2038915951",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W2038915951",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2038915951",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W1496439903",
+   "t": "W2078887476"
+  },
+  {
+   "s": "W2080448741",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2080448741",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W2080448741",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W2150151189",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2150151189",
+   "t": "W2078887476"
+  },
+  {
+   "s": "W1670927892",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W1670927892",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W1670927892"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2597870484"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2736798409"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2801526692"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2945348795"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W2995126139"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W3015417472"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W3129177192"
+  },
+  {
+   "s": "W3161457974",
+   "t": "W3201315390"
+  },
+  {
+   "s": "W1598518235",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W1598518235",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W1598518235",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W3005703510",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W3005703510",
+   "t": "W1670927892"
+  },
+  {
+   "s": "W3005703510",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W3005703510",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W3005703510",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W2593112502",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W2593112502",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W2593112502",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2407146002",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2407146002",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2407146002",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W1591089324",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W1591089324",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W1591089324",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W1591089324",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W2444448739"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W2597870484"
+  },
+  {
+   "s": "W2736798409",
+   "t": "W3015417472"
+  },
+  {
+   "s": "W3129177192",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W3129177192",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W3129177192",
+   "t": "W2407146002"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W1496439903"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W2078887476"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W2211968252",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W3201315390",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W3201315390",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W3201315390",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W3201315390",
+   "t": "W2801526692"
+  },
+  {
+   "s": "W3201315390",
+   "t": "W2945348795"
+  },
+  {
+   "s": "W3201315390",
+   "t": "W2995126139"
+  },
+  {
+   "s": "W2444448739",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W2444448739",
+   "t": "W1916666649"
+  },
+  {
+   "s": "W2444448739",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2444448739",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2597870484",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W2597870484",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W2597870484",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2597870484",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2597870484",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W2801526692",
+   "t": "W2597870484"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W2444448739"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W3161457974"
+  },
+  {
+   "s": "W4360983554",
+   "t": "W4220743130"
+  },
+  {
+   "s": "W1916666649",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W1916666649",
+   "t": "W3015417472"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W2597870484"
+  },
+  {
+   "s": "W2945348795",
+   "t": "W2801526692"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2597870484"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2736798409"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2801526692"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2945348795"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W2995126139"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W3005703510"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W3133136066"
+  },
+  {
+   "s": "W4220743130",
+   "t": "W3161457974"
+  },
+  {
+   "s": "W4283204800",
+   "t": "W1670927892"
+  },
+  {
+   "s": "W4283204800",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W4283204800",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W4283204800",
+   "t": "W3005703510"
+  },
+  {
+   "s": "W4283204800",
+   "t": "W3129177192"
+  },
+  {
+   "s": "W3133136066",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W3133136066",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W3133136066",
+   "t": "W2407146002"
+  },
+  {
+   "s": "W3133136066",
+   "t": "W3005703510"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2038915951"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2597870484"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2736798409"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2801526692"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2945348795"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W2995126139"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W3005703510"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W3133136066"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W3161457974"
+  },
+  {
+   "s": "W4295929284",
+   "t": "W4220743130"
+  },
+  {
+   "s": "W1779444124",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W1779444124",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2770251852",
+   "t": "W1916666649"
+  },
+  {
+   "s": "W2770251852",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2770251852",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W2080448741"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W2103819762"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W3005703510"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W3161457974"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W4283204800"
+  },
+  {
+   "s": "W4321500824",
+   "t": "W4295929284"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W1591089324"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W1598518235"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W1665848147"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W2031106768"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W2088237123"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W2150151189"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W2593112502"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W2597870484"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W2801526692"
+  },
+  {
+   "s": "W2995126139",
+   "t": "W2945348795"
+  }
+ ]
+}
