@@ -43,6 +43,7 @@ for n in L["nodes"]:
     d.text((cx-tw/2, ly), n["label"], fill=fill, font=f)
 
 img = img.resize((1000,600), Image.LANCZOS)
-out = os.path.join(here, "..", "preview.png")
+import sys
+out = os.path.join(here, "..", sys.argv[1] if len(sys.argv)>1 else "preview.png")
 img.save(out)
 print("wrote", out, "nodes", len(L["nodes"]), "edges", len(L["lines"]))

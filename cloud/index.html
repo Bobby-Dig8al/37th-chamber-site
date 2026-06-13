@@ -20,6 +20,14 @@
   .cloud-wrap{max-width:none;width:100%;padding:0}
   .cloud-head{max-width:46rem;margin:0 auto;padding:0 1.1rem}
   .stage-wrap{position:relative;margin:1.4rem 0 0}
+  .layout-toggle{position:absolute;top:14px;left:14px;z-index:2;display:flex;gap:0;
+    border:1px solid rgba(255,214,10,.28);border-radius:3px;overflow:hidden}
+  .layout-toggle button{background:rgba(8,8,10,.8);color:#8f8a73;border:none;cursor:pointer;
+    font:inherit;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;padding:.4rem .7rem;
+    transition:.15s ease}
+  .layout-toggle button+button{border-left:1px solid rgba(255,214,10,.18)}
+  .layout-toggle button:hover{color:#FFD60A}
+  .layout-toggle button.active{background:rgba(255,214,10,.12);color:#FFD60A}
   /* the field */
   #stage{display:block;width:100%;height:72vh;min-height:460px;
     background:radial-gradient(120% 90% at 50% 38%,#0d0d12 0%,#08080a 62%,#060608 100%);
@@ -79,6 +87,7 @@
   .listview ol{margin:.8rem 0 0;padding-left:1.2rem;color:#8f8a73;font-size:.82rem;line-height:1.7}
   .listview a{color:#FFD60A;text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.4)}
   .src-note{max-width:46rem;margin:1.2rem auto 0;padding:0 1.1rem;color:#8f8a73;font-size:.78rem;line-height:1.6}
+  .corridor a.c-here{color:#FFD60A}
 </style>
 </head>
 <body>
@@ -90,6 +99,7 @@
   <a href="/dispatches/">dispatches</a>
   <a href="/library/">library</a>
   <a href="/six-degrees/">giants</a>
+  <a class="c-here" href="/cloud/">constellation</a>
   <a href="/work/">work</a>
 </nav>
 <nav class="topnav" aria-label="Section navigation">
@@ -105,6 +115,10 @@
   </div>
 
   <div class="stage-wrap">
+    <div class="layout-toggle" role="group" aria-label="Layout mode">
+      <button type="button" data-mode="organic" class="active" aria-pressed="true">organic</button>
+      <button type="button" data-mode="lineage" aria-pressed="false">lineage</button>
+    </div>
     <svg id="stage" role="img" aria-label="Force-directed map of papers connected to the DNGR gravitational-lensing paper. An accessible list of every paper follows below."></svg>
     <aside id="panel" aria-live="polite">
       <button class="pclose" aria-label="Close">&times;</button>
@@ -228,11 +242,12 @@ function build(){
 // (gen) bias on y. Containment is by CENTROID RECENTERING (translate the whole
 // graph so its centre sits at the middle) — NOT a per-node inward pull, which
 // collapses a dense graph onto the centre axis.
-const CHARGE=-5600, LINK=74, SPRING=.02, GEN_PULL=0, GEN_SPREAD=VH*0.12, DAMP=.85, DMIN=28;
+const CHARGE=-5600, LINK=74, SPRING=.02, DAMP=.85, DMIN=28;
+let genPull=0, genSpread=VH*0.20;   // organic by default; lineage mode raises genPull
 function step(alpha, cx, cy){
-  for(const n of nodes){                                  // gentle lineage bias: roots low, branches high
+  if(genPull) for(const n of nodes){                      // lineage bias: roots low, branches high
     if(n.fixed) continue;
-    n.vy += ((cy - n.gen*GEN_SPREAD) - n.y)*GEN_PULL;
+    n.vy += ((cy - n.gen*genSpread) - n.y)*genPull;
   }
   for(let i=0;i<nodes.length;i++){                        // repulsion O(n^2), fine for ~40 nodes
     for(let j=i+1;j<nodes.length;j++){
@@ -270,6 +285,11 @@ function settle(steps, cx, cy){
   render();
 }
 function reheat(){ settle(50); }
+function applyLayout(mode){
+  genPull = (mode==="lineage") ? 0.016 : 0;
+  nodes.forEach(n=>{ n.fixed=false; });   // release any pinned nodes so the shape can re-form
+  settle(560);
+}
 
 function render(){
   for(const e of edges){ const a=byId[e.s],b=byId[e.t]; if(!a||!b||!e.el)continue;
@@ -342,6 +362,13 @@ function wireEvents(){
   // keyboard
   stage.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ const id=ev.target.dataset&&ev.target.dataset.id; if(id){ev.preventDefault();focus(byId[id]);} } });
   document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"){panel.classList.remove("open");clearFocus();} });
+  document.querySelectorAll(".layout-toggle button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      document.querySelectorAll(".layout-toggle button").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-pressed","false");});
+      b.classList.add("active"); b.setAttribute("aria-pressed","true");
+      clearFocus(); applyLayout(b.dataset.mode);
+    });
+  });
   // viewBox scales with the container — no relayout needed on resize
 }
 
