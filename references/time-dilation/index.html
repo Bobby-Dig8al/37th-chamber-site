@@ -59,6 +59,83 @@
   <p>Special relativity handled motion. When Einstein finished general relativity in 1915, it added gravity to the account &mdash; and gravity does the same thing from a different direction. <strong>Clocks deeper in a gravitational well run slower than clocks higher up.</strong> A clock sitting on the floor of a building ticks fractionally slower than a clock on the roof. A clock on the surface of the Earth ticks slower than a clock in orbit. The difference is tiny in everyday life, but it is real, it accumulates, and it cannot be ignored.</p>
   <p>The mechanism, in the language of general relativity, is that gravity is the curvature of spacetime. Sitting near a massive object bends your path through time just as motion does. The two effects &mdash; from motion and from gravity &mdash; are distinct, can oppose each other, and both have to be tracked.</p>
 
+  <!-- TIME DILATION CHART — Schwarzschild metric, inline SVG + script -->
+  <div role="region" aria-label="Gravitational time dilation chart — Schwarzschild metric" style="margin:2rem 0 0">
+    <svg id="td-grav" viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:100%;display:block;overflow:visible" aria-hidden="true">
+      <defs><filter id="td-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <rect x="80" y="30" width="600" height="290" fill="rgba(255,214,10,.018)" stroke="rgba(255,214,10,.14)" stroke-width="1"/>
+      <!-- horizontal grid f=2–8 -->
+      <line x1="80" x2="680" y1="279" y2="279" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="237" y2="237" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="196" y2="196" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="155" y2="155" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="113" y2="113" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="72"  y2="72"  stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <!-- vertical grid r=2–10 -->
+      <line x1="147" x2="147" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="213" x2="213" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="280" x2="280" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="347" x2="347" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="413" x2="413" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="480" x2="480" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="547" x2="547" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="613" x2="613" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="680" x2="680" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <!-- y-axis labels -->
+      <text x="72" y="324" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">1×</text>
+      <text x="72" y="283" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">2×</text>
+      <text x="72" y="241" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">3×</text>
+      <text x="72" y="200" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">4×</text>
+      <text x="72" y="159" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">5×</text>
+      <text x="72" y="117" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">6×</text>
+      <text x="72" y="76"  text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">7×</text>
+      <text x="72" y="34"  text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">8×</text>
+      <!-- x-axis labels -->
+      <text x="80"  y="340" text-anchor="middle" fill="#FFD60A" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">rₛ</text>
+      <text x="147" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">2</text>
+      <text x="213" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">3</text>
+      <text x="280" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">4</text>
+      <text x="347" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">5</text>
+      <text x="413" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">6</text>
+      <text x="480" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">7</text>
+      <text x="547" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">8</text>
+      <text x="613" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">9</text>
+      <text x="680" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">10</text>
+      <!-- axis titles -->
+      <text transform="rotate(-90)" x="-175" y="18" text-anchor="middle" fill="#d9b400" font-size="10" letter-spacing="2" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">TIME DILATION FACTOR</text>
+      <text x="390" y="362" text-anchor="middle" fill="#d9b400" font-size="10" letter-spacing="2" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">DISTANCE FROM EVENT HORIZON (units of r&#x209B;)</text>
+      <text x="390" y="17" text-anchor="middle" fill="#FFD60A" font-size="11" letter-spacing="3" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">GRAVITATIONAL TIME DILATION — SCHWARZSCHILD METRIC</text>
+      <!-- event horizon blue dashed line -->
+      <line x1="80" x2="80" y1="30" y2="320" stroke="#0E44FF" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="84" y="46" fill="#0E44FF" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">&#x2190; event horizon</text>
+      <!-- GPS annotation near r=10 -->
+      <line x1="663" x2="655" y1="318" y2="302" stroke="#8f8a73" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="530" y="300" fill="#8f8a73" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">GPS satellites correct for this</text>
+      <!-- Interstellar annotation: top of curve -->
+      <line x1="87" x2="130" y1="42" y2="56" stroke="#d9b400" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="133" y="52" fill="#d9b400" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">Interstellar — Miller&#x2019;s planet</text>
+      <text x="133" y="64" fill="#d9b400" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">requires Kerr (much steeper)</text>
+      <!-- curve: script-drawn -->
+      <path id="td-grav-path" fill="none" stroke="#FFD60A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#td-glow)"/>
+    </svg>
+    <p style="text-align:center;font-size:.76rem;color:#8f8a73;margin:.5rem auto 0;max-width:500px;line-height:1.5">Formula: dilation = 1 / &#x221a;(1 &minus; r<sub>s</sub>/r). Chart shows Schwarzschild (non-rotating) black hole; the Kerr (spinning) metric used for Miller&rsquo;s planet in <em>Interstellar</em> allows even greater dilation at comparable distances.</p>
+  </div>
+  <script>
+  (function(){
+    var p = document.getElementById('td-grav-path');
+    if (!p) return;
+    var d = [];
+    for (var i = 0; i <= 200; i++) {
+      var r = 1.01 + i / 200 * (10 - 1.01);
+      var f = Math.min(1 / Math.sqrt(1 - 1 / r), 8);
+      var x = 80 + (r - 1.01) / (10 - 1.01) * 600;
+      var y = 320 - (f - 1) / 7 * 290;
+      d.push((i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1));
+    }
+    p.setAttribute('d', d.join(' '));
+  })();
+  </script>
+
   <h2>The clocks on the airplanes</h2>
   <p>In 1971, physicists <strong>Joseph Hafele and Richard Keating</strong> did the obvious thing: they put cesium atomic clocks on commercial airliners and flew them around the world, once eastward and once westward. The clocks flew at altitude (gravity effect: clocks higher up run faster) and at speed (motion effect: clocks moving fast run slower). The two effects partially cancel each other, and cancel differently depending on which direction the plane is flying relative to the Earth&rsquo;s rotation. When the airborne clocks came home and were compared to ground clocks, they disagreed &mdash; by exactly the amount both effects predicted, to the measurement&rsquo;s precision. The results were published in <em>Science</em> in 1972. Time dilation stopped being a theoretical consequence that day and became a confirmed experimental fact on the record books.</p>
 
