@@ -211,7 +211,10 @@
 .np-hex-canvas {
   display: block;
   width: 100%;
-  height: clamp(56px, 12vw, 80px);
+  /* 2x Y (operator-set Day-45): 56/12/80 → 112/24/160. The hex engine rebuilds
+     rows to fill whatever height the canvas reports (buildGrid reads logH), so a
+     taller band = more rows of the same-size cells, no JS change needed. */
+  height: clamp(112px, 24vw, 160px);
   background: var(--bg);  /* near-black floor — canvas paints over this */
 }
 
