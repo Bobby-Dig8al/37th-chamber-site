@@ -19,6 +19,11 @@
 <style>
   .cloud-wrap{max-width:none;width:100%;padding:0}
   .cloud-head{max-width:46rem;margin:0 auto;padding:0 1.1rem}
+  /* the one blue streak — the site masthead's electric charge, left-anchored under the title */
+  .cloud-head .title{position:relative;display:inline-block}
+  .cloud-head .title::after{content:'';position:absolute;left:0;bottom:-.18em;width:46%;height:3px;
+    background:#0E44FF;border-radius:2px;
+    box-shadow:0 0 6px rgba(14,68,255,1),0 0 16px rgba(14,68,255,.9),0 0 34px rgba(14,68,255,.6),0 0 64px rgba(14,68,255,.34)}
   .stage-wrap{position:relative;margin:1.4rem 0 0}
   .layout-toggle{position:absolute;top:14px;left:14px;z-index:2;display:flex;gap:0;
     border:1px solid rgba(255,214,10,.28);border-radius:3px;overflow:hidden}
