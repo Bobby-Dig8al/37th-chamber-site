@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+  nowplaying-fixture.html — test harness page for the Now Playing widget.
+
+  There is no production HTML page in this repo that mounts the widget yet, so
+  this fixture mounts the REAL widget against the REAL source files:
+    /nowplaying.css  and  /nowplaying.js  (served from repo root by the test server)
+  in MOCK MODE (data-mock="true" + window.__NOWPLAYING_MOCK__), exactly the
+  contract documented at the top of nowplaying.js.
+
+  It also declares the site's :root design tokens (copied verbatim from
+  index.html lines 59-65) so the widget renders against the same gold/electric
+  palette it sees in production — not just the CSS fallback literals.
+
+  The mock can be overridden before load via a ?mock= query param (URL-encoded
+  JSON), which the Blue-Law spec uses to exercise the playing vs idle states.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Now Playing — test fixture</title>
+
+  <!-- Production design tokens (verbatim from index.html :root) -->
+  <style>
+    :root{
+      --gold:#FFD60A;
+      --gold-soft:#d9b400;
+      --bg:#08080a;
+      --text:#f3eede;
+      --dim:#8f8a73;
+      --electric:#0E44FF;
+      --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+    }
+    html,body{margin:0;background:var(--bg);}
+    /* widget is ~360px in production cards; give it a realistic column */
+    #host{max-width:420px;margin:0 auto;padding:24px;}
+  </style>
+
+  <!-- The REAL widget stylesheet -->
+  <link rel="stylesheet" href="/nowplaying.css" />
+</head>
+<body>
+  <div id="host">
+    <div id="now-playing" data-mock="true"></div>
+  </div>
+
+  <!-- Seed the mock BEFORE the module loads. A ?mock= param (URL-encoded JSON)
+       overrides the default so a single fixture serves every playback state. -->
+  <script>
+    (function () {
+      var DEFAULT = {
+        isPlaying:   true,
+        title:       'Lateralus',
+        artist:      'Tool',
+        album:       'Lateralus',
+        albumArtUrl: null,
+        progressMs:  90000,
+        durationMs:  564000,
+        trackUrl:    'https://open.spotify.com/track/0000000000000000000000'
+      };
+      var mock = DEFAULT;
+      try {
+        var params = new URLSearchParams(location.search);
+        var raw = params.get('mock');
+        if (raw) { mock = JSON.parse(raw); }
+      } catch (e) { /* fall back to DEFAULT */ }
+      window.__NOWPLAYING_MOCK__ = mock;
+    })();
+  </script>
+
+  <!-- The REAL widget module -->
+  <script type="module" src="/nowplaying.js"></script>
+</body>
+</html>

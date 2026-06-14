@@ -1,0 +1,226 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   reading-room.css — THE 37TH CHAMBER · premium reading furniture
+   Companion sheet to reading-room.js. Progressive enhancement only:
+   every selector below targets elements the JS injects (rr-*), so the
+   article reads perfectly with this sheet absent or the script disabled.
+
+   Furniture:
+     1. READ-PROGRESS bar  — sticky top, electric-blue fill on a hairline track
+     2. READ-TIME estimate — "N min read" chip (CSS only styles it; JS computes)
+     3. CHAPTER NAV rail    — fixed left rail built from the article's h2s
+     4. HOVER-FOOTNOTE cards — Wikipedia-preview-style source cards on a.ref
+
+   LAWS (site canon): gold = structure/labels · electric-blue = the charge,
+   glow only · motion = subtle, and surrenders to prefers-reduced-motion.
+   Tokens are read from :root if temple.css is present; we re-declare safe
+   fallbacks so the component is fully self-contained on a bare page.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.rr-root{
+  /* fall back to temple tokens only if the host page hasn't defined them */
+  --rr-gold:var(--gold,#FFD60A);
+  --rr-gold-soft:var(--gold-soft,#d9b400);
+  --rr-bg:var(--bg,#08080a);
+  --rr-text:var(--text,#f3eede);
+  --rr-dim:var(--dim,#8f8a73);
+  --rr-electric:var(--electric,#0E44FF);
+  --rr-blue-mid:#4d82ff;
+  --rr-blue-soft:#a0c0ff;
+  --rr-font:var(--font,'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif);
+  /* rail geometry — measured against the centered 740px column */
+  --rr-rail-w:13.5rem;
+  --rr-rail-gap:1.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1 · READ-PROGRESS BAR  (sticky, top)
+   A 3px hairline track pinned to the very top of the viewport; the fill is
+   electric-blue with a soft glow so it reads as "the charge" per the Blue Law.
+   role=progressbar so AT announces the percent.
+   ───────────────────────────────────────────────────────────────────────── */
+.rr-progress{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:9000;
+  background:rgba(143,138,115,.16);            /* dim track */
+  pointer-events:none;
+}
+.rr-progress__fill{
+  height:100%;width:0;transform-origin:left center;
+  background:linear-gradient(90deg,var(--rr-electric),var(--rr-blue-mid));
+  box-shadow:0 0 6px rgba(14,68,255,.9),0 0 14px rgba(14,68,255,.5);
+  transition:width .12s linear;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2 · READ-TIME CHIP
+   Injected just under the dek / before the first rule. Mirrors .meta-pill.
+   ───────────────────────────────────────────────────────────────────────── */
+.rr-readtime{
+  display:inline-flex;align-items:center;gap:.45rem;align-self:flex-start;
+  margin:.2rem 0 1.4rem;
+  font-family:var(--rr-font);
+  font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rr-dim);
+  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px;
+}
+.rr-readtime__n{color:var(--rr-gold-soft);font-weight:600}
+.rr-readtime__dot{width:4px;height:4px;border-radius:50%;background:var(--rr-electric);
+  box-shadow:0 0 5px rgba(14,68,255,.9)}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3 · CHAPTER NAV RAIL
+   Fixed to the left of the centered column on wide viewports. Dim by default;
+   the active section's link goes gold with a charged tick. Collapses to a
+   top "contents" disclosure on narrow viewports (see media query below).
+   ───────────────────────────────────────────────────────────────────────── */
+.rr-rail{
+  position:fixed;top:50%;transform:translateY(-50%);
+  /* sit in the gutter left of the 740px column: half-viewport minus half-col minus rail */
+  left:max(1rem, calc(50vw - 370px - var(--rr-rail-w) - var(--rr-rail-gap)));
+  width:var(--rr-rail-w);max-height:78vh;overflow-y:auto;overscroll-behavior:contain;
+  z-index:50;font-family:var(--rr-font);
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 6%,#000 94%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 6%,#000 94%,transparent);
+}
+.rr-rail__label{
+  font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--rr-dim);
+  margin:0 0 .8rem .9rem;
+}
+.rr-rail__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.1rem;
+  border-left:1px solid rgba(143,138,115,.22)}
+.rr-rail__item{margin:0}
+.rr-rail__link{
+  display:block;position:relative;padding:.34rem .9rem;margin-left:-1px;
+  border-left:2px solid transparent;
+  font-size:.74rem;line-height:1.35;letter-spacing:.01em;color:var(--rr-dim);
+  text-decoration:none;transition:color .16s ease,border-color .16s ease;
+  /* clamp long headings to two lines */
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.rr-rail__link:hover,
+.rr-rail__link:focus-visible{color:var(--rr-text)}
+.rr-rail__item--active .rr-rail__link{
+  color:var(--rr-gold);border-left-color:var(--rr-gold);
+  text-shadow:0 0 1px rgba(255,214,10,.25);
+}
+.rr-rail__item--active .rr-rail__link::before{
+  /* the charged tick — a small electric-blue glow dot at the active node */
+  content:'';position:absolute;left:-5px;top:.62em;width:6px;height:6px;border-radius:50%;
+  background:var(--rr-electric);box-shadow:0 0 5px rgba(14,68,255,.95),0 0 11px rgba(14,68,255,.55);
+}
+/* depth: nested h3 entries (optional) indent one notch */
+.rr-rail__item--h3 .rr-rail__link{padding-left:1.5rem;font-size:.7rem;color:rgba(143,138,115,.85)}
+
+/* narrow-viewport disclosure: a "Contents" summary that opens the rail inline */
+.rr-rail__toggle{display:none}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4 · HOVER-FOOTNOTE CITATION CARDS
+   a.ref (or [data-rr-ref]) gets a subtle gold underline + a superscript glyph;
+   a preview card appears on hover/focus, anchored by JS. Card is keyboard-
+   reachable: the link is focusable, the card is shown on focus and on hover,
+   and dismissed on blur / Escape / pointer-leave.
+   ───────────────────────────────────────────────────────────────────────── */
+a.rr-ref,
+[data-rr-ref]{
+  color:var(--rr-gold);text-decoration:none;
+  border-bottom:1px dotted rgba(255,214,10,.5);
+  cursor:help;white-space:nowrap;
+}
+a.rr-ref:hover,a.rr-ref:focus-visible,
+[data-rr-ref]:hover,[data-rr-ref]:focus-visible{border-bottom-style:solid}
+.rr-ref__sup{
+  font-size:.62em;line-height:0;vertical-align:.55em;margin-left:.12em;
+  color:var(--rr-blue-soft);font-weight:600;white-space:normal;
+}
+
+.rr-card{
+  position:fixed;z-index:9500;width:min(20rem,calc(100vw - 2rem));
+  background:#0c0c10;color:var(--rr-text);font-family:var(--rr-font);
+  border:1px solid rgba(255,214,10,.28);border-radius:4px;
+  box-shadow:0 12px 34px -10px rgba(0,0,0,.8),0 0 0 1px rgba(14,68,255,.08),
+             0 0 22px -6px rgba(14,68,255,.25);
+  padding:.95rem 1.05rem;
+  opacity:0;visibility:hidden;transform:translateY(6px);
+  transition:opacity .15s ease,transform .15s ease,visibility 0s linear .15s;
+  pointer-events:none;
+}
+.rr-card[data-open="true"]{
+  opacity:1;visibility:visible;transform:none;pointer-events:auto;
+  transition:opacity .15s ease,transform .15s ease,visibility 0s;
+}
+.rr-card__kicker{
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rr-dim);
+  margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem;
+}
+.rr-card__kicker::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--rr-electric);box-shadow:0 0 5px rgba(14,68,255,.9);flex:0 0 auto}
+.rr-card__title{
+  font-size:.96rem;line-height:1.3;font-weight:600;color:var(--rr-gold);margin-bottom:.35rem;
+}
+.rr-card__title em{color:var(--rr-gold-soft);font-style:italic}
+.rr-card__meta{font-size:.74rem;color:var(--rr-gold-soft);margin-bottom:.4rem;letter-spacing:.02em}
+.rr-card__blurb{font-size:.82rem;line-height:1.5;color:var(--rr-text);margin:0 0 .55rem}
+.rr-card__link{
+  font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--rr-gold);text-decoration:none;
+  border-bottom:1px dotted rgba(255,214,10,.5);
+  display:inline-flex;align-items:center;gap:.35rem;pointer-events:auto;
+}
+.rr-card__link:hover,.rr-card__link:focus-visible{border-bottom-style:solid}
+.rr-card__link[data-external]::after{content:'\2197';font-size:.9em} /* ↗ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE — below the rail's breathing room, drop the fixed rail and
+   render it as a collapsible "Contents" block at the top of the article.
+   The column is 740px + needs ~15rem of gutter + margin → ~62rem threshold.
+   ───────────────────────────────────────────────────────────────────────── */
+@media (max-width:62rem){
+  .rr-rail{
+    position:static;transform:none;left:auto;width:100%;max-height:none;overflow:visible;
+    margin:0 0 1.4rem;-webkit-mask-image:none;mask-image:none;
+    border:1px solid rgba(255,214,10,.18);border-radius:4px;
+    background:rgba(255,214,10,.02);
+  }
+  .rr-rail__toggle{
+    display:flex;width:100%;align-items:center;justify-content:space-between;gap:.6rem;
+    background:none;border:0;cursor:pointer;color:var(--rr-gold);font-family:var(--rr-font);
+    font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;padding:.7rem .9rem;
+  }
+  .rr-rail__toggle::after{content:'\25BE';transition:transform .2s ease;color:var(--rr-gold-soft)}
+  .rr-rail[data-collapsed="true"] .rr-rail__toggle::after{transform:rotate(-90deg)}
+  .rr-rail__label{display:none}
+  .rr-rail__list{
+    border-left:0;padding:0 .9rem .8rem;gap:0;
+    border-top:1px solid rgba(255,214,10,.12);
+  }
+  .rr-rail[data-collapsed="true"] .rr-rail__list{display:none}
+  .rr-rail__link{border-left:0;padding:.5rem .2rem;-webkit-line-clamp:1}
+  .rr-rail__item--active .rr-rail__link{
+    border-left:0;color:var(--rr-gold);
+    box-shadow:inset 2px 0 0 var(--rr-gold);padding-left:.6rem;
+  }
+  .rr-rail__item--active .rr-rail__link::before{display:none}
+  .rr-rail__item--h3 .rr-rail__link{padding-left:1.2rem}
+}
+
+/* very small screens: thin the read-time chip */
+@media (max-width:30rem){
+  .rr-readtime{font-size:.62rem}
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   REDUCED MOTION — kill the fill transition + card slide; nothing animates.
+   (Host temple.css already neutralizes global animations; this covers the
+   component on bare pages too.)
+   ───────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce){
+  .rr-progress__fill,.rr-card,.rr-rail__toggle::after,.rr-rail__link{transition:none}
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   PRINT — reading furniture is screen-only chrome; paper gets the prose.
+   ───────────────────────────────────────────────────────────────────────── */
+@media print{
+  .rr-progress,.rr-rail,.rr-card,.rr-readtime{display:none !important}
+  a.rr-ref,[data-rr-ref]{color:#000;border-bottom:none}
+  .rr-ref__sup{display:none}
+}

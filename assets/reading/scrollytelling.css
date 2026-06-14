@@ -1,0 +1,196 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   scrollytelling.css — THE 37TH CHAMBER · scroll-driven reveal + sticky-figure
+   A reading-enhancement layer for the long-form chambers (NYT / Pudding style):
+   marked sections fade + rise into view as the reader scrolls; an optional
+   sticky figure pins to the viewport while its captions advance past it.
+
+   THE LAW IT KEEPS (mission floor): the page is FULLY READABLE without JS and
+   without motion. Enhancement only. Every reveal starts visible in the markup;
+   .scrolly-on (set by JS) is what hides-then-reveals — so a dead script, a
+   blocked script, or reduced-motion all leave prose intact and legible.
+   reduced-motion: NO transforms, NO opacity tweens — content simply IS there.
+
+   PALETTE (temple-native; mirrors temple.css tokens, self-contained so the
+   engine can ship to a page that hasn't loaded the main sheet):
+     gold #FFD60A (structure/labels) · gold-soft #d9b400
+     electric #0E44FF / progress #4d82ff / glow #a0c0ff
+     text #f3eede · dim #8f8a73 · bg #08080a
+   LAWS INHERITED: gold = substance · blue = the charge (glow only) ·
+   motion = rise + fade only (no spin, no slide-from-far). Editorial restraint.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.scrolly{
+  /* token fallbacks — use temple.css values if present, else self-supply */
+  --sc-gold:var(--gold,#FFD60A);
+  --sc-gold-soft:var(--gold-soft,#d9b400);
+  --sc-electric:var(--electric,#0E44FF);
+  --sc-progress:#4d82ff;
+  --sc-glow:#a0c0ff;
+  --sc-text:var(--text,#f3eede);
+  --sc-dim:var(--dim,#8f8a73);
+  --sc-bg:var(--bg,#08080a);
+  --sc-font:var(--font,'Bahnschrift','DIN Alternate','Century Gothic',system-ui,sans-serif);
+  /* tuning knobs (overridable per-instance via inline style) */
+  --sc-rise:22px;          /* how far a step travels up as it reveals */
+  --sc-ease:cubic-bezier(.22,1,.36,1);
+  --sc-dur:.72s;
+}
+
+/* ── REVEAL STEPS ─────────────────────────────────────────────────────────
+   Default state in markup = fully visible. The engine adds .scrolly-on to the
+   root only when it is alive; that class is what arms the hidden→shown cycle.
+   This ordering is the progressive-enhancement contract.                     */
+.scrolly [data-scrolly]{
+  transition:opacity var(--sc-dur) var(--sc-ease),
+             transform var(--sc-dur) var(--sc-ease),
+             filter var(--sc-dur) var(--sc-ease);
+}
+.scrolly.scrolly-on [data-scrolly]{
+  opacity:0;
+  transform:translateY(var(--sc-rise));
+  will-change:opacity,transform;
+}
+.scrolly.scrolly-on [data-scrolly].is-inview{
+  opacity:1;
+  transform:none;
+}
+/* leaving upward — gentle settle, not a yank (only if data-scrolly-exit set) */
+.scrolly.scrolly-on [data-scrolly-exit].is-past{
+  opacity:.34;
+}
+
+/* per-step direction variants (data-scrolly="up|left|right|in|blur") */
+.scrolly.scrolly-on [data-scrolly="left"]{transform:translateX(calc(var(--sc-rise) * -1.4))}
+.scrolly.scrolly-on [data-scrolly="right"]{transform:translateX(calc(var(--sc-rise) * 1.4))}
+.scrolly.scrolly-on [data-scrolly="in"]{transform:scale(.965)}
+.scrolly.scrolly-on [data-scrolly="blur"]{filter:blur(7px);opacity:0}
+.scrolly.scrolly-on [data-scrolly="left"].is-inview,
+.scrolly.scrolly-on [data-scrolly="right"].is-inview,
+.scrolly.scrolly-on [data-scrolly="in"].is-inview{transform:none}
+.scrolly.scrolly-on [data-scrolly="blur"].is-inview{filter:none;opacity:1}
+
+/* a labelled reveal — small gold structural eyebrow that draws on reveal */
+.scrolly .sc-label{
+  display:inline-block;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--sc-dim);margin-bottom:.55rem;
+  border-left:2px solid var(--sc-gold);padding-left:.55rem;
+}
+.scrolly [data-scrolly].is-inview .sc-label{color:var(--sc-gold-soft)}
+
+/* ── STICKY-FIGURE / SCROLLYTELLING LAYOUT ───────────────────────────────
+   A two-track layout: a figure pins to the viewport (position:sticky) while a
+   column of caption "steps" scrolls past it. The active step is the one the
+   engine has marked .is-active; the figure listens for those changes.
+
+   Fallback with no JS / reduced motion: the figure simply flows inline at the
+   top of the section, every caption is fully visible, and nothing pins-jumps.
+   sticky is CSS-native so even sticky works without our JS — JS only chooses
+   the ACTIVE step + drives the figure's response to it.                       */
+.scrolly-scene{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+  gap:clamp(1.5rem,5vw,3.5rem);
+  align-items:start;
+  margin:2.6rem 0;
+}
+.scrolly-scene > .sc-figure{
+  position:sticky;
+  top:max(8vh,3.5rem);
+  align-self:start;
+  /* keep the pinned figure inside one viewport height */
+  height:min(78vh,640px);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(14,68,255,.28);
+  background:rgba(14,68,255,.035);
+  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);
+  border-radius:3px;
+  overflow:hidden;
+}
+.scrolly-scene > .sc-steps{
+  display:flex;flex-direction:column;
+  /* breathing room top+bottom so the first/last step can reach center */
+  padding:38vh 0;
+  gap:46vh;
+}
+.sc-step{
+  padding:1.15rem 1.3rem;
+  border-left:2px solid rgba(143,138,115,.25);
+  transition:border-color var(--sc-dur) var(--sc-ease),
+             opacity var(--sc-dur) var(--sc-ease),
+             transform var(--sc-dur) var(--sc-ease);
+}
+.scrolly.scrolly-on .sc-step{opacity:.32;transform:translateY(6px)}
+.scrolly.scrolly-on .sc-step.is-active{
+  opacity:1;transform:none;
+  border-left-color:var(--sc-gold);
+}
+.sc-step .sc-step-num{
+  font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sc-dim);
+  display:block;margin-bottom:.4rem;
+}
+.scrolly.scrolly-on .sc-step.is-active .sc-step-num{color:var(--sc-gold-soft)}
+
+/* ── PROGRESS RAIL ────────────────────────────────────────────────────────
+   A thin reading-progress line for a marked region. Lives at the top edge of
+   its container (the engine sets --sc-pct 0→1). Blue = the charge, glow only. */
+.scrolly-progress{
+  position:sticky;top:0;z-index:40;
+  height:2px;width:100%;
+  background:rgba(143,138,115,.14);
+  margin:0 0 .2rem;
+  overflow:hidden;
+}
+.scrolly-progress::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:calc(var(--sc-pct,0) * 100%);
+  background:linear-gradient(90deg,var(--sc-electric),var(--sc-progress));
+  box-shadow:0 0 8px var(--sc-glow),0 0 16px rgba(14,68,255,.4);
+  transition:width .12s linear;
+}
+
+/* ── DEMO FIGURE PRIMITIVES (used by the demo; safe to reuse) ────────────── */
+.sc-orbit{position:relative;width:min(72%,360px);aspect-ratio:1;color:var(--sc-glow)}
+.sc-orbit svg{width:100%;height:100%;overflow:visible}
+.sc-orbit .ring{fill:none;stroke:rgba(160,192,255,.28);stroke-width:1}
+.sc-orbit .ring.hot{stroke:var(--sc-progress);stroke-width:1.6;filter:drop-shadow(0 0 4px var(--sc-glow))}
+.sc-orbit .core{fill:var(--sc-gold);filter:drop-shadow(0 0 8px rgba(255,214,10,.55))}
+.sc-orbit .mote{fill:var(--sc-glow);filter:drop-shadow(0 0 5px var(--sc-glow));
+  transition:transform .7s var(--sc-ease,cubic-bezier(.22,1,.36,1))}
+.sc-orbit .cap{font-family:var(--sc-font);fill:var(--sc-dim);font-size:7px;letter-spacing:.18em;text-transform:uppercase}
+
+/* ── RESPONSIVE: collapse the two-track scene to a single column ──────────── */
+@media (max-width:720px){
+  .scrolly-scene{grid-template-columns:1fr;gap:1.2rem}
+  .scrolly-scene > .sc-figure{
+    position:sticky;top:0;height:46vh;width:100%;
+    /* on small screens the figure pins to the top, captions scroll beneath */
+  }
+  .scrolly-scene > .sc-steps{padding:30vh 0;gap:36vh}
+}
+
+/* ── REDUCED MOTION — the readable floor ──────────────────────────────────
+   No tweens, no offsets, no pin-flicker. Everything is simply present.
+   We still allow the *active* step its gold edge (a static state change, not
+   motion) so the figure↔step relationship stays legible without animation.   */
+@media (prefers-reduced-motion:reduce){
+  .scrolly.scrolly-on [data-scrolly],
+  .scrolly.scrolly-on [data-scrolly].is-inview,
+  .scrolly.scrolly-on .sc-step,
+  .scrolly.scrolly-on .sc-step.is-active{
+    opacity:1 !important;transform:none !important;filter:none !important;
+    transition:none !important;will-change:auto;
+  }
+  .scrolly-scene > .sc-figure{position:static;height:auto;margin-bottom:1.2rem}
+  .scrolly-scene > .sc-steps{padding:0;gap:1.4rem}
+  .scrolly-progress::after{transition:none}
+  .sc-orbit .mote{transition:none}
+}
+
+/* ── PRINT — paper gets the words, none of the machinery ──────────────────── */
+@media print{
+  .scrolly-progress,.scrolly-scene > .sc-figure{display:none !important}
+  .scrolly [data-scrolly],.sc-step{opacity:1 !important;transform:none !important;filter:none !important}
+  .scrolly-scene{display:block}
+  .scrolly-scene > .sc-steps{padding:0;gap:1rem}
+  .sc-step{border-left:1px solid #000}
+}
