@@ -16,7 +16,7 @@ each work's `referenced_works`. No fabricated numbers, no invented relationships
 import json, sys, time, urllib.parse, urllib.request
 
 SEED = "W2088237123"
-MAILTO = "krsullivan512@gmail.com"
+MAILTO = "bobby-dig8al@outlook.com"   # email of record (OpenAlex polite pool + User-Agent)
 BASE = "https://api.openalex.org/works"
 N_BRANCHES = 26   # most-cited descendants (after relevance filter)
 N_ROOTS = 14      # most-cited ancestors (after relevance filter)
