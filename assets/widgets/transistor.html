@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Transistor as a Switch - widget preview</title>
+<style>body{margin:0;background:#08080a;color:#f3eede;font-family:'Bahnschrift',system-ui,sans-serif;padding:20px;display:flex;justify-content:center}</style></head><body>
+<h2 class="sr-only">An interactive cross-section of a MOSFET transistor used as a switch: drag the gate-voltage slider and, once it crosses the threshold, an inversion channel of electrons forms beneath the gate and lets current flow from source to drain.</h2>
+<div class="tcw" id="tcw">
+  <style>
+    .tcw{
+      --bg:#08080a; --gold:#FFD60A; --gold-soft:#d9b400;
+      --blue:#0E44FF; --blue-2:#4d82ff; --blue-3:#a0c0ff;
+      --ink:#f3eede; --dim:#8f8a73;
+      font-family:'Bahnschrift',system-ui,sans-serif;
+      color:var(--ink); background:var(--bg);
+      border:1px solid rgba(255,214,10,.14); border-radius:14px;
+      padding:20px 20px 22px; max-width:680px; box-sizing:border-box;
+      line-height:1.5;
+    }
+    .tcw *{box-sizing:border-box}
+    .tcw .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+    .tcw .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-soft);margin:0 0 2px}
+    .tcw h3.title{font-size:20px;font-weight:600;margin:0 0 10px;color:var(--gold);letter-spacing:.01em}
+    .tcw .stage-wrap{position:relative;border:1px solid rgba(255,214,10,.12);border-radius:10px;overflow:hidden;background:#060608}
+    .tcw svg{display:block;width:100%;height:auto}
+    .tcw .readout{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 4px}
+    .tcw .stat{flex:1 1 0;min-width:120px;background:#0d0d11;border:1px solid rgba(255,214,10,.10);border-radius:8px;padding:9px 11px}
+    .tcw .stat .k{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+    .tcw .stat .v{font-size:19px;font-weight:600;margin-top:2px}
+    .tcw .stat.state .v.on{color:var(--blue-2)}
+    .tcw .stat.state .v.off{color:var(--dim)}
+    .tcw .stat .v.gv{color:var(--gold)}
+    .tcw .controls{display:flex;align-items:center;gap:13px;margin:16px 0 6px}
+    .tcw label.ctl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);white-space:nowrap}
+    .tcw input[type=range]{flex:1;height:26px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+    .tcw input[type=range]:focus{outline:none}
+    .tcw input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px;background:linear-gradient(90deg,#2a2a30,#3a3a44)}
+    .tcw input[type=range]::-moz-range-track{height:5px;border-radius:3px;background:#34343c}
+    .tcw input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-7.5px;border-radius:50%;background:var(--blue);border:2px solid var(--blue-3);box-shadow:0 0 0 1px #060608}
+    .tcw input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2px solid var(--blue-3);border-radius:50%;background:var(--blue)}
+    .tcw input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px rgba(77,130,255,.55)}
+    .tcw input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px rgba(77,130,255,.55)}
+    .tcw .vout{font-size:15px;font-weight:600;color:var(--gold);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+    .tcw .btns{display:flex;gap:9px;margin-top:10px;flex-wrap:wrap}
+    .tcw button{font-family:inherit;font-size:12px;letter-spacing:.06em;color:var(--ink);background:#101015;border:1px solid rgba(255,214,10,.22);border-radius:7px;padding:7px 13px;cursor:pointer}
+    .tcw button:hover{border-color:rgba(255,214,10,.5);color:var(--gold)}
+    .tcw button:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+    .tcw button[aria-pressed=true]{background:#15233f;border-color:var(--blue-2);color:var(--blue-3)}
+    .tcw .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:11.5px;color:var(--dim)}
+    .tcw .legend span{display:inline-flex;align-items:center;gap:6px}
+    .tcw .legend i{width:11px;height:11px;border-radius:50%;display:inline-block;flex:none}
+    .tcw .caption{font-size:12.5px;color:var(--dim);margin:12px 2px 0;line-height:1.55}
+    .tcw .caption b{color:var(--ink);font-weight:600}
+    @media (prefers-reduced-motion: reduce){.tcw .carrier{display:none}}
+  </style>
+
+  <p class="eyebrow">The 37th Chamber &middot; how a switch is built from physics</p>
+  <h3 class="title">The transistor as a switch</h3>
+
+  <div class="stage-wrap">
+    <svg id="svg" viewBox="0 0 680 360" role="img"
+         aria-label="Cross-section of an n-channel MOSFET. Source and drain are n-type wells in a p-type body, with an insulated gate above. As gate voltage rises past threshold, electrons form a conducting channel between source and drain.">
+      <defs>
+        <clipPath id="bodyClip"><rect x="40" y="150" width="600" height="150" rx="6"/></clipPath>
+      </defs>
+
+      <rect x="40" y="150" width="600" height="150" rx="6" fill="#15110a" stroke="#3a2f17" stroke-width="1"/>
+      <text x="56" y="288" fill="#8f8a73" font-size="12" font-family="Bahnschrift,system-ui">p-type body (holes)</text>
+
+      <g id="holes" clip-path="url(#bodyClip)"></g>
+
+      <rect x="70"  y="150" width="110" height="58" rx="5" fill="#102a4d" stroke="#1d4f8c" stroke-width="1.2"/>
+      <rect x="500" y="150" width="110" height="58" rx="5" fill="#102a4d" stroke="#1d4f8c" stroke-width="1.2"/>
+      <text x="125" y="185" fill="#a0c0ff" font-size="13" text-anchor="middle" font-family="Bahnschrift,system-ui">n+ source</text>
+      <text x="555" y="185" fill="#a0c0ff" font-size="13" text-anchor="middle" font-family="Bahnschrift,system-ui">n+ drain</text>
+
+      <rect id="channel" x="180" y="150" width="320" height="0" rx="0" fill="#0E44FF" opacity="0"/>
+      <g id="carriers" clip-path="url(#bodyClip)"></g>
+
+      <rect x="180" y="138" width="320" height="12" fill="#3a2a47" stroke="#6b5180" stroke-width="0.8"/>
+      <text x="340" y="147" fill="#cdbfe0" font-size="8.5" text-anchor="middle" font-family="Bahnschrift,system-ui" letter-spacing="1">SiO2  GATE  INSULATOR  (OXIDE)</text>
+
+      <rect id="gateMetal" x="180" y="116" width="320" height="22" rx="3" fill="#5c4a12" stroke="#d9b400" stroke-width="1.4"/>
+      <text x="340" y="131" fill="#FFD60A" font-size="13" text-anchor="middle" font-family="Bahnschrift,system-ui" letter-spacing="2">GATE</text>
+
+      <line x1="125" y1="150" x2="125" y2="64" stroke="#d9b400" stroke-width="2"/>
+      <line x1="555" y1="150" x2="555" y2="64" stroke="#d9b400" stroke-width="2"/>
+      <line x1="340" y1="116" x2="340" y2="64" stroke="#d9b400" stroke-width="2"/>
+      <circle cx="125" cy="56" r="5" fill="#15110a" stroke="#d9b400" stroke-width="1.6"/>
+      <circle cx="555" cy="56" r="5" fill="#15110a" stroke="#d9b400" stroke-width="1.6"/>
+      <circle id="gateNode" cx="340" cy="56" r="5" fill="#15110a" stroke="#d9b400" stroke-width="1.6"/>
+      <text x="125" y="40" fill="#f3eede" font-size="12" text-anchor="middle" font-family="Bahnschrift,system-ui">S</text>
+      <text x="555" y="40" fill="#f3eede" font-size="12" text-anchor="middle" font-family="Bahnschrift,system-ui">D</text>
+      <text x="340" y="40" fill="#FFD60A" font-size="12" text-anchor="middle" font-family="Bahnschrift,system-ui">G  (control)</text>
+
+      <text id="chLabel" x="340" y="232" fill="#a0c0ff" font-size="12.5" text-anchor="middle" font-family="Bahnschrift,system-ui" opacity="0">inversion channel &mdash; electrons</text>
+      <text id="vDrop" x="630" y="92" fill="#4d82ff" font-size="11" text-anchor="end" font-family="Bahnschrift,system-ui" opacity="0.85">current → drain</text>
+    </svg>
+  </div>
+
+  <div class="readout">
+    <div class="stat"><div class="k">Gate voltage V&#x2092;</div><div class="v gv" id="rv-vg">0.0 V</div></div>
+    <div class="stat"><div class="k">Threshold V&#x209C;&#x2095;</div><div class="v" style="color:var(--dim)">2.0 V</div></div>
+    <div class="stat state"><div class="k">Switch</div><div class="v off" id="rv-state">OFF</div></div>
+    <div class="stat"><div class="k">Drain current I&#x2092;</div><div class="v" id="rv-id" style="color:var(--blue-2)">0%</div></div>
+  </div>
+
+  <div class="controls">
+    <label class="ctl" for="vg">Gate&nbsp;V&#x2092;</label>
+    <input id="vg" type="range" min="0" max="5" step="0.1" value="0"
+           aria-label="Gate-to-source voltage in volts"
+           aria-valuetext="0.0 volts, switch off" />
+    <span class="vout" id="vout">0.0 V</span>
+  </div>
+  <div class="btns">
+    <button id="step">Step toward threshold</button>
+    <button id="auto" aria-pressed="false">Auto-sweep</button>
+    <button id="reset">Reset to 0 V</button>
+  </div>
+
+  <div class="legend">
+    <span><i style="background:#d9b400"></i>gold = structure &amp; labels</span>
+    <span><i style="background:#0E44FF"></i>blue = electrons / current</span>
+    <span><i style="background:#3a2f17;border:1px solid #6b5a30"></i>holes (p-type)</span>
+  </div>
+
+  <p class="caption" id="cap"><b>Below threshold (V&#x2092; &lt; 2.0 V):</b> the gate is just a charged plate behind an insulator. The p-type body between source and drain has no electrons to carry current, so the switch is <b>OFF</b>. Drag the slider up.</p>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('tcw');
+  if(!root) return;
+  var slider=document.getElementById('vg');
+  var vout=document.getElementById('vout');
+  var rvVg=document.getElementById('rv-vg');
+  var rvState=document.getElementById('rv-state');
+  var rvId=document.getElementById('rv-id');
+  var channel=document.getElementById('channel');
+  var chLabel=document.getElementById('chLabel');
+  var gateMetal=document.getElementById('gateMetal');
+  var gateNode=document.getElementById('gateNode');
+  var cap=document.getElementById('cap');
+  var holesG=document.getElementById('holes');
+  var carriersG=document.getElementById('carriers');
+  var btnStep=document.getElementById('step');
+  var btnAuto=document.getElementById('auto');
+  var btnReset=document.getElementById('reset');
+
+  var VTH=2.0, VMAX=5.0;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var SVGNS='http://www.w3.org/2000/svg';
+  function mk(t,a){var e=document.createElementNS(SVGNS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+
+  var holes=[];
+  for(var i=0;i<46;i++){
+    var hx=46+Math.random()*588, hy=160+Math.random()*128;
+    var c=mk('circle',{cx:hx,cy:hy,r:3,fill:'#6b5a30',stroke:'#8a7438','stroke-width':0.6});
+    holesG.appendChild(c);
+    holes.push({el:c,x:hx,baseY:hy});
+  }
+
+  var carriers=[];
+  for(var j=0;j<26;j++){
+    var d=mk('circle',{cx:-20,cy:0,r:3.4,fill:'#4d82ff',stroke:'#a0c0ff','stroke-width':0.7,opacity:0});
+    d.setAttribute('class','carrier');
+    carriersG.appendChild(d);
+    carriers.push({el:d,p:Math.random(),lane:Math.random()});
+  }
+
+  function setText(el,t){if(el.textContent!==t)el.textContent=t;}
+
+  function render(vg){
+    var on = vg >= VTH;
+    var over = Math.max(0,(vg-VTH)/(VMAX-VTH));
+
+    setText(vout, vg.toFixed(1)+' V');
+    setText(rvVg, vg.toFixed(1)+' V');
+
+    var pct = on ? Math.round((0.18+0.82*over)*100) : 0;
+    if(on && pct<8) pct=8;
+    setText(rvId, pct+'%');
+
+    if(on){ rvState.textContent='ON'; rvState.className='v on'; }
+    else  { rvState.textContent='OFF'; rvState.className='v off'; }
+
+    slider.setAttribute('aria-valuetext', vg.toFixed(1)+' volts, switch '+(on?'on, current '+pct+' percent':'off'));
+
+    var glow = Math.min(1, vg/VMAX);
+    gateMetal.setAttribute('fill', mixHex('#3a2f10','#FFD60A',glow*0.55));
+    gateNode.setAttribute('fill', vg>0.05 ? mixHex('#15110a','#d9b400',glow*0.7) : '#15110a');
+
+    var depth = on ? (10+18*over) : 0;
+    channel.setAttribute('y', 150);
+    channel.setAttribute('height', depth);
+    channel.setAttribute('opacity', on ? (0.55+0.4*over) : 0);
+    chLabel.setAttribute('opacity', on ? 1 : 0);
+
+    var repel = Math.min(1, vg/VMAX);
+    for(var k=0;k<holes.length;k++){
+      var h=holes[k];
+      var underGate = h.x>180 && h.x<500;
+      var push = underGate ? repel*46 : repel*14;
+      var ny = h.baseY + push;
+      if(ny>292) ny=292;
+      h.el.setAttribute('cy', ny);
+      h.el.setAttribute('opacity', underGate ? (1-0.7*repel) : 1);
+    }
+
+    for(var m=0;m<carriers.length;m++){
+      carriers[m].el.setAttribute('opacity', on?0.95:0);
+    }
+
+    updateCaption(vg,on,over,pct);
+    return {on:on,over:over};
+  }
+
+  function updateCaption(vg,on,over,pct){
+    var html;
+    if(!on){
+      html='<b>Below threshold (V&#x2092; &lt; 2.0 V):</b> the gate is a charged plate behind an insulator. '+
+           'Its field pushes holes <i>down</i>, but the body between source and drain still has no electrons to carry current &mdash; switch <b>OFF</b>.';
+    } else if(over<0.5){
+      html='<b>At threshold (V&#x2092; &approx; 2.0 V):</b> the gate field has pulled enough electrons to the oxide that the surface <i>inverts</i> from p&#8209;type to n&#8209;type. '+
+           'A thin <b>inversion channel</b> now bridges source &rarr; drain &mdash; switch <b>ON</b>, current '+pct+'%.';
+    } else {
+      html='<b>Strong inversion (V&#x2092; &gt; 2.0 V):</b> more gate voltage pulls in more electrons, so the channel <i>deepens</i> and conducts harder. '+
+           'A small voltage at the gate controls a large current &mdash; that is the switch, and the amplifier. Current '+pct+'%.';
+    }
+    if(cap.innerHTML!==html) cap.innerHTML=html;
+  }
+
+  function hx2(c){c=parseInt(c,16);return [(c>>16)&255,(c>>8)&255,c&255];}
+  function mixHex(a,b,t){
+    var A=hx2(a.slice(1)),B=hx2(b.slice(1));
+    var r=Math.round(A[0]+(B[0]-A[0])*t),g=Math.round(A[1]+(B[1]-A[1])*t),bl=Math.round(A[2]+(B[2]-A[2])*t);
+    return 'rgb('+r+','+g+','+bl+')';
+  }
+
+  var state={on:false,over:0};
+  function update(){
+    var vg=parseFloat(slider.value);
+    state=render(vg);
+  }
+
+  var raf=null, last=0;
+  function loop(ts){
+    if(state.on && !reduce){
+      var dt=(ts-last)||16; last=ts;
+      var speed=(0.0006+0.0022*state.over);
+      var laneTop=152+8, laneBot=152+(10+18*state.over)-6;
+      for(var i=0;i<carriers.length;i++){
+        var c=carriers[i];
+        c.p+=speed*dt*(0.7+0.6*c.lane);
+        if(c.p>1)c.p-=1;
+        var x=180+c.p*320;
+        var y=laneTop+(laneBot-laneTop)*c.lane;
+        c.el.setAttribute('cx',x);
+        c.el.setAttribute('cy',y);
+      }
+    } else { last=ts; }
+    raf=requestAnimationFrame(loop);
+  }
+
+  slider.addEventListener('input', update);
+
+  btnStep.addEventListener('click', function(){
+    var v=Math.min(VMAX, Math.round((parseFloat(slider.value)+0.5)*10)/10);
+    slider.value=v; update(); slider.focus();
+  });
+
+  var sweeping=false, sweepRaf=null, dir=1;
+  function sweepTick(){
+    if(!sweeping)return;
+    var v=parseFloat(slider.value)+dir*0.035;
+    if(v>=VMAX){v=VMAX;dir=-1;}
+    if(v<=0){v=0;dir=1;}
+    slider.value=v.toFixed(2); update();
+    sweepRaf=requestAnimationFrame(sweepTick);
+  }
+  btnAuto.addEventListener('click', function(){
+    sweeping=!sweeping;
+    btnAuto.setAttribute('aria-pressed', sweeping?'true':'false');
+    btnAuto.textContent = sweeping?'Stop sweep':'Auto-sweep';
+    if(sweeping){dir=1;sweepTick();}
+    else if(sweepRaf)cancelAnimationFrame(sweepRaf);
+  });
+
+  btnReset.addEventListener('click', function(){
+    sweeping=false; btnAuto.setAttribute('aria-pressed','false'); btnAuto.textContent='Auto-sweep';
+    if(sweepRaf)cancelAnimationFrame(sweepRaf);
+    slider.value=0; update();
+  });
+
+  update();
+  raf=requestAnimationFrame(loop);
+})();
+</script>
+</body></html>
