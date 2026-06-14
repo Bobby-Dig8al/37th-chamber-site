@@ -24,14 +24,53 @@ const WEEK_ARCS = [
     weekNum:    1,
     theme:      "Interstellar",
     synthesis:  `A wormhole that began as a blind date. Kip Thorne met Lynda Obst through Carl \
-Sagan in 1980; together they carried a physics problem all the way to a $675M film twenty-five \
+Sagan in 1980; together they carried a physics problem all the way to a $680M film twenty-five \
 years later. This week moved through the people who built it, the math that held it honest \
 (Einstein–Rosen, 1935; Morris–Thorne, 1988; Kerr, 1963), the rendering that turned geodesic \
 equations into IMAX frames — and produced a real peer-reviewed paper as a byproduct. The week \
 ended where the science ends: at the singularity, where relativity breaks down and Thorne himself \
 marks the line between established truth and educated guess.`,
     thread:     `Art served as a research instrument — the renderer was precise enough to yield a \
-real result, published free, given away.`
+real result, published free, given away.`,
+    // ── THE SUNDAY STACK · Issue 001 — the magazine layer (optional; absent → plain dispatch).
+    //    Editor's Letter = the reckoning (gonzo); synthesis + chapters = the record (sober);
+    //    Feature + Coda = the frame. Authored + triple-verified 2026-06-13. ─────────────────
+    magazine: {
+      name:    "The Sunday Stack",
+      issue:   "001",
+      tagline: "the week the equations and the film became the same thing",
+      letter: {
+        kicker: "The Editor's Letter",
+        dek:    "A blind date, a black hole, and the math they gave away free.",
+        paragraphs: [
+          `Here is the thing about a $680-million box-office spectacle built on theoretical physics: the most radical thing it did was give the math away. Carl Sagan introduced Kip Thorne to a magazine editor named Lynda Obst on a blind date around 1980, and the introduction took — not as romance, but as a friendship that lasted. A quarter-century later Obst, by then a Hollywood producer, came back to Thorne with a film to make, and the two co-originated it — a film carried through Steven Spielberg's hands and a studio shuffle (DreamWorks decamping from Paramount to Disney, the rights stranded behind) before it reached Christopher Nolan. From the first, it ran on two conditions Thorne set as the price of his involvement: nothing would violate firmly established laws of physics, and every speculation would spring from real science, not a screenwriter's invention. That is not a marketing posture. That is an <em>epistemological commitment</em>, and it changed what the production could become.`,
+          `What it became, eventually, was a research instrument. Double Negative built Gargantua by running Thorne's equations through Kerr geometry — the geometry Roy Kerr solved in 1963 in roughly two pages, finding it by locating the flaw in a proof that said it couldn't be done. The renderer was not painting a picture of a black hole; it was running the physics and reading back whatever the physics returned. IMAX-grade. Physically correct. Two honest compromises, disclosed in the open: the Doppler-beaming asymmetry that makes one side of the disk brighter was softened, and the Doppler and gravitational frequency shifts that would have skewed its colours were left out — both for visual clarity. The film named its own lies. Then the renderer found something no one had predicted — caustics near a fast-spinning hole can stack up to thirteen images of a single star — and Thorne's team published it. <em>Classical and Quantum Gravity</em>, 2015. James, von Tunzelmann, Franklin, and Thorne. Peer-reviewed. Free.`,
+          `Five years later the Event Horizon Telescope photographed M87* — a real black hole, hundreds of scientists, the first image of the actual thing — and it came in brighter on one side: the very Doppler asymmetry the film had smoothed away. The universe confirmed the homework. Thorne has always been honest about his taxonomy: truth, educated guess, speculation — and the singularity, the bulk, the tesseract are filed under speculation, labeled as such in his own account. That discipline is rarer than the physics. Sagan spent his life making the same argument from the other direction: from six billion kilometers out, Earth is <em>a mote of dust suspended in a sunbeam</em>, and that fact is not depressing — it is the premise. The view belongs to everyone or it belongs to no one.`,
+          `This week we ran that parable through five days of Daily dispatches. The week began with a blind date and ended with a free physics paper — proof that beauty, built honestly, becomes knowledge, and knowledge belongs to everyone. The house creed is to use the irresistible to deliver the good. The irresistible here was a film that took in some $680 million in its original run — a number the market keeps. The good was a peer-reviewed result, published free and confirmed by the scientists who later pointed a telescope at the real sky. We do not improve on that story. We carry it forward.`
+        ]
+      },
+      pullQuote: {
+        text: `Two pages, written in 1963, gave the geometry of every spinning black hole ever observed. The renderer built to film one of them, run as an instrument, found a real result — and gave it away free.`,
+        cite: ""
+      },
+      feature: {
+        kicker: "The Feature",
+        title:  "The Constellation",
+        href:   "/cloud/",
+        cta:    "Wander the map →",
+        blurb: [
+          `The week's last chapter ended on a single line in a peer-reviewed journal — the result the renderer turned up when it was pointed at the math and run as an instrument, published free under four names: James, von Tunzelmann, Franklin and Thorne, in <em>Classical and Quantum Gravity</em>, 2015. Art had become research.`,
+          `But no paper stands alone. This one has a family — the roots it grew from (the 1935 Einstein–Rosen bridge, the word "wormhole" coined in 1957, the traversable one worked out in 1988, Kerr's two-page geometry from 1963) and the work that has grown out of it since. We mapped the whole neighborhood. Every node is a real citation; every line is a path someone actually traced. So we hand you the map and step aside — the view, after all, is not ours alone.`
+        ]
+      },
+      coda: {
+        title: "Knowledge, given away",
+        paragraphs: [
+          `None of it went into a vault, or a patent, or a paywall. Everything this week produced — the geometry, the render, even the result the universe confirmed years on, when a real black hole sat for its portrait — was given away. The instrument built for spectacle had quietly done science, and the science belonged to anyone who cared to look up.`,
+          `We keep coming back to one line because it keeps proving itself: <em>the view is not ours alone.</em> None of this week's beauty was diminished by being given away — that was the whole point. Knowledge is free, forever. The irresistible exists to deliver the good. That is the creed, and it is also just how the best things travel: you build something honest enough that it produces truth, and then you let it go. See you next Sunday.`
+        ]
+      }
+    }
   },
   {
     weekStart:  "TBD",
@@ -135,13 +174,13 @@ remains an open question. That honest uncertainty is what the film inherited.`,
     deepWhy: `Double Negative built Gargantua from Thorne's equations, not artistic license. The \
 renderer pushed whole bundles of light rays through Kerr geometry — the first IMAX-grade images of \
 a physically correct spinning black hole. Two honest compromises were made: the Doppler beaming \
-asymmetry (which makes one side of the accretion disk brighter) was softened, and lens flare was \
-suppressed, for visual clarity. Guinness certified it the most scientifically accurate black hole in \
+asymmetry (which makes one side of the accretion disk brighter) was softened, and the Doppler and \
+gravitational frequency shifts that would have skewed its colours were left out, for visual clarity. Guinness certified it the most scientifically accurate black hole in \
 a film. The renderer was precise enough to surface a new astrophysical result — caustics near a \
 fast-spinning hole can produce up to 13 images of a single star — which became a peer-reviewed paper.`,
     intro: "Interstellar week, Thursday — <em>Gargantua.</em> Six ways into the black hole at the film's center: the physics is real, the rendering set a world record, and the very center stays unknown.",
     music:   { label:"The Event Horizon", name:"Hans Zimmer",           work:"'Detach' (OST)",             why:"As they cross the point where no signal returns, the Temple Church organ swells into a threshold as final as the horizon itself.", link:"https://en.wikipedia.org/wiki/Interstellar_(soundtrack)" },
-    film:    { label:"The DNGR Render", name:"Double Negative & Thorne", work:"the black hole on screen",  why:"Built from Thorne's equations, the renderer earned the Guinness record for the most accurate black hole on film — with two honest compromises: the Doppler beaming asymmetry softened and glare suppressed, for clarity.", link:"https://www.guinnessworldrecords.com/world-records/418612-most-scientifically-accurate-black-hole-in-a-movie" },
+    film:    { label:"The DNGR Render", name:"Double Negative & Thorne", work:"the black hole on screen",  why:"Built from Thorne's equations, the renderer earned the Guinness record for the most accurate black hole on film — with two honest compromises: the Doppler beaming asymmetry softened and the colour-shifting frequency effects left out, for clarity.", link:"https://www.guinnessworldrecords.com/world-records/418612-most-scientifically-accurate-black-hole-in-a-movie" },
     science: { label:"Gravitational Lensing", name:"the wrapped disk",  work:"why it's above and below",  why:"Gargantua bends the far side of the accretion disk up and over the shadow — so you see the same disk twice, around the equator and arching overhead.", link:"https://en.wikipedia.org/wiki/Gravitational_lens" },
     book:    { label:"The Singularity", name:"Kip Thorne",              work:"The Science of Interstellar", why:"At the center, relativity predicts infinite curvature and then breaks down — the one place the film's science is honestly speculation.", link:"https://en.wikipedia.org/wiki/The_Science_of_Interstellar" },
     artist:  { label:"The Disk, Real", name:"Event Horizon Telescope", work:"M87*, 2019",                 why:"Five years after Gargantua, 200+ scientists photographed a real black hole — brighter on one side from Doppler beaming, the asymmetry the film left out.", link:"https://en.wikipedia.org/wiki/Messier_87",
@@ -598,22 +637,58 @@ NWA 12774 is one of the surviving receipts.`,
       return renderMap(currentDay);
     }
 
-    // Collect all days in this week from DAILY[]
+    // Collect all days in this week from DAILY[] — guard TBD / invalid dates.
+    // (DAILY holds future weeks with date:"TBD"; new Date("TBD…") is Invalid, and
+    //  getMondayOf() then throws in .toISOString() — which silently kills the whole
+    //  Sunday render and drops the homepage back to its static fallback.)
     const weekDays = DAILY.filter(x => {
-      if (!x.date) return false;
+      if (!x.date || x.date === "TBD") return false;
       const ds  = new Date(x.date + "T12:00:00");
+      if (isNaN(ds.getTime())) return false;
       const mon = getMondayOf(ds);
       return mon === mondayStr;
     });
 
-    // Week masthead
-    let html = `
+    const mag = arc.magazine;   // optional magazine layer (The Sunday Stack)
+
+    // ── Masthead — elevated cover when a magazine block is present ──
+    let html = mag ? `
+      <div class="ss-mast">
+        <div class="ss-mast-name" translate="no">${esc(mag.name)}</div>
+        <div class="ss-mast-line">Issue ${esc(mag.issue)} &middot; ${esc(arc.theme)} &middot; <span class="ss-mast-date">${esc(currentDay.date)}</span></div>
+        ${mag.tagline ? `<div class="ss-mast-tag">${esc(mag.tagline)}</div>` : ""}
+      </div>` : `
       <div class="dly-top">
         <span class="dly-title">Week ${esc(String(arc.weekNum))} &middot; ${esc(arc.theme)} &middot; Sunday Dispatch</span>
         <span class="dly-date">${esc(currentDay.date)}</span>
-      </div>
-      <p class="dly-intro">${esc(arc.synthesis)}</p>
-      <div class="dly-rule"></div>`;
+      </div>`;
+
+    // ── The Editor's Letter — the reckoning (magazine only; raw HTML is author-authored + verified) ──
+    if (mag && mag.letter) {
+      const L = mag.letter;
+      html += `
+      <section class="ss-letter" aria-label="Editor's Letter">
+        ${L.kicker ? `<div class="ss-kicker">${esc(L.kicker)}</div>` : ""}
+        ${L.dek ? `<p class="ss-dek">${L.dek}</p>` : ""}
+        ${(L.paragraphs || []).map(p => `<p class="ss-letter-p">${p}</p>`).join("")}
+      </section>`;
+    }
+
+    // ── One pull-quote, set large (magazine only) ──
+    if (mag && mag.pullQuote) {
+      html += `
+      <figure class="ss-pull">
+        <blockquote>${mag.pullQuote.text}</blockquote>
+        ${mag.pullQuote.cite ? `<figcaption>${esc(mag.pullQuote.cite)}</figcaption>` : ""}
+      </figure>`;
+    }
+
+    // ── The week itself — synthesis + chapters (the record). Magazine gets a section label. ──
+    if (mag) {
+      html += `<div class="dly-rule"></div><div class="ss-section">The Week, in seven movements</div><p class="dly-intro">${esc(arc.synthesis)}</p>`;
+    } else {
+      html += `<p class="dly-intro">${esc(arc.synthesis)}</p><div class="dly-rule"></div>`;
+    }
 
     // Chapter rows — one per day in the week
     for (const wd of weekDays) {
@@ -667,6 +742,27 @@ NWA 12774 is one of the surviving receipts.`,
     // Closing thread line
     if (arc.thread) {
       html += `<div class="dly-rule"></div><p class="dly-thread">${esc(arc.thread)}</p>`;
+    }
+
+    // ── The Feature + the Coda (magazine only) ──
+    if (mag && mag.feature) {
+      const F = mag.feature;
+      html += `
+      <div class="dly-rule"></div>
+      <a class="ss-feature" href="${esc(F.href)}">
+        ${F.kicker ? `<span class="ss-kicker">${esc(F.kicker)}</span>` : ""}
+        <span class="ss-feature-title">${esc(F.title)}</span>
+        ${(F.blurb || []).map(p => `<p class="ss-feature-p">${p}</p>`).join("")}
+        ${F.cta ? `<span class="go">${esc(F.cta)}</span>` : ""}
+      </a>`;
+    }
+    if (mag && mag.coda) {
+      const C = mag.coda;
+      html += `
+      <section class="ss-coda" aria-label="Coda">
+        ${C.title ? `<div class="ss-coda-title">${esc(C.title)}</div>` : ""}
+        ${(C.paragraphs || []).map(p => `<p class="ss-coda-p">${p}</p>`).join("")}
+      </section>`;
     }
 
     return html;
@@ -750,6 +846,54 @@ NWA 12774 is one of the surviving receipts.`,
     /* compact grid inside dispatch Monday chapter */
     .dly-grid-compact{grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));
       font-size:.9em}
+
+    /* ── The Sunday Stack — magazine layer (renders only when arc.magazine present) ── */
+    .ss-mast{text-align:center;padding:.5rem 0 1.5rem;margin-bottom:.3rem}
+    .ss-mast-name{display:inline-block;position:relative;font-size:clamp(1.9rem,6.5vw,3.1rem);
+      font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#FFD60A;line-height:1;
+      text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 6px rgba(0,0,0,.5)}
+    .ss-mast-name::after{content:'';position:absolute;left:50%;bottom:-.36rem;transform:translateX(-50%);
+      width:48%;height:3px;background:#0E44FF;border-radius:2px;
+      box-shadow:0 0 6px rgba(14,68,255,1),0 0 16px rgba(14,68,255,.85),0 0 34px rgba(14,68,255,.55)}
+    .ss-mast-line{margin-top:1rem;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:#d9b400}
+    .ss-mast-date{color:#8f8a73}
+    .ss-mast-tag{margin-top:.55rem;font-size:.86rem;font-style:italic;color:#cbc6b4;letter-spacing:.01em}
+
+    .ss-kicker{display:block;font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;
+      color:#0E44FF;font-weight:600;margin-bottom:.55rem;text-shadow:0 0 8px rgba(14,68,255,.55)}
+    .ss-letter{max-width:46rem;margin:1.7rem auto 0;padding:0 .15rem}
+    .ss-dek{font-size:clamp(1.05rem,3vw,1.32rem);line-height:1.42;color:#FFD60A;font-style:italic;
+      font-weight:600;letter-spacing:.005em;margin:0 0 1.15rem}
+    .ss-letter-p{font-size:1.01rem;line-height:1.74;color:#f3eede;margin:0 0 1.05rem}
+    .ss-letter-p:last-child{margin-bottom:0}
+    .ss-letter-p em,.ss-feature-p em,.ss-coda-p em{color:#FFD60A;font-style:italic}
+
+    .ss-pull{max-width:43rem;margin:2.1rem auto;padding:.1rem 0 .1rem 1.35rem;border-left:3px solid #0E44FF;
+      box-shadow:-1px 0 14px -7px rgba(14,68,255,.85)}
+    .ss-pull blockquote{margin:0;font-size:clamp(1.3rem,4vw,1.85rem);line-height:1.32;
+      color:#d9b400;font-style:italic;font-weight:600;letter-spacing:.004em}
+    .ss-pull figcaption{margin-top:.7rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#8f8a73}
+
+    .ss-section{display:flex;align-items:center;gap:1rem;text-align:center;
+      font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:#8f8a73;margin:.1rem 0 1.15rem}
+    .ss-section::before,.ss-section::after{content:'';height:1px;background:rgba(143,138,115,.28);flex:1}
+
+    .ss-feature{display:flex;flex-direction:column;gap:.55rem;text-decoration:none;color:inherit;
+      border:1px solid rgba(255,214,10,.4);background:rgba(255,214,10,.03);
+      padding:1.5rem 1.5rem 1.35rem;position:relative;overflow:hidden;transition:.16s ease}
+    .ss-feature::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#0E44FF;
+      box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6)}
+    .ss-feature:hover{border-color:#FFD60A;background:rgba(255,214,10,.06);transform:translateY(-2px)}
+    .ss-feature-title{font-size:clamp(1.3rem,4vw,1.9rem);letter-spacing:.04em;text-transform:uppercase;
+      color:#FFD60A;font-weight:600;line-height:1.1}
+    .ss-feature-p{font-size:.95rem;line-height:1.62;color:#f3eede;max-width:52rem;margin:0}
+    .ss-feature .go{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:#8f8a73;margin-top:.15rem}
+    .ss-feature:hover .go{color:#FFD60A}
+
+    .ss-coda{max-width:40rem;margin:1.7rem auto 0;text-align:center}
+    .ss-coda-title{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:#d9b400;margin-bottom:.75rem}
+    .ss-coda-p{font-size:.96rem;line-height:1.7;color:#cbc6b4;margin:0 auto .8rem;max-width:38rem}
+    .ss-coda-p:last-child{margin-bottom:0}
   `;
 
   /* ── Assemble HTML by mode ────────────────────────────────────────────── */
