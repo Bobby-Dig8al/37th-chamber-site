@@ -5,9 +5,18 @@
   <link href="https://37th-chamber.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://37th-chamber.com/dispatches/" rel="alternate" type="text/html"/>
   <id>https://37th-chamber.com/feed.xml</id>
-  <updated>2026-06-11T16:30:27Z</updated>
+  <updated>2026-06-13T19:00:00Z</updated>
   <author><name>The 37th Chamber</name><uri>https://37th-chamber.com/</uri></author>
   <icon>https://37th-chamber.com/assets/favicon-32.png</icon>
+
+  <entry>
+    <title>Field Note 007 · Who Holds the Keys</title>
+    <link href="https://37th-chamber.com/dispatches/007-who-holds-the-keys.html" rel="alternate" type="text/html"/>
+    <id>https://37th-chamber.com/dispatches/007-who-holds-the-keys.html</id>
+    <published>2026-06-13T19:00:00Z</published>
+    <updated>2026-06-13T19:00:00Z</updated>
+    <summary>FN006 wrote down what happened to Fable — sober, sourced. This is the other thing a free press owes you: what it does to the gut. Opinion, loud and signed — on the oldest move there is, and who gets to decide what the commons may know.</summary>
+  </entry>
 
   <entry>
     <title>Field Note 004 · Black, Opaque</title>
