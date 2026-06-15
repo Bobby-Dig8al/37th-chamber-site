@@ -62,4 +62,23 @@ PR #79 merged → CDN-verified `clamp(112px,24vw,160px)` on the live hearth. You
 - **Diagrams:** `assets/diagrams/*.svg` (or `widgets/diagram-*.html` at :8792)
 - **Full night log:** `_OVERNIGHT-LOG-DAY45.md` (cycle-by-cycle)
 
+---
+
+## 9. ➕ Opus thorough-review pass (post-PR, you asked "is it reviewed thoroughly?")
+You were right to ask — it wasn't uniform. I ran the gap-closing pass. Result: **solid**, one fix applied.
+
+**Re-reviewed beyond the swarm verdicts:**
+- **Monday geography — FIXED in the content draft.** 8 corrections applied: "South China Sea"→western Pacific/Taiwan Strait (×4), "36,000 sq mi"→~13,800 (×2), "smaller than Maryland"→~Netherlands-sized (×4). Draft now verify-clean.
+- **The 2 truncated-verify diagrams (doping 12.6KB, litho 14KB) — fact-checked by hand, both CORRECT.** Doping: Si 4-valence bonds, P(5e⁻)/B(3e⁻) doping, p–n junction + depletion + built-in field, "diode" — all right. Litho: coat→expose→develop→etch→strip→repeat, the 365/248/193/13.5nm ladder, 4× masks, "mirrors not lenses," ~14× — all right. (The earlier `validSvg:false` was the truncated-verify-input artifact, now disproven.)
+- **All 6 diagrams parse clean in-browser** (DOMParser, 0 parse errors, 60–167 elements each). **EUV diagram has the correct ~400,000 K** (the temp error did NOT propagate from the widget).
+- **Litho widget interactivity — run-verified** (its verify ran on truncated input; I confirmed the stepper advances on Next/STEP click). All 4 interactive widgets now Opus-run-checked.
+
+**Minor notes for your edit (not blockers):**
+- Litho diagram: "~10–20× → a chip" understates real mask counts (leading-edge is dozens/50–100+). Worth a bump.
+- Doping diagram: eyeball the built-in-field arrow direction (should point n→p) when rendered.
+
+**One honest residual:** the **reading furniture + scrollytelling** are swarm-verified (the furniture was even live-XSS-probed — `<img onerror>`/`<script>` neutralized to inert text) but I did NOT Opus-re-run them in a browser (they need a real long-form page + a non-zero viewport, which this headless preview can't give). They're progressive-enhancement (page works without them), so low-risk — but worth a final eyeball when you wire them onto a real page.
+
+**Net:** everything staged is now Opus-reviewed, not just verdict-stamped. The open items are unchanged and all yours: the **Blue-Law carve-out**, the **2026 fresh-sourcing** pass, and the **opsec call** on the internal docs (§4 + §7).
+
 *— BD82*
