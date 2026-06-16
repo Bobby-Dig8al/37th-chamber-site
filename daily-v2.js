@@ -516,6 +516,17 @@ NWA 12774 is one of the surviving receipts.`,
   let idx = Math.floor((Date.now() - startMs) / MS);
   if (idx < 0) idx = 0;
   if (idx >= DAILY.length) idx = DAILY.length - 1;
+  // HOLD on the last real-dated day — don't auto-roll into un-dated future weeks.
+  // Future weeks carry date:"TBD" until deliberately activated; without this clamp the raw
+  // date math lands the live Daily on a premature TBD day once a week's real dates run out
+  // (e.g. showing "Daily 009 · Dune · TBD" the day after the Interstellar week ended).
+  // Theme-indexed cadence: a week advances only when its dates are set, not on the clock.
+  let _lastDated = 0;
+  for (let i = 0; i < DAILY.length; i++) {
+    const _x = DAILY[i];
+    if (_x.date && _x.date !== "TBD" && !isNaN(new Date(_x.date + "T12:00:00").getTime())) _lastDated = i;
+  }
+  if (idx > _lastDated) idx = _lastDated;
 
   const _p  = new URLSearchParams(location.search);
   const _pd = _p.get("date"), _pn = _p.get("day");
