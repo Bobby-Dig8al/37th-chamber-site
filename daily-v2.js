@@ -106,6 +106,21 @@ The week ended at the synthesis: the geobarometer is a tool, not just a finding.
 now be applied to other meteorites, opening a new way to read the solar system's lost inventory.`,
     thread:     `The science gave us a method, not just a result — one paper opened a pressure gauge \
 that can now be turned on every angrite we hold.`
+  },
+  {
+    weekStart:  "TBD",
+    weekNum:    4,
+    theme:      "The Vietnam War",
+    synthesis:  `Ken Burns and Lynn Novick spent a decade gathering nearly eighty witnesses — American \
+veterans, antiwar activists, North Vietnamese soldiers, South Vietnamese civilians — and refused to \
+let any side hold the war alone. Trent Reznor and Atticus Ross scored it with the raw electronics of \
+grief, without triumph or resolution. The photographs — a burning monk, a street execution, a child \
+running from fire — changed the politics of a nation. Tim O'Brien and Michael Herr found the language \
+the journalism couldn't hold. Maya Lin gave the dead their names in black granite. Thirty-nine million \
+Americans watched. The ledger is not closed.`,
+    thread:     `A war America never finished reckoning with — Burns and Novick gave us the instrument, \
+Reznor and Ross scored the grief, the photographs bore witness, and Maya Lin cut the names into stone \
+so we could not forget.`
   }
   // add one object per week as the queue grows
 ];
@@ -498,6 +513,133 @@ NWA 12774 is one of the surviving receipts.`,
     book:    { label:"The Deep Record",            name:"Robert Hazen",            work:"The Story of Earth (2012)",                               why:"A geologist's account of the planet's history told through minerals — from stardust to living planet. The lens for reading NWA 12774 as a chapter in that story, not an anomaly.", link:"https://en.wikipedia.org/wiki/Robert_Hazen" },
     artist:  { label:"The Lost World, Painted",   name:"Chesley Bonestell",        work:"space art",                                              why:"Bonestell painted worlds before we visited them. The angrite parent body is a world we'll never visit — but we hold a piece of it. He would have painted it.", link:"https://en.wikipedia.org/wiki/Chesley_Bonestell" },
     show:    { label:"The View From Here",         name:"Carl Sagan",              work:"Cosmos: A Personal Voyage — \"The Shore of the Cosmic Ocean\" (1980)", why:"Sagan called us 'star stuff' — the cosmos knowing itself. A 454-gram rock from a dead world is the solar system doing the same thing: remembering what it lost.", link:"https://en.wikipedia.org/wiki/Cosmos:_A_Personal_Voyage" }
+  },
+  /* ── WEEK 4: THE VIETNAM WAR (a moral week, not a glory week) ─────────── */
+  {
+    num: "022", theme: "Vietnam War", date: "TBD",
+    // Monday → MAP render.
+    intro: "Ten years in the making, nearly eighty witnesses, ten parts and roughly eighteen hours: <em>The Vietnam War</em> by Ken Burns and Lynn Novick is the most comprehensive American documentary account of a war the country still has not finished reckoning with.",
+    music:   { label:"The Two Scores",       name:"Reznor & Ross · Yo-Yo Ma & the Silk Road Ensemble", work:"The Vietnam War score (2017)", why:"Two Academy Award-winning composers brought more than two hours of unresolved electronic grief across both scores; a cellist and the Silk Road Ensemble brought the Vietnamese sonic register alongside them.", link:"https://www.pbs.org/kenburns/the-vietnam-war/original-score" },
+    film:    { label:"The Documentary",      name:"Ken Burns & Lynn Novick",  work:"The Vietnam War (PBS, 2017)", why:"Ten parts, roughly eighteen hours, premiered September 17, 2017; reached thirty-nine million viewers. The defining American documentary account of the war, told from all sides of the Pacific.", link:"https://www.pbs.org/kenburns/the-vietnam-war/about" },
+    science: { label:"The Trigger",          name:"Gulf of Tonkin Resolution", work:"August 10, 1964", why:"Congress granted President Johnson authority to escalate without a formal war declaration — based on a reported second attack that Johnson and McNamara privately doubted had occurred.", link:"https://www.britannica.com/event/Gulf-of-Tonkin-Resolution" },
+    book:    { label:"The Soldier's Weight", name:"Tim O'Brien",              work:"The Things They Carried (1990)", why:"O'Brien served in Vietnam and wrote the defining literary account of what the war cost the men who fought — blurring fiction and memoir to carry the weight more honestly.", link:"https://www.arts.gov/initiatives/nea-big-read/things-they-carried" },
+    artist:  { label:"The Names",            name:"Maya Lin",                 work:"Vietnam Veterans Memorial (1982)", why:"A twenty-one-year-old Yale student won a competition of more than 1,400 entries with a black granite wall bearing the names of the dead — arranged by date of death, not by rank.", link:"https://www.britannica.com/topic/Vietnam-Veterans-Memorial" },
+    show:    { label:"The Witnesses",        name:"Nearly 80 interviewees, North and South", work:"The Vietnam War (PBS, 2017)", why:"For the first time in a Burns documentary, combatants and civilians from North Vietnam and the Viet Cong speak alongside Americans — the view not held by any one flag.", link:"https://www.pbs.org/video/voices-from-all-sides-trace-deep-roots-of-vietnam-war-1505519939" }
+  },
+  {
+    num: "023", theme: "Vietnam War", date: "TBD",
+    // Tuesday → DEEP DIVE. Spotlight: music (the two scores + the era's radio).
+    spotlight: "music",
+    deepWhy: `The war had two soundtracks: the one that came through the radio while young men waited \
+for orders, and the one Trent Reznor and Atticus Ross composed to hold the silence that came after. \
+Lynn Novick recruited the Nine Inch Nails duo — already Oscar winners for The Social Network (2010) — \
+after hearing their score for The Girl with the Dragon Tattoo. The result is more than two hours of \
+original music: electronic, spare, and deliberately unresolved, mirroring a war that never achieved \
+resolution. Alongside it, Yo-Yo Ma and the Silk Road Ensemble combined Western and Asian instruments — \
+bawu, kamancheh — improvising on Vietnamese musical themes, bringing the other half of the human cost \
+into the sonic frame. Two scores for two sides of one catastrophe.`,
+    intro: "Vietnam week, day two — <em>the sound.</em> The war had two soundtracks: the radio the soldiers carried, and the score Reznor and Ross wrote to hold the silence that came after.",
+    music:   { label:"The Score",        name:"Trent Reznor & Atticus Ross", work:"The Vietnam War Original Score (2017)", why:"More than two hours of original electronic music, raw and unresolved, by the Nine Inch Nails duo who won the Oscar for The Social Network (2010) and — with Jon Batiste — for Soul (2020).", link:"https://www.nin.com/vietnamoriginalscore/" },
+    film:    { label:"Woodstock, 1969",  name:"Jimi Hendrix",                work:"\"The Star-Spangled Banner\" (live, August 1969)", why:"Around 9am on the Monday morning, after the festival had run a full day over, Hendrix played the national anthem through a Stratocaster until it sounded like napalm and the country tearing itself apart.", link:"https://en.wikipedia.org/wiki/The_Star-Spangled_Banner_(Jimi_Hendrix)" },
+    science: { label:"What's Going On",  name:"Marvin Gaye",                 work:"What's Going On (1971)", why:"Released May 21, 1971, narrated from the perspective of a returning Vietnam veteran. Gaye's brother Frankie served in Vietnam; his letters home shaped the album. Became Motown's best-selling album to that date.", link:"https://www.smithsonianmag.com/history/marvin-gayes-whats-going-relevant-today-it-was-1971-180977750/" },
+    book:    { label:"Fortunate Son",    name:"Creedence Clearwater Revival", work:"\"Fortunate Son\" (September 1969)", why:"Three minutes on the inequity of the draft — the sons of senators got deferments; the sons of everyone else got orders. Written by John Fogerty.", link:"https://en.wikipedia.org/wiki/Fortunate_Son" },
+    artist:  { label:"The Question",     name:"Bob Dylan",                   work:"\"Blowin' in the Wind\" (1963)", why:"Recorded July 1962, released on The Freewheelin' Bob Dylan. Dylan resisted the protest-song framing even as it became the era's defining antiwar anthem.", link:"https://en.wikipedia.org/wiki/Blowin%27_in_the_Wind" },
+    show:    { label:"The Silk Road",    name:"Yo-Yo Ma & the Silk Road Ensemble", work:"The Vietnam War (Original Soundtrack, 2017)", why:"Western strings woven with the bawu and kamancheh, improvising on Vietnamese musical themes — the other sonic register of a war that was never only American.", link:"https://silkroadensemble.bandcamp.com/album/the-vietnam-war-a-film-by-ken-burns-lynn-novick-icr009" }
+  },
+  {
+    num: "024", theme: "Vietnam War", date: "TBD",
+    // Wednesday → DEEP DIVE. Spotlight: science (how it escalated; the machinery).
+    spotlight: "science",
+    deepWhy: `The war did not arrive fully formed; it was assembled out of decisions that compounded. \
+On August 2, 1964, North Vietnamese boats attacked the USS Maddox in the Gulf of Tonkin. A reported \
+second attack on August 4 — relayed to Congress even as Johnson and McNamara privately concluded it \
+had likely not occurred — became the pretext. Congress passed the Gulf of Tonkin Resolution on August \
+10, granting near-unlimited war-making authority without a formal declaration. That single act became \
+the legal foundation for a force that peaked near 543,000 American troops in 1969. The resolution was \
+repealed in 1971. The contested nature of the August 4 incident is now well-documented in the \
+declassified record — a war built on an uncertain predicate, authorized in hours, prosecuted for a decade.`,
+    intro: "Vietnam week, Wednesday — <em>the machinery.</em> A dubious incident in a gulf, a resolution passed in hours, a decade of escalation, and a poison sprayed across a jungle that is still working.",
+    music:   { label:"The Draft in Three Minutes", name:"Creedence Clearwater Revival", work:"\"Fortunate Son\" (1969)", why:"The draft sent roughly 2.7 million Americans to Vietnam. Fogerty named the class inequity of deferments in under three minutes — the sons of the powerful stayed home.", link:"https://en.wikipedia.org/wiki/Fortunate_Son" },
+    film:    { label:"The Escalation",   name:"Gulf of Tonkin Resolution",   work:"August 10, 1964 — the legal mechanism", why:"Johnson got war-making authority on a reported attack he and McNamara privately doubted. It became the legal basis for the entire escalation and was repealed in 1971.", link:"https://www.britannica.com/event/Gulf-of-Tonkin-Resolution" },
+    science: { label:"Agent Orange",     name:"Operation Ranch Hand",        work:"1962–1971 — herbicide program over Vietnam, Laos, Cambodia", why:"The US sprayed herbicide contaminated with TCDD — a highly toxic dioxin — to clear jungle cover. Linked to cancers, birth defects, and neurological disorders in veterans and Vietnamese civilians across generations. The Agent Orange Act of 1991 established presumptive service connection for affected veterans.", link:"https://www.ncbi.nlm.nih.gov/books/NBK236351/" },
+    book:    { label:"The Correspondent", name:"Michael Herr",               work:"Dispatches (1977)", why:"Herr reported for Esquire from Vietnam, 1967–1969 — an early landmark of New Journalism, the ground-level record of the war's sensory reality. He later narrated Apocalypse Now and co-wrote Full Metal Jacket.", link:"https://en.wikipedia.org/wiki/Dispatches_(book)" },
+    artist:  { label:"Kent State",       name:"John Filo (photograph)",      work:"May 4, 1970 — Kent State University", why:"Ohio National Guardsmen fired between 61 and 67 rounds in 13 seconds, killing four students and wounding nine. Filo's Pulitzer-winning photograph — Mary Ann Vecchio over Jeffrey Miller — became the image of the home-front rupture.", link:"https://www.britannica.com/event/Kent-State-shootings" },
+    show:    { label:"The Series",       name:"Ken Burns & Lynn Novick",     work:"The Vietnam War, Episodes 1–10 (PBS, 2017)", why:"The series traces the war's full arc — from the roots of French colonialism, through the defeat at Dien Bien Phu (1954), to the American withdrawal and Saigon's fall (1975). Ten years in production.", link:"https://www.pbs.org/kenburns/the-vietnam-war/" }
+  },
+  {
+    num: "025", theme: "Vietnam War", date: "TBD",
+    // Thursday → DEEP DIVE. Spotlight: book (the literature — truth that had to be carried).
+    spotlight: "book",
+    deepWhy: `Tim O'Brien was drafted and served with the 23rd Infantry Division. The Things They \
+Carried (1990) is a collection of linked stories that deliberately blur fiction and fact — O'Brien \
+calls it metafiction. He is not after the literal truth of any event; he is after story-truth, the \
+kind that carries the emotional weight no report can hold. The book was a finalist for the Pulitzer \
+and the National Book Critics Circle Award and has sold over two million copies. Michael Herr's \
+Dispatches (1977), drawn from his Esquire reporting, is its companion: the correspondent's record of \
+what the war sounded and smelled like from the ground — language traditional journalism could not reach.`,
+    intro: "Vietnam week, Thursday — <em>the language.</em> O'Brien and Herr both understood the war could not be reported straight; it had to be carried.",
+    music:   { label:"What's Going On",  name:"Marvin Gaye",                 work:"What's Going On (1971)", why:"The album narrated by a returning veteran ends without resolution. So does the war. That is not a failure of the art — it is the art's honesty.", link:"https://theconversation.com/whats-going-on-at-50-marvin-gayes-motown-classic-is-as-relevant-today-as-it-was-in-1971-155262" },
+    film:    { label:"The Documentary",  name:"Ken Burns & Lynn Novick",     work:"The Vietnam War (PBS, 2017)", why:"The series draws on the written record — O'Brien, Herr, letters home, diaries — as part of its layered approach. The literature and the documentary are in conversation.", link:"https://kenburns.com/films/vietnam/" },
+    science: { label:"The Physical Load", name:"Tim O'Brien",                work:"The Things They Carried (1990)", why:"The first chapter alone — an inventory of what soldiers physically and emotionally carried — is a document of the war's weight. O'Brien served with the 23rd Infantry Division.", link:"https://en.wikipedia.org/wiki/The_Things_They_Carried" },
+    book:    { label:"The Correspondent", name:"Michael Herr",               work:"Dispatches (1977)", why:"Herr covered the war for Esquire, 1967–1969 — arriving at twenty-seven, leaving broken. The ground-level record: language that matched the sensory overload of combat in ways traditional journalism could not.", link:"https://en.wikipedia.org/wiki/Dispatches_(book)" },
+    artist:  { label:"The Names",        name:"Maya Lin",                    work:"Vietnam Veterans Memorial (1982)", why:"Lin's wall insists on names, not glory — names cut into black granite, arranged by date of death. The most-visited memorial on the National Mall.", link:"https://www.history.com/articles/the-21-year-old-college-student-who-designed-the-vietnam-memorial" },
+    show:    { label:"The Secret Record", name:"Ken Burns & Lynn Novick",    work:"The Vietnam War — White House recordings (PBS, 2017)", why:"The series includes secret audio from inside the Kennedy, Johnson, and Nixon administrations — the private record alongside the public story, and the gap between the two.", link:"https://www.pbs.org/kenburns/the-vietnam-war/about" }
+  },
+  {
+    num: "026", theme: "Vietnam War", date: "TBD",
+    // Friday → DEEP DIVE. Spotlight: artist (the photographs that changed the war — handled with gravity).
+    spotlight: "artist",
+    deepWhy: `Three photographers, three places, three moments across nine years — and what they saw \
+changed the trajectory of a war. On June 11, 1963, the Buddhist monk Thich Quang Duc sat down in a \
+Saigon intersection and, in a deliberate act of protest against the Diem government, was set alight. \
+He did not move. Malcolm Browne — the only Western cameraman present — photographed it; Kennedy said \
+no news photograph had ever generated so much worldwide emotion. Eddie Adams photographed Brigadier \
+General Nguyen Ngoc Loan executing a prisoner on a Saigon street during Tet, February 1, 1968; the man \
+Loan shot — a bound captive, Nguyen Van Lem — died on that street, and that death too was the war. \
+Adams won the Pulitzer and spent years regretting what the frame did to Loan, because a single image \
+cannot carry the context a war requires. The third, taken June 8, 1972, shows nine-year-old Phan Thi \
+Kim Phuc running from a napalm strike on Trang Bang. Its authorship is under formal review — World \
+Press Photo suspended Nick Ut's attribution in May 2025 after the documentary The Stringer; the \
+Associated Press has not changed it. The photograph and its 1973 Pulitzer are not in dispute. Kim Phuc survived.`,
+    intro: "Vietnam week, Friday — <em>the witness.</em> Three photographs, taken across nine years, that changed the politics of a nation. They are still working.",
+    music:   { label:"Protest",          name:"Bob Dylan",                   work:"\"Blowin' in the Wind\" (1963)", why:"The era's moral question mark, adopted by a movement that needed language for what it saw in the photographs.", link:"https://en.wikipedia.org/wiki/Blowin%27_in_the_Wind" },
+    film:    { label:"The Documentary",  name:"Ken Burns & Lynn Novick",     work:"The Vietnam War (PBS, 2017)", why:"The series incorporates the war's greatest photojournalism — remastered, placed in context, and returned to the people whose faces they captured.", link:"https://www.pbs.org/kenburns/the-vietnam-war/about" },
+    science: { label:"The Burning Monk", name:"Malcolm Browne",              work:"Thich Quang Duc, June 11, 1963", why:"Browne was the only Western cameraman present when the monk set himself ablaze in protest. Kennedy said no news photograph had generated more worldwide emotion. Browne won the 1963 World Press Photo of the Year.", link:"https://www.worldpressphoto.org/collection/photo-contest/1963/malcolm-w-browne/1" },
+    book:    { label:"Saigon, 1968",     name:"Eddie Adams",                 work:"\"Saigon Execution,\" February 1, 1968", why:"Adams photographed Gen. Nguyen Ngoc Loan shooting a bound prisoner, Nguyen Van Lem, during Tet. He won the 1969 Pulitzer — and later said the frame destroyed Loan's life, and that a single image cannot convey the context a war requires.", link:"https://en.wikipedia.org/wiki/Saigon_Execution" },
+    artist:  { label:"Trang Bang, 1972", name:"AP photograph — authorship under formal review", work:"\"The Terror of War\" (\"Napalm Girl\"), June 8, 1972", why:"Nine-year-old Phan Thi Kim Phuc running from a napalm strike. Won the 1973 Pulitzer. World Press Photo suspended Nick Ut's attribution in May 2025 after the documentary The Stringer; AP has not changed it. Kim Phuc survived.", link:"https://www.npr.org/2025/06/05/nx-s1-5400606/napalm-girl-photo" },
+    show:    { label:"The Archive",      name:"Vietnam War photojournalism", work:"World Press Photo archive — Adams (1968), Browne (1963)", why:"The archive holds the record of how photojournalists changed American opinion about the war — one front page at a time.", link:"https://www.worldpressphoto.org/collection/photo-contest/1968/eddie-adams/1" }
+  },
+  {
+    num: "027", theme: "Vietnam War", date: "TBD",
+    // Saturday → DEEP DIVE. Spotlight: film (Ken Burns the filmmaker — method + filmography + influence).
+    spotlight: "film",
+    deepWhy: `Ken Burns directed his first documentary in 1981 — Brooklyn Bridge — through Florentine \
+Films. His breakthrough, The Civil War (1990), drew forty million viewers and set his method: archival \
+photographs animated by slow pans and zooms, testimony from historians and descendants, narration that \
+treats history as a story with moral weight. That pan-and-zoom across stills is now called the Ken \
+Burns effect and is built into editing software worldwide — he did not invent it, but he used it more \
+systematically than anyone before him. With Lynn Novick he co-directed The War (2007) and The Vietnam \
+War (2017). More than forty documentaries for PBS make his the most widely watched history education \
+in American broadcasting. The Vietnam War is his most contested subject and, arguably, his most necessary.`,
+    intro: "Vietnam week, Saturday — <em>the filmmaker.</em> Ken Burns has been building the American public's memory of itself for forty years, one slow zoom at a time. This is the summit of that work.",
+    music:   { label:"The Score",        name:"Trent Reznor & Atticus Ross", work:"The Vietnam War Original Score (2017)", why:"Reznor and Ross marked a new register for a Burns film — electronic rather than acoustic, unresolved rather than elegiac. Novick made the call.", link:"https://www.nin.com/vietnamoriginalscore/" },
+    film:    { label:"The Filmmaker",    name:"Ken Burns",                   work:"Filmography, 1981–present (40+ PBS documentaries)", why:"The Civil War (1990), Baseball (1994), Jazz (2001), The War (2007), The National Parks (2009), Prohibition (2011), The Roosevelts (2014), The Vietnam War (2017), Country Music (2019). The defining body of American public-history filmmaking.", link:"https://www.pbs.org/kenburns/films" },
+    science: { label:"The Technique",    name:"The Ken Burns effect",        work:"Pan-and-zoom on still photographs", why:"The slow zoom across historical photographs — used most systematically by Burns with Mathew Brady's Civil War images — is now named after him and built into editing software worldwide. He popularized it; he did not invent it.", link:"https://en.wikipedia.org/wiki/Ken_Burns_effect" },
+    book:    { label:"The Reach",        name:"Ken Burns & Lynn Novick",     work:"The Vietnam War (PBS, 2017) — 39 million viewers", why:"Thirty-nine million viewers across premiere and encore. The second-highest-rated Burns/Novick film of the past two decades, after The War (2007). Premiered September 17, 2017.", link:"https://kenburns.com/films/vietnam/" },
+    artist:  { label:"The Collaborator", name:"Lynn Novick",                 work:"Co-director: The War (2007), The Vietnam War (2017)", why:"Novick co-directed both films with Burns — and it was Novick who brought Reznor and Ross onto The Vietnam War.", link:"https://www.pbs.org/kenburns/the-vietnam-war/about" },
+    show:    { label:"The Public Record", name:"Ken Burns",                  work:"NEH Jefferson Lecture — biography", why:"The NEH biography documents Burns's full body of work and his role in American public-history education — the institutional record of forty-plus years at the craft.", link:"https://www.neh.gov/about/awards/jefferson-lecture/ken-burns-biography" }
+  },
+  {
+    num: "028", theme: "Vietnam War", date: "TBD",
+    // Sunday → DISPATCH render (reads WEEK_ARCS for the Vietnam weekStart). The per-day fields feed the chapter row.
+    spotlight: "book",
+    intro: "Vietnam week, Sunday — <em>the reckoning.</em> The war ended in 1975. The reckoning has not.",
+    music:   { label:"The Human Ledger", name:"Marvin Gaye",                 work:"What's Going On (1971)", why:"The album ends without resolution. So does the war. That is not a failure of the art — it is the art's honesty, and the only posture that does not lie.", link:"https://www.smithsonianmag.com/history/marvin-gayes-whats-going-relevant-today-it-was-1971-180977750/" },
+    film:    { label:"The Document",     name:"Ken Burns & Lynn Novick",     work:"The Vietnam War (PBS, 2017)", why:"A decade of production, nearly eighty witnesses, archival footage from both sides of the Pacific: the fullest American documentary account of a war neither side understood at the time.", link:"https://www.pbs.org/kenburns/the-vietnam-war/" },
+    science: { label:"The Cost",         name:"US National Archives",        work:"Vietnam War casualty statistics (DCAS)", why:"58,220 US military fatal casualties in the DCAS database; the wall in Washington bears 58,318 names — the two differ because names have been added and corrected over time. Vietnamese dead — North, South, civilian — number in the millions; estimates remain contested and should not be reduced to a single figure.", link:"https://www.archives.gov/research/military/vietnam-war/casualty-statistics" },
+    book:    { label:"The Weight",       name:"Tim O'Brien",                 work:"The Things They Carried (1990)", why:"O'Brien: \"A true war story is never moral. It does not instruct, nor encourage virtue, nor suggest models of proper human behavior.\" That sentence is the instruction on what not to do with this week.", link:"https://www.arts.gov/initiatives/nea-big-read/things-they-carried" },
+    artist:  { label:"The Wall",         name:"Maya Lin",                    work:"Vietnam Veterans Memorial, Washington, D.C. (1982)", why:"Names in chronological order, not rank; the visitor's reflection in the black granite places them among the dead. The controversy it provoked — the \"black gash of shame\" — was itself a final echo of the war's divisions.", link:"https://www.history.com/this-day-in-history/november-13/vietnam-veterans-memorial-dedicated" },
+    show:    { label:"The View",         name:"Ken Burns & Lynn Novick",     work:"The Vietnam War — Vietnamese testimony (PBS, 2017)", why:"The series sets combatants and civilians from North Vietnam and the Viet Cong alongside Americans. The view is not ours alone — both the series's method and the week's closing argument.", link:"https://www.pbs.org/video/voices-from-all-sides-trace-deep-roots-of-vietnam-war-1505519939" }
   }
   // ← stack more themed days here. They auto-appear on their date.
 ];
