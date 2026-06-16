@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Note 007 · STS-87 — Dispatches · 37th Chamber</title>
+<meta name="description" content="The workshop machine is named STS-87, after the 1997 shuttle mission where a satellite tumbled and the crew went out and caught it by hand. Here is the build, and the receipts: 57.9°C through a 60-minute torture load, zero throttle, ever.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/dispatches/007-sts-87">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
+<meta property="og:title" content="Field Note 007 · STS-87">
+<meta property="og:description" content="A machine named for a rescue. The 1997 mission, the build, and the receipts — 57.9°C under a 60-minute torture load, zero throttle, ever. Transparent method, veiled destination.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-06-14T15:30:00-05:00">
+<meta property="article:author" content="https://37th-chamber.com/about/">
+<meta property="article:section" content="The Workshop">
+<meta property="og:site_name" content="The 37th Chamber">
+<meta property="og:url" content="https://37th-chamber.com/dispatches/007-sts-87.html">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="STS-87 — Field Note 007 from The 37th Chamber">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="STS-87 — Field Note 007 from The 37th Chamber">
+<meta name="twitter:title" content="Field Note 007 · STS-87">
+<meta name="twitter:description" content="A machine named for a rescue — the mission, the build, and the receipts.">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem env(safe-area-inset-bottom,0px);
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
+.meta-pill .num{color:var(--gold-soft);font-weight:600}
+.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.8rem,6vw,2.7rem);line-height:1.06;font-weight:600;letter-spacing:.05em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
+.dek{margin:.6rem 0 1.4rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:40rem}
+/* ── the 3x1 build-mast ── */
+.sts-mast{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.3rem 0 .7rem;width:100%}
+.sts-mast figure{margin:0;position:relative;overflow:hidden;border:1px solid rgba(255,214,10,.28);background:#000}
+.sts-mast img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;object-position:center}
+.sts-mast figure::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--electric);
+  box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)}
+.mast-cap{font-size:.74rem;letter-spacing:.03em;color:var(--dim);text-align:center;margin:0 0 1.6rem;line-height:1.5}
+@media(max-width:560px){.sts-mast{gap:.35rem}}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
+h2{margin:2.2rem 0 .9rem;font-size:clamp(1.18rem,3.6vw,1.4rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
+p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
+p strong{color:var(--gold);font-weight:600}
+p em{color:var(--gold-soft);font-style:italic}
+.stat{margin:1.4rem 0;padding:1rem 1.15rem;border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.9rem 1.1rem}
+.stat .s{display:flex;flex-direction:column;gap:.2rem}
+.stat .s b{font-size:clamp(1.3rem,4vw,1.6rem);color:var(--gold);font-weight:600;letter-spacing:.01em;line-height:1}
+.stat .s span{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);line-height:1.35}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.5);background:rgba(14,68,255,.03);
+  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62}
+.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
+  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
+.signoff strong{color:var(--gold-soft)}
+.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+.signoff a:hover{border-bottom-style:solid}
+footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
+  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}
+.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
+  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
+.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
+.roots a:hover{border-bottom-style:solid}
+.roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
+</style>
+<script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
+<nav class="topnav" aria-label="Dispatch navigation">
+  <a class="back" href="/dispatches/">&larr;&nbsp;Dispatches</a>
+  <span class="meta-pill"><span class="num">Field Note 007</span> &middot; 2026&middot;06&middot;14 &middot; the workshop</span>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">Dispatches &middot; <span translate="no">The 37th Chamber</span></div>
+  <h1 class="title">STS-87</h1>
+  <p class="dek">A machine named for a rescue. Here is the build, broken down to the board &mdash; and the receipts behind &ldquo;built honestly.&rdquo;</p>
+
+  <div class="sts-mast">
+    <figure><img src="/assets/dispatches/sts-87/sts-87-1-build.webp" alt="Inside the case mid-build — power supply, sleeved cabling, and a case fan, lit faint blue." loading="lazy" decoding="async"></figure>
+    <figure><img src="/assets/dispatches/sts-87/sts-87-2-mobo.webp" alt="The motherboard installed and lit blue — an MSI MS-7D78 board, slots and headers visible." loading="lazy" decoding="async"></figure>
+    <figure><img src="/assets/dispatches/sts-87/sts-87-3-live.webp" alt="The finished machine running — white case, glass panel, blue RGB fans, the STS-87 mission patch beside it." loading="lazy" decoding="async"></figure>
+  </div>
+  <p class="mast-cap">Torn down to the board, then lit: the guts, the MSI board, and the finished machine &mdash; with its mission patch. Built April 2026.</p>
+
+  <hr class="rule">
+
+  <h2>The mission</h2>
+  <p>On <strong>19 November 1997</strong>, the Space Shuttle <em>Columbia</em> went up as <strong>STS-87</strong> &mdash; fifteen days, 252 orbits, 6.5 million miles. Aboard was <strong>Kalpana Chawla</strong>, on her first spaceflight: the first India-born woman to fly to space, serving as the mission&rsquo;s prime robotic-arm operator. She used that arm to release <strong>SPARTAN-201</strong>, a free-flying satellite built to study the Sun&rsquo;s corona.</p>
+  <p>It tumbled. The satellite failed to hold its orientation after deployment, and two of her crewmates &mdash; <strong>Winston Scott</strong> and <strong>Takao Doi</strong> &mdash; went out into the payload bay and <em>caught it back by hand</em>. (Doi&rsquo;s was the first spacewalk by a Japanese astronaut.) Six years later, Chawla was lost with the rest of her crew aboard <em>Columbia</em> on STS-107. The shuttle program numbers its missions; we borrowed one, and the weight that comes with it.</p>
+
+  <h2>The name on the glass</h2>
+  <p>The workshop machine is called <strong>STS-87</strong> &mdash; mission patch on the case, the way a crew stitches one to a flight suit. The pictures up top are its build: torn down to the board, wired, then lit. For the record &mdash; a <strong>Ryzen 7 9700X</strong>, an <strong>RTX 4070 Ti SUPER</strong>, <strong>32&nbsp;GB of DDR5-6000</strong>, a Samsung 990&nbsp;PRO. White case, blue charge, glass side.</p>
+  <p>A machine that&rsquo;s going to run the build &mdash; all day, every day, the engine under everything this house gives away &mdash; has to prove it can hold. So we proved it, and we logged every number.</p>
+
+  <h2>The receipts</h2>
+  <p>Sixty minutes of OCCT &mdash; a synthetic torture load, all cores, no mercy. The CPU topped out at <strong>57.9&deg;C</strong>. The throttle limit on this chip is 95&deg;. That is <em>thirty-seven degrees of headroom</em>, with the boost clock held at 5.5&nbsp;GHz the whole hour, and <strong>zero throttle events</strong> &mdash; not <em>few</em>, zero, across every test since the clean install. The voltage regulators, which run 60&ndash;75&deg;C on comparable boards, sat at <strong>45</strong>.</p>
+  <div class="stat" role="group" aria-label="Stress-test highlights">
+    <div class="s"><b>57.9&deg;C</b><span>max CPU &middot; 60-min full load</span></div>
+    <div class="s"><b>0</b><span>throttle events, ever</span></div>
+    <div class="s"><b>5.5 GHz</b><span>boost, held all hour</span></div>
+    <div class="s"><b>45&deg;C</b><span>VRM (boards run 60&ndash;75)</span></div>
+  </div>
+  <p>And the honest version, because that is the only version worth keeping: warmer room, RGB on, the AI running live &mdash; <strong>65.5&deg;C</strong>, still no throttle. The early runs weren&rsquo;t a perfectly controlled A/B (different durations, different load sets), so we don&rsquo;t claim a clean &ldquo;tuning dropped it 21 degrees&rdquo; &mdash; each run stands on its own. One disk figure is a cached probe; it doesn&rsquo;t get posted until a proper benchmark confirms it. Every caveat kept, on purpose.</p>
+
+  <h2>Why it wears the patch</h2>
+  <p>STS-87 deployed a thing that tumbled, and the crew didn&rsquo;t write it off &mdash; they went out and put their hands on it. That is the whole working method in one mission: <em>build it honest, measure it cold, and when it slips, go out and catch it.</em> <strong>Transparent method, veiled destination</strong> &mdash; you can see every number the machine makes; what it&rsquo;s building stays off-frame until it&rsquo;s ready to be given away.</p>
+  <p>The data behind this page lives in a plain folder of dated CSVs and reports &mdash; receipts, not marketing. That&rsquo;s the point. The patch isn&rsquo;t a decoration. It&rsquo;s a standard to hold the machine to.</p>
+
+  <div class="roots">
+    <span class="rlab">Take us to the root &rarr;</span>
+    <a href="https://www.nasa.gov/mission/sts-87/" target="_blank" rel="noopener noreferrer">NASA &mdash; <span translate="no">STS-87 mission overview</span> (the flight, the crew, SPARTAN-201)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://en.wikipedia.org/wiki/STS-87" target="_blank" rel="noopener noreferrer">Wikipedia &mdash; <span translate="no">STS-87</span> (timeline, the SPARTAN recapture EVA)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://www.nasa.gov/wp-content/uploads/2020/09/chawla_kalpana.pdf" target="_blank" rel="noopener noreferrer">NASA &mdash; <span translate="no">Kalpana Chawla, astronaut biography</span><span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <span class="note">Mission facts are from NASA&rsquo;s own record. The stress numbers are from this machine&rsquo;s logged test runs &mdash; dated CSVs and reports, caveats preserved. We point; we don&rsquo;t embellish.</span>
+  </div>
+
+  <div class="signoff">
+    The engine under the work, named for a flight that caught what it dropped &mdash; <strong>built honest, measured cold, every number kept</strong>.<br>
+    Filed from the 37th Chamber &middot; The Woodlands, TX &middot; <strong>2026.06.14</strong><br>
+    <a href="/dispatches/">More dispatches &rarr;</a> &nbsp;|&nbsp; <a href="/work/">Work with me &rarr;</a>
+  </div>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/dispatches/">&larr; back to Dispatches</a>
+</footer>
+</body>
+</html>
