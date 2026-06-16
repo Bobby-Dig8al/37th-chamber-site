@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Now Playing — test fixture</title>
+  <!--
+    Test-only harness page for nowplaying.js.
+
+    There is no live mount of the widget on any production page in this repo
+    (index.html does not embed #now-playing), so these tests drive the widget
+    through its documented MOCK MODE contract (see nowplaying.js header):
+      - data-mock="true" on the mount, AND
+      - window.__NOWPLAYING_MOCK__ set to a Worker-shaped object BEFORE the
+        module loads (the module reads it during boot() at import time).
+
+    The mock object is supplied per-test via the ?mock= query param so a single
+    fixture serves every scenario. Live updates after boot are pushed with the
+    'nowplaying-mock-update' CustomEvent the module listens for.
+
+    Absolute (root) paths are used for the stylesheet and module so the imports
+    resolve no matter where this fixture is served from. The static server has
+    its document root at the repo root (see playwright.config.mjs:
+    `python -m http.server 8799 --directory ..`).
+  -->
+  <link rel="stylesheet" href="/nowplaying.css">
+  <style>
+    /*
+     * Production design tokens, copied verbatim from index.html :root
+     * (lines 60–65). The widget ALWAYS renders inside this token context on
+     * the real site; nowplaying.css's own header notes it "reuses the site's
+     * exact CSS custom properties defined in index.html :root." Supplying them
+     * here makes the fixture render gold-on-near-black exactly as in production
+     * so the a11y scan evaluates the widget as it truly appears. (Without an
+     * outer :root, the self-referential fallbacks in nowplaying.css collapse
+     * to the initial color (black), which is a fixture artifact, not the
+     * shipped rendering.)
+     */
+    :root {
+      --gold:#FFD60A;
+      --gold-soft:#d9b400;
+      --bg:#08080a;
+      --text:#f3eede;
+      --dim:#8f8a73;
+      --electric:#0E44FF;
+    }
+    body { margin: 0; background: var(--bg); }
+    #now-playing { max-width: 520px; margin: 2rem auto; }
+  </style>
+  <script>
+    // Decode the mock payload from ?mock=<encodeURIComponent(JSON)> and install
+    // it on window BEFORE the ES module below executes. The module's boot()
+    // reads window.__NOWPLAYING_MOCK__ synchronously, so this MUST run first.
+    (function () {
+      try {
+        var params = new URLSearchParams(location.search);
+        var raw = params.get('mock');
+        if (raw) { window.__NOWPLAYING_MOCK__ = JSON.parse(raw); }
+      } catch (e) {
+        // Leave __NOWPLAYING_MOCK__ unset on parse failure → idle/quiet render.
+        console.warn('[fixture] bad ?mock= payload:', e);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- data-mock="true" → no network. data-worker-url omitted → idle when no mock. -->
+  <div id="now-playing" data-mock="true" data-worker-url=""></div>
+  <script type="module" src="/nowplaying.js"></script>
+</body>
+</html>

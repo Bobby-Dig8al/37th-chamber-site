@@ -1,0 +1,250 @@
+<svg viewBox="0 0 900 662" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d" font-family="Bahnschrift, system-ui, sans-serif">
+<title id="t">Photolithography: the litho cycle and why wavelength limits feature size</title>
+<desc id="d">A wafer is coated with photoresist, exposed to light through a mask via reduction projection optics, developed, etched, and stripped, then repeated to build a chip layer by layer. Resolution follows the Rayleigh law: critical dimension equals k1 times wavelength divided by numerical aperture, so shorter wavelength prints smaller features.</desc>
+
+<defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#d9b400"/>
+  </marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4d82ff"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="900" height="662" fill="#08080a"/>
+
+<!-- ===== HEADER ===== -->
+<text x="34" y="40" fill="#8f8a73" font-size="12.5" letter-spacing="3.5">37TH CHAMBER  ·  CHIP WAR  ·  HOW A PATTERN BECOMES SILICON</text>
+<text x="34" y="72" fill="#FFD60A" font-size="29" font-weight="700" letter-spacing="0.5">Photolithography</text>
+<text x="34" y="95" fill="#f3eede" font-size="14">Printing a circuit with light — one layer at a time.</text>
+
+<!-- Rayleigh law, top-right -->
+<g transform="translate(636,42)">
+  <rect x="0" y="0" width="230" height="62" rx="4" fill="none" stroke="#3a3a2c" stroke-width="1"/>
+  <text x="16" y="22" fill="#8f8a73" font-size="10.5" letter-spacing="2">RAYLEIGH RESOLUTION LIMIT</text>
+  <text x="16" y="44" fill="#f3eede" font-size="18" font-weight="700">CD = k</text>
+  <text x="68" y="47" fill="#8f8a73" font-size="11">1</text>
+  <text x="76" y="44" fill="#f3eede" font-size="18" font-weight="700">·</text>
+  <text x="88" y="44" fill="#4d82ff" font-size="18" font-weight="700">λ</text>
+  <text x="102" y="44" fill="#f3eede" font-size="18" font-weight="700">/ NA</text>
+  <text x="16" y="58" fill="#8f8a73" font-size="10.5">smaller <tspan fill="#4d82ff">λ</tspan> → smaller features</text>
+</g>
+
+<line x1="34" y1="112" x2="866" y2="112" stroke="#3a3a2c" stroke-width="1"/>
+
+<!-- ===== THE CYCLE: 6 cross-section panels ===== -->
+<text x="34" y="138" fill="#FFD60A" font-size="13" letter-spacing="2.5" font-weight="700">THE LITHO CYCLE  —  WAFER CROSS-SECTION AT EACH STEP</text>
+
+<!-- helper legend -->
+<g transform="translate(560,132)" font-size="10.5">
+  <rect x="0" y="-9" width="13" height="9" fill="#2a2a30"/><text x="18" y="-1" fill="#8f8a73">silicon</text>
+  <rect x="74" y="-9" width="13" height="9" fill="#d9b400"/><text x="92" y="-1" fill="#8f8a73">film to pattern</text>
+  <rect x="196" y="-9" width="13" height="9" fill="#0E44FF" opacity="0.55"/><text x="214" y="-1" fill="#8f8a73">photoresist</text>
+</g>
+
+<!-- ===== ROW 1 (steps 1-3) ===== -->
+<!-- Step 1: coat resist over film on wafer -->
+<g transform="translate(40,170)">
+  <text x="0" y="0" fill="#4d82ff" font-size="12" font-weight="700">1 · COAT</text>
+  <text x="0" y="15" fill="#8f8a73" font-size="10.5">spin on photoresist</text>
+  <g transform="translate(0,24)">
+    <rect x="0" y="44" width="240" height="20" fill="#2a2a30"/>
+    <rect x="0" y="34" width="240" height="10" fill="#d9b400"/>
+    <rect x="0" y="22" width="240" height="12" fill="#0E44FF" opacity="0.55"/>
+    <text x="246" y="32" fill="#8f8a73" font-size="9.5">resist</text>
+    <text x="246" y="43" fill="#8f8a73" font-size="9.5">film</text>
+    <text x="246" y="58" fill="#8f8a73" font-size="9.5">wafer</text>
+  </g>
+</g>
+
+<!-- arrow -->
+<line x1="305" y1="205" x2="335" y2="205" stroke="#d9b400" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Step 2: expose through mask -->
+<g transform="translate(345,170)">
+  <text x="0" y="0" fill="#4d82ff" font-size="12" font-weight="700">2 · EXPOSE</text>
+  <text x="0" y="15" fill="#8f8a73" font-size="10.5">light through a mask</text>
+  <g transform="translate(0,24)">
+    <line x1="40" y1="-2" x2="40" y2="20" stroke="#4d82ff" stroke-width="1.4" marker-end="url(#arb)"/>
+    <line x1="120" y1="-2" x2="120" y2="20" stroke="#4d82ff" stroke-width="1.4" marker-end="url(#arb)"/>
+    <line x1="200" y1="-2" x2="200" y2="20" stroke="#4d82ff" stroke-width="1.4" marker-end="url(#arb)"/>
+    <rect x="0" y="44" width="240" height="20" fill="#2a2a30"/>
+    <rect x="0" y="34" width="240" height="10" fill="#d9b400"/>
+    <rect x="0" y="22" width="240" height="12" fill="#0E44FF" opacity="0.55"/>
+    <rect x="20" y="22" width="40" height="12" fill="#4d82ff" opacity="0.95"/>
+    <rect x="100" y="22" width="40" height="12" fill="#4d82ff" opacity="0.95"/>
+    <rect x="180" y="22" width="40" height="12" fill="#4d82ff" opacity="0.95"/>
+    <text x="246" y="32" fill="#8f8a73" font-size="9.5">exposed</text>
+  </g>
+</g>
+
+<!-- arrow -->
+<line x1="610" y1="205" x2="640" y2="205" stroke="#d9b400" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Step 3: develop -->
+<g transform="translate(650,170)">
+  <text x="0" y="0" fill="#4d82ff" font-size="12" font-weight="700">3 · DEVELOP</text>
+  <text x="0" y="15" fill="#8f8a73" font-size="10.5">wash exposed resist away</text>
+  <g transform="translate(0,24)">
+    <rect x="0" y="44" width="200" height="20" fill="#2a2a30"/>
+    <rect x="0" y="34" width="200" height="10" fill="#d9b400"/>
+    <rect x="0" y="22" width="20" height="12" fill="#0E44FF" opacity="0.55"/>
+    <rect x="60" y="22" width="40" height="12" fill="#0E44FF" opacity="0.55"/>
+    <rect x="140" y="22" width="40" height="12" fill="#0E44FF" opacity="0.55"/>
+    <text x="206" y="32" fill="#8f8a73" font-size="9.5">resist</text>
+    <text x="206" y="43" fill="#8f8a73" font-size="9.5">mask</text>
+  </g>
+</g>
+
+<!-- vertical descent arrow from step 3 to step 4 -->
+<path d="M740 262 L740 286" stroke="#d9b400" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+
+<!-- ===== ROW 2 (steps 4-6) — runs right to left ===== -->
+<!-- Step 4: etch -->
+<g transform="translate(650,300)">
+  <text x="0" y="0" fill="#4d82ff" font-size="12" font-weight="700">4 · ETCH</text>
+  <text x="0" y="15" fill="#8f8a73" font-size="10.5">cut film through gaps</text>
+  <g transform="translate(0,24)">
+    <rect x="0" y="44" width="200" height="20" fill="#2a2a30"/>
+    <rect x="0" y="34" width="20" height="10" fill="#d9b400"/>
+    <rect x="60" y="34" width="40" height="10" fill="#d9b400"/>
+    <rect x="140" y="34" width="40" height="10" fill="#d9b400"/>
+    <rect x="0" y="22" width="20" height="12" fill="#0E44FF" opacity="0.55"/>
+    <rect x="60" y="22" width="40" height="12" fill="#0E44FF" opacity="0.55"/>
+    <rect x="140" y="22" width="40" height="12" fill="#0E44FF" opacity="0.55"/>
+  </g>
+</g>
+
+<!-- arrow leftward -->
+<line x1="640" y1="335" x2="610" y2="335" stroke="#d9b400" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Step 5: strip -->
+<g transform="translate(345,300)">
+  <text x="0" y="0" fill="#4d82ff" font-size="12" font-weight="700">5 · STRIP</text>
+  <text x="0" y="15" fill="#8f8a73" font-size="10.5">remove resist → one layer done</text>
+  <g transform="translate(0,24)">
+    <rect x="0" y="44" width="240" height="20" fill="#2a2a30"/>
+    <rect x="0" y="34" width="20" height="10" fill="#d9b400"/>
+    <rect x="72" y="34" width="48" height="10" fill="#d9b400"/>
+    <rect x="168" y="34" width="48" height="10" fill="#d9b400"/>
+    <text x="246" y="43" fill="#FFD60A" font-size="9.5">patterned</text>
+    <text x="246" y="54" fill="#FFD60A" font-size="9.5">layer ✓</text>
+  </g>
+</g>
+
+<!-- arrow leftward -->
+<line x1="305" y1="335" x2="290" y2="335" stroke="#d9b400" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Step 6: REPEAT / build up -->
+<g transform="translate(40,300)">
+  <text x="0" y="0" fill="#FFD60A" font-size="12" font-weight="700">6 · REPEAT</text>
+  <text x="0" y="15" fill="#8f8a73" font-size="10.5">stack layer on layer</text>
+  <g transform="translate(0,24)">
+    <rect x="0" y="44" width="240" height="14" fill="#2a2a30"/>
+    <rect x="0" y="34" width="20" height="10" fill="#5c5530"/>
+    <rect x="72" y="34" width="48" height="10" fill="#5c5530"/>
+    <rect x="168" y="34" width="48" height="10" fill="#5c5530"/>
+    <rect x="36" y="24" width="36" height="10" fill="#a08820"/>
+    <rect x="130" y="24" width="36" height="10" fill="#a08820"/>
+    <rect x="0" y="14" width="28" height="10" fill="#FFD60A"/>
+    <rect x="92" y="14" width="40" height="10" fill="#FFD60A"/>
+    <rect x="196" y="14" width="28" height="10" fill="#FFD60A"/>
+    <text x="246" y="22" fill="#8f8a73" font-size="9.5">~10–20×</text>
+    <text x="246" y="34" fill="#8f8a73" font-size="9.5">→ a chip</text>
+  </g>
+</g>
+
+<!-- the big return loop: 6 back up to 1 -->
+<path d="M30 332 C8 332 8 205 28 205" stroke="#d9b400" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
+<text x="2" y="272" fill="#d9b400" font-size="9.5" transform="rotate(-90 8 272)" letter-spacing="1">NEXT LAYER</text>
+
+<line x1="34" y1="392" x2="866" y2="392" stroke="#3a3a2c" stroke-width="1"/>
+
+<!-- ===== EXPOSURE DETAIL (left) ===== -->
+<text x="34" y="418" fill="#FFD60A" font-size="13" letter-spacing="2.5" font-weight="700">INSIDE STEP 2  —  THE SCANNER</text>
+
+<g transform="translate(60,432)">
+  <circle cx="40" cy="22" r="15" fill="none" stroke="#4d82ff" stroke-width="1.6"/>
+  <circle cx="40" cy="22" r="6" fill="#4d82ff"/>
+  <text x="40" y="-2" fill="#a0c0ff" font-size="11" text-anchor="middle">light source</text>
+  <text x="40" y="55" fill="#8f8a73" font-size="9.5" text-anchor="middle">193 nm / 13.5 nm</text>
+
+  <line x1="58" y1="22" x2="100" y2="22" stroke="#4d82ff" stroke-width="2"/>
+
+  <rect x="100" y="6" width="58" height="8" fill="#d9b400"/>
+  <rect x="112" y="6" width="9" height="8" fill="#08080a"/>
+  <rect x="136" y="6" width="9" height="8" fill="#08080a"/>
+  <text x="129" y="-2" fill="#FFD60A" font-size="11" text-anchor="middle">mask</text>
+  <text x="129" y="33" fill="#8f8a73" font-size="9.5" text-anchor="middle">the blueprint</text>
+
+  <polygon points="100,22 158,22 150,72 108,72" fill="#0E44FF" opacity="0.16"/>
+  <line x1="116" y1="14" x2="138" y2="74" stroke="#4d82ff" stroke-width="1.3"/>
+  <line x1="142" y1="14" x2="120" y2="74" stroke="#4d82ff" stroke-width="1.3"/>
+
+  <ellipse cx="129" cy="74" rx="40" ry="9" fill="none" stroke="#FFD60A" stroke-width="1.6"/>
+  <text x="200" y="71" fill="#FFD60A" font-size="11">projection optics</text>
+  <text x="200" y="85" fill="#8f8a73" font-size="9.5">4× reduction — mask image</text>
+  <text x="200" y="97" fill="#8f8a73" font-size="9.5">shrunk onto the wafer</text>
+
+  <polygon points="118,80 140,80 132,116 126,116" fill="#0E44FF" opacity="0.22"/>
+  <line x1="118" y1="80" x2="129" y2="116" stroke="#4d82ff" stroke-width="1.3"/>
+  <line x1="140" y1="80" x2="129" y2="116" stroke="#4d82ff" stroke-width="1.3"/>
+
+  <rect x="84" y="118" width="90" height="9" fill="#2a2a30"/>
+  <rect x="84" y="112" width="90" height="6" fill="#0E44FF" opacity="0.55"/>
+  <rect x="120" y="112" width="8" height="6" fill="#4d82ff"/>
+  <rect x="130" y="112" width="8" height="6" fill="#4d82ff"/>
+  <text x="129" y="142" fill="#8f8a73" font-size="9.5" text-anchor="middle">wafer — tiny image, scanned die by die</text>
+</g>
+
+<!-- divider between detail and law -->
+<line x1="430" y1="402" x2="430" y2="624" stroke="#3a3a2c" stroke-width="1"/>
+
+<!-- ===== WAVELENGTH → FEATURE SIZE (right) ===== -->
+<text x="452" y="418" fill="#FFD60A" font-size="13" letter-spacing="2.5" font-weight="700">WHY THE WAR  —  SHORTER λ, SMALLER FEATURES</text>
+<text x="452" y="436" fill="#f3eede" font-size="11.5">Each generation chased a shorter wavelength of light.</text>
+
+<g transform="translate(452,452)" font-size="11">
+  <text x="0" y="14" fill="#8f8a73" font-size="10" letter-spacing="2">DUV  (deep ultraviolet)</text>
+
+  <rect x="0" y="22" width="84" height="22" fill="#0E44FF" opacity="0.30"/>
+  <text x="8" y="37" fill="#a0c0ff" font-size="12" font-weight="700">365 nm</text>
+  <text x="0" y="58" fill="#8f8a73" font-size="9.5">i-line</text>
+
+  <line x1="92" y1="33" x2="108" y2="33" stroke="#d9b400" stroke-width="1.4" marker-end="url(#ar)"/>
+
+  <rect x="116" y="22" width="74" height="22" fill="#0E44FF" opacity="0.45"/>
+  <text x="124" y="37" fill="#a0c0ff" font-size="12" font-weight="700">248 nm</text>
+  <text x="116" y="58" fill="#8f8a73" font-size="9.5">KrF</text>
+
+  <line x1="198" y1="33" x2="214" y2="33" stroke="#d9b400" stroke-width="1.4" marker-end="url(#ar)"/>
+
+  <rect x="222" y="22" width="66" height="22" fill="#0E44FF" opacity="0.62"/>
+  <text x="230" y="37" fill="#a0c0ff" font-size="12" font-weight="700">193 nm</text>
+  <text x="222" y="58" fill="#8f8a73" font-size="9.5">ArF + immersion</text>
+</g>
+
+<!-- the jump -->
+<g transform="translate(452,520)">
+  <path d="M0 0 L380 0" stroke="#3a3a2c" stroke-width="1" stroke-dasharray="3 4"/>
+  <text x="0" y="18" fill="#8f8a73" font-size="10" letter-spacing="2">EUV  (extreme ultraviolet)</text>
+  <text x="10" y="38" fill="#a0c0ff" font-size="10">a 14× shorter wavelength →</text>
+  <path d="M10 46 L208 46" stroke="#4d82ff" stroke-width="2" marker-end="url(#arb)"/>
+
+  <rect x="224" y="28" width="100" height="36" fill="#0E44FF" stroke="#4d82ff" stroke-width="1.4"/>
+  <text x="274" y="48" fill="#ffffff" font-size="16" font-weight="700" text-anchor="middle">13.5 nm</text>
+  <text x="274" y="60" fill="#a0c0ff" font-size="9" text-anchor="middle">EUV — mirrors, not lenses</text>
+</g>
+
+<!-- payoff line -->
+<g transform="translate(452,600)">
+  <text x="0" y="0" fill="#f3eede" font-size="12">
+    <tspan fill="#FFD60A" font-weight="700">~13 nm features</tspan>
+    <tspan fill="#f3eede"> at NA 0.33  —  near the </tspan>
+    <tspan fill="#4d82ff">k₁ = 0.25</tspan>
+    <tspan fill="#f3eede"> physical floor.</tspan>
+  </text>
+  <text x="0" y="16" fill="#8f8a73" font-size="10">One machine on Earth makes this light at volume — the chokepoint the Chip War is fought over.</text>
+</g>
+
+</svg>

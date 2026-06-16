@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Room — demo · 37th Chamber</title>
+<meta name="description" content="Self-contained demo of the reading-room reading-enhancement component: progress bar, read-time, chapter rail, and hover-footnote citation cards.">
+<meta name="theme-color" content="#08080a">
+<!-- TEMPLE PALETTE + base prose styles. On the live site these come from a shared
+     sheet; inlined here so the demo stands alone. -->
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.8rem,6vw,2.7rem);line-height:1.06;font-weight:600;letter-spacing:.015em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
+.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
+h2{margin:2.2rem 0 .9rem;font-size:clamp(1.18rem,3.6vw,1.4rem);letter-spacing:.04em;color:var(--gold);font-weight:600;scroll-margin-top:1.2rem}
+h3{margin:1.6rem 0 .7rem;font-size:clamp(1.02rem,3vw,1.16rem);letter-spacing:.03em;color:var(--gold-soft);font-weight:600;scroll-margin-top:1.2rem}
+p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
+p strong{color:var(--gold);font-weight:600}
+p em{color:var(--gold-soft);font-style:italic}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(255,214,10,.5);background:rgba(255,214,10,.02);
+  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62;font-style:italic}
+.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
+  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
+.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
+.roots a:hover{border-bottom-style:solid}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+</style>
+
+<!-- ── THE COMPONENT: one stylesheet + one script ─────────────────────────── -->
+<!-- optional config set before the deferred script runs; here we enable h3
+     nesting in the chapter rail. Omit this entirely for defaults. -->
+<script>window.READING_ROOM = { subHeadingSelector: 'h3' };</script>
+<link rel="stylesheet" href="./reading-room.css">
+<script src="./reading-room.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">Demo &middot; <span translate="no">The 37th Chamber</span></div>
+  <h1 class="title">The Reading Room</h1>
+  <p class="dek">A walkthrough of the premium reading furniture: a progress bar that tracks the climb, a read-time estimate measured from the prose, a chapter rail that lights the section you are in, and citation cards that open on hover or focus. Everything below is rendered by one stylesheet and one script — turn the script off and the page still reads.</p>
+
+  <hr class="rule">
+
+  <h2>The progress bar</h2>
+  <p>At the very top of the window sits a hairline track. As you scroll, an <strong>electric-blue fill</strong> advances across it — the charge, glowing softly per the house's Blue Law. It is a <em>progressbar</em> in the accessibility tree too, announcing the percentage to assistive technology. The fill reaches one hundred percent exactly when the end of the article reaches the bottom of your viewport, so the bar means what it says: full means you have seen the end.</p>
+  <p>This first reference is harvested automatically from the roots block at the foot of the page — hover or tab to <a class="ref" href="https://en.wikipedia.org/wiki/Black_hole" target="_blank" rel="noopener noreferrer">the black hole entry</a> and a card appears with the citation as it was written below.</p>
+
+  <h2>The read-time estimate</h2>
+  <p>Just under the dek you will find a small chip: <em>N min read</em>. It is computed at load time from the article's word count, divided by an adult prose rate of two hundred twenty-five words per minute, with the navigation furniture, the roots block, and any code excluded from the count. No server, no build step — the number is honest to the words actually on the page.</p>
+  <h3>Why a clone is counted</h3>
+  <p>To avoid counting its own injected chrome, the script clones the article, strips the rail and the roots, and counts the remainder. The page you read is never touched. This keeps the estimate stable even though the component adds a rail and a chip of its own after load.</p>
+
+  <h2>The chapter rail</h2>
+  <p>On a wide screen, a rail floats in the left gutter, built from every <strong>h2</strong> in the article. Click any entry to glide to that section; the current one stays lit in gold with a small charged tick. On a narrow screen the rail folds into a "Contents" disclosure at the top instead, so it never crowds the column. This is a real navigation landmark with in-page links — usable by keyboard and screen reader alike.</p>
+  <p>Citations can also be configured explicitly. This link to <a href="#" data-rr-ref="ramanujan" >Ramanujan's notebooks</a> draws its card from an inline JSON sources block rather than from the roots — proof the two paths coexist.</p>
+
+  <h2>The citation cards</h2>
+  <p>Any link marked as a reference grows a faint gold underline and a small superscript cue. On hover — or on keyboard focus — a preview card opens near the link, Wikipedia-preview style: a kicker, a title, optional bibliographic detail, a short blurb, and a button through to the source. Pressing <em>Escape</em> dismisses it; moving away dismisses it; the card itself stays alive while your pointer is over it so the link inside stays clickable.</p>
+  <p>One more, inline-configured, with a full blurb: the <a href="#" data-rr-ref="kerr">Kerr metric</a> — the exact-rotating-black-hole solution the house spent a week rendering.</p>
+
+  <h2>Graceful by default</h2>
+  <p>Every feature is additive. With JavaScript disabled, you get the article exactly as authored — heading anchors, roots links, prose. With the script on, the furniture appears without a single change to the markup. That is the whole contract: <strong>progressive enhancement, theme-native, and quiet until invited.</strong></p>
+
+  <blockquote>Knowledge is free — forever. The furniture only helps you carry it.</blockquote>
+
+  <!-- ROOTS BLOCK — the component harvests these into hover cards automatically,
+       keyed by href, exactly as they appear on real dispatch pages. -->
+  <div class="roots">
+    <span class="rlab">Take us to the root &rarr;</span>
+    <a href="https://en.wikipedia.org/wiki/Black_hole" target="_blank" rel="noopener noreferrer">Wikipedia &mdash; <em>Black hole</em> (a region of spacetime where gravity is so strong that nothing escapes)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://en.wikipedia.org/wiki/Kerr_metric" target="_blank" rel="noopener noreferrer">Wikipedia &mdash; <em>Kerr metric</em> (the exact solution for a rotating, uncharged black hole)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+  </div>
+</main>
+
+<!-- INLINE SOURCES MAP — keyed by the link's data-rr-ref value (or by href).
+     Explicit config wins over harvested roots, so the Kerr card below overrides
+     the harvested one with a richer blurb. -->
+<script type="application/json" id="rr-sources">
+{
+  "ramanujan": {
+    "kicker": "Source",
+    "title": "Ramanujan's lost notebook",
+    "meta": "Rediscovered 1976, Wren Library, Cambridge",
+    "blurb": "A sheaf of roughly one hundred unpublished pages of formulae found decades after his death — mock theta functions, partition identities, and results mathematicians are still proving.",
+    "url": "https://en.wikipedia.org/wiki/Ramanujan%27s_lost_notebook",
+    "external": true
+  },
+  "kerr": {
+    "kicker": "Source · physics",
+    "title": "The Kerr metric (1963)",
+    "meta": "Roy Kerr · Physical Review Letters",
+    "blurb": "The exact solution to Einstein's field equations for a rotating, uncharged mass — the geometry behind every realistic black-hole image, including the lensed second photo of the disk.",
+    "url": "https://en.wikipedia.org/wiki/Kerr_metric",
+    "external": true
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Photolithography, Step by Step - widget preview</title>
+<style>body{margin:0;background:#08080a;color:#f3eede;font-family:'Bahnschrift',system-ui,sans-serif;padding:20px;display:flex;justify-content:center}</style></head><body>
+<div class="litho" id="litho-root">
+  <style>
+    .litho{
+      --bg:#08080a; --gold:#FFD60A; --gold-soft:#d9b400;
+      --blue:#0E44FF; --blue-2:#4d82ff; --blue-3:#a0c0ff;
+      --text:#f3eede; --dim:#8f8a73;
+      --wafer:#2b2b33; --wafer-edge:#3c3c46;
+      --oxide:#5a4a6e; --metal:#7a6a3a;
+      --resist:#1d3b8a; --resist-soft:#2a52c0;
+      font-family:'Bahnschrift',system-ui,sans-serif;
+      color:var(--text); background:var(--bg);
+      max-width:760px; margin:0 auto; padding:20px 18px 26px;
+      border:1px solid #1a1a20; box-sizing:border-box;
+      line-height:1.45; -webkit-font-smoothing:antialiased;
+    }
+    .litho *{box-sizing:border-box;}
+    .litho h2{
+      font-size:19px; font-weight:600; letter-spacing:.04em;
+      margin:0 0 2px; color:var(--gold);
+    }
+    .litho .sub{font-size:12.5px; color:var(--dim); margin:0 0 16px; letter-spacing:.02em;}
+
+    .litho .stage{
+      position:relative; width:100%; background:#0b0b0f;
+      border:1px solid #1c1c24; border-radius:4px; overflow:hidden;
+    }
+    .litho svg{display:block; width:100%; height:auto;}
+
+    .litho .rail{
+      display:flex; gap:6px; margin:14px 0 4px; flex-wrap:wrap;
+    }
+    .litho .pip{
+      flex:1 1 0; min-width:78px; text-align:center;
+      font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+      color:var(--dim); padding:7px 4px 6px; border:1px solid #1c1c24;
+      border-radius:3px; background:#0c0c11; cursor:pointer;
+      transition:color .18s,border-color .18s,background .18s;
+      user-select:none;
+    }
+    .litho .pip .n{display:block; font-size:9px; color:#5c5848; margin-bottom:2px;}
+    .litho .pip:hover{border-color:#2c2c38; color:var(--text);}
+    .litho .pip[aria-current="true"]{
+      color:var(--bg); background:var(--gold); border-color:var(--gold); font-weight:600;
+    }
+    .litho .pip[aria-current="true"] .n{color:#5a4d00;}
+    .litho .pip:focus-visible{outline:2px solid var(--blue-2); outline-offset:2px;}
+
+    .litho .readout{
+      margin:14px 0 0; min-height:74px;
+      border-left:2px solid var(--gold); padding:2px 0 2px 14px;
+    }
+    .litho .readout .label{
+      font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--gold-soft); margin:0 0 4px;
+    }
+    .litho .readout .body{font-size:13.5px; color:var(--text); margin:0;}
+    .litho .readout .body b{color:var(--blue-3); font-weight:600;}
+    .litho .readout .body .g{color:var(--gold); font-weight:600;}
+
+    .litho .controls{
+      display:flex; align-items:center; gap:10px; margin-top:18px; flex-wrap:wrap;
+    }
+    .litho button.ctl{
+      font-family:inherit; font-size:12.5px; letter-spacing:.04em;
+      color:var(--text); background:#11111a; border:1px solid #2c2c38;
+      border-radius:3px; padding:8px 14px; cursor:pointer;
+      transition:border-color .16s,background .16s,color .16s;
+    }
+    .litho button.ctl:hover{border-color:var(--blue-2); color:var(--blue-3);}
+    .litho button.ctl:focus-visible{outline:2px solid var(--blue-2); outline-offset:2px;}
+    .litho button.ctl.primary{
+      background:var(--blue); border-color:var(--blue); color:#fff; font-weight:600;
+    }
+    .litho button.ctl.primary:hover{background:var(--blue-2); border-color:var(--blue-2); color:#fff;}
+    .litho button.ctl:disabled{opacity:.35; cursor:not-allowed;}
+    .litho .cyc{
+      font-size:11.5px; color:var(--dim); letter-spacing:.05em; margin-left:auto;
+    }
+    .litho .cyc b{color:var(--gold);}
+
+    .litho .wl{
+      margin-top:20px; border-top:1px solid #1c1c24; padding-top:16px;
+    }
+    .litho .wl h3{
+      font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--gold); margin:0 0 3px; font-weight:600;
+    }
+    .litho .wl p.lede{font-size:12px; color:var(--dim); margin:0 0 12px;}
+    .litho .wl-row{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+    .litho .wl-slider{flex:1 1 240px; min-width:200px;}
+    .litho input[type=range]{
+      -webkit-appearance:none; appearance:none; width:100%; height:3px;
+      background:linear-gradient(90deg,var(--blue) 0%,var(--blue-3) 100%);
+      border-radius:3px; outline:none; cursor:pointer;
+    }
+    .litho input[type=range]::-webkit-slider-thumb{
+      -webkit-appearance:none; appearance:none; width:16px; height:16px;
+      border-radius:50%; background:var(--gold); border:2px solid var(--bg);
+      box-shadow:0 0 0 1px var(--gold-soft); cursor:pointer;
+    }
+    .litho input[type=range]::-moz-range-thumb{
+      width:16px; height:16px; border-radius:50%; background:var(--gold);
+      border:2px solid var(--bg); box-shadow:0 0 0 1px var(--gold-soft); cursor:pointer;
+    }
+    .litho input[type=range]:focus-visible{outline:2px solid var(--blue-2); outline-offset:4px;}
+    .litho .wl-ticks{display:flex; justify-content:space-between; margin-top:5px; font-size:9.5px; color:#5c5848; letter-spacing:.04em;}
+    .litho .wl-stat{
+      flex:0 0 auto; text-align:right; font-variant-numeric:tabular-nums;
+    }
+    .litho .wl-stat .big{font-size:22px; color:var(--gold); font-weight:600; line-height:1;}
+    .litho .wl-stat .cap{font-size:10px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin-top:3px;}
+    .litho .wl-name{
+      display:inline-block; margin-top:10px; font-size:11px; letter-spacing:.06em;
+      color:var(--blue-3); border:1px solid #243a6e; border-radius:2px; padding:3px 8px;
+    }
+    .litho .formula{
+      font-size:12.5px; color:var(--text); margin:12px 0 0;
+      font-family:'Bahnschrift',system-ui,sans-serif; letter-spacing:.02em;
+    }
+    .litho .formula .v{color:var(--blue-3);} .litho .formula .k{color:var(--gold);}
+
+    .litho .hint{font-size:11px; color:var(--dim); margin:14px 0 0; letter-spacing:.02em;}
+    .litho .hint kbd{
+      font-family:inherit; font-size:10.5px; background:#16161e; border:1px solid #2c2c38;
+      border-radius:3px; padding:1px 6px; color:var(--text);
+    }
+
+    @media (max-width:560px){
+      .litho .pip{min-width:0; flex-basis:30%;}
+      .litho .wl-stat{text-align:left;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .litho *{transition:none !important; animation:none !important;}
+    }
+  </style>
+
+  <h2>Photolithography, Step by Step</h2>
+  <p class="sub">How a flat wafer becomes a stack of patterned layers &mdash; and why the color of light sets the smallest line you can draw.</p>
+
+  <div class="stage">
+    <svg id="litho-svg" viewBox="0 0 600 300" role="img" aria-labelledby="litho-svg-title">
+      <title id="litho-svg-title">Cross-section of a silicon wafer being patterned by photolithography.</title>
+      <defs>
+        <linearGradient id="lithoBeam" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#a0c0ff" stop-opacity="0"/>
+          <stop offset="1" stop-color="#4d82ff" stop-opacity="0.9"/>
+        </linearGradient>
+        <clipPath id="lithoFloor"><rect x="60" y="0" width="480" height="300"/></clipPath>
+      </defs>
+
+      <g clip-path="url(#lithoFloor)">
+        <g id="litho-built"></g>
+        <rect id="litho-wafer" x="60" y="232" width="480" height="40" fill="#2b2b33" stroke="#3c3c46" stroke-width="1"/>
+        <g id="litho-layer"></g>
+        <g id="litho-resist"></g>
+        <g id="litho-mask" opacity="0"></g>
+        <g id="litho-beams"></g>
+      </g>
+
+      <text x="64" y="290" fill="#5c5848" font-size="10" font-family="Bahnschrift,system-ui,sans-serif" letter-spacing="0.08em">SILICON SUBSTRATE &mdash; cross-section</text>
+      <text id="litho-stepcap" x="536" y="290" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,system-ui,sans-serif" letter-spacing="0.06em"></text>
+    </svg>
+  </div>
+
+  <div class="rail" id="litho-rail" role="tablist" aria-label="Photolithography steps"></div>
+
+  <div class="readout" aria-live="polite">
+    <p class="label" id="litho-rolabel">Bare wafer</p>
+    <p class="body" id="litho-robody">A clean silicon wafer with a fresh layer to be patterned &mdash; here, an <span class="g">oxide</span> film grown on top. Nothing is drawn yet. Press <b>Next step</b> to begin a cycle.</p>
+  </div>
+
+  <div class="controls">
+    <button class="ctl" id="litho-prev" type="button" aria-label="Previous step">&larr; Prev</button>
+    <button class="ctl primary" id="litho-next" type="button" aria-label="Next step">Next step &rarr;</button>
+    <button class="ctl" id="litho-reset" type="button">Reset</button>
+    <span class="cyc">Layers built: <b id="litho-cyccount">0</b> &nbsp;&middot;&nbsp; Cycle <b id="litho-cycnum">1</b></span>
+  </div>
+
+  <div class="wl">
+    <h3>Why wavelength limits feature size</h3>
+    <p class="lede">The light used to expose the resist diffracts. The smallest line it can resolve scales with its wavelength. Shorter light &rarr; finer patterns. Drag it.</p>
+    <div class="wl-row">
+      <div class="wl-slider">
+        <input type="range" id="litho-wl" min="0" max="3" step="1" value="1"
+               aria-label="Exposure light source" aria-valuetext="193 nanometers, deep ultraviolet">
+        <div class="wl-ticks">
+          <span>436nm</span><span>193nm</span><span>13.5nm</span><span>High-NA</span>
+        </div>
+      </div>
+      <div class="wl-stat">
+        <div class="big" id="litho-cd">38 nm</div>
+        <div class="cap">smallest feature</div>
+      </div>
+    </div>
+    <span class="wl-name" id="litho-wlname">ArF (deep UV) &mdash; the workhorse since ~2003</span>
+    <p class="formula">resolution &nbsp;=&nbsp; <span class="k">k&#8321;</span> &middot; <span class="v" id="litho-fl">&lambda;</span> / <span class="v" id="litho-fna">NA</span>&nbsp;&nbsp;&rarr;&nbsp;&nbsp;halve <span class="v">&lambda;</span>, roughly halve the line.</p>
+  </div>
+
+  <p class="hint">Click a step on the rail, use <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to walk the cycle, or <kbd>Space</kbd> for next. The diagram and the reader update together. Reduced-motion and no-JS readers get the full sequence as text.</p>
+
+  <noscript>
+    <div style="margin-top:16px;border-left:2px solid #FFD60A;padding-left:14px;font-size:13px;color:#f3eede;">
+      <p style="color:#d9b400;letter-spacing:.1em;text-transform:uppercase;font-size:11px;">The cycle, without scripts</p>
+      <ol style="margin:0;padding-left:18px;line-height:1.7;">
+        <li><b>Coat.</b> Spin a thin film of light-sensitive <i>photoresist</i> over the wafer's working layer.</li>
+        <li><b>Expose.</b> Shine UV light through a patterned <i>mask</i>. Only the open areas of the mask let light reach the resist, changing its chemistry there.</li>
+        <li><b>Develop.</b> A solvent washes away the soluble resist (the exposed regions, for positive resist), leaving a resist stencil that mirrors the mask.</li>
+        <li><b>Etch.</b> Chemicals or plasma cut into the layer everywhere the resist no longer protects it &mdash; transferring the pattern into the material.</li>
+        <li><b>Strip.</b> Remove the leftover resist. One patterned layer remains.</li>
+        <li><b>Repeat.</b> Grow or deposit the next layer and run the cycle again. Chips are dozens of these layers stacked in registration.</li>
+      </ol>
+      <p style="color:#8f8a73;margin-top:10px;">Resolution = k&#8321; &times; wavelength / NA. A 193 nm source resolves ~38 nm features; 13.5 nm EUV light reaches single-digit nanometers. Shorter wavelength, finer lines &mdash; that is why the industry moved from visible light to deep UV to extreme UV.</p>
+    </div>
+  </noscript>
+</div>
+
+<script>
+(function(){
+  var root = document.getElementById('litho-root');
+  if(!root) return;
+  var NS = 'http://www.w3.org/2000/svg';
+
+  var X0 = 60, X1 = 540, W = X1 - X0;
+  var WAFER_TOP = 232;
+  var LAYER_H = 24;
+  var RESIST_H = 18;
+  var BUILT_H = 16;
+
+  var CYCLE_PATTERNS = [
+    [[0.10,0.22],[0.40,0.50],[0.66,0.90]],
+    [[0.16,0.30],[0.55,0.62],[0.72,0.84]],
+    [[0.08,0.16],[0.30,0.58],[0.78,0.92]]
+  ];
+
+  var STEPS = [
+    { key:'start',  name:'1 · Coat',    label:'Coat',
+      body:'Spin a thin, uniform film of light-sensitive <b>photoresist</b> over the wafer’s working <span class="g">layer</span>. Spun at thousands of RPM, it self-levels to a film a fraction of a micron thick.' },
+    { key:'expose', name:'2 · Expose',  label:'Expose',
+      body:'Project <b>UV light</b> through a patterned <span class="g">mask</span>. Where the mask is open, light reaches the resist and changes its chemistry; where it is solid, the resist stays untouched. The mask is the stencil for this layer.' },
+    { key:'develop',name:'3 · Develop', label:'Develop',
+      body:'A developer solvent rinses away the <b>exposed</b> (now soluble) resist, leaving a resist <span class="g">stencil</span> standing exactly where the mask blocked the light. This is positive-tone resist: light makes it wash away.' },
+    { key:'etch',   name:'4 · Etch',    label:'Etch',
+      body:'Plasma or acid <b>etches</b> into the layer everywhere the resist no longer covers it. The pattern is transferred from a soft resist stencil down into the hard <span class="g">material</span> itself.' },
+    { key:'strip',  name:'5 · Strip',   label:'Strip',
+      body:'Strip the leftover resist away. What remains is one <span class="g">patterned layer</span> &mdash; trenches and lines cut precisely where the mask designed them. The resist has done its job and is gone.' },
+    { key:'repeat', name:'6 · Repeat',  label:'Repeat',
+      body:'Deposit or grow the <b>next layer</b> on top and run the whole cycle again. A finished chip is dozens of these patterned layers stacked in perfect <span class="g">registration</span>. Press Next to start the next cycle.' }
+  ];
+
+  var WL = [
+    { tick:'436nm', lam:436, na:0.30, k1:0.80, src:'g-line (mercury lamp) — visible-edge UV, the early era' },
+    { tick:'193nm', lam:193, na:1.35, k1:0.27, src:'ArF (deep UV) — the workhorse since ~2003, water-immersion lens' },
+    { tick:'13.5nm',lam:13.5,na:0.33, k1:0.40, src:'EUV (extreme UV) — mirrors in vacuum, today’s leading edge' },
+    { tick:'High-NA',lam:13.5,na:0.55,k1:0.35, src:'High-NA EUV — same light, bigger lens, the newest tool' }
+  ];
+
+  var state = { step:0, cycle:1, builtPatterns:[] };
+
+  var gBuilt  = document.getElementById('litho-built');
+  var gLayer  = document.getElementById('litho-layer');
+  var gResist = document.getElementById('litho-resist');
+  var gMask   = document.getElementById('litho-mask');
+  var gBeams  = document.getElementById('litho-beams');
+  var rail    = document.getElementById('litho-rail');
+  var roLabel = document.getElementById('litho-rolabel');
+  var roBody  = document.getElementById('litho-robody');
+  var stepCap = document.getElementById('litho-stepcap');
+  var cycCount= document.getElementById('litho-cyccount');
+  var cycNum  = document.getElementById('litho-cycnum');
+  var btnNext = document.getElementById('litho-next');
+  var btnPrev = document.getElementById('litho-prev');
+  var btnReset= document.getElementById('litho-reset');
+
+  function el(tag, attrs){
+    var n = document.createElementNS(NS, tag);
+    for(var k in attrs){ n.setAttribute(k, attrs[k]); }
+    return n;
+  }
+  function clear(g){ while(g.firstChild) g.removeChild(g.firstChild); }
+  function fx(frac){ return X0 + frac * W; }
+  function pat(){ return CYCLE_PATTERNS[(state.cycle - 1) % CYCLE_PATTERNS.length]; }
+
+  STEPS.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.className = 'pip'; b.type = 'button'; b.setAttribute('role','tab');
+    b.innerHTML = '<span class="n">STEP ' + (i+1) + '</span>' + s.label;
+    b.addEventListener('click', function(){ goto(i); });
+    rail.appendChild(b);
+  });
+  var pips = rail.querySelectorAll('.pip');
+
+  function renderBuilt(){
+    clear(gBuilt);
+    state.builtPatterns.forEach(function(trenches, idx){
+      var top = WAFER_TOP - (idx + 1) * BUILT_H;
+      var color = (idx % 2 === 0) ? '#5a4a6e' : '#7a6a3a';
+      gBuilt.appendChild(el('rect', {x:X0, y:top, width:W, height:BUILT_H,
+        fill:color, opacity:0.55, stroke:'#3c3c46', 'stroke-width':0.6}));
+      trenches.forEach(function(t){
+        var x = fx(t[0]), w = (t[1]-t[0]) * W;
+        gBuilt.appendChild(el('rect', {x:x, y:top, width:w, height:BUILT_H*0.6,
+          fill:'#0b0b0f'}));
+      });
+    });
+  }
+
+  function renderLayer(etched){
+    clear(gLayer);
+    var top = WAFER_TOP - LAYER_H;
+    gLayer.appendChild(el('rect', {x:X0, y:top, width:W, height:LAYER_H,
+      fill:'#5a4a6e', stroke:'#3c3c46', 'stroke-width':1, opacity:0.92}));
+    gLayer.appendChild(el('rect', {x:X0, y:top, width:W, height:3, fill:'#7a6a8e', opacity:0.5}));
+    if(etched){
+      pat().forEach(function(t){
+        var x = fx(t[0]), w = (t[1]-t[0]) * W;
+        gLayer.appendChild(el('rect', {x:x, y:top, width:w, height:LAYER_H,
+          fill:'#1f1f26', stroke:'#3c3c46', 'stroke-width':0.5}));
+      });
+    }
+  }
+
+  function renderResist(mode){
+    clear(gResist);
+    if(mode === 'none') return;
+    var top = WAFER_TOP - LAYER_H - RESIST_H;
+    if(mode === 'full'){
+      gResist.appendChild(el('rect', {x:X0, y:top, width:W, height:RESIST_H,
+        fill:'#1d3b8a', stroke:'#2a52c0', 'stroke-width':1, rx:1}));
+      return;
+    }
+    if(mode === 'exposed'){
+      gResist.appendChild(el('rect', {x:X0, y:top, width:W, height:RESIST_H,
+        fill:'#1d3b8a', stroke:'#2a52c0', 'stroke-width':1, rx:1}));
+      pat().forEach(function(t){
+        var x = fx(t[0]), w = (t[1]-t[0]) * W;
+        gResist.appendChild(el('rect', {x:x, y:top, width:w, height:RESIST_H, fill:'#2a52c0'}));
+        gResist.appendChild(el('rect', {x:x, y:top, width:w, height:RESIST_H, fill:'#4d82ff', opacity:0.35}));
+      });
+      return;
+    }
+    if(mode === 'stencil'){
+      var blocks = complement(pat());
+      blocks.forEach(function(b){
+        var x = fx(b[0]), w = (b[1]-b[0]) * W;
+        gResist.appendChild(el('rect', {x:x, y:top, width:w, height:RESIST_H,
+          fill:'#1d3b8a', stroke:'#2a52c0', 'stroke-width':1, rx:1}));
+      });
+    }
+  }
+
+  function complement(openings){
+    var pts = openings.slice().sort(function(a,b){return a[0]-b[0];});
+    var blocks = [], cursor = 0;
+    pts.forEach(function(o){
+      if(o[0] > cursor) blocks.push([cursor, o[0]]);
+      cursor = Math.max(cursor, o[1]);
+    });
+    if(cursor < 1) blocks.push([cursor, 1]);
+    return blocks;
+  }
+
+  function renderMask(show){
+    clear(gMask); clear(gBeams);
+    if(!show){ gMask.setAttribute('opacity','0'); return; }
+    gMask.setAttribute('opacity','1');
+    var maskY = 40, maskH = 18;
+    var resistTop = WAFER_TOP - LAYER_H - RESIST_H;
+    var blocks = complement(pat());
+    blocks.forEach(function(b){
+      gMask.appendChild(el('rect', {x:fx(b[0]), y:maskY, width:(b[1]-b[0])*W, height:maskH,
+        fill:'#FFD60A', opacity:0.92, stroke:'#d9b400', 'stroke-width':0.5}));
+    });
+    var lab = el('text', {x:X0, y:maskY-6, fill:'#FFD60A', 'font-size':10,
+      'font-family':'Bahnschrift,system-ui,sans-serif', 'letter-spacing':'0.1em'});
+    lab.textContent = 'MASK  (gold = opaque, gaps = open)';
+    gMask.appendChild(lab);
+    pat().forEach(function(t){
+      var x = fx(t[0]), w = (t[1]-t[0]) * W;
+      var beam = el('rect', {x:x, y:maskY+maskH, width:w, height:resistTop-(maskY+maskH),
+        fill:'url(#lithoBeam)'});
+      gBeams.appendChild(beam);
+      if(!reduced){
+        var a = el('animate', {attributeName:'opacity', values:'0.35;1;0.35',
+          dur:'1.4s', repeatCount:'indefinite'});
+        beam.appendChild(a);
+      }
+    });
+    var lt = el('text', {x:X1, y:maskY-6, 'text-anchor':'end', fill:'#4d82ff', 'font-size':10,
+      'font-family':'Bahnschrift,system-ui,sans-serif', 'letter-spacing':'0.08em'});
+    lt.textContent = 'UV LIGHT ↓';
+    gMask.appendChild(lt);
+  }
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render(){
+    var s = STEPS[state.step];
+    renderBuilt();
+    switch(s.key){
+      case 'start':   renderLayer(false); renderResist('full');    renderMask(false); break;
+      case 'expose':  renderLayer(false); renderResist('exposed'); renderMask(true);  break;
+      case 'develop': renderLayer(false); renderResist('stencil'); renderMask(false); break;
+      case 'etch':    renderLayer(true);  renderResist('stencil'); renderMask(false); break;
+      case 'strip':   renderLayer(true);  renderResist('none');    renderMask(false); break;
+      case 'repeat':  renderLayer(true);  renderResist('none');    renderMask(false); break;
+    }
+    roLabel.innerHTML = s.name.replace(/^\d+ · /,'');
+    roBody.innerHTML  = s.body;
+    stepCap.textContent = 'CYCLE ' + state.cycle + ' — ' + s.label.toUpperCase();
+    pips.forEach(function(p,i){ p.setAttribute('aria-current', i===state.step ? 'true':'false'); });
+    cycCount.textContent = state.builtPatterns.length;
+    cycNum.textContent = state.cycle;
+    btnPrev.disabled = (state.step===0 && state.cycle===1 && state.builtPatterns.length===0);
+  }
+
+  function goto(i){ state.step = Math.max(0, Math.min(STEPS.length-1, i)); render(); }
+
+  function next(){
+    if(state.step < STEPS.length - 1){
+      state.step++;
+    } else {
+      state.builtPatterns.push(pat());
+      state.cycle++;
+      state.step = 0;
+    }
+    render();
+  }
+  function prev(){
+    if(state.step > 0){ state.step--; }
+    else if(state.cycle > 1){
+      state.cycle--; state.builtPatterns.pop(); state.step = STEPS.length - 1;
+    }
+    render();
+  }
+  function reset(){
+    state.step = 0; state.cycle = 1; state.builtPatterns = [];
+    render();
+  }
+
+  btnNext.addEventListener('click', next);
+  btnPrev.addEventListener('click', prev);
+  btnReset.addEventListener('click', reset);
+
+  root.addEventListener('keydown', function(e){
+    if(e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    if(e.key === 'ArrowRight'){ next(); e.preventDefault(); }
+    else if(e.key === 'ArrowLeft'){ prev(); e.preventDefault(); }
+    else if(e.key === ' '){ next(); e.preventDefault(); }
+  });
+
+  var wlInput = document.getElementById('litho-wl');
+  var cdEl = document.getElementById('litho-cd');
+  var nameEl = document.getElementById('litho-wlname');
+  var flEl = document.getElementById('litho-fl');
+  var fnaEl = document.getElementById('litho-fna');
+
+  function updateWL(){
+    var w = WL[+wlInput.value];
+    var cd = w.k1 * w.lam / w.na;
+    var shown = cd >= 100 ? Math.round(cd) : Math.round(cd);
+    cdEl.textContent = shown + ' nm';
+    nameEl.textContent = w.src;
+    flEl.innerHTML = 'λ=' + w.lam + 'nm';
+    fnaEl.innerHTML = 'NA=' + w.na.toFixed(2);
+    wlInput.setAttribute('aria-valuetext', w.lam + ' nanometers, ' + w.src);
+  }
+  wlInput.addEventListener('input', updateWL);
+
+  render();
+  updateWL();
+})();
+</script>
+</body></html>

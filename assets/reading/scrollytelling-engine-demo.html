@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrollytelling engine — 37th Chamber bench</title>
+<meta name="robots" content="noindex">
+
+<!-- The engine ships as two files. On a real chamber page, temple.css is
+     already loaded; here we self-supply a minimal shell so the demo stands
+     alone (the scrollytelling.css token-fallbacks fill in the palette). -->
+<link rel="stylesheet" href="scrollytelling.css">
+<style>
+  :root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;
+    --electric:#0E44FF;--font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);
+    line-height:1.72;letter-spacing:.005em;
+    padding:clamp(1.4rem,5vw,3rem) 1.1rem 30vh;
+    display:flex;flex-direction:column;align-items:center}
+  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+    background-size:46px 46px;mask-image:radial-gradient(circle at 50% 12%,#000 22%,transparent 86%)}
+  .wrap{position:relative;z-index:1;width:100%;max-width:760px}
+  .eyebrow{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+  h1{font-size:clamp(1.8rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;color:var(--gold);
+    text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
+  .dek{font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;
+    max-width:38rem;margin:.4rem 0 2rem}
+  h2{margin:2.4rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
+  p{font-size:clamp(1rem,2.65vw,1.08rem);margin:.85rem 0;color:var(--text)}
+  p strong{color:var(--gold);font-weight:600}
+  p em{color:var(--gold-soft);font-style:italic}
+  hr.rule{border:none;height:1px;margin:2.6rem 0;
+    background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent)}
+  .spacer{height:42vh;display:flex;align-items:center;justify-content:center;
+    color:var(--dim);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase}
+  .note{font-size:.82rem;color:var(--dim);line-height:1.6;
+    border-left:2px solid rgba(143,138,115,.3);padding:.4rem 0 .4rem .8rem;margin:1.4rem 0}
+</style>
+</head>
+<body>
+<div class="wrap scrolly" data-scrolly-progress>
+
+  <!-- PROGRESS RAIL — sticky to the top of the reading region -->
+  <div class="scrolly-progress" aria-hidden="true"></div>
+
+  <p class="eyebrow">37th Chamber · reading engine · bench</p>
+  <h1 data-scrolly>The Scrollytelling Engine</h1>
+  <p class="dek" data-scrolly>Reveal, pin, and choreograph the page as the reader
+    moves through it — and read perfectly fine if none of that ever runs.</p>
+
+  <p data-scrolly>Scroll. Each marked block <strong>fades and rises</strong> as it
+    enters the frame. Turn on <em>Reduce Motion</em> in your OS and reload: every
+    word is simply present, no tweens, fully readable. That is the contract.</p>
+
+  <div class="spacer">scroll ↓</div>
+
+  <h2 data-scrolly><span class="sc-label">Reveal flavors</span>One attribute, five flavors</h2>
+  <p data-scrolly="up">This rises from below — the default.</p>
+  <p data-scrolly="left">This one arrives from the left.</p>
+  <p data-scrolly="right">And this from the right.</p>
+  <p data-scrolly="in">This settles in from a slight scale.</p>
+  <p data-scrolly="blur">This resolves out of a blur, like focus pulling.</p>
+
+  <div class="spacer">the sticky scene ↓</div>
+
+  <hr class="rule">
+
+  <h2 data-scrolly><span class="sc-label">Sticky figure</span>The figure holds while the captions advance</h2>
+  <p data-scrolly>Below: a figure pins to the viewport while a column of captions
+    scrolls past it. The active caption drives the figure — here, a single mote
+    climbing outward through the shells of an atom. Pure CSS does the pinning;
+    the engine only chooses <em>which</em> caption is live and tells the figure.</p>
+
+  <!-- THE SCENE: figure (left) pins; steps (right) scroll -->
+  <section class="scrolly-scene" aria-label="Electron shells, illustrated by scroll">
+
+    <figure class="sc-figure" id="atom-figure" data-active="0" aria-hidden="true">
+      <div class="sc-orbit">
+        <svg viewBox="0 0 100 100" role="img" aria-label="An atom with one electron moving between shells">
+          <circle class="ring" id="ring1" cx="50" cy="50" r="18"></circle>
+          <circle class="ring" id="ring2" cx="50" cy="50" r="30"></circle>
+          <circle class="ring" id="ring3" cx="50" cy="50" r="42"></circle>
+          <circle class="core" cx="50" cy="50" r="6"></circle>
+          <circle class="mote" id="mote" cx="68" cy="50" r="3.4"></circle>
+          <text class="cap" id="orbit-cap" x="50" y="96" text-anchor="middle">ground state</text>
+        </svg>
+      </div>
+    </figure>
+
+    <div class="sc-steps">
+      <div class="sc-step" data-step="0">
+        <span class="sc-step-num">01 · n = 1</span>
+        <p>At rest, the electron sits in the <strong>innermost shell</strong> — the
+          ground state. Closest to the nucleus, lowest energy. Watch the figure
+          hold here as you begin.</p>
+      </div>
+      <div class="sc-step" data-step="1">
+        <span class="sc-step-num">02 · n = 2</span>
+        <p>Feed it a photon of exactly the right energy and it <em>jumps</em> outward
+          to the second shell. The figure answers: the mote climbs, the live ring
+          lights blue. Energy is quantized — only certain orbits are allowed.</p>
+      </div>
+      <div class="sc-step" data-step="2">
+        <span class="sc-step-num">03 · n = 3</span>
+        <p>A larger kick lifts it to the third shell — <strong>excited, unstable</strong>.
+          It won't stay. The further out, the looser the nucleus holds it.</p>
+      </div>
+      <div class="sc-step" data-step="3">
+        <span class="sc-step-num">04 · emission</span>
+        <p>It falls back toward the core, and the energy it sheds leaves as a single
+          photon of a precise color. <em>That</em> is a spectral line — the fingerprint
+          we read across light-years. The figure returns home.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <hr class="rule">
+
+  <p data-scrolly>The same scene works on a phone: the figure pins to the top of
+    the screen and the captions scroll beneath it. And with motion reduced, the
+    figure simply flows inline above its captions — every step visible, the gold
+    edge still marking the active idea without a single animation.</p>
+
+  <div class="note">
+    Engine files: <strong>assets/reading/scrollytelling.css</strong> +
+    <strong>assets/reading/scrollytelling.js</strong>. This page demonstrates all
+    three primitives: <em>reveals</em> ([data-scrolly]), the <em>sticky scene</em>
+    (.scrolly-scene), and the <em>progress rail</em> at the very top.
+  </div>
+
+  <div class="spacer">fin</div>
+</div>
+
+<!-- The engine. Loads with defer; auto-inits over the document. -->
+<script src="scrollytelling.js" defer></script>
+
+<!-- DEMO FIGURE CONTROLLER — illustrative only, NOT part of the engine.
+     Listens for the engine's `scrolly:step` event and redraws the atom. This
+     is how any page wires a custom figure to the sticky scene: subscribe to
+     the event, read detail.key, repaint. The engine knows nothing about atoms. -->
+<script>
+(function () {
+  var RADII = [18, 30, 42];           // shell radii in the SVG's viewBox
+  var CAPS  = ['ground state', 'first excited', 'second excited', 'emission → home'];
+  var TARGET = [0, 1, 2, 0];          // which shell the mote rides per step
+  var mote = document.getElementById('mote');
+  var cap  = document.getElementById('orbit-cap');
+  var rings = [
+    document.getElementById('ring1'),
+    document.getElementById('ring2'),
+    document.getElementById('ring3')
+  ];
+
+  function paint(stepIndex) {
+    var shell = TARGET[stepIndex] != null ? TARGET[stepIndex] : 0;
+    var r = RADII[shell];
+    // park the mote on the right edge of its shell (50 = center x/y)
+    if (mote) {
+      mote.setAttribute('cx', String(50 + r));
+      mote.setAttribute('cy', '50');
+    }
+    rings.forEach(function (ring, i) {
+      if (ring) ring.classList.toggle('hot', i === shell);
+    });
+    if (cap) cap.textContent = CAPS[stepIndex] != null ? CAPS[stepIndex] : CAPS[0];
+  }
+
+  // engine fires this whenever the centered caption changes
+  document.addEventListener('scrolly:step', function (e) {
+    paint(e.detail.index);
+  });
+
+  // initial state in case the engine lands before this binds
+  paint(0);
+})();
+</script>
+</body>
+</html>

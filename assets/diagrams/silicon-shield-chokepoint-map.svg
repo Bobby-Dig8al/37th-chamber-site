@@ -1,0 +1,126 @@
+<svg viewBox="0 0 920 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ttl desc" font-family="'Bahnschrift', system-ui, sans-serif">
+  <title id="ttl">The Silicon Shield: chokepoints in the advanced-chip supply chain</title>
+  <desc id="desc">A vertical schematic showing how the world's most advanced chips depend on a single serial chain — ASML in the Netherlands is the only maker of EUV lithography machines, which feed TSMC in Taiwan, which fabricates roughly 90 percent of leading-edge logic, which feeds the entire world. Two single-source chokepoints are marked, each annotated with the armor that makes it a deterrent and the risk that makes it fragile.</desc>
+
+  <defs>
+    <marker id="beam" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#4d82ff"/>
+    </marker>
+    <marker id="flow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#d9b400"/>
+    </marker>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="920" height="600" fill="#08080a"/>
+
+  <!-- ===== header ===== -->
+  <text x="48" y="52" fill="#FFD60A" font-size="27" font-weight="700" letter-spacing="1.5">THE SILICON SHIELD</text>
+  <text x="48" y="76" fill="#8f8a73" font-size="13.5" letter-spacing="0.5">Two single-source chokepoints stand between the world and its most advanced chips.</text>
+  <line x1="48" y1="90" x2="560" y2="90" stroke="#d9b400" stroke-width="1" opacity="0.5"/>
+
+  <!-- ===== legend ===== -->
+  <g font-size="11.5">
+    <circle cx="620" cy="40" r="5" fill="#4d82ff"/>
+    <text x="632" y="44" fill="#f3eede">EUV light / energy</text>
+    <rect x="615" y="58" width="10" height="10" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+    <text x="632" y="67" fill="#f3eede">structure / node</text>
+    <path d="M615,82 L627,82" stroke="#d9b400" stroke-width="2" marker-end="url(#flow)"/>
+    <text x="636" y="86" fill="#f3eede">chip flow downstream</text>
+    <circle cx="620" cy="103" r="6" fill="none" stroke="#0E44FF" stroke-width="2"/>
+    <text x="608" y="107" fill="#0E44FF" font-size="9" font-weight="700" text-anchor="middle">!</text>
+    <text x="636" y="107" fill="#f3eede">chokepoint</text>
+  </g>
+
+  <!-- ============ SPINE: three nodes, top to bottom ============ -->
+  <!-- NODE 1: ASML -->
+  <g>
+    <rect x="300" y="118" width="320" height="92" rx="6" fill="none" stroke="#FFD60A" stroke-width="2"/>
+    <text x="316" y="146" fill="#FFD60A" font-size="20" font-weight="700">ASML</text>
+    <text x="316" y="167" fill="#8f8a73" font-size="12">Veldhoven, Netherlands</text>
+    <text x="316" y="192" fill="#f3eede" font-size="13.5">Sole maker of EUV lithography machines</text>
+    <text x="604" y="146" fill="#4d82ff" font-size="12" text-anchor="end" font-weight="700">100%</text>
+    <text x="604" y="161" fill="#8f8a73" font-size="10" text-anchor="end">of EUV</text>
+  </g>
+
+  <!-- the EUV beam: ASML -> TSMC, drawn as energetic blue -->
+  <g filter="url(#glow)">
+    <line x1="460" y1="210" x2="460" y2="278" stroke="#0E44FF" stroke-width="3.5" marker-end="url(#beam)"/>
+    <circle cx="460" cy="226" r="2.4" fill="#a0c0ff"/>
+    <circle cx="460" cy="244" r="2.4" fill="#a0c0ff"/>
+    <circle cx="460" cy="262" r="2.4" fill="#a0c0ff"/>
+  </g>
+  <text x="474" y="248" fill="#4d82ff" font-size="11.5" font-style="italic">EUV machines ship</text>
+
+  <!-- CHOKEPOINT 1 marker on the beam -->
+  <g>
+    <circle cx="460" cy="244" r="11" fill="#08080a" stroke="#0E44FF" stroke-width="2"/>
+    <text x="460" y="248.5" fill="#4d82ff" font-size="13" font-weight="700" text-anchor="middle">!</text>
+  </g>
+
+  <!-- NODE 2: TSMC -->
+  <g>
+    <rect x="300" y="286" width="320" height="92" rx="6" fill="none" stroke="#FFD60A" stroke-width="2"/>
+    <text x="316" y="314" fill="#FFD60A" font-size="20" font-weight="700">TSMC</text>
+    <text x="316" y="335" fill="#8f8a73" font-size="12">Hsinchu, Taiwan</text>
+    <text x="316" y="360" fill="#f3eede" font-size="13.5">Fabricates the leading-edge logic chips</text>
+    <text x="604" y="314" fill="#4d82ff" font-size="12" text-anchor="end" font-weight="700">~90%</text>
+    <text x="604" y="329" fill="#8f8a73" font-size="10" text-anchor="end">sub-7nm logic</text>
+  </g>
+
+  <!-- chip flow: TSMC -> world, gold downstream -->
+  <g>
+    <line x1="460" y1="378" x2="460" y2="446" stroke="#d9b400" stroke-width="2.5" marker-end="url(#flow)"/>
+  </g>
+  <text x="474" y="416" fill="#d9b400" font-size="11.5" font-style="italic">finished silicon ships</text>
+
+  <!-- CHOKEPOINT 2 marker -->
+  <g>
+    <circle cx="460" cy="412" r="11" fill="#08080a" stroke="#0E44FF" stroke-width="2"/>
+    <text x="460" y="416.5" fill="#4d82ff" font-size="13" font-weight="700" text-anchor="middle">!</text>
+  </g>
+
+  <!-- NODE 3: THE WORLD -->
+  <g>
+    <rect x="300" y="454" width="320" height="86" rx="6" fill="none" stroke="#d9b400" stroke-width="1.6"/>
+    <text x="316" y="482" fill="#f3eede" font-size="18" font-weight="700">THE WORLD</text>
+    <text x="316" y="503" fill="#8f8a73" font-size="12">phones · datacenters · cars · weapons · AI</text>
+    <text x="316" y="525" fill="#f3eede" font-size="12.5">every advanced device traces back up this chain</text>
+  </g>
+
+  <!-- ============ LEFT RAIL: ARMOR (why it holds) ============ -->
+  <text x="48" y="140" fill="#FFD60A" font-size="12.5" font-weight="700" letter-spacing="1">ARMOR — why it holds</text>
+  <g font-size="11.5" fill="#f3eede">
+    <line x1="296" y1="164" x2="270" y2="164" stroke="#d9b400" stroke-width="1" opacity="0.5"/>
+    <text x="48" y="168">Decades of physics + a</text>
+    <text x="48" y="184">5,000-supplier web no</text>
+    <text x="48" y="200">rival can clone quickly.</text>
+
+    <line x1="296" y1="332" x2="270" y2="332" stroke="#d9b400" stroke-width="1" opacity="0.5"/>
+    <text x="48" y="336">Yields + process recipes</text>
+    <text x="48" y="352">tuned over years; can't be</text>
+    <text x="48" y="368">copied by buying the tools.</text>
+  </g>
+
+  <!-- ============ RIGHT RAIL: RISK (why it's fragile) ============ -->
+  <text x="660" y="140" fill="#4d82ff" font-size="12.5" font-weight="700" letter-spacing="1">RISK — why it's fragile</text>
+  <g font-size="11.5" fill="#f3eede">
+    <line x1="624" y1="164" x2="650" y2="164" stroke="#0E44FF" stroke-width="1" opacity="0.6"/>
+    <text x="660" y="168">One vendor, one country.</text>
+    <text x="660" y="184">Export controls can switch</text>
+    <text x="660" y="200">the light off downstream.</text>
+
+    <line x1="624" y1="332" x2="650" y2="332" stroke="#0E44FF" stroke-width="1" opacity="0.6"/>
+    <text x="660" y="336">One island fabricates it.</text>
+    <text x="660" y="352">Quake, blockade, or war and</text>
+    <text x="660" y="368">the world's supply stalls.</text>
+  </g>
+
+  <!-- mechanism footer -->
+  <line x1="48" y1="562" x2="872" y2="562" stroke="#d9b400" stroke-width="1" opacity="0.35"/>
+  <text x="48" y="584" fill="#8f8a73" font-size="11.5">The chain is serial: break either link and nothing downstream can be built. That fragility is also the deterrent — the "shield."</text>
+</svg>

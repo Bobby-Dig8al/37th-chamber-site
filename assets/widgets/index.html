@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>37th Chamber · Widget Gallery (Day-45, staged)</title>
+<style>
+  :root{--bg:#08080a;--gold:#FFD60A;--gold-soft:#d9b400;--blue:#0E44FF;--blue-2:#4d82ff;--ink:#f3eede;--dim:#8f8a73;
+    --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;padding:34px 22px 60px;max-width:1040px;margin:0 auto}
+  .eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft)}
+  h1{color:var(--gold);font-size:23px;font-weight:600;letter-spacing:.02em;margin:4px 0 6px}
+  .lede{color:var(--dim);font-size:13.5px;max-width:62ch;margin-bottom:26px}
+  .lede b{color:var(--ink);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+  .card{display:flex;flex-direction:column;background:rgba(255,214,10,.015);border:1px solid rgba(255,214,10,.20);
+    border-radius:12px;padding:16px 16px 14px;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);
+    box-shadow:0 0 8px rgba(14,68,255,.85),0 0 18px rgba(14,68,255,.5)}
+  .card h2{color:var(--gold);font-size:15.5px;font-weight:600;letter-spacing:.02em;margin:0 0 6px;padding-left:6px}
+  .card p{color:var(--dim);font-size:12.5px;flex:1;padding-left:6px}
+  .status{font-size:11px;letter-spacing:.04em;margin:11px 0 12px;padding-left:6px}
+  .ok{color:var(--blue-2)} .warn{color:var(--gold)}
+  .card a.go{align-self:flex-start;margin-left:6px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(255,214,10,.4);padding-bottom:1px}
+  .card a.go:hover{color:#fff;border-color:#fff}
+  .note{margin-top:30px;border-top:1px solid rgba(255,214,10,.14);padding-top:18px;color:var(--dim);font-size:12.5px;max-width:72ch}
+  .note b{color:var(--ink)}
+</style></head>
+<body>
+  <p class="eyebrow">The 37th Chamber &middot; staged for review &middot; Day-45</p>
+  <h1>Widget Gallery</h1>
+  <p class="lede">The jaw-dropping upgrade, staged for your taste &mdash; <b>nothing here is live.</b> Each widget is self-contained, theme-native, and ran through a Sonnet adversarial-verify pass plus an Opus personal pass. Click in.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>The Constellation</h2>
+      <p>All 58 heroes from the wall, rebuilt as an explorable night sky &mdash; 11 domain-constellations, seeded force layout. Drag to pan, scroll to zoom, click a star.</p>
+      <div class="status ok">&#10003; run-verified &middot; real roster &middot; a11y fallback</div>
+      <a class="go" href="constellation.html">open &rarr;</a>
+    </div>
+    <div class="card">
+      <h2>The Transistor as a Switch</h2>
+      <p>Drag the gate voltage; watch the inversion channel form past threshold and current flow source&rarr;drain. The on/off that runs the world, from physics.</p>
+      <div class="status ok">&#10003; run-verified (OFF&rarr;ON, 0&rarr;78% @ 4.2V)</div>
+      <a class="go" href="transistor.html">open &rarr;</a>
+    </div>
+    <div class="card">
+      <h2>The EUV Light Source</h2>
+      <p>Scrub the firing cycle: a tin droplet, a CO&#8322; laser pulse, a ~400,000&nbsp;K plasma flash, 13.5&nbsp;nm light down an all-mirror path. The hardest step in chipmaking.</p>
+      <div class="status ok">&#10003; runs &middot; plasma temp corrected to ~400,000 K</div>
+      <div class="status warn">&#9888; Blue-Law: blue used as fill/font &mdash; your canon call</div>
+      <a class="go" href="euv.html">open &rarr;</a>
+    </div>
+    <div class="card">
+      <h2>Photolithography, Step by Step</h2>
+      <p>Step through coat &rarr; expose &rarr; develop &rarr; etch &rarr; repeat, watching a patterned layer build and stack. Why wavelength sets the limit.</p>
+      <div class="status ok">&#10003; verified clean</div>
+      <a class="go" href="litho.html">open &rarr;</a>
+    </div>
+  </div>
+
+  <p class="note">Note: your own <b>index.html</b> here is an earlier EUV preview &mdash; same widget, but it still reads <b>200,000&nbsp;K</b>. The corrected copy (~400,000&nbsp;K, web-verified) is <b>euv.html</b> above; I left your file untouched. &mdash;&nbsp;Also staged, shown <b>integrated on real pages</b> (not in this self-contained gallery): the <b>reading furniture</b> + <b>scrollytelling</b> engine, the <b>Chip War</b> long-form week (pamphlet&rarr;magazine&rarr;book), the original <b>SVG mechanism diagrams</b>, and the <b>test-suite + security-hardening</b> batch. Full review packet at 20:00. &mdash;&nbsp;BD82</p>
+</body></html>
