@@ -281,8 +281,13 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
     <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
-    <!-- THE HEARTH EPIGRAPH — inscription under the fire. Day-44: swapped from the Wu-Tang "Intermission" line to the "7th Chamber" skit, led by a trigger-warning label (operator-set). Lives outside #now-playing so the widget JS never clobbers it. -->
-    <p style="text-align:center;margin:.55rem auto 0;max-width:38rem;font-size:.7rem;letter-spacing:.09em;line-height:1.75;color:var(--gold)"><span style="display:block;color:var(--dim);letter-spacing:.18em;font-size:.6rem;margin-bottom:.35rem">trigger warning:</span>&ldquo;is he, is he, is he dead?&rdquo; &mdash; &ldquo;what the fuck you mean?&rdquo; &mdash; &ldquo;he&rsquo;s layin&rsquo; there like a new-born fuckin&rsquo; baby with his brains on the concrete.&rdquo; <span style="display:block;margin-top:.4rem;color:var(--dim);letter-spacing:.05em">&mdash;&nbsp;Wu-Tang: 7th Chamber &middot; Wu-Tang Clan</span></p>
+    <!-- THE HEARTH EPIGRAPH / TOPIC HEAD — the operator-curated quotation that sets the front page's voice & tone. It is his.
+         MANUAL ROTATION ONLY · NO CADENCE — swapped on operator request when the moment is right (distinct from #jewel-line, which auto-turns 1->12 daily).
+         Single attributed line only (epigraph scale, lyrics); add the trigger-warning <span> back only when a line is graphic.
+         Pool of candidates: Stack/canon/topic-head-epigraphs.md.
+         Rotation log: Wu "Intermission" -> Wu "7th Chamber" skit (Day-44) -> Gravediggaz "12 Jewelz" (Day-48, 2026-06-17).
+         Lives outside #now-playing so the widget JS never clobbers it. -->
+    <p style="text-align:center;margin:.55rem auto 0;max-width:38rem;font-size:.7rem;letter-spacing:.09em;line-height:1.75;color:var(--gold)">&ldquo;the first thing a man must obtain is 12 jewelz.&rdquo; <span style="display:block;margin-top:.4rem;color:var(--dim);letter-spacing:.05em">&mdash;&nbsp;Gravediggaz &middot; &ldquo;12 Jewelz&rdquo;</span></p>
 
     <!-- WEEKLY LINER SLOT — teaser + opening-night liner retired 2026-06-10 (launch-night artifacts; opening night was 2026-06-09 21:00, Lux Aeterna → Interstellar). The slot returns Sunday night → Monday with each new themed week. -->
 
