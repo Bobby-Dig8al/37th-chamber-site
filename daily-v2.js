@@ -53,8 +53,8 @@ real result, published free, given away.`,
         text: `Two pages, written in 1963, gave the geometry of every spinning black hole ever observed. The renderer built to film one of them, run as an instrument, found a real result — and gave it away free.`,
         cite: ""
       },
-      feature: {
-        kicker: "The Feature",
+      features: [{
+        kicker: "The Map",
         title:  "The Constellation",
         href:   "/cloud/",
         cta:    "Wander the map →",
@@ -63,6 +63,36 @@ real result, published free, given away.`,
           `But no paper stands alone. This one has a family — the roots it grew from (the 1935 Einstein–Rosen bridge, the word "wormhole" coined in 1957, the traversable one worked out in 1988, Kerr's two-page geometry from 1963) and the work that has grown out of it since. We mapped the whole neighborhood. Every node is a real citation; every line is a path someone actually traced. So we hand you the map and step aside — the view, after all, is not ours alone.`
         ]
       },
+      {
+        kicker: "The Origin",
+        title:  "The Blind Date",
+        href:   "/references/kip-thorne/",
+        cta:    "The man who bent the light →",
+        blurb: [
+          `Carl Sagan set it up. Around 1980 he introduced the physicist Kip Thorne to a magazine editor named Lynda Obst — a blind date that never became romance and never stopped being a friendship. A quarter-century later Obst, by then a Hollywood producer, brought Thorne a film to make, and the two co-originated it; it passed through Steven Spielberg's hands and a studio shuffle before it reached Christopher Nolan.`,
+          `Thorne set the price of his involvement as two conditions: nothing would violate firmly established physics, and every speculation would spring from real science, not a screenwriter's invention. That is not a marketing posture — it is an <em>epistemological commitment</em>, and it is why a blockbuster could quietly become a research instrument.`
+        ]
+      },
+      {
+        kicker: "The Engine",
+        title:  "Two Pages, 1963",
+        href:   "/references/kerr-metric/",
+        cta:    "Into the Kerr metric →",
+        blurb: [
+          `Roy Kerr solved Einstein's equations for a spinning mass in roughly two pages in 1963 — finding the answer by locating the flaw in a proof that said it couldn't exist. Every spinning black hole ever observed obeys that geometry, Gargantua included.`,
+          `Double Negative built the film's black hole by running Thorne's equations through Kerr's geometry — not painting a picture, but running the physics and reading back whatever it returned, IMAX-grade. Then the renderer found something no one had predicted: caustics near a fast-spinning hole can stack up to thirteen images of a single star. Thorne's team published the result. Peer-reviewed. Free.`
+        ]
+      },
+      {
+        kicker: "The Confirmation",
+        title:  "The Universe Did the Homework",
+        href:   "/references/gravitational-lensing/",
+        cta:    "See the lensing →",
+        blurb: [
+          `The film named its own lies. To keep Gargantua legible, the team softened the Doppler-beaming asymmetry that would have made one side of the disk far brighter, and left out the frequency shifts that would have skewed its colors — both disclosed in the open.`,
+          `Five years later the Event Horizon Telescope photographed M87* — the first image of a real black hole, hundreds of scientists, the actual thing — and it came in brighter on one side: exactly the Doppler asymmetry the film had smoothed away. The universe confirmed the homework.`
+        ]
+      }],
       coda: {
         title: "Knowledge, given away",
         paragraphs: [
@@ -668,12 +698,14 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
     const _x = DAILY[i];
     if (_x.date && _x.date !== "TBD" && !isNaN(new Date(_x.date + "T12:00:00").getTime())) _lastDated = i;
   }
+  const held = idx > _lastDated;   // today is PAST the last dated day → "held" (show the teaser, not the full issue)
   if (idx > _lastDated) idx = _lastDated;
 
   const _p  = new URLSearchParams(location.search);
   const _pd = _p.get("date"), _pn = _p.get("day");
   if (_pd) { const i = DAILY.findIndex(x => x.date === _pd); if (i >= 0) idx = i; }
   else if (_pn) { const i = parseInt(_pn, 10) - 1; if (i >= 0 && i < DAILY.length) idx = i; }
+  const explicit = !!(_pd || _pn);   // a specific issue/day requested by URL → render it in FULL
 
   const d       = DAILY[idx];
   const dayDate = new Date(d.date + "T" + String(ROLLOVER_HOUR).padStart(2, "0") + ":00:00");
@@ -779,6 +811,20 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
     const offset = dow2 === 0 ? 6 : dow2 - 1; // days back to Monday
     d2.setDate(d2.getDate() - offset);
     return d2.toISOString().slice(0, 10);
+  }
+
+  /* ── The Sunday Stack TEASER — compact homepage card. The full issue lives in the
+     archive (reached via ?date=); this keeps the magazine from crowding the homepage
+     between weeks. Renders in place of the full magazine on the default homepage. ── */
+  function renderMagazineTeaser(arc, mag, currentDay) {
+    return `
+      <a class="ss-teaser" href="/?date=${esc(currentDay.date)}" aria-label="${esc(mag.name)}, Issue ${esc(mag.issue)}: ${esc(arc.theme)} — read the full issue">
+        <div class="ss-teaser-eyebrow">&#9679; This week&rsquo;s issue &middot; in the archive</div>
+        <div class="ss-teaser-name" translate="no">${esc(mag.name)}</div>
+        <div class="ss-teaser-line">Issue ${esc(mag.issue)} &middot; ${esc(arc.theme)} &middot; <span class="ss-mast-date">${esc(currentDay.date)}</span></div>
+        ${mag.tagline ? `<div class="ss-teaser-tag">${esc(mag.tagline)}</div>` : ""}
+        <div class="ss-teaser-cta">Read the full issue &rarr;</div>
+      </a>`;
   }
 
   function renderDispatch(currentDay, currentDate) {
@@ -897,17 +943,18 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
       html += `<div class="dly-rule"></div><p class="dly-thread">${esc(arc.thread)}</p>`;
     }
 
-    // ── The Feature + the Coda (magazine only) ──
-    if (mag && mag.feature) {
-      const F = mag.feature;
-      html += `
-      <div class="dly-rule"></div>
+    // ── The Features — a WELL of articles (magazine only; supports multiple). Back-compat: a
+    //    single mag.feature is treated as a one-item well. ──
+    const feats = mag ? (mag.features || (mag.feature ? [mag.feature] : [])) : [];
+    if (feats.length) {
+      html += `<div class="dly-rule"></div><div class="ss-section">In this issue &middot; ${feats.length} feature${feats.length > 1 ? "s" : ""}</div>`;
+      html += `<div class="ss-features">` + feats.map(F => `
       <a class="ss-feature" href="${esc(F.href)}">
         ${F.kicker ? `<span class="ss-kicker">${esc(F.kicker)}</span>` : ""}
         <span class="ss-feature-title">${esc(F.title)}</span>
         ${(F.blurb || []).map(p => `<p class="ss-feature-p">${p}</p>`).join("")}
         ${F.cta ? `<span class="go">${esc(F.cta)}</span>` : ""}
-      </a>`;
+      </a>`).join("") + `</div>`;
     }
     if (mag && mag.coda) {
       const C = mag.coda;
@@ -1031,6 +1078,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
       font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:#8f8a73;margin:.1rem 0 1.15rem}
     .ss-section::before,.ss-section::after{content:'';height:1px;background:rgba(143,138,115,.28);flex:1}
 
+    .ss-features{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));margin-top:.1rem}
     .ss-feature{display:flex;flex-direction:column;gap:.55rem;text-decoration:none;color:inherit;
       border:1px solid rgba(255,214,10,.4);background:rgba(255,214,10,.03);
       padding:1.5rem 1.5rem 1.35rem;position:relative;overflow:hidden;transition:.16s ease}
@@ -1047,6 +1095,20 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
     .ss-coda-title{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:#d9b400;margin-bottom:.75rem}
     .ss-coda-p{font-size:.96rem;line-height:1.7;color:#cbc6b4;margin:0 auto .8rem;max-width:38rem}
     .ss-coda-p:last-child{margin-bottom:0}
+
+    /* ── The Sunday Stack TEASER — compact homepage card (full issue lives in the archive) ── */
+    .ss-teaser{display:block;text-decoration:none;color:inherit;position:relative;overflow:hidden;
+      border:1px solid rgba(255,214,10,.34);background:rgba(255,214,10,.025);padding:1.3rem 1.5rem;transition:.16s ease}
+    .ss-teaser::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#0E44FF;
+      box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6)}
+    .ss-teaser:hover{border-color:#FFD60A;background:rgba(255,214,10,.05);transform:translateY(-2px)}
+    .ss-teaser-eyebrow{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#8f8a73;margin-bottom:.7rem}
+    .ss-teaser-name{font-size:clamp(1.5rem,5vw,2.1rem);font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+      color:#FFD60A;line-height:1.05;text-shadow:0 1px 0 #d9a800,0 2px 0 #8f6f00,0 3px 5px rgba(0,0,0,.5)}
+    .ss-teaser-line{margin-top:.5rem;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#d9b400}
+    .ss-teaser-tag{margin-top:.5rem;font-size:.92rem;font-style:italic;color:#cbc6b4;max-width:40rem}
+    .ss-teaser-cta{margin-top:.85rem;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:#8f8a73}
+    .ss-teaser:hover .ss-teaser-cta{color:#FFD60A}
   `;
 
   /* ── Assemble HTML by mode ────────────────────────────────────────────── */
@@ -1056,8 +1118,15 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
   } else if (mode === "deepdive") {
     body = renderDeepDive(d);
   } else {
-    // dispatch — pass the resolved Date for Monday-finding
-    body = renderDispatch(d, dayDate);
+    // dispatch — the homepage shows a COMPACT Sunday Stack teaser; the full issue lives in
+    // the archive, reached via ?date=. The full magazine renders only when a specific issue
+    // is explicitly requested by URL (so the homepage never crowds with the whole magazine).
+    const _arc = WEEK_ARCS.find(w => w.weekStart === getMondayOf(dayDate));
+    if (_arc && _arc.magazine && !explicit && held) {
+      body = renderMagazineTeaser(_arc, _arc.magazine, d);   // BETWEEN/AFTER the week → compact teaser
+    } else {
+      body = renderDispatch(d, dayDate);                     // the actual Sunday (or explicit ?date=) → full multi-article issue
+    }
   }
 
   mount.innerHTML = `<style>${styles}</style>${body}`;
