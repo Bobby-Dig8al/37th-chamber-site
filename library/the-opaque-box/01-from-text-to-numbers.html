@@ -397,7 +397,7 @@ vocab = build_vocab(merges)
 sample = "the theatre theme"
 assert decode_bpe(encode_bpe(sample, merges), vocab) == sample
 print(encode_bpe(sample, merges))</code></pre>
-  <p>You just built &mdash; from raw bytes &mdash; the same family of tokenizer that GPT-2 and GPT-3 use. It compresses text (fewer tokens than characters), never chokes on unknown input, and round-trips perfectly. <strong>This is not a simplified stand-in. It is the real algorithm.</strong></p>
+  <p>You just built &mdash; from raw bytes &mdash; the same family of tokenizer that GPT-2 and GPT-3 use. It compresses text (fewer tokens than characters), never chokes on unknown input, and round-trips perfectly. <strong>The merge algorithm itself &mdash; the BPE loop &mdash; is the one production tokenizers use. Not a toy, not a metaphor.</strong></p>
 
   <hr class="rule">
 
