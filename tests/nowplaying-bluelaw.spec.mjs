@@ -162,7 +162,8 @@ test.describe('Now Playing — Blue-Law invariant', () => {
   // the use sites — `color: var(--gold, #FFD60A)`; or (b) declare the literals
   // unconditionally — `#now-playing { --gold: #FFD60A; … }` (no self-var()).
   test('card text holds the exact gold/dim tokens (title=gold, artist=gold-soft, album=dim)', async ({ page }) => {
-    test.fail(); // expected-fail until the token-cycle bug above is fixed (regression target)
+    // Token-cycle FIXED Day-48: nowplaying.css now declares the #now-playing tokens as
+    // unconditional literals (no self-referential var()), so this guard now PASSES.
     await page.goto(fixtureUrl(PLAYING_MOCK));
     await page.waitForSelector('#now-playing .np-title', { timeout: 10_000 });
 
@@ -194,7 +195,8 @@ test.describe('Now Playing — Blue-Law invariant', () => {
   // fallback block collapses to ""). Marked expected-fail; flips to the regression
   // target once the CSS fallback is corrected. See the token test above for the fix.
   test('the charge IS present: the electric accent bar resolves --electric to the exact #0E44FF', async ({ page }) => {
-    test.fail(); // expected-fail until the token-cycle bug is fixed (regression target)
+    // Token-cycle FIXED Day-48 (unconditional literals in nowplaying.css) — --electric
+    // now resolves to #0E44FF, so this guard now PASSES.
     await page.goto(fixtureUrl(PLAYING_MOCK));
     await page.waitForSelector('#now-playing .np-wrapper', { timeout: 10_000 });
 
@@ -245,7 +247,9 @@ test.describe('Now Playing — Blue-Law invariant', () => {
   // restores gold-on-near-black (~12:1) and clears this. Until then it is the
   // regression target — it flips green when the palette is repaired.
   test('no critical or serious accessibility violations on the widget', async ({ page }) => {
-    test.fail(); // expected-fail: black-on-near-black contrast, caused by the token-cycle bug
+    // Token-cycle FIXED Day-48: card text is now gold (#FFD60A) on near-black (~12:1),
+    // clearing the contrast violation. The tuner panel is hidden by default (Axe skips it)
+    // and the toggle is labelled with an aria-hidden icon, so this guard now PASSES.
     await page.goto(fixtureUrl(PLAYING_MOCK));
     await page.waitForSelector('#now-playing .np-hex-canvas', { timeout: 10_000 });
 
