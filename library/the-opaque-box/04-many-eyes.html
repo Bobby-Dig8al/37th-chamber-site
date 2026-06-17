@@ -125,7 +125,10 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
 .corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
-.corridor .c-home{color:var(--gold-soft)}</style>
+.corridor .c-home{color:var(--gold-soft)}.diagram{margin:2.2rem 0;text-align:center}
+.diagram svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.diagram figcaption{margin-top:.85rem;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;letter-spacing:.01em;max-width:620px;margin-left:auto;margin-right:auto}
+</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -155,7 +158,96 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <div class="eyebrow">The Opaque Box · Chapter 4</div>
   <h1 class="title">Many Eyes</h1>
 
-  <blockquote class="epigraph">Chapter 3 built one head &mdash; one clean mechanism for selective gathering. But a sentence is not one thing. <em>&ldquo;The lawyer who the jury believed told the truth.&rdquo;</em> To read that, something has to track syntax, something else has to track who believes whom, something else has to track the gap in the relative clause. One head cannot do all of that at once. The fix is embarrassingly direct: run several heads in parallel, let each look in its own direction, then pool the results.</blockquote>
+  <blockquote class="epigraph">Chapter 3 built one head &mdash; one clean mechanism for selective gathering. But a sentence is not one thing. <em>&ldquo;The lawyer who the jury believed told the truth.&rdquo;</em> To read that, something has to track syntax, something else has to track who believes whom, something else has to track the gap in the relative clause. One head cannot do all of that at once. The fix is embarrassingly direct: run several heads in parallel, let each look in its own direction, then pool the results.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 430" width="100%" height="auto" role="img" aria-label="Multi-head attention schematic: one shared token row of the sentence 'the cat sat on the mat because it was tired' is read in parallel by three attention heads. Head A tracks coreference, drawing attention from the token 'it' back to 'cat'. Head B tracks grammatical dependency, drawing attention from 'it' forward to 'tired'. Head C tracks local position, attending to adjacent tokens. The three head outputs are concatenated and passed through a final W-O projection that pools them into one residual-stream output of the same shape." xmlns="http://www.w3.org/2000/svg" font-family="'Bahnschrift','DIN Alternate',system-ui,sans-serif">
+<title>Many eyes: parallel attention heads over one shared token row</title>
+<desc>Three attention heads read the same sentence in parallel, each catching a different relationship, then concatenate and project into one pooled output.</desc>
+<defs>
+<filter id="mh-glow" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur in="SourceAlpha" stdDeviation="4.2" result="b"/>
+<feFlood flood-color="#0E44FF" flood-opacity="0.95" result="c"/>
+<feComposite in="c" in2="b" operator="in" result="g"/>
+<feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<marker id="mh-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#FFD60A"/>
+</marker>
+</defs>
+
+<!-- ── caption strip ───────────────────────────────────────── -->
+<text x="24" y="30" fill="#8f8a73" font-size="11" letter-spacing="3">MULTI&#8209;HEAD ATTENTION &#183; h HEADS, ONE SEQUENCE</text>
+
+<!-- ── shared token row (the single input all heads read) ───── -->
+<g aria-hidden="true">
+<text x="24" y="402" fill="#8f8a73" font-size="11" letter-spacing="1.5">ONE SHARED TOKEN ROW &#8594; read by every head</text>
+<g font-size="12" fill="#f3eede" text-anchor="middle">
+<!-- 10 tokens evenly placed; "it" is the focus token, "cat" + "tired" are targets -->
+<g>
+<rect x="34" y="350" width="52" height="26" rx="2" fill="none" stroke="rgba(255,214,10,.28)"/><text x="60" y="367">the</text>
+<rect x="98" y="350" width="52" height="26" rx="2" fill="rgba(255,214,10,.06)" stroke="#FFD60A"/><text x="124" y="367" fill="#FFD60A">cat</text>
+<rect x="162" y="350" width="52" height="26" rx="2" fill="none" stroke="rgba(255,214,10,.28)"/><text x="188" y="367">sat</text>
+<rect x="226" y="350" width="52" height="26" rx="2" fill="none" stroke="rgba(255,214,10,.28)"/><text x="252" y="367">on</text>
+<rect x="290" y="350" width="52" height="26" rx="2" fill="none" stroke="rgba(255,214,10,.28)"/><text x="316" y="367">the</text>
+<rect x="354" y="350" width="52" height="26" rx="2" fill="none" stroke="rgba(255,214,10,.28)"/><text x="380" y="367">mat</text>
+<rect x="418" y="350" width="76" height="26" rx="2" fill="none" stroke="rgba(255,214,10,.28)"/><text x="456" y="367">because</text>
+<rect x="506" y="350" width="44" height="26" rx="2" fill="rgba(255,214,10,.10)" stroke="#FFD60A" stroke-width="1.4"/><text x="528" y="367" fill="#FFD60A">it</text>
+<rect x="562" y="350" width="52" height="26" rx="2" fill="none" stroke="rgba(255,214,10,.28)"/><text x="588" y="367">was</text>
+<rect x="626" y="350" width="60" height="26" rx="2" fill="rgba(255,214,10,.06)" stroke="#FFD60A"/><text x="656" y="367" fill="#FFD60A">tired</text>
+</g>
+</g>
+</g>
+
+<!-- ── three parallel head panels (each = one attention pattern) ── -->
+<!-- All read the SAME row below; each draws its own arc from "it"(x=528) -->
+
+<!-- Head A · coreference : "it" -> "cat" (backward) -->
+<g aria-hidden="true">
+<rect x="24" y="58" width="662" height="76" rx="3" fill="none" stroke="rgba(255,214,10,.18)"/>
+<text x="36" y="78" fill="#FFD60A" font-size="12.5" font-weight="600">HEAD A</text>
+<text x="36" y="94" fill="#8f8a73" font-size="11">coreference &#183; who is &#8220;it&#8221;?</text>
+<!-- arc from focus "it" back to "cat" -->
+<path d="M528,118 C470,150 200,150 124,118" fill="none" stroke="#FFD60A" stroke-width="1.8" marker-end="url(#mh-head)" opacity="0.95"/>
+<text x="316" y="160" fill="#d9b400" font-size="11" text-anchor="middle" font-style="italic">it &#8594; cat</text>
+</g>
+
+<!-- Head B · dependency / syntax : "it" -> "tired" (forward) -->
+<g aria-hidden="true">
+<rect x="24" y="146" width="662" height="76" rx="3" fill="none" stroke="rgba(255,214,10,.18)"/>
+<text x="36" y="166" fill="#FFD60A" font-size="12.5" font-weight="600">HEAD B</text>
+<text x="36" y="182" fill="#8f8a73" font-size="11">dependency &#183; what governs it?</text>
+<path d="M528,206 C560,236 624,236 656,210" fill="none" stroke="#FFD60A" stroke-width="1.8" marker-end="url(#mh-head)" opacity="0.95"/>
+<text x="596" y="248" fill="#d9b400" font-size="11" text-anchor="middle" font-style="italic">it &#8594; tired</text>
+</g>
+
+<!-- Head C · local position : attends to adjacent tokens -->
+<g aria-hidden="true">
+<rect x="24" y="234" width="662" height="76" rx="3" fill="none" stroke="rgba(255,214,10,.18)"/>
+<text x="36" y="254" fill="#FFD60A" font-size="12.5" font-weight="600">HEAD C</text>
+<text x="36" y="270" fill="#8f8a73" font-size="11">position &#183; nearby tokens</text>
+<path d="M528,294 C512,318 480,318 456,300" fill="none" stroke="#FFD60A" stroke-width="1.4" marker-end="url(#mh-head)" opacity="0.8"/>
+<path d="M528,294 C548,318 576,318 588,300" fill="none" stroke="#FFD60A" stroke-width="1.4" marker-end="url(#mh-head)" opacity="0.8"/>
+<text x="522" y="332" fill="#d9b400" font-size="11" text-anchor="middle" font-style="italic">it &#8594; neighbors</text>
+</g>
+
+<!-- ── concat + W^O : the glue, pooling heads into one output ── -->
+<g>
+<!-- bracket gathering the three heads -->
+<path d="M694,70 q8,0 8,8 v280 q0,8 -8,8" aria-hidden="true" fill="none" stroke="rgba(255,214,10,.4)" stroke-width="1.4"/>
+<!-- the pooled output node — THE charged element (blue glow) -->
+<g filter="url(#mh-glow)">
+<rect x="612" y="276" width="92" height="40" rx="4" fill="rgba(8,8,10,.6)" stroke="#FFD60A" stroke-width="1.6"/>
+</g>
+<text x="658" y="293" fill="#f3eede" font-size="12" font-weight="600" text-anchor="middle">Concat</text>
+<text x="658" y="308" fill="#f3eede" font-size="11.5" text-anchor="middle">+ W&#7506;</text>
+<text x="658" y="338" fill="#8f8a73" font-size="10.5" text-anchor="middle" aria-hidden="true">one pooled view</text>
+<text x="658" y="351" fill="#8f8a73" font-size="10.5" text-anchor="middle" aria-hidden="true">(B,T,d_model)</text>
+</g>
+</svg>
+<figcaption>One sequence, many eyes: each head reads the same token row and catches a different relationship — coreference, dependency, position — then Concat + W&#7506; pool them into one shape-preserving output.</figcaption>
+</figure>
+</blockquote>
 
   <hr class="rule">
 
