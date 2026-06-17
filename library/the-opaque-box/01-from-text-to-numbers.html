@@ -126,7 +126,10 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
 .corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
-.corridor .c-home{color:var(--gold-soft)}</style>
+.corridor .c-home{color:var(--gold-soft)}.diagram{margin:2.2rem 0;text-align:center}
+.diagram svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.diagram figcaption{margin-top:.85rem;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;letter-spacing:.01em;max-width:620px;margin-left:auto;margin-right:auto}
+</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -160,7 +163,114 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <h2 id="s1-1">1.1&nbsp;&nbsp;The core problem</h2>
   <p>A neural network is a pile of multiplications and additions over numbers. It cannot multiply the word <em>&ldquo;Shaolin.&rdquo;</em> So step zero of building a language model is a translation layer that turns a string into a list of integers, and turns a list of integers back into a string:</p>
 <pre translate="no"><code>"Shaolin"  --encode--&gt;  [31, 47, 12, 5, 31, 9, 14]  --model--&gt;  ...  --decode--&gt;  "..."</code></pre>
-  <p>That translation layer is the <strong>tokenizer</strong>. A <em>token</em> is the atomic unit the model sees &mdash; it might be a character, a word-piece, or a whole word. The set of all possible tokens is the <strong>vocabulary</strong>, and each token has a fixed integer <strong>ID</strong>.</p>
+  <p>That translation layer is the <strong>tokenizer</strong>. A <em>token</em> is the atomic unit the model sees &mdash; it might be a character, a word-piece, or a whole word. The set of all possible tokens is the <strong>vocabulary</strong>, and each token has a fixed integer <strong>ID</strong>.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 360" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tokenization pipeline: the raw text 'the cat sat' is split into the sub-word token chips 'the', ' cat', ' s', 'at', and each chip maps to a fixed integer ID — 1820, 5181, 264, 265 — which glow blue as the numbers the model runs on.">
+<title>From text to numbers: tokenization</title>
+<desc>A left-to-right blueprint. Stage one is the raw string "the cat sat". An encode arrow leads to stage two, four gold token chips: "the", " cat", " s", "at". A second arrow leads to stage three, the same four tokens shown as integer IDs 1820, 5181, 264, 265, which glow electric blue to mark them as the numeric form the model actually computes on.</desc>
+<defs>
+<filter id="blueGlow" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur in="SourceAlpha" stdDeviation="4.2" result="b"/>
+<feFlood flood-color="#0E44FF" flood-opacity="0.95" result="c"/>
+<feComposite in="c" in2="b" operator="in" result="g"/>
+<feMerge>
+<feMergeNode in="g"/>
+<feMergeNode in="g"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0 0 L10 5 L0 10 z" fill="#FFD60A"/>
+</marker>
+<style>
+.lbl{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+.stage{font-size:12px;letter-spacing:.22em;fill:#8f8a73;text-transform:uppercase;}
+.op{font-size:11px;letter-spacing:.14em;fill:#8f8a73;}
+.tok{font-size:16px;fill:#f3eede;}
+.raw{font-size:19px;fill:#f3eede;}
+.idnum{font-size:15px;fill:#f3eede;}
+.cap{font-size:12.5px;fill:#8f8a73;}
+</style>
+</defs>
+
+<!-- stage labels -->
+<g class="lbl" aria-hidden="true">
+<text class="stage" x="98" y="44" text-anchor="middle">LANGUAGE</text>
+<text class="stage" x="360" y="44" text-anchor="middle">TOKENS</text>
+<text class="stage" x="628" y="44" text-anchor="middle">NUMBER</text>
+</g>
+
+<!-- guide rule under stage labels -->
+<line x1="36" y1="58" x2="684" y2="58" stroke="rgba(255,214,10,.18)" stroke-width="1" aria-hidden="true"/>
+
+<!-- STAGE 1 — raw text -->
+<g aria-hidden="true">
+<rect x="34" y="150" width="128" height="60" rx="3" fill="none" stroke="#2a2a33" stroke-width="1.4"/>
+<text class="lbl raw" x="98" y="187" text-anchor="middle">the cat sat</text>
+<text class="lbl cap" x="98" y="240" text-anchor="middle">a string</text>
+</g>
+
+<!-- arrow 1 : encode -->
+<g aria-hidden="true">
+<line x1="170" y1="180" x2="246" y2="180" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
+<text class="lbl op" x="208" y="171" text-anchor="middle">split</text>
+</g>
+
+<!-- STAGE 2 — token chips -->
+<g class="lbl" aria-hidden="true">
+<g>
+<rect x="262" y="104" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="tok" x="322" y="126" text-anchor="middle">the</text>
+</g>
+<g>
+<rect x="262" y="146" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="tok" x="322" y="168" text-anchor="middle">&#8901;cat</text>
+</g>
+<g>
+<rect x="262" y="188" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="tok" x="322" y="210" text-anchor="middle">&#8901;s</text>
+</g>
+<g>
+<rect x="262" y="230" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="tok" x="322" y="252" text-anchor="middle">at</text>
+</g>
+<text class="cap" x="322" y="296" text-anchor="middle">sub-word pieces &#8901; the vocabulary</text>
+</g>
+
+<!-- arrow 2 : look up ID -->
+<g aria-hidden="true">
+<line x1="392" y1="180" x2="468" y2="180" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
+<text class="lbl op" x="430" y="171" text-anchor="middle">look&#8202;up&#8202;ID</text>
+</g>
+
+<!-- STAGE 3 — integer IDs (the charged element: blue glow) -->
+<g class="lbl" filter="url(#blueGlow)" aria-hidden="true">
+<g>
+<rect x="488" y="104" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="idnum" x="546" y="126" text-anchor="middle">1820</text>
+</g>
+<g>
+<rect x="488" y="146" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="idnum" x="546" y="168" text-anchor="middle">5181</text>
+</g>
+<g>
+<rect x="488" y="188" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="idnum" x="546" y="210" text-anchor="middle">264</text>
+</g>
+<g>
+<rect x="488" y="230" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="idnum" x="546" y="252" text-anchor="middle">265</text>
+</g>
+</g>
+<text class="lbl cap" x="546" y="296" text-anchor="middle" aria-hidden="true">integers &#8212; the only thing it can compute</text>
+
+<!-- baseline note -->
+<text class="lbl cap" x="360" y="338" text-anchor="middle" aria-hidden="true" fill="#8f8a73">encode( text ) &#8594; [ ids ] &#8901; decode is its exact inverse</text>
+</svg>
+<figcaption>Tokenization is the hand-off from language to numbers: a string is split into sub-word tokens, and each token is looked up to a fixed integer ID — the only form the model can do arithmetic on.</figcaption>
+</figure>
+</p>
   <p>Two operations, always paired and always inverse:</p>
   <ul>
     <li><code translate="no">encode(text) -&gt; [ids]</code></li>

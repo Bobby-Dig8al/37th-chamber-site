@@ -125,7 +125,10 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
 .corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
-.corridor .c-home{color:var(--gold-soft)}</style>
+.corridor .c-home{color:var(--gold-soft)}.diagram{margin:2.2rem 0;text-align:center}
+.diagram svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.diagram figcaption{margin-top:.85rem;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;letter-spacing:.01em;max-width:620px;margin-left:auto;margin-right:auto}
+</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -182,7 +185,140 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <p>He et al. (arXiv 2015; CVPR 2016, &ldquo;Deep Residual Learning for Image Recognition&rdquo;) found a remarkably clean fix for convolutional networks: instead of asking each layer to learn a complete transformation <code translate="no">H(x)</code>, ask it to learn only the <em>residual</em> &mdash; the difference from the input. The full computation becomes:</p>
 <pre translate="no"><code>output = x + sublayer(x)     # residual connection</code></pre>
   <p>The identity path &mdash; the raw <code translate="no">x</code> flowing straight through the <code translate="no">+</code> &mdash; is a <strong>gradient highway</strong>. During backpropagation, gradients flow through the addition unimpeded, all the way back to the earliest layers. The sublayer&rsquo;s contribution is additive; if it is small or wrong, the identity path carries the signal regardless. Networks with residual connections can be meaningfully trained at depths that would otherwise not learn at all.</p>
-  <p>The transformer adopts this pattern around <em>both</em> sublayers. After attention, instead of passing the attention output directly to the next stage, we add it back onto the input that generated it. After the feed-forward network, same thing. The residual stream &mdash; the running <code translate="no">x</code> that persists across the entire block &mdash; accumulates contributions from each sublayer rather than being replaced by them.</p>
+  <p>The transformer adopts this pattern around <em>both</em> sublayers. After attention, instead of passing the attention output directly to the next stage, we add it back onto the input that generated it. After the feed-forward network, same thing. The residual stream &mdash; the running <code translate="no">x</code> that persists across the entire block &mdash; accumulates contributions from each sublayer rather than being replaced by them.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 470" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic of one transformer block. A vertical residual stream runs from input at the bottom to output at the top. It passes two sublayers: pre-layer-norm multi-head attention, then pre-layer-norm feed-forward, each wrapped by a residual skip connection that adds the sublayer output back onto the stream at a plus node. The residual stream is drawn as a glowing spine to show the unbroken gradient highway.">
+<title>The transformer block: residual spine, two sublayers, skip connections</title>
+<desc>Input enters at the bottom into a vertical residual stream. The stream branches: a copy is normalized by LayerNorm and fed to multi-head attention, whose output is added back at a plus node (residual connection). The same pattern repeats for a feed-forward (MLP) sublayer. Output leaves at the top with the same shape, (B, T, d_model), so blocks stack. The residual stream is the glowing spine, drawn in electric blue to mark it as the gradient highway that passes through each plus unchanged.</desc>
+<style>
+  .lab{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+  .prim{fill:#f3eede;}
+  .dim{fill:#8f8a73;}
+  .gold{fill:#FFD60A;}
+  .goldsoft{fill:#d9b400;}
+</style>
+<defs>
+  <filter id="blueglow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="4.2" result="b"/>
+    <feMerge>
+      <feMergeNode in="b"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#d9b400"/>
+  </marker>
+  <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#0E44FF"/>
+  </marker>
+</defs>
+
+<!-- ====== THE RESIDUAL SPINE (the one blue glow accent: the gradient highway) ====== -->
+<g aria-hidden="true" filter="url(#blueglow)">
+  <line x1="240" y1="436" x2="240" y2="34" stroke="#0E44FF" stroke-width="3.4" stroke-linecap="round"/>
+  <!-- plus node 1 -->
+  <circle cx="240" cy="300" r="13" fill="#08080a" stroke="#0E44FF" stroke-width="2.6"/>
+  <!-- plus node 2 -->
+  <circle cx="240" cy="120" r="13" fill="#08080a" stroke="#0E44FF" stroke-width="2.6"/>
+  <line x1="240" y1="60" x2="240" y2="34" stroke="#0E44FF" stroke-width="3.4" stroke-linecap="round" marker-end="url(#ahb)"/>
+</g>
+<!-- plus glyphs (crisp, on top of glow) -->
+<g aria-hidden="true" stroke="#f3eede" stroke-width="2.1" stroke-linecap="round">
+  <line x1="233" y1="300" x2="247" y2="300"/><line x1="240" y1="293" x2="240" y2="307"/>
+  <line x1="233" y1="120" x2="247" y2="120"/><line x1="240" y1="113" x2="240" y2="127"/>
+</g>
+
+<!-- spine label -->
+<g aria-hidden="true">
+  <line x1="200" y1="218" x2="220" y2="218" stroke="#0E44FF" stroke-width="2"/>
+  <text class="lab" x="195" y="210" text-anchor="end" font-size="11.5" font-weight="600" fill="#0E44FF">residual stream</text>
+  <text class="lab dim" x="195" y="226" text-anchor="end" font-size="10.5">the gradient highway —</text>
+  <text class="lab dim" x="195" y="240" text-anchor="end" font-size="10.5">the identity path through each +</text>
+</g>
+
+<!-- ====== INPUT ====== -->
+<g aria-hidden="true">
+  <text class="lab gold" x="240" y="458" text-anchor="middle" font-size="12.5" font-weight="600">INPUT</text>
+  <text class="lab dim" x="240" y="425" text-anchor="middle" font-size="10.5">(B, T, d_model)</text>
+</g>
+
+<!-- ===================== SUBLAYER 2 (top): FEED-FORWARD ===================== -->
+<!-- branch out (right) at y=212, add back at plus2 y=120 -->
+<g aria-hidden="true">
+  <!-- tap off the spine -->
+  <circle cx="240" cy="212" r="3.4" class="goldsoft"/>
+  <path d="M240 212 H392" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M392 212 V196" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- LayerNorm 2 -->
+<g aria-hidden="true">
+  <rect x="340" y="160" width="104" height="34" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+  <text class="lab prim" x="392" y="178" text-anchor="middle" font-size="11.5">LayerNorm</text>
+  <text class="lab dim" x="392" y="190" text-anchor="middle" font-size="9">pre-LN · ln2</text>
+</g>
+<!-- arrow LN2 -> FFN -->
+<path d="M392 160 V146" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)" aria-hidden="true"/>
+<!-- FFN box -->
+<g aria-hidden="true">
+  <rect x="324" y="92" width="136" height="48" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="2"/>
+  <text class="lab gold" x="392" y="111" text-anchor="middle" font-size="12.5" font-weight="600">FEED-FORWARD</text>
+  <text class="lab dim" x="392" y="126" text-anchor="middle" font-size="9.5">expand 4× · ReLU · project</text>
+</g>
+<!-- return to plus2 -->
+<g aria-hidden="true">
+  <path d="M392 92 V72 H240" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M260 72 H240 V134" fill="none" stroke="#d9b400" stroke-width="0"/>
+  <path d="M252 72 H240" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M240 72 V134" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- sublayer-2 bracket label -->
+<text class="lab goldsoft" x="476" y="116" text-anchor="start" font-size="10.5" font-weight="600" aria-hidden="true">sublayer 2 · think</text>
+<text class="lab dim" x="476" y="130" text-anchor="start" font-size="9.5" aria-hidden="true">x + ffwd(ln2(x))</text>
+
+<!-- ===================== SUBLAYER 1 (lower): MULTI-HEAD ATTENTION ===================== -->
+<!-- tap off the spine at y=392, add back at plus1 y=300 -->
+<g aria-hidden="true">
+  <circle cx="240" cy="392" r="3.4" class="goldsoft"/>
+  <path d="M240 392 H392" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M392 392 V376" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- LayerNorm 1 -->
+<g aria-hidden="true">
+  <rect x="340" y="340" width="104" height="34" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+  <text class="lab prim" x="392" y="358" text-anchor="middle" font-size="11.5">LayerNorm</text>
+  <text class="lab dim" x="392" y="370" text-anchor="middle" font-size="9">pre-LN · ln1</text>
+</g>
+<!-- arrow LN1 -> attention -->
+<path d="M392 340 V326" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)" aria-hidden="true"/>
+<!-- attention box -->
+<g aria-hidden="true">
+  <rect x="316" y="272" width="152" height="48" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="2"/>
+  <text class="lab gold" x="392" y="291" text-anchor="middle" font-size="12" font-weight="600">MULTI-HEAD ATTN</text>
+  <text class="lab dim" x="392" y="306" text-anchor="middle" font-size="9.5">positions share notes · routing</text>
+</g>
+<!-- return to plus1 -->
+<g aria-hidden="true">
+  <path d="M392 272 V252 H252" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M240 252 V314" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- sublayer-1 bracket label -->
+<text class="lab goldsoft" x="484" y="296" text-anchor="start" font-size="10.5" font-weight="600" aria-hidden="true">sublayer 1 · route</text>
+<text class="lab dim" x="484" y="310" text-anchor="start" font-size="9.5" aria-hidden="true">x + sa(ln1(x))</text>
+
+<!-- ====== OUTPUT ====== -->
+<g aria-hidden="true">
+  <text class="lab gold" x="240" y="24" text-anchor="middle" font-size="12.5" font-weight="600">OUTPUT</text>
+  <text class="lab dim" x="300" y="44" text-anchor="start" font-size="10.5">(B, T, d_model) — same shape · stack N</text>
+</g>
+
+<!-- ====== block frame (faint) ====== -->
+<rect x="36" y="52" width="630" height="356" rx="6" fill="none" stroke="rgba(255,214,10,.18)" stroke-width="1" aria-hidden="true"/>
+<text class="lab dim" x="52" y="72" text-anchor="start" font-size="10" letter-spacing="0.18em" aria-hidden="true">ONE  TRANSFORMER  BLOCK</text>
+</svg>
+<figcaption>One transformer block: the residual stream runs bottom to top as a spine, branching into a pre-LN attention sublayer then a pre-LN feed-forward sublayer, each added back at a + so the identity path stays unbroken.</figcaption>
+</figure>
+</p>
   <blockquote><em>Without residuals, every parameter must participate in a globally coherent transformation at its depth. With them, parameters only need to learn corrections to what already flows through. The task becomes feasible orders of magnitude sooner.</em></blockquote>
 
   <hr class="rule">

@@ -126,7 +126,10 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
 .corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
-.corridor .c-home{color:var(--gold-soft)}</style>
+.corridor .c-home{color:var(--gold-soft)}.diagram{margin:2.2rem 0;text-align:center}
+.diagram svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.diagram figcaption{margin-top:.85rem;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;letter-spacing:.01em;max-width:620px;margin-left:auto;margin-right:auto}
+</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -162,7 +165,109 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
 
   <h2 id="s0-1">The thing nobody can see into</h2>
 
-  <p>When you ask an AI a question and it answers well, something is happening inside it &mdash; some chain of calculation that turns your words into its words. That chain is real. It runs on a computer. Its results can be remarkable. But if you ask one of its makers to point at a specific part of the system and say <em>&ldquo;this is where it decided to say that,&rdquo;</em> they can&rsquo;t. Not fully. Not yet.</p>
+  <p>When you ask an AI a question and it answers well, something is happening inside it &mdash; some chain of calculation that turns your words into its words. That chain is real. It runs on a computer. Its results can be remarkable. But if you ask one of its makers to point at a specific part of the system and say <em>&ldquo;this is where it decided to say that,&rdquo;</em> they can&rsquo;t. Not fully. Not yet.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 320" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A schematic: input text on the left flows into a sealed opaque box in the center, which outputs a probability spread over candidate next words on the right. The box is marked unreadable.">
+<title>The Opaque Box: text in, a next-word probability out, the middle unreadable</title>
+<desc>On the left, an input phrase reading the cat sat on the. An arrow carries it into a central sealed box labelled the opaque box, drawn with a question mark and locked seams to show its inside cannot be read. An arrow leaves the box on the right into a list of candidate next words, each with a probability bar: mat is most likely, then floor, roof, edge, and others. The box is the one element rendered with a blue glow to mark it as the charged, unknown core.</desc>
+<defs>
+<filter id="ob-glow" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur in="SourceAlpha" stdDeviation="5.5" result="b"/>
+<feFlood flood-color="#0E44FF" flood-opacity="0.95" result="c"/>
+<feComposite in="c" in2="b" operator="in" result="g"/>
+<feMerge>
+<feMergeNode in="g"/>
+<feMergeNode in="g"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+</defs>
+<style>
+.lbl{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+.cap{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;fill:#8f8a73;letter-spacing:.18em;text-transform:uppercase;}
+.tok{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;fill:#f3eede;}
+.gold{fill:#FFD60A;}
+.soft{fill:#d9b400;}
+.dim{fill:#8f8a73;}
+</style>
+
+<!-- ============ INPUT (left) ============ -->
+<g aria-hidden="true">
+<text class="cap" x="20" y="40" font-size="11">Your words</text>
+<rect x="20" y="118" width="150" height="44" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4" opacity="0.9"/>
+<text class="tok" x="95" y="145" font-size="14" text-anchor="middle">the cat sat on the</text>
+<text class="dim lbl" x="95" y="180" font-size="10.5" text-anchor="middle">input text</text>
+
+<!-- arrow in -->
+<line x1="172" y1="140" x2="246" y2="140" stroke="#FFD60A" stroke-width="1.6"/>
+<path d="M246 140 l-10 -5 v10 z" fill="#FFD60A"/>
+</g>
+
+<!-- ============ THE OPAQUE BOX (center, the charged element) ============ -->
+<g filter="url(#ob-glow)">
+<rect x="252" y="84" width="184" height="112" rx="4" fill="#0b0b0f" stroke="#FFD60A" stroke-width="2"/>
+<!-- sealed seams -->
+<line x1="252" y1="112" x2="436" y2="112" stroke="#FFD60A" stroke-width="0.8" opacity="0.45"/>
+<line x1="252" y1="168" x2="436" y2="168" stroke="#FFD60A" stroke-width="0.8" opacity="0.45"/>
+<!-- lock -->
+<g transform="translate(344 130)">
+<rect x="-9" y="-2" width="18" height="14" rx="2" fill="none" stroke="#FFD60A" stroke-width="1.6"/>
+<path d="M-5 -2 v-4 a5 5 0 0 1 10 0 v4" fill="none" stroke="#FFD60A" stroke-width="1.6"/>
+</g>
+</g>
+<g aria-hidden="true">
+<text class="gold lbl" x="344" y="76" font-size="12" text-anchor="middle" font-weight="600" letter-spacing="0.06em">THE OPAQUE BOX</text>
+<text class="dim lbl" x="344" y="186" font-size="10" text-anchor="middle">grown, not written — unreadable inside</text>
+</g>
+
+<!-- arrow out -->
+<g aria-hidden="true">
+<line x1="438" y1="140" x2="512" y2="140" stroke="#FFD60A" stroke-width="1.6"/>
+<path d="M512 140 l-10 -5 v10 z" fill="#FFD60A"/>
+</g>
+
+<!-- ============ OUTPUT: probability over next words (right) ============ -->
+<g aria-hidden="true">
+<text class="cap" x="700" y="40" font-size="11" text-anchor="end">Its guess</text>
+<text class="dim lbl" x="524" y="64" font-size="10.5">probability of the next word</text>
+
+<!-- rows: word + bar. baseline at x=524, full bar width ~150 -->
+<!-- mat (top) -->
+<text class="tok" x="524" y="92" font-size="13">mat</text>
+<rect x="566" y="82" width="124" height="11" rx="2" fill="#FFD60A"/>
+<text class="soft lbl" x="700" y="92" font-size="10" text-anchor="end" fill="#08080a" opacity="0">.</text>
+
+<!-- floor -->
+<text class="tok" x="524" y="116" font-size="13" fill="#cfc8b0">floor</text>
+<rect x="566" y="106" width="74" height="11" rx="2" fill="#d9b400" opacity="0.8"/>
+
+<!-- roof -->
+<text class="tok" x="524" y="140" font-size="13" fill="#cfc8b0">roof</text>
+<rect x="566" y="130" width="52" height="11" rx="2" fill="#d9b400" opacity="0.62"/>
+
+<!-- edge -->
+<text class="tok" x="524" y="164" font-size="13" fill="#cfc8b0">edge</text>
+<rect x="566" y="154" width="34" height="11" rx="2" fill="#d9b400" opacity="0.46"/>
+
+<!-- ... -->
+<text class="tok" x="524" y="188" font-size="13" fill="#8f8a73">grass</text>
+<rect x="566" y="178" width="20" height="11" rx="2" fill="#d9b400" opacity="0.32"/>
+
+<text class="dim lbl" x="566" y="208" font-size="10">…and every other word, a little</text>
+</g>
+
+<!-- ============ baseline caption ============ -->
+<g aria-hidden="true">
+<line x1="20" y1="248" x2="700" y2="248" stroke="rgba(255,214,10,.18)" stroke-width="1"/>
+<text class="dim lbl" x="20" y="272" font-size="10.5">text in</text>
+<text class="dim lbl" x="344" y="272" font-size="10.5" text-anchor="middle">— the chain we cannot read —</text>
+<text class="dim lbl" x="700" y="272" font-size="10.5" text-anchor="end">a next word out</text>
+</g>
+</svg>
+<figcaption>The whole machine at a glance: your words go in, a spread of probabilities over the next word comes out, and the chain in the middle that connects them is the part nobody can read.</figcaption>
+</figure>
+</p>
 
   <p>This is not a secret being kept from you. It is a genuine open problem in science, one important enough that Anthropic &mdash; the company that builds Claude &mdash; runs a dedicated <a class="inline" href="https://www.anthropic.com/research/team/interpretability">interpretability research program</a> whose entire job is to try to see inside. The field is called <strong>mechanistic interpretability</strong>, and it exists precisely because the box is opaque. Researchers are not polishing something well understood. They are trying to understand something that already works without anyone having fully designed it.</p>
 
