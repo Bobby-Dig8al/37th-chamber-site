@@ -229,7 +229,7 @@ extreme claim, and its most carefully checked.`,
     deepWhy: `In 1963 Roy Kerr solved Einstein's field equations for a rotating mass — two pages \
 that produced the geometry governing every spinning black hole ever observed, Gargantua included. \
 He found the solution by identifying the flaw in a proof it couldn't exist. Sixty years later, \
-mathematicians proved Kerr black holes are stable under perturbations (2023). The renderer DNGR \
+mathematicians proved Kerr black holes are stable under perturbations (2022). The renderer DNGR \
 built for the film was a numerical integrator running light rays through this exact geometry at \
 IMAX resolution — Thorne's equations, operationalized as an art instrument. The two-page paper \
 is the quiet foundation under everything the week built.`,
@@ -239,7 +239,7 @@ is the quiet foundation under everything the week built.`,
     science: { label:"The Paper from the Movie", name:"James, von Tunzelmann, Franklin & Thorne", work:"Class. Quantum Gravity, 2015", why:"Run as a research instrument, the renderer found caustics near a fast-spinning hole make up to 13 images of one star — a real result the VFX set up.", link:"https://arxiv.org/abs/1502.03808",
                img:"/assets/daily/005-accretion-disk.webp", imgAlt:"NASA visualization of a black hole: the accretion disk's far side warped above and below the shadow by gravity", imgCredit:"NASA Goddard / J. Schnittman" },
     book:    { label:"The Equations, Shown", name:"Kip Thorne",        work:"The Science of Interstellar", why:"He walks every established result equation by equation, then draws a hard line: the bulk, the tesseract — labeled, explicitly, an educated guess.", link:"https://wwnorton.com/books/9780393351378" },
-    artist:  { label:"The Man Who Found It", name:"Roy Kerr",         work:"and the 2023 stability proof", why:"Kerr found his solution by spotting the flaw in a proof it couldn't exist — and 60 years later, mathematicians proved Kerr black holes are stable.", link:"https://www.canterbury.ac.nz/about-uc/why-uc/our-alumni/notable-alumni/roy-kerr" },
+    artist:  { label:"The Man Who Found It", name:"Roy Kerr",         work:"and the 2022 stability proof", why:"Kerr found his solution by spotting the flaw in a proof it couldn't exist — and 60 years later, mathematicians proved Kerr black holes are stable.", link:"https://www.canterbury.ac.nz/about-uc/why-uc/our-alumni/notable-alumni/roy-kerr" },
     show:    { label:"The Honest Edge", name:"truth / guess / speculation", work:"Thorne's own taxonomy", why:"He sorts the film's science into three tiers, so you know exactly where established physics ends and the story takes over.", link:"https://www.sciencefriday.com/articles/truth-educated-guesses-and-speculations-in-interstellar/" }
   },
   {
@@ -521,7 +521,7 @@ NWA 12774 is one of the surviving receipts.`,
     intro: "Ten years in the making, nearly eighty witnesses, ten parts and roughly eighteen hours: <em>The Vietnam War</em> by Ken Burns and Lynn Novick is the most comprehensive American documentary account of a war the country still has not finished reckoning with.",
     music:   { label:"The Two Scores",       name:"Reznor & Ross · Yo-Yo Ma & the Silk Road Ensemble", work:"The Vietnam War score (2017)", why:"Two Academy Award-winning composers brought more than two hours of unresolved electronic grief across both scores; a cellist and the Silk Road Ensemble brought the Vietnamese sonic register alongside them.", link:"https://www.pbs.org/kenburns/the-vietnam-war/original-score" },
     film:    { label:"The Documentary",      name:"Ken Burns & Lynn Novick",  work:"The Vietnam War (PBS, 2017)", why:"Ten parts, roughly eighteen hours, premiered September 17, 2017; reached thirty-nine million viewers. The defining American documentary account of the war, told from all sides of the Pacific.", link:"https://www.pbs.org/kenburns/the-vietnam-war/about" },
-    science: { label:"The Trigger",          name:"Gulf of Tonkin Resolution", work:"August 10, 1964", why:"Congress granted President Johnson authority to escalate without a formal war declaration — based on a reported second attack that Johnson and McNamara privately doubted had occurred.", link:"https://www.britannica.com/event/Gulf-of-Tonkin-Resolution" },
+    science: { label:"The Trigger",          name:"Gulf of Tonkin Resolution", work:"August 7, 1964 (signed Aug 10)", why:"Congress granted President Johnson authority to escalate without a formal war declaration — based on a reported second attack that Johnson and McNamara privately doubted had occurred.", link:"https://www.britannica.com/event/Gulf-of-Tonkin-Resolution" },
     book:    { label:"The Soldier's Weight", name:"Tim O'Brien",              work:"The Things They Carried (1990)", why:"O'Brien served in Vietnam and wrote the defining literary account of what the war cost the men who fought — blurring fiction and memoir to carry the weight more honestly.", link:"https://www.arts.gov/initiatives/nea-big-read/things-they-carried" },
     artist:  { label:"The Names",            name:"Maya Lin",                 work:"Vietnam Veterans Memorial (1982)", why:"A twenty-one-year-old Yale student won a competition of more than 1,400 entries with a black granite wall bearing the names of the dead — arranged by date of death, not by rank.", link:"https://www.britannica.com/topic/Vietnam-Veterans-Memorial" },
     show:    { label:"The Witnesses",        name:"Nearly 80 interviewees, North and South", work:"The Vietnam War (PBS, 2017)", why:"For the first time in a Burns documentary, combatants and civilians from North Vietnam and the Viet Cong speak alongside Americans — the view not held by any one flag.", link:"https://www.pbs.org/video/voices-from-all-sides-trace-deep-roots-of-vietnam-war-1505519939" }
@@ -553,8 +553,8 @@ into the sonic frame. Two scores for two sides of one catastrophe.`,
     deepWhy: `The war did not arrive fully formed; it was assembled out of decisions that compounded. \
 On August 2, 1964, North Vietnamese boats attacked the USS Maddox in the Gulf of Tonkin. A reported \
 second attack on August 4 — relayed to Congress even as Johnson and McNamara privately concluded it \
-had likely not occurred — became the pretext. Congress passed the Gulf of Tonkin Resolution on August \
-10, granting near-unlimited war-making authority without a formal declaration. That single act became \
+had likely not occurred — became the pretext. Congress passed the Gulf of Tonkin Resolution on August 7 (signed into law August \
+10), granting near-unlimited war-making authority without a formal declaration. That single act became \
 the legal foundation for a force that peaked near 543,000 American troops in 1969. The resolution was \
 repealed in 1971. The contested nature of the August 4 incident is now well-documented in the \
 declassified record — a war built on an uncertain predicate, authorized in hours, prosecuted for a decade.`,
