@@ -4237,7 +4237,7 @@ const Chess = {
       coach: 'A fork is one piece attacking two at once. Knights are the great forkers — look for a square that hits both.',
       setup: { g1:'K', d5:'N', e8:'k', a8:'q' },
       solution: { from:'d5', to:'c7' },
-      success: 'Nc7+ — a family fork!',
+      success: 'Nc7+ — a royal fork!',
       why: '<b>The fork: one attacker, two targets.</b> Nc7 gives check to the king on e8 <i>and</i> '
         + 'attacks the queen on a8 at the same time. The king must escape the check — and then Nxa8 '
         + 'pockets the queen. Knights fork brutally because their targets can\'t defend each other or '
@@ -4329,7 +4329,7 @@ const Chess = {
       replies: [ { from:'h8', to:'g8' } ],
       success: 'Qb7 … Qg7# — fenced into the corner and mated. That\'s a combination.',
       why: '<b>A combination is a forced sequence — you see the whole thing before you start.</b> Qb7 doesn\'t check, '
-        + 'but it leaves the black king exactly one legal square (g8): h7 is covered by your king on f6, and the queen '
+        + 'but it leaves the black king exactly one legal square (g8): h7 is covered by the queen on b7, g7 is covered by your king on f6, and the queen '
         + 'now walls off the 7th rank. With only one reply, the position is on rails. Then Qg7# is mate because the '
         + 'king on f6 <i>protects</i> the queen — Black can\'t capture it and has nowhere to run. The power isn\'t in any '
         + 'single move; it\'s that every reply is forced, so you can calculate to the end. This is the leap from "spotting '
@@ -4349,7 +4349,7 @@ const Chess = {
       success: 'Ke5 — the opposition. Now Black must step aside and your king walks through.',
       why: '<b>The opposition</b> is the silent ruler of pawn endings. Kings on e5 and e7, two squares apart on the '
         + 'same file, with Black to move — that\'s the opposition, and you have it. Black\'s king cannot stay on e7 '
-        + '(your king would attack it) and cannot step toward you, so it must give way to d7 or f7. Then your king '
+        + '(White plays Ke6 next, seizing e6 and attacking e7) and cannot advance toward you (Ke6 would step into your king\'s attack), so it must give way to d7 or f7. Then your king '
         + 'outflanks: if Black plays Kd7, you play Kf6 (or vice versa) and your king has penetrated the front. '
         + 'In K+P vs K, this is exactly how the stronger side escorts the pawn forward to promotion. <b>Memorize the '
         + 'shape:</b> kings facing on the same file/rank, one square between, opponent to move = you control the '
@@ -4367,9 +4367,9 @@ const Chess = {
       solution: { from:'h5', to:'h6' },
       success: 'h6 — pawn races, king can\'t catch.',
       why: '<b>The square of the pawn</b> is the geometric shortcut for "can the king catch this passed pawn?" '
-        + 'Draw a square from the pawn to its promotion square: h5 → h8 is 3 ranks, so the box is 3×3 with corners '
+        + 'Draw a square from the pawn to its promotion square: h5 → h8 is 4 ranks, so the box is 4×4 with corners '
         + 'h5, h8, e8, e5. The black king sits right on the edge of that box (e5) — and <b>because it\'s your move, '
-        + 'you push first and stay one tempo ahead.</b> 1.h6 shrinks the square to 2×2 (h6, h8, f8, f6); the king '
+        + 'you push first and stay one tempo ahead.</b> 1.h6 shrinks the square to 3×3 (h6, h8, f8, f6); the king '
         + 'chases with Kf6, but after h7, Kg7, h8=Q it arrives one move too late. <b>The catch: waste a single tempo '
         + '(a king move instead of the push) and the black king steps into the square and catches the pawn — a draw.</b> '
         + 'On the boundary, the push is the ONLY move that wins. This single rule turns "I have no idea if my pawn '

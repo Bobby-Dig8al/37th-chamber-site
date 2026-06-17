@@ -163,12 +163,12 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <h2 id="s1-1">1.1&nbsp;&nbsp;The core problem</h2>
   <p>A neural network is a pile of multiplications and additions over numbers. It cannot multiply the word <em>&ldquo;Shaolin.&rdquo;</em> So step zero of building a language model is a translation layer that turns a string into a list of integers, and turns a list of integers back into a string:</p>
 <pre translate="no"><code>"Shaolin"  --encode--&gt;  [31, 47, 12, 5, 31, 9, 14]  --model--&gt;  ...  --decode--&gt;  "..."</code></pre>
-  <p>That translation layer is the <strong>tokenizer</strong>. A <em>token</em> is the atomic unit the model sees &mdash; it might be a character, a word-piece, or a whole word. The set of all possible tokens is the <strong>vocabulary</strong>, and each token has a fixed integer <strong>ID</strong>.
+  <p>That translation layer is the <strong>tokenizer</strong>. A <em>token</em> is the atomic unit the model sees &mdash; it might be a character, a word-piece, or a whole word. The set of all possible tokens is the <strong>vocabulary</strong>, and each token has a fixed integer <strong>ID</strong>.</p>
 
 <figure class="diagram">
-<svg viewBox="0 0 720 360" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tokenization pipeline: the raw text 'the cat sat' is split into the sub-word token chips 'the', ' cat', ' s', 'at', and each chip maps to a fixed integer ID — 1820, 5181, 264, 265 — which glow blue as the numbers the model runs on.">
+<svg viewBox="0 0 720 320" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tokenization pipeline (cl100k tokenizer): the raw text 'the cat sat' is split into three sub-word token chips — 'the', ' cat', ' sat' — and each chip maps to a fixed integer ID — 1820, 8415, 7731 — which glow blue as the numbers the model runs on.">
 <title>From text to numbers: tokenization</title>
-<desc>A left-to-right blueprint. Stage one is the raw string "the cat sat". An encode arrow leads to stage two, four gold token chips: "the", " cat", " s", "at". A second arrow leads to stage three, the same four tokens shown as integer IDs 1820, 5181, 264, 265, which glow electric blue to mark them as the numeric form the model actually computes on.</desc>
+<desc>A left-to-right blueprint. Stage one is the raw string "the cat sat". An encode arrow leads to stage two, three gold token chips under the cl100k tokenizer: "the", " cat", " sat". A second arrow leads to stage three, the same three tokens shown as integer IDs 1820, 8415, 7731, which glow electric blue to mark them as the numeric form the model actually computes on.</desc>
 <defs>
 <filter id="blueGlow" x="-60%" y="-60%" width="220%" height="220%">
 <feGaussianBlur in="SourceAlpha" stdDeviation="4.2" result="b"/>
@@ -206,18 +206,18 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
 
 <!-- STAGE 1 — raw text -->
 <g aria-hidden="true">
-<rect x="34" y="150" width="128" height="60" rx="3" fill="none" stroke="#2a2a33" stroke-width="1.4"/>
-<text class="lbl raw" x="98" y="187" text-anchor="middle">the cat sat</text>
-<text class="lbl cap" x="98" y="240" text-anchor="middle">a string</text>
+<rect x="34" y="130" width="128" height="60" rx="3" fill="none" stroke="#2a2a33" stroke-width="1.4"/>
+<text class="lbl raw" x="98" y="167" text-anchor="middle">the cat sat</text>
+<text class="lbl cap" x="98" y="214" text-anchor="middle">a string</text>
 </g>
 
 <!-- arrow 1 : encode -->
 <g aria-hidden="true">
-<line x1="170" y1="180" x2="246" y2="180" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
-<text class="lbl op" x="208" y="171" text-anchor="middle">split</text>
+<line x1="170" y1="160" x2="246" y2="160" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
+<text class="lbl op" x="208" y="151" text-anchor="middle">split</text>
 </g>
 
-<!-- STAGE 2 — token chips -->
+<!-- STAGE 2 — token chips (cl100k: 3 tokens) -->
 <g class="lbl" aria-hidden="true">
 <g>
 <rect x="262" y="104" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
@@ -229,19 +229,15 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
 </g>
 <g>
 <rect x="262" y="188" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
-<text class="tok" x="322" y="210" text-anchor="middle">&#8901;s</text>
+<text class="tok" x="322" y="210" text-anchor="middle">&#8901;sat</text>
 </g>
-<g>
-<rect x="262" y="230" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
-<text class="tok" x="322" y="252" text-anchor="middle">at</text>
-</g>
-<text class="cap" x="322" y="296" text-anchor="middle">sub-word pieces &#8901; the vocabulary</text>
+<text class="cap" x="322" y="254" text-anchor="middle">sub-word pieces &#8901; cl100k vocabulary</text>
 </g>
 
 <!-- arrow 2 : look up ID -->
 <g aria-hidden="true">
-<line x1="392" y1="180" x2="468" y2="180" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
-<text class="lbl op" x="430" y="171" text-anchor="middle">look&#8202;up&#8202;ID</text>
+<line x1="392" y1="160" x2="468" y2="160" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
+<text class="lbl op" x="430" y="151" text-anchor="middle">look&#8202;up&#8202;ID</text>
 </g>
 
 <!-- STAGE 3 — integer IDs (the charged element: blue glow) -->
@@ -252,25 +248,20 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
 </g>
 <g>
 <rect x="488" y="146" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
-<text class="idnum" x="546" y="168" text-anchor="middle">5181</text>
+<text class="idnum" x="546" y="168" text-anchor="middle">8415</text>
 </g>
 <g>
 <rect x="488" y="188" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
-<text class="idnum" x="546" y="210" text-anchor="middle">264</text>
-</g>
-<g>
-<rect x="488" y="230" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
-<text class="idnum" x="546" y="252" text-anchor="middle">265</text>
+<text class="idnum" x="546" y="210" text-anchor="middle">7731</text>
 </g>
 </g>
-<text class="lbl cap" x="546" y="296" text-anchor="middle" aria-hidden="true">integers &#8212; the only thing it can compute</text>
+<text class="lbl cap" x="546" y="254" text-anchor="middle" aria-hidden="true">integers &#8212; the only thing it can compute</text>
 
 <!-- baseline note -->
-<text class="lbl cap" x="360" y="338" text-anchor="middle" aria-hidden="true" fill="#8f8a73">encode( text ) &#8594; [ ids ] &#8901; decode is its exact inverse</text>
+<text class="lbl cap" x="360" y="298" text-anchor="middle" aria-hidden="true" fill="#8f8a73">encode( text ) &#8594; [ ids ] &#8901; decode is its exact inverse</text>
 </svg>
-<figcaption>Tokenization is the hand-off from language to numbers: a string is split into sub-word tokens, and each token is looked up to a fixed integer ID — the only form the model can do arithmetic on.</figcaption>
+<figcaption>Tokenization is the hand-off from language to numbers: a string is split into sub-word tokens, and each token is looked up to a fixed integer ID — the only form the model can do arithmetic on. IDs shown are from the cl100k tokenizer (GPT-3.5 / GPT-4 family); &ldquo;the cat sat&rdquo; = 3 tokens, not 4.</figcaption>
 </figure>
-</p>
   <p>Two operations, always paired and always inverse:</p>
   <ul>
     <li><code translate="no">encode(text) -&gt; [ids]</code></li>
@@ -426,7 +417,7 @@ vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-d
   <div class="takeaway">
     <ol>
       <li><strong>The model&rsquo;s &ldquo;atoms&rdquo; are tokens, not words or letters.</strong> When people are surprised a model can&rsquo;t spell or count letters in a word, this is why &mdash; it often never sees the letters; it sees a chunk like <code translate="no">&nbsp;theatre</code> as one indivisible symbol. The opaque box explains the magic <em>and</em> the limits in the same breath.</li>
-      <li><strong>Vocabulary size is a tradeoff.</strong> Bigger vocab &rarr; shorter sequences (good, more text per context window) but a larger embedding table and output layer (costly). GPT-2 chose ~50,257. We&rsquo;ll use a small vocab so our model trains fast.</li>
+      <li><strong>Vocabulary size is a tradeoff.</strong> Bigger vocab &rarr; shorter sequences (good, more text per context window) but a larger embedding table and output layer (costly). GPT-2 chose exactly 50,257. We&rsquo;ll use a small vocab so our model trains fast.</li>
     </ol>
   </div>
 
