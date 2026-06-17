@@ -243,7 +243,7 @@
     <b style="color:#FFD60A">2. Pre-pulse</b> — a low-energy laser hits the falling droplet.
     <b style="color:#FFD60A">3. Flatten</b> — the droplet expands into a thin pancake (~30 µm → &gt;100 µm) for better coupling.
     <b style="color:#FFD60A">4. Main pulse</b> — a high-power CO₂ laser (10.6 µm IR) slams the pancake.
-    <b style="color:#FFD60A">5. EUV burst</b> — the tin flashes to ~400,000 K plasma (Sn⁸⁺–Sn¹¹⁺ ions) emitting 13.5 nm EUV.
+    <b style="color:#FFD60A">5. EUV burst</b> — the tin flashes to ~400,000 K plasma (Sn⁸⁺–Sn¹⁴⁺ ions, Sn¹¹⁺–Sn¹⁴⁺ strongest) emitting 13.5 nm EUV.
     <b style="color:#FFD60A">6. Collect</b> — an ellipsoidal Mo/Si mirror, primary focus on the plasma,
     focuses the light to the intermediate focus and on to the scanner. Repeats ~50,000×/sec.</p>
   </noscript>
@@ -264,7 +264,7 @@
       {t:"The main pulse hits",
        b:'A high-power <span class="fig">CO₂ laser</span> (10.6 µm infrared) slams the pancake with a pulse lasting tens of nanoseconds. This is the shot that does the work.'},
       {t:"Flash to plasma — EUV burst",
-       b:'The tin is torn to a <span class="fig">~400,000 K</span> plasma of Sn⁸⁺–Sn¹¹⁺ ions. As they recombine they radiate, with a sharp peak right at <span class="fig">13.5 nm</span> — the EUV you came for.'},
+       b:'The tin is torn to a <span class="fig">~400,000 K</span> plasma of Sn⁸⁺–Sn¹⁴⁺ ions (Sn¹¹⁺–Sn¹⁴⁺ strongest). As they recombine they radiate, with a sharp peak right at <span class="fig">13.5 nm</span> — the EUV you came for.'},
       {t:"The collector catches it",
        b:'An ellipsoidal <span class="fig">Mo/Si multilayer mirror</span> sits with its primary focus on the plasma. It gathers the EUV and refocuses it to the <span class="fig">intermediate focus</span> — the doorway into the scanner.'}
     ];
@@ -424,7 +424,7 @@
     $('#euvSlow').addEventListener('click',function(){
       slow=!slow; this.setAttribute('aria-pressed',String(slow));
       this.textContent = slow ? 'Slow-mo ✓' : 'Slow-mo';
-      $('#euvRate').textContent = slow ? 'shown ~70 billion× slow' : '~50,000 ×/sec';
+      $('#euvRate').textContent = slow ? 'shown ~700,000× slow' : '~50,000 ×/sec';
     });
 
     render();
