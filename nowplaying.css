@@ -325,6 +325,7 @@
 .np-seg-btn:hover { color: var(--gold); border-color: rgba(255, 214, 10, 0.45); }
 .np-seg-btn[aria-pressed="true"] { color: #0a0a0c; background: var(--gold); border-color: var(--gold); }
 .np-seg-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.np-auto-btn { flex-shrink: 0; font-size: 0.56rem; padding: 0.2rem 0.42rem; letter-spacing: 0.06em; }
 
 /* ── Reset ── */
 .np-tuner-reset {
