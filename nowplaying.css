@@ -14,15 +14,22 @@
  *          [canvas — full width, blue charge band — the ONLY blue here]
  */
 
-/* ── Fallback properties for isolated pages (no-op when site :root is present) */
+/* ── Brand tokens for the widget. Declared UNCONDITIONALLY (literals, not
+   self-referential var()) so the widget is correct both on the site (where :root
+   already defines identical values — so this is a no-op there) and on isolated
+   pages (demo / fixture / tests). The old form `--gold: var(--gold, #FFD60A)`
+   referenced ITSELF → a cycle → invalid at computed-value time → every use site
+   (color: var(--gold)) fell back to inherited --text, so the card title rendered
+   white (#f3eede) instead of gold and the --electric accent bar went transparent.
+   Fixed Day-48 alongside the visitor tuner. (Flips the 3 expected-fail guards green.) */
 #now-playing {
-  --gold:     var(--gold,     #FFD60A);
-  --gold-soft:var(--gold-soft,#d9b400);
-  --bg:       var(--bg,       #08080a);
-  --text:     var(--text,     #f3eede);
-  --dim:      var(--dim,      #8f8a73);
-  --electric: var(--electric, #0E44FF);
-  --font:     var(--font,     'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif);
+  --gold:     #FFD60A;
+  --gold-soft:#d9b400;
+  --bg:       #08080a;
+  --text:     #f3eede;
+  --dim:      #8f8a73;
+  --electric: #0E44FF;
+  --font:     'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
 }
 
 /* ── Wrapper ── */
@@ -218,6 +225,121 @@
   background: var(--bg);  /* near-black floor — canvas paints over this */
 }
 
+/* ── Visitor Hearth tuner ──────────────────────────────────────────────────── */
+/* BLUE LAW: the panel chrome is gold/dim/near-black ONLY. The single rainbow track
+   is a background-IMAGE gradient (its background-COLOR stays transparent), and the
+   slider thumbs are ::pseudo-elements — so no real element ever computes to blue.
+   The one place colour lives is still the canvas; the tuner just lets the visitor
+   rotate that charge for their own session. */
+.np-tuner-toggle {
+  position: absolute;
+  top: 6px; right: 6px;
+  z-index: 3;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  color: var(--dim);
+  background: rgba(8, 8, 10, 0.55);
+  border: 1px solid rgba(255, 214, 10, 0.22);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.np-tuner-toggle:hover,
+.np-tuner-toggle:focus-visible,
+.np-tuner-toggle--open {
+  color: var(--gold);
+  border-color: rgba(255, 214, 10, 0.55);
+  background: rgba(8, 8, 10, 0.88);
+}
+.np-tuner-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.np-tuner-panel {
+  position: absolute;
+  top: 38px; right: 6px;
+  z-index: 3;
+  width: min(250px, calc(100% - 12px));
+  display: flex; flex-direction: column; gap: 0.7rem;
+  padding: 0.85rem 0.9rem 0.4rem;
+  background: rgba(8, 8, 10, 0.96);
+  border: 1px solid rgba(255, 214, 10, 0.30);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+.np-tuner-panel[hidden] { display: none; }
+
+.np-tuner-heading {
+  font-family: var(--font);
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold);
+}
+
+.np-tuner-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+}
+.np-tuner-label {
+  font-family: var(--font);
+  font-size: 0.62rem; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--dim);
+  flex-shrink: 0; min-width: 3.3em;
+}
+
+/* ── Range sliders ── */
+.np-tuner-slider {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: 4px;
+  background: rgba(255, 214, 10, 0.20);   /* gold-tinted track — never blue */
+  cursor: pointer;
+}
+.np-tuner-slider:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.np-tuner-slider--hue {
+  /* Rainbow preview anchored at the brand blue (hue 226) so slider-0 == blue.
+     background-IMAGE only — background-COLOR stays transparent (Blue-Law safe). */
+  background-image: linear-gradient(90deg,
+    hsl(226,90%,58%), hsl(286,90%,58%), hsl(346,90%,58%),
+    hsl(46,90%,58%), hsl(106,90%,58%), hsl(166,90%,58%), hsl(226,90%,58%));
+  background-color: transparent;
+}
+.np-tuner-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--gold); border: 1px solid #0a0a0c;
+  box-shadow: 0 0 4px rgba(255, 214, 10, 0.55);
+  cursor: pointer;
+}
+.np-tuner-slider::-moz-range-thumb {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--gold); border: 1px solid #0a0a0c; cursor: pointer;
+}
+
+/* ── Segmented controls ── */
+.np-tuner-seg { display: flex; gap: 3px; }
+.np-seg-btn {
+  font-family: var(--font);
+  font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--dim);
+  background: rgba(255, 214, 10, 0.04);
+  border: 1px solid rgba(255, 214, 10, 0.22);
+  padding: 0.26rem 0.48rem;
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+.np-seg-btn:hover { color: var(--gold); border-color: rgba(255, 214, 10, 0.45); }
+.np-seg-btn[aria-pressed="true"] { color: #0a0a0c; background: var(--gold); border-color: var(--gold); }
+.np-seg-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ── Reset ── */
+.np-tuner-reset {
+  font-family: var(--font);
+  font-size: 0.58rem; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--dim);
+  background: none; border: none;
+  border-top: 1px solid rgba(255, 214, 10, 0.14);
+  padding: 0.5rem 0 0.45rem; margin-top: 0.15rem;
+  cursor: pointer; text-align: right;
+  transition: color 0.12s ease;
+}
+.np-tuner-reset:hover { color: var(--gold); }
+.np-tuner-reset:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
 /* ── Responsive: narrow (below ~380px) ── */
 @media (max-width: 380px) {
   .np-art-wrap {
@@ -231,7 +353,10 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .np-status-dot,
-  .np-track-link {
+  .np-track-link,
+  .np-tuner-toggle,
+  .np-seg-btn,
+  .np-tuner-reset {
     transition-duration: 0.01ms !important;
   }
   /* Progress fill: no CSS animation; JS rAF respects reducedMotion too */

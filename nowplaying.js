@@ -127,6 +127,181 @@ const hexController = initElectricHex(canvas, { reducedMotion });
 // Dev tuning-bench hook (only attaches when the page is opened with ?tune-bench)
 if (location.search.indexOf('tune-bench') !== -1) { window.__hex = hexController; }
 
+// ─── Visitor Hearth tuner ───────────────────────────────────────────────────
+// A small settings panel that lets each visitor tune the hearth for THEIR session
+// and remembers it (localStorage). It drives only the visitor-facing controls
+// (colour/glow/motion/size); the playback-driven setters (setPlaying/setIntensity/
+// setSeed) stay owned by renderState, so the two never fight. Defaults = the brand:
+// blue, default glow, OS-aware motion, medium size. Blue Law: the panel chrome is
+// gold/dim/near-black only — the one place colour lives is the canvas (the charge),
+// and now the visitor may rotate even that for themselves.
+const TUNER_KEY = 'np-tuner-v1';
+const TUNER_DEFAULTS = { hue: 0, energy: 1, motion: reducedMotion ? 'still' : 'flow', size: 'm' };
+const SIZE_PX = { s: 92, m: null, l: 210 };   // null = the CSS clamp default
+const TUNE_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="8.5" x2="20" y2="8.5"/><circle cx="9" cy="8.5" r="2.4" fill="#0a0a0c"/><line x1="4" y1="15.5" x2="20" y2="15.5"/><circle cx="15" cy="15.5" r="2.4" fill="#0a0a0c"/></svg>';
+
+function loadTunerPrefs() {
+  try {
+    const p = JSON.parse(localStorage.getItem(TUNER_KEY) || 'null');
+    if (!p || typeof p !== 'object') return { ...TUNER_DEFAULTS };
+    return {
+      hue:    Number.isFinite(p.hue)    ? Math.max(0, Math.min(360, p.hue))    : TUNER_DEFAULTS.hue,
+      energy: Number.isFinite(p.energy) ? Math.max(0.4, Math.min(1.8, p.energy)) : TUNER_DEFAULTS.energy,
+      motion: ['flow', 'pulse', 'still'].includes(p.motion) ? p.motion : TUNER_DEFAULTS.motion,
+      size:   ['s', 'm', 'l'].includes(p.size) ? p.size : TUNER_DEFAULTS.size,
+    };
+  } catch { return { ...TUNER_DEFAULTS }; }
+}
+function saveTunerPrefs(p) { try { localStorage.setItem(TUNER_KEY, JSON.stringify(p)); } catch { /* private mode */ } }
+
+const prefs = loadTunerPrefs();
+
+// flow = phrasing tune (live) · pulse = baseline tune (live) · still = reduced-motion.
+// An explicit flow/pulse choice opts INTO motion (overrides the OS floor); still and
+// the first-load default both honour prefers-reduced-motion.
+function applyMotion(m) {
+  if (m === 'still') { hexController.setReducedMotion(true); }
+  else { hexController.setReducedMotion(false); hexController.setTune(m === 'pulse' ? 'baseline' : 'phrasing'); }
+}
+function applySize(sz) {
+  const px = SIZE_PX[sz];
+  canvas.style.height = px == null ? '' : px + 'px';
+  hexController.resize();
+}
+function applyAllPrefs() {
+  hexController.setHue(prefs.hue);
+  hexController.setEnergy(prefs.energy);
+  applyMotion(prefs.motion);
+  applySize(prefs.size);
+}
+
+function buildTuner() {
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'np-tuner-toggle';
+  toggle.setAttribute('aria-label', 'Tune the hearth');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-controls', 'np-tuner-panel');
+  toggle.innerHTML = TUNE_ICON;   // static, trusted markup (no external content)
+
+  const panel = document.createElement('div');
+  panel.className = 'np-tuner-panel';
+  panel.id = 'np-tuner-panel';
+  panel.setAttribute('role', 'group');
+  panel.setAttribute('aria-label', 'Hearth settings');
+  panel.hidden = true;
+
+  const heading = document.createElement('div');
+  heading.className = 'np-tuner-heading';
+  heading.textContent = 'Tune the hearth';
+  panel.appendChild(heading);
+
+  function sliderRow(labelText, ariaLabel, min, max, step, value, oninput) {
+    const row = document.createElement('label');
+    row.className = 'np-tuner-row';
+    const lab = document.createElement('span');
+    lab.className = 'np-tuner-label';
+    lab.textContent = labelText;
+    const input = document.createElement('input');
+    input.type = 'range';
+    input.className = 'np-tuner-slider';
+    input.min = String(min); input.max = String(max); input.step = String(step); input.value = String(value);
+    input.setAttribute('aria-label', ariaLabel);
+    input.addEventListener('input', () => oninput(parseFloat(input.value)));
+    row.appendChild(lab); row.appendChild(input);
+    return { row, input };
+  }
+
+  function segRow(labelText, options, current, onpick) {
+    const row = document.createElement('div');
+    row.className = 'np-tuner-row';
+    const lab = document.createElement('span');
+    lab.className = 'np-tuner-label';
+    lab.textContent = labelText;
+    const seg = document.createElement('div');
+    seg.className = 'np-tuner-seg';
+    seg.setAttribute('role', 'group');
+    seg.setAttribute('aria-label', labelText);
+    const btns = {};
+    options.forEach(([val, txt]) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'np-seg-btn';
+      b.textContent = txt;
+      b.setAttribute('aria-pressed', String(val === current));
+      b.addEventListener('click', () => {
+        for (const v in btns) btns[v].setAttribute('aria-pressed', String(v === val));
+        onpick(val);
+      });
+      btns[val] = b;
+      seg.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(seg);
+    return { row, btns };
+  }
+
+  const colour = sliderRow('Colour', 'Colour (hue)', 0, 360, 1, prefs.hue, (v) => {
+    prefs.hue = v; hexController.setHue(v); saveTunerPrefs(prefs);
+  });
+  colour.input.classList.add('np-tuner-slider--hue');
+
+  const glow = sliderRow('Glow', 'Glow intensity', 0.4, 1.8, 0.05, prefs.energy, (v) => {
+    prefs.energy = v; hexController.setEnergy(v); saveTunerPrefs(prefs);
+  });
+
+  const motion = segRow('Motion', [['flow', 'Flow'], ['pulse', 'Pulse'], ['still', 'Still']], prefs.motion, (v) => {
+    prefs.motion = v; applyMotion(v); saveTunerPrefs(prefs);
+  });
+
+  const size = segRow('Size', [['s', 'S'], ['m', 'M'], ['l', 'L']], prefs.size, (v) => {
+    prefs.size = v; applySize(v); saveTunerPrefs(prefs);
+  });
+
+  const reset = document.createElement('button');
+  reset.type = 'button';
+  reset.className = 'np-tuner-reset';
+  reset.textContent = 'Reset to default';
+  reset.addEventListener('click', () => {
+    Object.assign(prefs, { ...TUNER_DEFAULTS });
+    colour.input.value = String(prefs.hue);
+    glow.input.value = String(prefs.energy);
+    for (const v in motion.btns) motion.btns[v].setAttribute('aria-pressed', String(v === prefs.motion));
+    for (const v in size.btns)   size.btns[v].setAttribute('aria-pressed', String(v === prefs.size));
+    applyAllPrefs();
+    saveTunerPrefs(prefs);
+  });
+
+  panel.appendChild(colour.row);
+  panel.appendChild(glow.row);
+  panel.appendChild(motion.row);
+  panel.appendChild(size.row);
+  panel.appendChild(reset);
+
+  function closePanel() {
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.classList.remove('np-tuner-toggle--open');
+  }
+  toggle.addEventListener('click', () => {
+    const open = panel.hidden;
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.classList.toggle('np-tuner-toggle--open', open);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.hidden) { closePanel(); toggle.focus(); }
+  });
+  document.addEventListener('click', (e) => {
+    if (!panel.hidden && !panel.contains(e.target) && !toggle.contains(e.target)) closePanel();
+  });
+
+  wrapper.appendChild(toggle);
+  wrapper.appendChild(panel);
+}
+
+applyAllPrefs();   // apply saved/default prefs to the hex before the first render
+buildTuner();
+
 // ─── State ────────────────────────────────────────────────────────────────────
 let state = {
   isPlaying:    false,

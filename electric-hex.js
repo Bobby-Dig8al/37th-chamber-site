@@ -104,11 +104,15 @@ const TUNES = {
   },
 };
 
-// Palette — Blue Law: ONLY blue. No gold used here.
+// Palette — Blue Law: the DEFAULT is blue (the charge). The reference triplets
+// below are the canonical #0E44FF family; the visitor colour tuner rotates hue
+// AROUND them (preserving the brightness ramp), so the widget ships blue and any
+// other colour is the visitor's own per-session choice (localStorage). The brand
+// default never changes; only the visitor's live session does.
 const BG        = '#08080a';                          // --bg
-const HEX_BASE  = [14, 68, 255];                      // #0E44FF
-const HEX_MID   = [77, 130, 255];                     // #4d82ff  brighter mid
-const HEX_CORE  = [160, 200, 255];                    // #a0c0ff  hot core
+const REF_BASE  = [14, 68, 255];                      // #0E44FF
+const REF_MID   = [77, 130, 255];                     // #4d82ff  brighter mid
+const REF_CORE  = [160, 200, 255];                    // #a0c0ff  hot core
 
 // Geometry helpers
 function hexVertices(cx, cy, r) {
@@ -139,6 +143,43 @@ function lerpRgb(a, b, t) {
     a[1] + (b[1] - a[1]) * t,
     a[2] + (b[2] - a[2]) * t,
   ];
+}
+// rotateHue(rgb, deg) — rotate a colour's hue by `deg` while preserving its
+// saturation + lightness. This is how the visitor colour tuner shifts the whole
+// palette: the carefully-built brightness ramp (base→mid→core) is kept, so the
+// hex keeps its electric character in any colour. deg 0 returns the input as-is.
+function rotateHue(rgb, deg) {
+  if (!deg) return rgb.slice();
+  let r = rgb[0] / 255, g = rgb[1] / 255, b = rgb[2] / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  if (max === min) { h = s = 0; }
+  else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:  h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g:  h = (b - r) / d + 2; break;
+      default: h = (r - g) / d + 4;
+    }
+    h /= 6;
+  }
+  h = (h + deg / 360) % 1; if (h < 0) h += 1;
+  function hue2rgb(p, q, t) {
+    if (t < 0) t += 1; if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  }
+  let R, G, B;
+  if (s === 0) { R = G = B = l; }
+  else {
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    R = hue2rgb(p, q, h + 1 / 3); G = hue2rgb(p, q, h); B = hue2rgb(p, q, h - 1 / 3);
+  }
+  return [Math.round(R * 255), Math.round(G * 255), Math.round(B * 255)];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -173,6 +214,20 @@ export function initElectricHex(canvas, opts = {}) {
 
   // Tuning preset (default: phrasing — the BD82 tune; 'baseline' = shipped original)
   let tune      = TUNES.phrasing;
+
+  // ── Visitor tuner state (colour + energy) ──────────────────────────────────
+  // Live palette = the reference blue rotated by hueShift degrees (default 0 = blue).
+  // userEnergy scales the field's overall glow/liveliness (the visitor "glow" knob).
+  let hueShift   = 0;
+  let userEnergy = 1;
+  let palBase    = REF_BASE.slice();
+  let palMid     = REF_MID.slice();
+  let palCore    = REF_CORE.slice();
+  function applyHue() {
+    palBase = rotateHue(REF_BASE, hueShift);
+    palMid  = rotateHue(REF_MID,  hueShift);
+    palCore = rotateHue(REF_CORE, hueShift);
+  }
 
   // Per-track signature traits (HONEST: derived only from track identity via setSeed).
   // Defaults = neutral character when no track has been seeded yet.
@@ -264,7 +319,7 @@ export function initElectricHex(canvas, opts = {}) {
       speed: baseSpeed * (0.7 + Math.random() * 0.6),
       dir,
       width: tune.widthFor(intensity, Math.random()) * traits.widthMul,
-      brightness: (playing ? 0.55 : 0.25) * (0.7 + intensity * 0.6),
+      brightness: (playing ? 0.55 : 0.25) * (0.7 + intensity * 0.6) * userEnergy,
     });
   }
 
@@ -336,7 +391,7 @@ export function initElectricHex(canvas, opts = {}) {
 
     // Update hex charges from pulses + ambient breathing
     const ambientFreq = (playing ? tune.ambientFreqPlay(intensity) : tune.ambientFreqIdle) * traits.freqMul;
-    const ambientAmp  = (playing ? tune.ambientAmpPlay(intensity) : tune.ambientAmpIdle) * swell;
+    const ambientAmp  = (playing ? tune.ambientAmpPlay(intensity) : tune.ambientAmpIdle) * swell * userEnergy;
 
     for (const h of hexes) {
       // Ambient base: slow sinusoidal breathing
@@ -355,7 +410,7 @@ export function initElectricHex(canvas, opts = {}) {
     for (const h of hexes) {
       if (h.charge < 0.005) continue;
       const c = h.charge;
-      const fillCol = lerpRgb(HEX_BASE, HEX_MID, c);
+      const fillCol = lerpRgb(palBase, palMid, c);
       tracePath(ctx, h.verts);
       ctx.fillStyle = rgba(fillCol, c * 0.13);
       ctx.fill();
@@ -371,7 +426,7 @@ export function initElectricHex(canvas, opts = {}) {
       if (c < 0.003) continue;
 
       // Stroke: blue glow, brighter at high charge
-      const strokeCol = lerpRgb(HEX_BASE, HEX_CORE, c);
+      const strokeCol = lerpRgb(palBase, palCore, c);
       tracePath(ctx, h.verts);
       ctx.strokeStyle = rgba(strokeCol, Math.min(1, c * 0.85 + 0.08));
       ctx.stroke();
@@ -384,7 +439,7 @@ export function initElectricHex(canvas, opts = {}) {
       const dotR = Math.max(1, (h.charge - dotTh) * hexR * dpr * 0.5);
       ctx.beginPath();
       ctx.arc(h.cx, h.cy, dotR, 0, Math.PI * 2);
-      ctx.fillStyle = rgba(HEX_CORE, h.charge * 0.7);
+      ctx.fillStyle = rgba(palCore, h.charge * 0.7);
       ctx.fill();
     }
 
@@ -400,7 +455,7 @@ export function initElectricHex(canvas, opts = {}) {
     for (const h of hexes) {
       const ambient = 0.06 + 0.04 * Math.sin(h.phase + ts * 0.0003);
       tracePath(ctx, h.verts);
-      ctx.strokeStyle = rgba(HEX_BASE, ambient);
+      ctx.strokeStyle = rgba(palBase, ambient);
       ctx.stroke();
     }
   }
@@ -500,6 +555,25 @@ export function initElectricHex(canvas, opts = {}) {
     setTune(name) {
       if (TUNES[name]) { tune = TUNES[name]; pulses = []; }
     },
+
+    /**
+     * setHue(deg) — VISITOR colour tuner. Rotates the whole palette's hue by `deg`
+     * around the reference blue, preserving the brightness ramp (so it keeps its
+     * electric character in any colour). deg 0 = the canonical #0E44FF blue default.
+     */
+    setHue(deg) { hueShift = (((+deg || 0) % 360) + 360) % 360; applyHue(); },
+
+    /**
+     * setEnergy(n) — VISITOR glow knob. Scales the field's overall liveliness and
+     * brightness, independent of the auto playback-driven intensity. 1 = default.
+     */
+    setEnergy(n) { userEnergy = Math.max(0.2, Math.min(2, +n || 1)); },
+
+    /**
+     * setReducedMotion(b) — VISITOR "Still" mode (also honours the OS setting at
+     * init). true → the near-static reduced-motion render; false → live animation.
+     */
+    setReducedMotion(b) { reducedMotion = !!b; },
 
     /**
      * resize() — call whenever the canvas container changes size.
