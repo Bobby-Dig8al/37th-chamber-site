@@ -53,7 +53,106 @@
   <p>Roy Kerr &mdash; a mathematician from New Zealand, working at <strong>the University of Texas at Austin</strong> &mdash; read those arguments and found the flaw in them. Then he walked through the gap. The solution he published in 1963 runs about <strong>two pages</strong>. It describes, exactly, the spacetime around any spinning mass &mdash; which means it describes, exactly, every real black hole there is. Not approximately. <em>Exactly.</em> A universe of objects, each one obeying two pages found in Austin.</p>
 
   <h2>What the two pages say</h2>
-  <p>A still mass curves spacetime &mdash; that was Schwarzschild. A <em>spinning</em> mass does something stranger: it <strong>drags spacetime around with it</strong>, the way a spoon turning in honey pulls the honey into the turn. Close enough to a spinning black hole, in a region called the <em>ergosphere</em>, the drag becomes absolute: nothing &mdash; no rocket, no light beam &mdash; can hold still. Space itself is moving, and you move with it.</p>
+  <p>A still mass curves spacetime &mdash; that was Schwarzschild. A <em>spinning</em> mass does something stranger: it <strong>drags spacetime around with it</strong>, the way a spoon turning in honey pulls the honey into the turn. Close enough to a spinning black hole, in a region called the <em>ergosphere</em>, the drag becomes absolute: nothing &mdash; no rocket, no light beam &mdash; can hold still. Space itself is moving, and you move with it.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 380" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section of a spinning Kerr black hole. A small black event horizon sits at the center, ringed by an oblate ergosphere boundary that bulges at the equator and pinches at the spin poles. Curved arrows around it show spacetime being dragged into the rotation; inside the ergosphere nothing can hold still.">
+  <title>The ergosphere and frame-dragging of a spinning black hole</title>
+  <desc>A schematic cross-section. At the center, a black circle marks the event horizon. Around it, a flattened oval — the ergosphere — bulges at the equator and pinches at the poles, the exact shape the Kerr geometry demands. Curved arrows swirl in the same direction the mass spins, showing spacetime itself being dragged around. A note marks that inside the ergosphere, nothing — no rocket, no light — can hold still.</desc>
+
+  <defs>
+    <filter id="kerr-drag-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="kerr-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#FFD60A"/>
+    </marker>
+    <marker id="kerr-arrow-blue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0E44FF"/>
+    </marker>
+  </defs>
+
+  <style>
+    .lbl{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+    .lbl-pri{fill:#f3eede;}
+    .lbl-dim{fill:#8f8a73;}
+    .lbl-cap{fill:#d9b400;letter-spacing:.14em;}
+  </style>
+
+  <!-- ===== central group, x=300 axis ===== -->
+  <g aria-hidden="true">
+
+    <!-- spin axis (poles) -->
+    <line x1="300" y1="42" x2="300" y2="338" stroke="#2a2a33" stroke-width="1.5" stroke-dasharray="3 6"/>
+
+    <!-- ERGOSPHERE — the charged element: oblate, bulging at equator, pinched at poles, drawn in blue glow -->
+    <ellipse cx="300" cy="190" rx="168" ry="118"
+             fill="rgba(14,68,255,0.06)"
+             stroke="#0E44FF" stroke-width="2.5"
+             filter="url(#kerr-drag-glow)"/>
+
+    <!-- static-limit hint: ergosphere touches the horizon at the poles -->
+    <!-- event horizon (the still center) -->
+    <circle cx="300" cy="190" r="62" fill="#08080a" stroke="#FFD60A" stroke-width="2.5"/>
+    <circle cx="300" cy="190" r="62" fill="none" stroke="rgba(255,214,10,0.18)" stroke-width="7"/>
+
+    <!-- inner singularity ring (Kerr's ring, faint) -->
+    <ellipse cx="300" cy="190" rx="30" ry="9" fill="none" stroke="#d9b400" stroke-width="1.4" stroke-dasharray="2 4" opacity="0.8"/>
+
+    <!-- spin indicator at the core -->
+    <path d="M 285 168 A 24 24 0 1 1 282 196" fill="none" stroke="#FFD60A" stroke-width="2" marker-end="url(#kerr-arrow)"/>
+
+    <!-- ===== FRAME-DRAGGING swirl arrows (spacetime dragged around) ===== -->
+    <!-- outer drag streamline, glowing blue at its head: the drag made visible -->
+    <path d="M 472 150 A 178 128 0 0 1 414 304" fill="none" stroke="#0E44FF" stroke-width="2.2"
+          marker-end="url(#kerr-arrow-blue)" filter="url(#kerr-drag-glow)" opacity="0.95"/>
+
+    <!-- gold drag streamlines, same rotational sense -->
+    <path d="M 138 232 A 168 118 0 0 1 196 78"  fill="none" stroke="#FFD60A" stroke-width="2" marker-end="url(#kerr-arrow)"/>
+    <path d="M 404 300 A 150 105 0 0 1 470 156" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#kerr-arrow)" opacity="0.85"/>
+    <path d="M 196 80  A 150 105 0 0 1 130 224" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#kerr-arrow)" opacity="0.6"/>
+
+  </g>
+
+  <!-- ===== LABELS ===== -->
+  <!-- event horizon -->
+  <g class="lbl" aria-hidden="true">
+    <line x1="300" y1="190" x2="300" y2="190" stroke="none"/>
+    <line x1="338" y1="158" x2="392" y2="120" stroke="#2a2a33" stroke-width="1.2"/>
+    <text x="396" y="116" font-size="13" class="lbl-pri">event horizon</text>
+    <text x="396" y="133" font-size="11" class="lbl-dim">the still center &mdash; nothing escapes</text>
+  </g>
+
+  <!-- ergosphere -->
+  <g class="lbl" aria-hidden="true">
+    <line x1="180" y1="252" x2="120" y2="296" stroke="#2a2a33" stroke-width="1.2"/>
+    <text x="116" y="312" font-size="13" text-anchor="end" class="lbl-pri">the ergosphere</text>
+    <text x="116" y="329" font-size="11" text-anchor="end" class="lbl-dim">space itself is moving</text>
+    <text x="116" y="345" font-size="11" text-anchor="end" class="lbl-dim">you move with it</text>
+  </g>
+
+  <!-- frame dragging caption -->
+  <g class="lbl" aria-hidden="true">
+    <text x="486" y="206" font-size="11" class="lbl-cap">FRAME-DRAGGING</text>
+    <text x="486" y="224" font-size="11" class="lbl-dim">spacetime dragged</text>
+    <text x="486" y="239" font-size="11" class="lbl-dim">into the spin</text>
+  </g>
+
+  <!-- pole labels -->
+  <g class="lbl lbl-dim" font-size="10.5" text-anchor="middle" aria-hidden="true">
+    <text x="300" y="36">spin axis</text>
+  </g>
+
+  <!-- footer note: the honest claim -->
+  <text x="300" y="366" font-size="11" text-anchor="middle" class="lbl lbl-dim" aria-hidden="true">Inside the ergosphere, the drag is absolute &mdash; no rocket, no light beam can hold still.</text>
+</svg>
+<figcaption>A spinning mass doesn't just curve spacetime — it drags it around. Inside the flattened ergosphere (bulging at the equator, pinched at the poles, exactly as the Kerr geometry demands) the drag becomes absolute: nothing, not even light, can hold still.</figcaption>
+</figure>
+</p>
   <p>This isn&rsquo;t exotic decoration; it is the operating condition of the real sky. Every black hole astronomers have ever weighed spins, most of them furiously. The film this page serves &mdash; <em>Interstellar</em> &mdash; needed its Gargantua spinning at <strong>very nearly the maximum rate</strong> the Kerr geometry allows, because only that extreme makes a planet like Miller&rsquo;s, one hour to seven years, even &ldquo;marginally possible.&rdquo; The drama runs on the metric.</p>
 
   <h2>Sixty years to &ldquo;stable&rdquo;</h2>

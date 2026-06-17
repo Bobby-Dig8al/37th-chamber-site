@@ -144,7 +144,114 @@
   <p>The GPS network put the question past any doubt. Each GPS satellite orbits at high altitude and high speed. The altitude means its clocks run <em>faster</em> than ground clocks by about 45 microseconds per day (gravitational effect). The speed means they run <em>slower</em> by about 7 microseconds per day (velocity effect). The <strong>net result is that each satellite&rsquo;s clock gains roughly 38 microseconds per day</strong> relative to a clock on the ground. Thirty-eight microseconds. Light travels about 11.4 kilometers in that time. If the system did not correct for both effects, your position fix would drift by kilometers every day. GPS navigation works because the engineers built Einstein&rsquo;s corrections in from the start. Every time you get directions, the math that makes them accurate is the math that says time runs at different rates in different places.</p>
 
   <h2>One hour, seven years</h2>
-  <p>The film <em>Interstellar</em> (2014) dramatizes the twin effect exactly. Miller&rsquo;s planet orbits so close to the spinning black hole Gargantua that one hour on its surface equals seven Earth years above. The crew descends, spends a few hours, and returns to find their colleague visibly aged decades. The reunion scene &mdash; a father standing younger than his dying daughter &mdash; is the Langevin thought experiment made flesh.</p>
+  <p>The film <em>Interstellar</em> (2014) dramatizes the twin effect exactly. Miller&rsquo;s planet orbits so close to the spinning black hole Gargantua that one hour on its surface equals seven Earth years above. The crew descends, spends a few hours, and returns to find their colleague visibly aged decades. The reunion scene &mdash; a father standing younger than his dying daughter &mdash; is the Langevin thought experiment made flesh.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 380" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A gravity-well schematic. Spacetime is drawn as a sheet that funnels down into a massive body at lower right. Far up the gentle slope, a clock ticks at the normal rate — one hour is one hour. Deep in the steep part of the well, near the mass, a second clock glows blue and ticks far slower: one hour passing there equals seven years passing far away.">
+<title>Gravitational time dilation — clocks run slower deeper in a gravity well</title>
+<desc>Spacetime drawn as a funneling sheet around a massive body. A clock far away (shallow, almost flat region) runs at the normal rate: 1 hour equals 1 hour. A clock deep in the well, close to the mass, runs slow — and is the most-charged element, marked with a blue glow: 1 hour there equals 7 years far away, the Interstellar Miller-planet scale.</desc>
+<defs>
+<filter id="td2-glow" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur stdDeviation="3.4" result="b"/>
+<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<radialGradient id="td2-mass" cx="50%" cy="42%" r="62%">
+<stop offset="0%" stop-color="#1a1208"/>
+<stop offset="68%" stop-color="#0d0a05"/>
+<stop offset="100%" stop-color="#08080a"/>
+</radialGradient>
+<style>
+.lab{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+.dim{fill:#8f8a73;}
+.txt{fill:#f3eede;}
+.gold{fill:#FFD60A;}
+.softgold{fill:#d9b400;}
+</style>
+</defs>
+
+<!-- ===== TITLE ===== -->
+<text class="lab gold" x="20" y="26" font-size="13" letter-spacing="2.5">DEEPER IN THE WELL, THE CLOCK RUNS SLOWER</text>
+<text class="lab dim" x="20" y="44" font-size="11" letter-spacing="0.5">gravitational time dilation &#183; Interstellar &#8212; Miller&#8217;s planet scale</text>
+
+<!-- ===== THE SPACETIME SHEET (gravity well) ===== decorative -->
+<g aria-hidden="true" fill="none" stroke="rgba(255,214,10,.18)" stroke-width="1">
+<!-- nested funnel rings: flat far (left/top), steep deep (right) -->
+<ellipse cx="500" cy="248" rx="208" ry="58"/>
+<ellipse cx="500" cy="248" rx="160" ry="46" stroke="rgba(255,214,10,.22)"/>
+<ellipse cx="500" cy="250" rx="116" ry="36" stroke="rgba(255,214,10,.26)"/>
+<ellipse cx="500" cy="254" rx="78" ry="27" stroke="rgba(255,214,10,.30)"/>
+<ellipse cx="500" cy="260" rx="46" ry="18" stroke="rgba(255,214,10,.34)"/>
+</g>
+<!-- meridian curves sweeping down into the well -->
+<g aria-hidden="true" fill="none" stroke="rgba(255,214,10,.14)" stroke-width="1">
+<path d="M292 248 Q396 196 500 268"/>
+<path d="M708 248 Q604 196 500 268"/>
+<path d="M392 207 Q446 188 500 263" stroke="rgba(255,214,10,.10)"/>
+<path d="M608 207 Q554 188 500 263" stroke="rgba(255,214,10,.10)"/>
+</g>
+
+<!-- the massive body at the bottom of the well -->
+<ellipse aria-hidden="true" cx="500" cy="266" rx="34" ry="22" fill="url(#td2-mass)" stroke="#d9b400" stroke-width="1.2"/>
+<text class="lab softgold" x="500" y="300" text-anchor="middle" font-size="10.5" letter-spacing="1">THE MASS &#183; GARGANTUA</text>
+
+<!-- ===== DEPTH GUIDE LINE (far -> deep) ===== -->
+<g aria-hidden="true">
+<line x1="118" y1="150" x2="468" y2="262" stroke="rgba(255,214,10,.30)" stroke-width="1" stroke-dasharray="2,4"/>
+<polygon points="468,262 459,257 460,264" fill="#d9b400"/>
+</g>
+
+<!-- ===================================================== -->
+<!-- FAR CLOCK — shallow part of the well, ticks FAST/normal -->
+<!-- ===================================================== -->
+<g aria-hidden="true">
+<circle cx="118" cy="150" r="34" fill="none" stroke="#FFD60A" stroke-width="2"/>
+<!-- 12 ticks -->
+<g stroke="#d9b400" stroke-width="1.4">
+<line x1="118" y1="120" x2="118" y2="127"/>
+<line x1="148" y1="150" x2="141" y2="150"/>
+<line x1="118" y1="180" x2="118" y2="173"/>
+<line x1="88" y1="150" x2="95" y2="150"/>
+</g>
+<!-- hands pointing to a brisk time -->
+<line x1="118" y1="150" x2="118" y2="129" stroke="#FFD60A" stroke-width="2" stroke-linecap="round"/>
+<line x1="118" y1="150" x2="135" y2="158" stroke="#FFD60A" stroke-width="2" stroke-linecap="round"/>
+<circle cx="118" cy="150" r="2.6" fill="#FFD60A"/>
+</g>
+<text class="lab txt" x="118" y="100" text-anchor="middle" font-size="12" letter-spacing="0.5">FAR FROM THE MASS</text>
+<text class="lab dim" x="118" y="207" text-anchor="middle" font-size="11">clock ticks at the</text>
+<text class="lab gold" x="118" y="222" text-anchor="middle" font-size="12.5" letter-spacing="1">normal rate</text>
+<text class="lab dim" x="118" y="244" text-anchor="middle" font-size="11">1 hour = 1 hour</text>
+
+<!-- ===================================================== -->
+<!-- DEEP CLOCK — bottom of the well, ticks SLOW (CHARGED, blue glow) -->
+<!-- ===================================================== -->
+<g aria-hidden="true" filter="url(#td2-glow)">
+<circle cx="500" cy="138" r="40" fill="none" stroke="#0E44FF" stroke-width="2.4"/>
+<g stroke="#0E44FF" stroke-width="1.6">
+<line x1="500" y1="103" x2="500" y2="111"/>
+<line x1="535" y1="138" x2="527" y2="138"/>
+<line x1="500" y1="173" x2="500" y2="165"/>
+<line x1="465" y1="138" x2="473" y2="138"/>
+</g>
+<!-- hands barely moved: nearly frozen -->
+<line x1="500" y1="138" x2="500" y2="106" stroke="#0E44FF" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="500" y1="138" x2="506" y2="120" stroke="#0E44FF" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="500" cy="138" r="3" fill="#0E44FF"/>
+</g>
+<text class="lab txt" x="500" y="84" text-anchor="middle" font-size="12" letter-spacing="0.5">DEEP IN THE WELL</text>
+<text class="lab dim" x="500" y="200" text-anchor="middle" font-size="11">the same clock crawls</text>
+<text class="lab gold" x="500" y="216" text-anchor="middle" font-size="13" letter-spacing="1">1 hour here</text>
+
+<!-- ===== THE CONTRAST BRIDGE ===== -->
+<g aria-hidden="true">
+<line x1="158" y1="150" x2="456" y2="138" stroke="rgba(255,214,10,.28)" stroke-width="1" stroke-dasharray="5,4"/>
+</g>
+<text class="lab softgold" x="305" y="128" text-anchor="middle" font-size="12.5" letter-spacing="1.5">=  7  YEARS  THERE</text>
+<text class="lab dim" x="305" y="146" text-anchor="middle" font-size="10.5">61,320&#215; slower &#183; one descent, a colleague aged decades</text>
+</svg>
+<figcaption>A gravity well, read as two clocks. Far up the gentle slope the clock keeps the normal rate — one hour is one hour. Drop the same clock deep beside the mass and it crawls: on Miller's planet, one hour by that clock is seven years for everyone far above. The deeper you sit in the curve of spacetime, the slower your own time runs.</figcaption>
+</figure>
+</p>
   <p>Kip Thorne, the Caltech physicist who served as the film&rsquo;s scientific advisor, worked out the exact conditions that make this kind of time dilation &ldquo;marginally possible.&rdquo; It requires Gargantua to be spinning at very close to the maximum rate the Kerr geometry allows, and the planet to orbit at an extreme proximity that would normally be forbidden by tidal forces. The scenario lives at the outer edge of what the equations permit, not comfortably inside it. Thorne&rsquo;s book <em>The Science of Interstellar</em> sorts every claim in the film into truth, educated guess, and speculation &mdash; honestly, by chapter.</p>
 
   <blockquote>The two effects &mdash; special relativistic and gravitational &mdash; must be accounted for to a precision of a few parts in 10<sup>10</sup> in order for GPS to work.
