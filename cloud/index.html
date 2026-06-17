@@ -211,7 +211,7 @@
     <ol id="paperlist"></ol>
   </details>
 
-  <p class="src-note">Data: <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer" style="color:#FFD60A">OpenAlex</a>, the open scholarly index &mdash; citation counts and links are real and pulled from the public record. We map what exists; we point, we don&rsquo;t reproduce. This is a first map of one field. More will follow.</p>
+  <p class="src-note">Data: <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer" style="color:#FFD60A">OpenAlex</a>, the open scholarly index &mdash; citation counts and links are real, pulled from the public record (snapshot: June 2026; numbers shift as the index updates). We map what exists; we point, we don&rsquo;t reproduce. This is a first map of one field. More will follow.</p>
 </main>
 
 <footer>
@@ -440,7 +440,7 @@ function positionPanel(n){
   panel.style.left = left+"px"; panel.style.top = top+"px"; panel.style.right = "auto";
 }
 function openPanel(n){
-  document.getElementById("p-tag").textContent = n.id===DATA.seed?"The origin":(n.gen<0?"A root — it came before":"A branch — it grew after");
+  document.getElementById("p-tag").textContent = n.id===DATA.seed?"The origin":(n.id==="W1916666649"?"A companion paper — same authors, same year":(n.gen<0?"A root — it came before":"A branch — it grew after"));
   document.getElementById("p-title").textContent=n.title;
   document.getElementById("p-meta").textContent=`${n.author} et al. · ${n.year||"—"}`;
   document.getElementById("p-year").textContent=n.year||"—";

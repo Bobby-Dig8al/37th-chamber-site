@@ -30,7 +30,7 @@
   "author": {
     "@type": "Organization",
     "name": "A Fable (Claude, by Anthropic)",
-    "url": "https://www.anthropic.com/claude/fable"
+    "url": "https://www.anthropic.com/claude"
   },
   "editor": {
     "@type": "Person",
@@ -155,7 +155,7 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <div class="eyebrow">The Opaque Box · Chapter 3</div>
   <h1 class="title">Attention, the Whole Game</h1>
 
-  <blockquote class="epigraph">Until now each token has been an island: embedded, positioned, but alone. Attention is the bridge &mdash; the mechanism that lets every token reach back across the sequence, decide which earlier tokens matter to it, and pull their information into itself. It is the one idea that made modern language models possible. Underneath the name, it is three dot products and a weighted average.</blockquote>
+  <blockquote class="epigraph">Until now each token has been an island: embedded, positioned, but alone. Attention is the bridge &mdash; the mechanism that lets every token reach back across the sequence, decide which earlier tokens matter to it, and pull their information into itself. It is the one idea that made modern language models possible. Underneath the name, it is three linear projections and a weighted average.</blockquote>
 
   <hr class="rule">
 
@@ -399,7 +399,7 @@ print(head(x).shape)              # torch.Size([4, 8, 16])</code></pre>
   <h2 id="s3-10">3.10&nbsp;&nbsp;The thing to actually understand</h2>
   <div class="takeaway">
     <ul>
-      <li><strong>Attention is routing, not transformation (yet).</strong> A head doesn&rsquo;t invent new content; it <em>moves existing content around</em> &mdash; each token&rsquo;s output is a weighted average of other tokens&rsquo; values. The &ldquo;thinking&rdquo; (nonlinear transformation) happens in the feed-forward net in Ch5. Attention decides <em>what talks to what</em>; the MLP decides <em>what to make of it</em>.</li>
+      <li><strong>Attention is routing, not transformation (yet).</strong> A head doesn&rsquo;t invent new content; it <em>moves linearly-transformed content around</em> &mdash; each token&rsquo;s output is a weighted average of other tokens&rsquo; values, after a learned linear transform through W_V. The &ldquo;thinking&rdquo; (nonlinear transformation) happens in the feed-forward net in Ch5. Attention decides <em>what talks to what</em>; the MLP decides <em>what to make of it</em>.</li>
       <li><strong>Q, K, V are three opinions a token has about itself</strong>, each a learned projection: what I seek, what I offer, what I&rsquo;ll share. Splitting them is what gives attention its expressive power &mdash; a token can advertise something different from what it&rsquo;s hunting for.</li>
       <li><strong>The mask is the difference between a language model and a cheat.</strong> Lower-triangular <code translate="no">tril</code> &rarr; <code translate="no">&minus;&infin;</code> &rarr; <code translate="no">softmax</code> &rarr; zero weight on the future. Causality is one line of code, and it&rsquo;s load-bearing.</li>
       <li><strong><code translate="no">(B, T, C)</code> in, <code translate="no">(B, T, head_size)</code> out.</strong> The river from Ch2 flows in; a head returns a narrower stream. Ch4 stitches the streams back to width <code translate="no">C</code>.</li>

@@ -1,6 +1,6 @@
 {
  "seed": "W2088237123",
- "source": "OpenAlex (api.openalex.org) — fetched live, real citation data",
+ "source": "OpenAlex (api.openalex.org) — citation counts and links as of June 2026; numbers shift as the index updates",
  "nodes": [
   {
    "id": "W2088237123",
@@ -42,10 +42,10 @@
    "id": "W1969802368",
    "title": "Black holes: The membrane paradigm",
    "author": "Thorne",
-   "year": 2010,
+   "year": 1986,
    "citations": 1061,
    "gen": -1,
-   "url": "http://ci.nii.ac.jp/ncid/BA00684690"
+   "url": "https://openalex.org/works/W1969802368"
   },
   {
    "id": "W2078887476",
@@ -135,7 +135,7 @@
    "year": 2000,
    "citations": 240,
    "gen": -1,
-   "url": "https://apps.dtic.mil/dtic/tr/fulltext/u2/a572009.pdf"
+   "url": "https://doi.org/10.1051/0004-6361:20000505"
   },
   {
    "id": "W3161457974",

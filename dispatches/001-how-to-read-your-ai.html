@@ -138,13 +138,13 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
     <h3><span class="num">01</span>Independent re-derivation of one claim</h3>
     <h4 class="h">Pick a specific fact. Find it yourself, in one click, from a primary source.</h4>
     <p>Not all of the claims &mdash; <em>one</em>. The one a real reader would push back on. If the AI says &ldquo;Sennrich et&nbsp;al. introduced BPE to NLP in 2016&rdquo;, open a tab, search the title, read the abstract. If the AI says &ldquo;the law in Texas requires X&rdquo;, open the statute. If it says &ldquo;the patient&rsquo;s LDL was 132&rdquo;, open the chart.</p>
-    <p>If the one you randomly tested holds, the rest probably does too. If it doesn&rsquo;t &mdash; if the citation is fabricated, the statute is misnamed, the number is wrong &mdash; <strong>treat the whole output as untrusted</strong> and start over. One bad claim in confident prose is a signal about the whole pour, not a stray.</p>
+    <p>If the one you randomly tested holds, that&rsquo;s a positive signal &mdash; but not clearance. Hallucinations cluster: a model that invented one thing is a model whose calibration slipped, and calibration failures don&rsquo;t appear in isolation. If your tested claim doesn&rsquo;t hold &mdash; if the citation is fabricated, the statute is misnamed, the number is wrong &mdash; <strong>treat the whole output as untrusted</strong> and start over. One bad claim in confident prose is a warning about the pour, not a stray drop: it tells you the model was generating beyond what it reliably knew.</p>
   </div>
 
   <div class="move">
     <h3><span class="num">02</span>Read the code, not just the comment</h3>
     <h4 class="h">For code: ignore the explanation. Read the body.</h4>
-    <p>AI-written code comes with a story: &ldquo;This function does X by doing Y.&rdquo; The story is often correct and pleasant. But the model writes it <em>without re-reading or verifying the code it just produced</em> &mdash; there is no checking step between them. The two can drift. The story can describe behavior the code doesn&rsquo;t implement, or paper over a subtle bug the code has.</p>
+    <p>AI-written code comes with a story: &ldquo;This function does X by doing Y.&rdquo; The story is often correct and pleasant. But the model writes it <em>without re-reading or verifying the code it just produced</em> &mdash; in standard inference there is no checking step between them, and even when a model is asked to self-review, that loop is not visible to you. The two can drift. The story can describe behavior the code doesn&rsquo;t implement, or paper over a subtle bug the code has.</p>
     <p>The move is simple: <strong>cover the comments and explanations and read what the code actually does, line by line.</strong> Trace one input through it by hand. If it does what the story says, fine. If it doesn&rsquo;t, you&rsquo;ve just caught the drift &mdash; before production caught it for you.</p>
   </div>
 
@@ -152,13 +152,13 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
     <h3><span class="num">03</span>Check the meta-claims about what the AI did</h3>
     <h4 class="h">When the AI tells you what it did, verify the doing &mdash; not the report.</h4>
     <p>&ldquo;I ran the tests and they pass.&rdquo; &ldquo;I searched the database and found three matches.&rdquo; &ldquo;I read the file and updated section 3.&rdquo; These are <em>claims about actions</em> &mdash; and an AI describing actions is just as prone to confident error as an AI describing facts. Maybe more.</p>
-    <p>If the AI says it ran tests, look for the test output. If it says it searched, look at the search results. If it says it edited a file, open the file and look at the diff. The minute and a half this costs is the cheapest insurance you&rsquo;ll buy that day.</p>
+    <p>If the AI says it ran tests, look for the test output. If it says it searched, look at the search results. If it says it edited a file, open the file and look at the diff. The minute and a half this costs is the cheapest insurance you&rsquo;ll buy that day. And if you cannot find the artifact at all &mdash; no output, no log, no diff &mdash; treat the action as unverified, not done.</p>
   </div>
 
   <hr class="rule">
 
   <h2>The honest limit</h2>
-  <p>These three moves do not catch everything. They catch <em>most</em> of the trouble &mdash; the confident hallucination, the drifted comment, the falsely reported action &mdash; in under two minutes per artifact, every time. That&rsquo;s the trade. If the work matters more than two minutes&rsquo; worth of trouble, the moves pay for themselves immediately. If it doesn&rsquo;t matter that much, you&rsquo;re probably not reading this dispatch.</p>
+  <p>These three moves do not catch everything. They catch <em>most</em> of the trouble &mdash; the confident hallucination, the drifted comment, the falsely reported action &mdash; in under two minutes per artifact, for most work. In regulated domains &mdash; legal, medical, financial, anything touching compliance &mdash; two minutes is the floor, not the ceiling; the moves below are still the right moves, just the beginning of a longer audit. That&rsquo;s the honest limit. If the work matters more than two minutes&rsquo; worth of trouble, the moves pay for themselves immediately. If it doesn&rsquo;t matter that much, you&rsquo;re probably not reading this dispatch.</p>
   <p>The point isn&rsquo;t suspicion. The point is <strong>partnership</strong>. AI is a tool that&rsquo;s vastly more useful when you can see into it &mdash; and a tool you should not use, on anything that matters, until you&rsquo;ve built the habit of looking. The work of looking is the work. There&rsquo;s no shortcut, but there&rsquo;s also no excuse for not doing it.</p>
   <p>If you&rsquo;re using AI on anything regulated, anything published, anything that costs someone money or reputation, you don&rsquo;t need a vendor; you need a discipline. The three moves above are the floor. Everything else is upholstery.</p>
 
