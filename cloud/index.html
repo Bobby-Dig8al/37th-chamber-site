@@ -68,10 +68,14 @@
 
   /* detail panel */
   #panel{position:absolute;top:14px;right:14px;width:min(330px,82vw);
-    background:rgba(8,8,10,.94);border:1px solid rgba(255,214,10,.28);border-radius:4px;
-    padding:1rem 1.05rem 1.15rem;backdrop-filter:blur(3px);
-    transform:translateX(calc(100% + 24px));transition:transform .22s ease;box-shadow:0 8px 40px rgba(0,0,0,.5)}
-  #panel.open{transform:none}
+    background:rgba(8,8,10,.55);border:1px solid rgba(255,214,10,.30);border-radius:4px;
+    padding:1rem 1.05rem 1.15rem;-webkit-backdrop-filter:blur(11px) saturate(1.15);backdrop-filter:blur(11px) saturate(1.15);
+    opacity:0;pointer-events:none;transform:scale(.97);transform-origin:center;
+    transition:opacity .18s ease,transform .18s ease,left .2s ease,top .2s ease;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+  #panel.open{opacity:1;transform:scale(1)}
+  /* clickthrough — the frosted card never blocks the cloud: clicks pass through to the
+     nodes behind it; only its own controls (the link, the close ✕) catch the pointer */
+  #panel .pread,#panel .pclose{pointer-events:auto}
   #panel .ptag{font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:#8f8a73}
   #panel h3{margin:.5rem 0 .2rem;font-size:1.02rem;line-height:1.28;color:#FFD60A;font-weight:600}
   #panel .pmeta{font-size:.78rem;color:#d9b400;font-style:italic;margin:.35rem 0 .8rem}
@@ -83,9 +87,9 @@
     font-size:1.2rem;cursor:pointer;line-height:1;padding:.2rem}
   #panel .pclose:hover{color:#FFD60A}
   @media (max-width:640px){
-    #panel{top:auto;bottom:0;right:0;left:0;width:auto;border-radius:8px 8px 0 0;
-      transform:translateY(calc(100% + 24px))}
-    #panel.open{transform:none}
+    #panel{top:auto !important;bottom:0 !important;right:0 !important;left:0 !important;width:auto;border-radius:8px 8px 0 0;
+      opacity:1;transform:translateY(calc(100% + 24px));transition:transform .22s ease}
+    #panel.open{transform:none;pointer-events:auto}
   }
   .listview{max-width:46rem;margin:1.4rem auto 0;padding:0 1.1rem}
   .listview summary{cursor:pointer;color:#8f8a73;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
@@ -207,7 +211,7 @@
     <ol id="paperlist"></ol>
   </details>
 
-  <p class="src-note">Data: <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer" style="color:#FFD60A">OpenAlex</a>, the open scholarly index &mdash; citation counts and links are real and pulled from the public record. We map what exists; we point, we don&rsquo;t reproduce. This is a first map of one field. More will follow.</p>
+  <p class="src-note">Data: <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer" style="color:#FFD60A">OpenAlex</a>, the open scholarly index &mdash; citation counts and links are real, pulled from the public record (snapshot: June 2026; numbers shift as the index updates). We map what exists; we point, we don&rsquo;t reproduce. This is a first map of one field. More will follow.</p>
 </main>
 
 <footer>
@@ -420,13 +424,29 @@ function clearFocus(){
   for(const e of edges){ e.el && e.el.classList.remove("lit"); }
 }
 const panel=document.getElementById("panel");
+// desktop: anchor the detail card beside the selected node, so the link to the
+// paper sits where the eye already is — not stranded in the far corner.
+function positionPanel(n){
+  if(isMobile) return;                          // phones use the bottom sheet
+  const wrap = stage.parentElement;             // .stage-wrap (position:relative)
+  const wr = wrap.getBoundingClientRect();
+  const nbx = n.cEl.getBoundingClientRect();
+  const ncx = nbx.left + nbx.width/2 - wr.left, ncy = nbx.top + nbx.height/2 - wr.top, nr = nbx.width/2;
+  const pw = panel.offsetWidth||330, ph = panel.offsetHeight||200, pad = 14, gap = 18;
+  let left = ncx + nr + gap;                     // prefer the right of the node
+  if(left + pw > wr.width - pad) left = ncx - nr - gap - pw;    // flip left if it would overflow
+  left = Math.max(pad, Math.min(left, wr.width - pw - pad));    // clamp into the field
+  const top = Math.max(pad, Math.min(ncy - ph/2, wr.height - ph - pad));
+  panel.style.left = left+"px"; panel.style.top = top+"px"; panel.style.right = "auto";
+}
 function openPanel(n){
-  document.getElementById("p-tag").textContent = n.id===DATA.seed?"The origin":(n.gen<0?"A root — it came before":"A branch — it grew after");
+  document.getElementById("p-tag").textContent = n.id===DATA.seed?"The origin":(n.id==="W1916666649"?"A companion paper — same authors, same year":(n.gen<0?"A root — it came before":"A branch — it grew after"));
   document.getElementById("p-title").textContent=n.title;
   document.getElementById("p-meta").textContent=`${n.author} et al. · ${n.year||"—"}`;
   document.getElementById("p-year").textContent=n.year||"—";
   document.getElementById("p-cites").textContent=(n.citations||0).toLocaleString();
   const r=document.getElementById("p-read"); r.href=n.url||"#";
+  positionPanel(n);
   panel.classList.add("open");
 }
 panel.querySelector(".pclose").onclick=()=>{panel.classList.remove("open");clearFocus();};

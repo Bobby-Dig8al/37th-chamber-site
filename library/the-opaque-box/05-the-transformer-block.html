@@ -30,7 +30,7 @@
   "author": {
     "@type": "Organization",
     "name": "A Fable (Claude, by Anthropic)",
-    "url": "https://www.anthropic.com/claude/fable"
+    "url": "https://www.anthropic.com/claude"
   },
   "editor": {
     "@type": "Person",
@@ -166,7 +166,7 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <h2 id="s5-1">5.1&nbsp;&nbsp;Where we are</h2>
   <p>After Chapter 4, <code translate="no">MultiHeadAttention</code> takes <code translate="no">(B, T, C)</code> and returns <code translate="no">(B, T, C)</code> &mdash; the same shape it received. That shape-preserving contract was deliberate: it is the condition that lets us compose operations without reshaping. Each sublayer in the transformer is built to honor it.</p>
   <p>What multi-head attention does to that tensor is <strong>routing</strong>: it lets each of the <code translate="no">T</code> positions look at the others and update itself with a weighted blend of their values. After that operation, every position&rsquo;s vector carries not just its own identity but a mix of context from across the sequence.</p>
-  <p>What it does <em>not</em> do is apply a nonlinear transformation. Every step of attention &mdash; the Q/K/V projections, the dot products, the softmax weights, the final linear mix &mdash; is either linear or a pointwise operation applied identically to all positions. There is no nonlinearity that lets the model compute something <em>genuinely new</em> from the blended information. For that, the block adds a second sublayer: a small feed-forward network that fires independently at every position.</p>
+  <p>What it does <em>not</em> do is apply a nonlinear transformation to the token representations. The Q/K/V projections and the final linear mix are linear operations. The softmax over the dot-product scores is nonlinear &mdash; but it acts on the <em>routing weights</em>, not on the token vectors themselves; it decides how much of each value to blend, not what to do once the blend arrives. And the whole operation is still applied position-by-position in the sense that each position produces its own output from its own query. There is no operation that takes a position&rsquo;s received context and runs it through a nonlinearity to compute something <em>genuinely new</em>. For that, the block adds a second sublayer: a small feed-forward network that fires independently at every position.</p>
 
   <hr class="rule">
 
