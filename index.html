@@ -95,6 +95,9 @@ body::before{
 /* THE BLUE LAW — the charge is a GLOW only (never a fill, never a font color).
    Matches assets/og-card.html: applied to the outer circle + inner ring; the mark stays gold. */
 .sigil .ring-charge{filter:drop-shadow(0 0 7px #0E44FF) drop-shadow(0 0 20px rgba(14,68,255,.9)) drop-shadow(0 0 46px rgba(14,68,255,.55))}
+  .sigil .iris{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 8px rgba(14,68,255,.95)) drop-shadow(0 0 16px rgba(14,68,255,.6));animation:iris-pulse 3.6s ease-in-out infinite}
+  @keyframes iris-pulse{0%,100%{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 6px rgba(14,68,255,.8)) drop-shadow(0 0 12px rgba(14,68,255,.45))}50%{filter:drop-shadow(0 0 4px #2b6cff) drop-shadow(0 0 12px rgba(14,68,255,1)) drop-shadow(0 0 26px rgba(14,68,255,.82))}}
+  @media (prefers-reduced-motion:reduce){.sigil .iris{animation:none}}
 .title{position:relative;font-size:clamp(2.6rem,11vw,5.6rem);line-height:.92;font-weight:600;
   text-transform:uppercase;letter-spacing:.04em;color:var(--gold);text-align:center;
   text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 0 #5e4900,0 5px 6px rgba(0,0,0,.55);}
@@ -252,8 +255,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
           <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
           <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
         </g>
-        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
-        <circle cx="100" cy="100" r="4" fill="#FFD500"/>
+        <circle cx="100" cy="100" r="5" fill="#08080a"/>
+        <circle class="iris" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
+        <circle cx="96.8" cy="96.6" r="1.4" fill="#cfe0ff"/>
       </svg>
 
       <h1 class="title" translate="no">37th&nbsp;Chamber</h1>
@@ -328,6 +332,17 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <span class="go">Open the book →</span>
     </a>
 
+    <!-- 6 DEGREES — the participatory feature (moved up Day-48: the participatory call rides high, right behind the front door) -->
+    <h2 class="section-label">Join in</h2>
+    <a class="flagship" href="six-degrees/">
+      <div class="tagrow">
+        <span class="chip live">&#9679; New</span>
+        <span class="k">6 Degrees of Giants</span>
+      </div>
+      <p class="d">Help us reach the shoulders of our giants — RZA, Neil deGrasse Tyson, Bob Dylan, and more. Not a swarm — <em>one gracious chain.</em> Pick a team, start a chain, pass it to someone you actually know.</p>
+      <span class="go">Enter the game →</span>
+    </a>
+
     <!-- WORK WITH ME — the revenue bridge (the door the free chambers fund) -->
     <h2 class="section-label">Work with me</h2>
     <a class="flagship" href="work/">
@@ -349,53 +364,6 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(1.5rem,5vw,2.1rem);font-weight:600;color:var(--gold);line-height:1.05">57.9&deg;C</div><div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">OCCT 1-hr max &middot; zero throttle</div></div>
     </div>
     <p style="text-align:center;font-size:.7rem;letter-spacing:.07em;color:var(--dim);margin-top:1rem">STS-87 &middot; Ryzen&nbsp;7 9700X &middot; RTX&nbsp;4070&nbsp;Ti&nbsp;Super &middot; verified: OCCT combined CPU+GPU, 1&nbsp;hour sustained, zero throttle. Live real-world peaks ~65&deg;C &mdash; also throttle-free.</p>
-
-    <!-- THE CORNERSTONES — gratitude wall + starter-stack for anyone at the base of the wave -->
-    <h2 class="section-label">The cornerstones</h2>
-    <p style="text-align:center;max-width:42rem;margin:0 auto 1.6rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six companies make this possible &mdash; and make it possible for <em style="color:var(--gold);font-style:normal">anyone</em> starting at the base of the wave. Not sponsors; tools we use and trust, every day. They build the irresistible <em style="color:var(--gold);font-style:normal">for the good.</em></p>
-    <div class="grid">
-      <a class="card" href="https://www.anthropic.com" target="_blank" rel="noopener">
-        <span class="k">Anthropic</span>
-        <span class="d">The intelligence this was built <em>with</em> &mdash; <strong style="color:var(--gold-soft)">Claude</strong>. Built by <strong style="color:var(--gold-soft)">Dario &amp; Daniela Amodei</strong> and the Anthropic team, for safety and the good. A partner, not a replacement.</span>
-        <span class="go">anthropic.com &rarr;</span>
-      <span class="sr-only"> (opens in new tab)</span></a>
-      <a class="card" href="https://www.cloudflare.com" target="_blank" rel="noopener">
-        <span class="k">Cloudflare</span>
-        <span class="d">Privacy-first infrastructure &mdash; the floor that keeps one person fast <em>and</em> sovereign, with no surveillance baked in.</span>
-        <span class="go">cloudflare.com &rarr;</span>
-      <span class="sr-only"> (opens in new tab)</span></a>
-      <a class="card" href="https://brave.com" target="_blank" rel="noopener">
-        <span class="k">Brave</span>
-        <span class="d">The browser that doesn&rsquo;t sell you &mdash; privacy by default, the open web defended.</span>
-        <span class="go">brave.com &rarr;</span>
-      <span class="sr-only"> (opens in new tab)</span></a>
-      <a class="card" href="https://spotify.com" target="_blank" rel="noopener">
-        <span class="k">Spotify</span>
-        <span class="d">The music substrate &mdash; what the taste corpus runs on. The listening that teaches the machine what we love.</span>
-        <span class="go">spotify.com &rarr;</span>
-      <span class="sr-only"> (opens in new tab)</span></a>
-      <a class="card" href="https://mullvad.net" target="_blank" rel="noopener">
-        <span class="k">Mullvad</span>
-        <span class="d">The VPN we trust &mdash; the privacy gold standard. No logs, no account, cash-payable if you want to stay anonymous.</span>
-        <span class="go">mullvad.net &rarr;</span>
-      <span class="sr-only"> (opens in new tab)</span></a>
-      <a class="card" href="https://proton.me" target="_blank" rel="noopener">
-        <span class="k">Proton</span>
-        <span class="d">Mail and identity &mdash; encrypted end to end, Swiss-based, built so the contents are yours alone.</span>
-        <span class="go">proton.me &rarr;</span>
-      <span class="sr-only"> (opens in new tab)</span></a>
-    </div>
-
-    <!-- 6 DEGREES — the participatory feature (primetime launch) -->
-    <h2 class="section-label">Join in</h2>
-    <a class="flagship" href="six-degrees/">
-      <div class="tagrow">
-        <span class="chip live">&#9679; New</span>
-        <span class="k">6 Degrees of Giants</span>
-      </div>
-      <p class="d">Help us reach the shoulders of our giants — RZA, Neil deGrasse Tyson, Bob Dylan, and more. Not a swarm — <em>one gracious chain.</em> Pick a team, start a chain, pass it to someone you actually know.</p>
-      <span class="go">Enter the game →</span>
-    </a>
 
     <!-- THE 36 CHAMBERS — our vision -->
     <h2 class="section-label">The 36 Chambers</h2>
@@ -494,6 +462,42 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </div>
 
 
+
+    <!-- THE CORNERSTONES — tools we use &amp; trust, every day. Moved to page-foot Day-48; the Declaration keeps the page's last word. -->
+    <h2 class="section-label">The cornerstones</h2>
+    <p style="text-align:center;max-width:42rem;margin:0 auto 1.6rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six companies make this possible &mdash; and make it possible for <em style="color:var(--gold);font-style:normal">anyone</em> starting at the base of the wave. Not sponsors; tools we use and trust, every day. They build the irresistible <em style="color:var(--gold);font-style:normal">for the good.</em></p>
+    <div class="grid">
+      <a class="card" href="https://www.anthropic.com" target="_blank" rel="noopener">
+        <span class="k">Anthropic</span>
+        <span class="d">The intelligence this was built <em>with</em> &mdash; <strong style="color:var(--gold-soft)">Claude</strong>. Built by <strong style="color:var(--gold-soft)">Dario &amp; Daniela Amodei</strong> and the Anthropic team, for safety and the good. A partner, not a replacement.</span>
+        <span class="go">anthropic.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://www.cloudflare.com" target="_blank" rel="noopener">
+        <span class="k">Cloudflare</span>
+        <span class="d">Privacy-first infrastructure &mdash; the floor that keeps one person fast <em>and</em> sovereign, with no surveillance baked in.</span>
+        <span class="go">cloudflare.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://brave.com" target="_blank" rel="noopener">
+        <span class="k">Brave</span>
+        <span class="d">The browser that doesn&rsquo;t sell you &mdash; privacy by default, the open web defended.</span>
+        <span class="go">brave.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://spotify.com" target="_blank" rel="noopener">
+        <span class="k">Spotify</span>
+        <span class="d">The music substrate &mdash; what the taste corpus runs on. The listening that teaches the machine what we love.</span>
+        <span class="go">spotify.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://mullvad.net" target="_blank" rel="noopener">
+        <span class="k">Mullvad</span>
+        <span class="d">The VPN we trust &mdash; the privacy gold standard. No logs, no account, cash-payable if you want to stay anonymous.</span>
+        <span class="go">mullvad.net &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://proton.me" target="_blank" rel="noopener">
+        <span class="k">Proton</span>
+        <span class="d">Mail and identity &mdash; encrypted end to end, Swiss-based, built so the contents are yours alone.</span>
+        <span class="go">proton.me &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+    </div>
 
     <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
     <div class="marc-note" style="max-width:32rem;margin:2.2rem auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
