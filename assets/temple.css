@@ -86,6 +86,12 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
 .corridor .c-home{color:var(--gold-soft)}
 
+
+/* concept diagrams — on-brand figure + caption (Day-47 night) */
+.diagram{margin:2.4rem auto;text-align:center;max-width:720px}
+.diagram svg{display:block;width:100%;height:auto;margin:0 auto}
+.diagram figcaption{margin:.9rem auto 0;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:620px}
+
 /* ═ PRINT — knowledge-free includes paper (Day-42) ═ */
 @media print{
   body{background:#fff;color:#000;padding:0;display:block}
