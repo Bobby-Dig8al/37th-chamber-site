@@ -38,7 +38,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
 h1.title{font-size:clamp(1.7rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;letter-spacing:.012em;color:var(--gold);
-  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 0 #5e4900,0 5px 6px rgba(0,0,0,.55);margin-bottom:1rem}
 .dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
 hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
 h2{margin:2.2rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
@@ -54,16 +54,20 @@ blockquote .src{display:block;margin-top:.5rem;font-style:normal;font-size:.78re
 .roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
 .roots a:hover{border-bottom-style:solid}
 .roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
+/* Blue Law: prose links default to house gold, never browser-blue. .inline = the dotted prose-link mark. */
+a{color:var(--gold)}
+a.inline{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
+a.inline:hover{border-bottom-style:solid}
 .signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
   font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
 .signoff strong{color:var(--gold-soft)}
 .signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
 .signoff a:hover{border-bottom-style:solid}
-footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
-  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
+footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid transparent;
+  box-shadow:inset 0 1px 0 rgba(14,68,255,.55),0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
   display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .foot-back:hover{text-decoration:underline}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
