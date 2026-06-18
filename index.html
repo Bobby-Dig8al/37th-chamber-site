@@ -98,6 +98,15 @@ body::before{
   .sigil .iris{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 8px rgba(14,68,255,.95)) drop-shadow(0 0 16px rgba(14,68,255,.6));animation:iris-pulse 3.6s ease-in-out infinite}
   @keyframes iris-pulse{0%,100%{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 6px rgba(14,68,255,.8)) drop-shadow(0 0 12px rgba(14,68,255,.45))}50%{filter:drop-shadow(0 0 4px #2b6cff) drop-shadow(0 0 12px rgba(14,68,255,1)) drop-shadow(0 0 26px rgba(14,68,255,.82))}}
   @media (prefers-reduced-motion:reduce){.sigil .iris{animation:none}}
+  /* WEEKLY EVOLVING EYE — hex iris-ring(s) injected by day-of-week (script at foot).
+     Mon=seed -> Sun=summit, resets Monday. Blue Law: gold mark, blue glow only. */
+  .sigil .sg-hex{animation:sg-hexpulse 3.6s ease-in-out infinite}
+  @keyframes sg-hexpulse{0%,100%{filter:drop-shadow(0 0 1px #2b6cff) drop-shadow(0 0 4px rgba(14,68,255,.5))}50%{filter:drop-shadow(0 0 2px #2b6cff) drop-shadow(0 0 10px rgba(14,68,255,.85))}}
+  .sigil .sg-cw,.sigil .sg-ccw{transform-box:fill-box;transform-origin:center}
+  .sigil .sg-cw{animation:sg-hexpulse 3.6s ease-in-out infinite,sg-spin 56s linear infinite}
+  .sigil .sg-ccw{animation:sg-hexpulse 3.6s ease-in-out infinite,sg-spin 56s linear infinite reverse}
+  @keyframes sg-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.sigil .sg-hex,.sigil .sg-cw,.sigil .sg-ccw{animation:none}}
 .title{position:relative;font-size:clamp(2.6rem,11vw,5.6rem);line-height:.92;font-weight:600;
   text-transform:uppercase;letter-spacing:.04em;color:var(--gold);text-align:center;
   text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 0 #5e4900,0 5px 6px rgba(0,0,0,.55);}
@@ -558,5 +567,32 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   <script src="/daily-v2.js?v=8" defer></script>
   <script type="module" src="/nowplaying.js"></script>
 <script>(function(){try{var s=Date.parse("2026-05-01T00:00:00-05:00");var d=Math.floor((Date.now()-s)/864e5)+1;var el=document.getElementById("day-count");if(el&&d>0)el.textContent=d;}catch(e){}})();</script>
+<script>
+/* WEEKLY EVOLVING EYE — the hero sigil climbs a complexity mountain across the week.
+   getDay(): Sun=0..Sat=6 -> Mon..Sat = levels 1..6, Sun = level 7 (the summit); resets
+   Monday. Hexes (the one shape not already in the sigil body) are injected around the
+   iris. No-JS fallback = the bare eye (graceful). HOMEPAGE HERO ONLY. */
+(function(){
+  try{
+    var svg=document.querySelector('svg.sigil'); if(!svg) return;
+    var iris=svg.querySelector('.iris'); if(!iris) return;
+    var dow=new Date().getDay(), level=(dow===0)?7:dow;
+    var NS='http://www.w3.org/2000/svg';
+    function hexD(R,pointy){var off=pointy?-Math.PI/2:0,p=[];for(var i=0;i<6;i++){var a=off+(Math.PI/3)*i;p.push((100+R*Math.cos(a)).toFixed(2)+','+(100+R*Math.sin(a)).toFixed(2));}return 'M'+p.join(' L')+' Z';}
+    function hex(R,pointy,spin,w){var el=document.createElementNS(NS,'path');el.setAttribute('d',hexD(R,pointy));el.setAttribute('fill','none');el.setAttribute('stroke','#FFD500');el.setAttribute('stroke-width',w);el.setAttribute('stroke-linejoin','round');el.setAttribute('class','sg-hex'+(spin?(' sg-'+spin):''));return el;}
+    var SETS={
+      1:[],
+      2:[[14,false,null,1.4]],
+      3:[[20,true,null,1.4]],
+      4:[[20,false,null,1.3],[20,true,null,1.3]],
+      5:[[20,false,'cw',1.3],[20,true,'ccw',1.3]],
+      6:[[20,false,'cw',1.3],[20,true,'ccw',1.3],[28,false,'ccw',1.2]],
+      7:[[20,false,'cw',1.3],[20,true,'ccw',1.3],[28,false,'ccw',1.2],[28,true,'cw',1.2]]
+    };
+    (SETS[level]||[]).forEach(function(s){ svg.insertBefore(hex(s[0],s[1],s[2],s[3]), iris); });
+    svg.setAttribute('data-sigil-level', level);
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
