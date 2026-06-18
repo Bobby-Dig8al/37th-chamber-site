@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hearth Shape — tuner mock · 37th Chamber</title>
+<!--
+  MOCK — NOT LIVE. Taste-origination for the operator's eye (Day-49).
+  CONTEXT: triangle-alone was the CONTINUITY choice (the shape echoing the brand).
+  Operator call: if we open it to a shape PICKER, the set needs circle + square at
+  least. So this set = Triangle / Circle / Square / Hexagon (hexagon = current live).
+  Triangles are one-directional (operator: fine). Same electric-blue glow (Blue Law).
+  If approved, this becomes:
+    1) electric-hex.js — parameterize the hardcoded 6-gon to N sides + a circle mode
+    2) nowplaying.js   — add a Shape control beside colour/glow/motion/size
+  This standalone file inlines a compact version just to show the look.
+-->
+<style>
+  :root{
+    --bg:#08080a; --gold:#FFD60A; --gold-soft:#d9b400; --dim:#8f8a73; --electric:#0E44FF;
+    --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--gold);font-family:var(--font);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;padding:2rem 1rem}
+  .eyebrow{color:var(--dim);font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;text-align:center}
+  .card{width:min(520px,94vw);border:1px solid rgba(255,214,10,.22);background:#0b0b0e;overflow:hidden;position:relative;
+    box-shadow:0 0 0 1px rgba(14,68,255,.05),0 18px 50px -24px rgba(14,68,255,.5)}
+  .np-head{display:flex;align-items:center;gap:.6rem;padding:.85rem 1rem .2rem}
+  .np-head .t{font-size:.92rem;letter-spacing:.02em;color:var(--gold);font-weight:600}
+  .np-head .a{font-size:.72rem;color:var(--gold-soft)}
+  canvas{display:block;width:100%;height:230px;background:var(--bg)}
+  .panel{display:flex;flex-direction:column;gap:.85rem;padding:.95rem 1.05rem 1.1rem;border-top:1px solid rgba(255,214,10,.12)}
+  .row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .lab{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);min-width:3.4rem}
+  .shape-btn{font-family:inherit;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+    background:transparent;border:1px solid rgba(255,214,10,.22);padding:.36rem .66rem;cursor:pointer;transition:.15s ease;
+    display:inline-flex;align-items:center;gap:.4rem}
+  .shape-btn:hover{color:var(--gold);border-color:rgba(255,214,10,.5)}
+  .shape-btn.on{color:#08080a;background:var(--gold);border-color:var(--gold);font-weight:600}
+  .shape-btn svg{width:11px;height:11px;display:block}
+  input[type=range]{flex:1;min-width:120px;accent-color:var(--electric);height:2px}
+  .cap{font-size:.6rem;color:var(--dim);letter-spacing:.05em;text-align:center;max-width:54ch;line-height:1.55}
+  .cap b{color:var(--gold-soft);font-weight:600}
+</style>
+</head>
+<body>
+  <div class="eyebrow">Hearth tuner &middot; <b style="color:var(--gold)">SHAPE</b> control &middot; mock for review (not live)</div>
+  <div class="card">
+    <div class="np-head"><span class="t">Now Playing</span><span class="a">&mdash; the electric hearth</span></div>
+    <canvas id="hex" aria-label="Electric lattice visualizer mock"></canvas>
+    <div class="panel">
+      <div class="row" id="shapes">
+        <span class="lab">Shape</span>
+        <button class="shape-btn" data-shape="3" data-rot="-90"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5 11 10.5 1 10.5Z"/></svg>Triangle</button>
+        <button class="shape-btn" data-shape="circle"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="4.6"/></svg>Circle</button>
+        <button class="shape-btn" data-shape="4" data-rot="45"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="8" height="8"/></svg>Square</button>
+        <button class="shape-btn on" data-shape="6"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3.7 1.7 8.3 1.7 10.6 6 8.3 10.3 3.7 10.3 1.4 6Z"/></svg>Hexagon</button>
+      </div>
+      <div class="row"><span class="lab">Colour</span><input id="hue" type="range" min="0" max="360" value="0" aria-label="Colour hue"></div>
+    </div>
+  </div>
+  <div class="cap">A new visitor knob: the <b>shape</b> of the lattice cells &mdash; same electric glow, your choice of form. Triangle was the continuity shape; the picker keeps it and adds <b>circle</b> + <b>square</b> (and the current hexagon). Drag <b>Colour</b> to rotate the palette.</div>
+
+<script>
+(function () {
+  var canvas = document.getElementById('hex');
+  var ctx = canvas.getContext('2d');
+  var MAX_DPR = 2;
+
+  // ── palette (Blue Law: the charge is blue; hue knob rotates it) ──
+  var REF_BASE = [14,68,255], REF_MID = [77,130,255], REF_CORE = [160,200,255];
+  var hueShift = 0, palBase = REF_BASE.slice(), palMid = REF_MID.slice(), palCore = REF_CORE.slice();
+  function rotateHue(rgb, deg){
+    if(!deg) return rgb.slice();
+    var r=rgb[0]/255,g=rgb[1]/255,b=rgb[2]/255,max=Math.max(r,g,b),min=Math.min(r,g,b),h,s,l=(max+min)/2;
+    if(max===min){h=s=0;}else{var d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);
+      if(max===r)h=(g-b)/d+(g<b?6:0);else if(max===g)h=(b-r)/d+2;else h=(r-g)/d+4;h/=6;}
+    h=(h+deg/360)%1;if(h<0)h+=1;
+    function f(p,q,t){if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;}
+    var R,G,B;if(s===0){R=G=B=l;}else{var q=l<0.5?l*(1+s):l+s-l*s,p=2*l-q;R=f(p,q,h+1/3);G=f(p,q,h);B=f(p,q,h-1/3);}
+    return [Math.round(R*255),Math.round(G*255),Math.round(B*255)];
+  }
+  function applyHue(){palBase=rotateHue(REF_BASE,hueShift);palMid=rotateHue(REF_MID,hueShift);palCore=rotateHue(REF_CORE,hueShift);}
+  function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+  function lerp(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+
+  // ── shape (the mock's whole point): N-gon OR circle at each lattice node ──
+  var shapeKind = 'poly', sides = 6, rot = 0; // shapeKind: 'poly' | 'circle'
+  function path(cx,cy,r){
+    if(shapeKind==='circle'){ ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.closePath(); return; }
+    ctx.beginPath();
+    for(var i=0;i<sides;i++){var a=rot+(Math.PI*2/sides)*i,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+    ctx.closePath();
+  }
+
+  var nodes=[], hexR=0, pulses=[], lastT=0;
+  function build(){
+    var dpr=Math.min(window.devicePixelRatio||1,MAX_DPR);
+    canvas.width=Math.floor(canvas.clientWidth*dpr);
+    canvas.height=Math.floor(canvas.clientHeight*dpr);
+    var logW=canvas.width/dpr, logH=canvas.height/dpr;
+    var targetCols=Math.round(logW/40); hexR=Math.max(9,Math.min(logW/(targetCols*Math.sqrt(3)),24));
+    var dx=hexR*Math.sqrt(3), dy=hexR*1.5;
+    var cols=Math.ceil(logW/dx)+2, rows=Math.ceil(logH/dy)+2;
+    nodes=[];
+    for(var c=0;c<cols;c++)for(var r=0;r<rows;r++){
+      var cx=(c-0.5)*dx, cy=(r-0.5)*dy+(c%2?hexR*0.75:0);
+      nodes.push({cx:cx*dpr,cy:cy*dpr,phase:Math.random()*Math.PI*2,charge:0});
+    }
+  }
+  function spawn(){pulses.push({progress:0,speed:0.18+Math.random()*0.25,dir:(Math.random()*4)|0,width:0.12+Math.random()*0.06,bright:0.5+Math.random()*0.25});}
+  function chargeFrom(nd,p){
+    var W=canvas.width,H=canvas.height,t;
+    switch(p.dir){case 0:t=nd.cx/W;break;case 1:t=nd.cy/H;break;case 2:t=(nd.cx/W+nd.cy/H)*.5;break;default:t=(nd.cx/W+(H-nd.cy)/H)*.5;}
+    var dist=Math.abs(t-p.progress);if(dist>p.width*2)return 0;
+    return p.bright*Math.exp(-(dist*dist)/(2*p.width*p.width));
+  }
+  function draw(ts){
+    var dt=Math.min((ts-lastT)/1000,0.05);lastT=ts;
+    var W=canvas.width,H=canvas.height,dpr=Math.min(window.devicePixelRatio||1,MAX_DPR);
+    ctx.globalCompositeOperation='source-over';ctx.fillStyle='#08080a';ctx.fillRect(0,0,W,H);
+    for(var i=pulses.length-1;i>=0;i--){pulses[i].progress+=pulses[i].speed*dt;if(pulses[i].progress>1.3)pulses.splice(i,1);}
+    if(pulses.length<3 && Math.random()<1.4*dt) spawn();
+    var swell=1+0.10*Math.sin(ts*0.001*(2*Math.PI/9))+0.08*Math.sin(ts*0.001*(2*Math.PI/37));
+    for(var n=0;n<nodes.length;n++){
+      var nd=nodes[n];var amb=0.12*(0.5+0.5*Math.sin(nd.phase+ts*0.001*1.1));
+      var ps=0;for(var k=0;k<pulses.length;k++)ps+=chargeFrom(nd,pulses[k]);
+      nd.charge=Math.min(1,(amb+ps)*swell);
+    }
+    var rr=hexR*dpr*0.92;
+    // pass 1 — dim filled bodies
+    ctx.globalCompositeOperation='source-over';
+    for(var a=0;a<nodes.length;a++){var nd2=nodes[a];if(nd2.charge<0.01)continue;path(nd2.cx,nd2.cy,rr);ctx.fillStyle=rgba(lerp(palBase,palMid,nd2.charge),nd2.charge*0.13);ctx.fill();}
+    // pass 2 — additive strokes (the glow)
+    ctx.globalCompositeOperation='lighter';ctx.lineWidth=Math.max(0.8,dpr*0.75);
+    for(var b=0;b<nodes.length;b++){var nd3=nodes[b];if(nd3.charge<0.005)continue;path(nd3.cx,nd3.cy,rr);ctx.strokeStyle=rgba(lerp(palBase,palCore,nd3.charge),Math.min(1,nd3.charge*0.85+0.08));ctx.stroke();}
+    // pass 3 — lit cores
+    for(var d=0;d<nodes.length;d++){var nd4=nodes[d];if(nd4.charge<0.42)continue;var dotR=Math.max(1,(nd4.charge-0.42)*hexR*dpr*0.5);ctx.beginPath();ctx.arc(nd4.cx,nd4.cy,dotR,0,Math.PI*2);ctx.fillStyle=rgba(palCore,nd4.charge*0.7);ctx.fill();}
+    ctx.globalCompositeOperation='source-over';
+    requestAnimationFrame(draw);
+  }
+  // ── controls ──
+  document.getElementById('shapes').addEventListener('click',function(e){
+    var btn=e.target.closest('.shape-btn');if(!btn)return;
+    [].forEach.call(document.querySelectorAll('.shape-btn'),function(x){x.classList.remove('on');});
+    btn.classList.add('on');
+    if(btn.dataset.shape==='circle'){shapeKind='circle';}
+    else{shapeKind='poly';sides=+btn.dataset.shape;rot=(+btn.dataset.rot||0)*Math.PI/180;}
+  });
+  document.getElementById('hue').addEventListener('input',function(e){hueShift=+e.target.value;applyHue();});
+  window.addEventListener('resize',build);
+  applyHue();build();lastT=performance.now();requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

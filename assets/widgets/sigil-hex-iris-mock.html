@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vault Sigil — hex iris-ring mock · 37th Chamber</title>
+<!--
+  MOCK — NOT LIVE. Taste-origination (Day-49). The all-seeing-eye hero sigil gets a
+  HEX outer ring on the iris glow — the hex (the one shape NOT in the sigil body) finds
+  its home as the iris bezel / Kiroshi-optic ring. Circle/square/triangle already live
+  in the sigil; hex crowns the eye. Blue Law: gold mark, blue is glow only.
+  Variants below so the operator can pick the right one. Scope if approved = HOMEPAGE
+  HERO ONLY (footer crest + favicon keep the plain gold dot, per existing canon).
+-->
+<style>
+  :root{ --bg:#08080a; --gold:#FFD60A; --dim:#8f8a73; --electric:#0E44FF; --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--gold);font-family:var(--font);min-height:100vh;padding:2.2rem 1rem 3rem;
+    display:flex;flex-direction:column;align-items:center;gap:1.6rem;
+    background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);
+    background-size:46px 46px}
+  h1{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);text-align:center;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:1.3rem;width:min(900px,96vw)}
+  .cell{border:1px solid rgba(255,214,10,.18);background:rgba(8,8,10,.6);padding:1.2rem .8rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.7rem}
+  .cell svg{width:150px;height:150px;overflow:visible}
+  .cap{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:center;font-weight:600}
+  .sub{font-size:.58rem;letter-spacing:.04em;color:var(--dim);text-align:center;line-height:1.45}
+  .note{font-size:.62rem;color:var(--dim);letter-spacing:.05em;text-align:center;max-width:60ch;line-height:1.6}
+  .ring-charge{filter:drop-shadow(0 0 5px #0E44FF) drop-shadow(0 0 14px rgba(14,68,255,.55))}
+  .iris{animation:iris-pulse 3.6s ease-in-out infinite}
+  @keyframes iris-pulse{0%,100%{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 6px rgba(14,68,255,.8)) drop-shadow(0 0 12px rgba(14,68,255,.45))}50%{filter:drop-shadow(0 0 4px #2b6cff) drop-shadow(0 0 12px rgba(14,68,255,1)) drop-shadow(0 0 26px rgba(14,68,255,.82))}}
+  .hex-glow{animation:hex-pulse 3.6s ease-in-out infinite}
+  @keyframes hex-pulse{0%,100%{filter:drop-shadow(0 0 1px #2b6cff) drop-shadow(0 0 4px rgba(14,68,255,.5))}50%{filter:drop-shadow(0 0 2px #2b6cff) drop-shadow(0 0 10px rgba(14,68,255,.85))}}
+  @media (prefers-reduced-motion:reduce){.iris,.hex-glow{animation:none}}
+</style>
+</head>
+<body>
+  <h1>Vault sigil &mdash; hex iris-ring &middot; mock for review (not live)</h1>
+  <div class="grid" id="grid"></div>
+  <p class="note">The hex is the only shape not already in the sigil&rsquo;s body (circle&nbsp;=&nbsp;ring, square, triangle&nbsp;=&nbsp;the radiating sectors). Here it becomes the <b style="color:var(--gold)">iris bezel</b> &mdash; gold mark, blue glow, breathing with the eye. Pick the one that&rsquo;s right; I&rsquo;ll build it for the homepage hero only.</p>
+
+<script>
+(function(){
+  function hexPath(R, pointy){
+    var pts=[], off = pointy ? -Math.PI/2 : 0;
+    for(var i=0;i<6;i++){ var a=off + (Math.PI*2/6)*i; pts.push([(100+R*Math.cos(a)).toFixed(2),(100+R*Math.sin(a)).toFixed(2)]); }
+    return 'M'+pts.map(function(p){return p[0]+','+p[1];}).join(' L')+' Z';
+  }
+  // base sigil (the all-seeing eye), hex injected just under the iris so the glow sits on top
+  function sigil(hex){
+    return ''
+    + '<circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>'
+    + '<rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>'
+    + '<g stroke="#FFD500" stroke-width="3" stroke-linecap="round">'
+    + '<line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>'
+    + '<line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>'
+    + '<line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>'
+    + '<line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/></g>'
+    + '<g fill="#FFD500"><circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>'
+    + '<circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>'
+    + '<circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>'
+    + '<circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/></g>'
+    + '<circle cx="100" cy="100" r="5" fill="#08080a"/>'
+    + hex
+    + '<circle class="iris" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>'
+    + '<circle cx="96.8" cy="96.6" r="1.4" fill="#cfe0ff"/>';
+  }
+  function hexEl(R, pointy, glow, w){
+    return '<path class="'+(glow?'hex-glow':'')+'" d="'+hexPath(R,pointy)+'" fill="none" stroke="#FFD500" stroke-width="'+(w||1.4)+'"/>';
+  }
+  var variants = [
+    { cap:'A · Current', sub:'the eye as it ships now (no hex)', hex:'' },
+    { cap:'B · Hex bezel', sub:'flat-top, R14, charged — the tight iris rim', hex:hexEl(14,false,true,1.4) },
+    { cap:'C · Outer ring', sub:'flat-top, R20, charged — a wider halo bezel', hex:hexEl(20,false,true,1.3) },
+    { cap:'D · Pointy bezel', sub:'pointy-top, R14, charged — vertex up', hex:hexEl(14,true,true,1.4) }
+  ];
+  var grid = document.getElementById('grid');
+  variants.forEach(function(v){
+    var cell=document.createElement('div'); cell.className='cell';
+    cell.innerHTML='<svg viewBox="0 0 200 200" role="img" aria-label="Sigil variant '+v.cap+'">'+sigil(v.hex)+'</svg>'
+      +'<div class="cap">'+v.cap+'</div><div class="sub">'+v.sub+'</div>';
+    grid.appendChild(cell);
+  });
+})();
+</script>
+</body>
+</html>
