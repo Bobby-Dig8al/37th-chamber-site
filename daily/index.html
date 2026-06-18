@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Daily — Archive · 37th Chamber</title>
-<meta name="description" content="Every week of The Daily — six good people, one true thread. Theme-indexed. Interstellar is live now. The year ahead, drafted.">
+<meta name="description" content="Every week of The Daily — six good people, one true thread. Theme-indexed. The year ahead, drafted.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/daily/">
 <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
@@ -230,12 +230,12 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p class="lede">Six good people a day &mdash; music, film, science, a book, an artist, a show. One theme per week, deepening daily. <em>Theme-indexed</em> &mdash; the calendar is not date-locked; it deepens by order, not by deadline.</p>
     </header>
 
-    <!-- LIVE WEEK: INTERSTELLAR — pinned at top -->
-    <h2 class="section-label">Live now</h2>
+    <!-- LIVE WEEK: INTERSTELLAR — pinned at top; label is self-correcting (see script at foot) -->
+    <h2 class="section-label" id="live-label">Live now</h2>
 
     <a class="featured" href="/?date=2026-06-14" aria-label="Interstellar week — read the Sunday Stack, Issue 001">
       <div class="tagrow">
-        <span class="chip live">&#9679; Live</span>
+        <span class="chip live" id="live-chip">&#9679; Live</span>
         <span class="week-num">Week 001</span>
       </div>
       <div class="theme-title">Interstellar</div>
@@ -304,7 +304,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
           <span class="ci-num">W001</span>
           <span class="ci-theme">Interstellar</span>
           <span class="ci-note">LOCKED — the flagship head. Wonder (Gargantua, Zimmer) carrying real relativity. Thread OUT: Zimmer scored it, and Thorne's wormhole physics came from Sagan asking him to make Contact plausible (verified, roster Day-38 note).</span>
-          <span class="ci-status live">Live</span>
+          <span class="ci-status live" id="w001-status">Live</span>
         </li>
         <li class="cal-item">
           <span class="ci-num">W002</span>
@@ -726,5 +726,34 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </nav>
     <span class="foot-loc">&copy; 2026 &middot; <span translate="no">The 37th Chamber</span> &middot; The Woodlands, TX</span>
   </footer>
+  <script>
+  /* Self-correcting Daily status — a concluded week is never falsely labelled "live now".
+     Only dated weeks can be "live"; every other week is theme-indexed (TBD) and goes live
+     only once its days are dated. Recomputed from today's date on every load, so the label
+     can never go stale at a week rollover. */
+  (function () {
+    var DATED_WEEKS = [
+      { num: 1, theme: 'Interstellar', start: '2026-06-08', end: '2026-06-14' }
+    ];
+    function ms(s) { var p = s.split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
+    var now = Date.now(), live = null;
+    for (var i = 0; i < DATED_WEEKS.length; i++) {
+      var w = DATED_WEEKS[i];
+      if (now >= ms(w.start) && now < ms(w.end) + 864e5) { live = w; break; }
+    }
+    var label = document.getElementById('live-label');
+    var chip  = document.getElementById('live-chip');
+    var st    = document.getElementById('w001-status');
+    if (live) {
+      if (label) label.textContent = 'Live now';
+      if (chip) { chip.className = 'chip live'; chip.innerHTML = '&#9679; Live'; }
+      if (st) { st.className = 'ci-status live'; st.textContent = 'Live'; }
+    } else {
+      if (label) label.textContent = 'Most recent';
+      if (chip) { chip.className = 'chip'; chip.textContent = 'Complete'; }
+      if (st) { st.className = 'ci-status'; st.textContent = 'Complete'; }
+    }
+  })();
+  </script>
 </body>
 </html>
