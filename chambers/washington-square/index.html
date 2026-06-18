@@ -126,6 +126,17 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 }
 .reset-btn:hover { color: var(--gold); border-color: var(--electric); }
 
+/* --- The doorway: the chamber's framing lede (the intro the rest of the site earned) --- */
+.chamber-intro { max-width: 760px; margin: 4px auto 30px; padding: 0 4px; }
+.ci-eyebrow { font-size: .7rem; letter-spacing: .24em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 14px; }
+.ci-head { font-family: var(--font-geo); font-size: clamp(1.5rem, 4.4vw, 2.15rem); font-weight: 700; color: var(--gold); letter-spacing: .5px; line-height: 1.08; margin: 0 0 16px;
+  text-shadow: 0 1px 0 #b88e00, 0 2px 4px rgba(0,0,0,.5); }
+.ci-lede { font-size: clamp(1rem, 2.6vw, 1.12rem); line-height: 1.72; color: var(--text); margin: 0 0 12px; }
+.ci-lede b { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,.9), 0 0 12px rgba(14,68,255,.55); }
+.ci-lede em { color: #e6c34a; font-style: normal; }
+.ci-foot { font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); margin: 16px 0 0; }
+.ci-foot .free { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,.9), 0 0 12px rgba(14,68,255,.55); }
+
 /* --- Footer · electric blue as HIGHLIGHT (accent bar / underline), never as font color --- */
 .chamber-footer {
   margin-top: 26px; padding: 14px 16px;
@@ -494,6 +505,15 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
     <button class="reset-btn" id="topbtn" onclick="DOJO.reset()">Reset</button>
   </div>
 </header>
+
+<section class="chamber-intro">
+  <p class="ci-eyebrow">Room #1 &middot; domain: chess &middot; the first of thirty-six</p>
+  <h2 class="ci-head">Chess, in the open air.</h2>
+  <p class="ci-lede">For a century, in Washington Square Park, anyone could pull up to a stone table and take a lesson from a stranger &mdash; who would beat you, and then show you exactly why. No fee. No door. No permission asked. That is the room we built first.</p>
+  <p class="ci-lede">The grandmaster here does not go easy and does not go hard. It <b>climbs with you</b> &mdash; rung by rung &mdash; until it finds the precise height where you begin to slip. Then it stops climbing and starts <em>teaching</em>. That ledge, right at your ceiling, is the only place anyone ever actually gets better. Most of the internet drowns the beginner or bores the master; this one finds your level and meets you on it.</p>
+  <p class="ci-lede">Every rung is a real weapon &mdash; the pin, the fork, the forcing line that ends the game &mdash; handed to you the moment you can wield it. Not theory. The thing itself.</p>
+  <p class="ci-foot">The first of thirty-six rooms. <span class="free">Free</span>, forever &mdash; like all the rest.</p>
+</section>
 
 <div class="grid">
   <!-- LEFT: board -->
