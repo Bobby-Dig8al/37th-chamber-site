@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>References · 37th Chamber</title>
-<meta name="description" content="We cite to honor the root and protect the branch off main. A living list of the work and the people that shaped the 37th Chamber.">
+<title>Roots · 37th Chamber</title>
+<meta name="description" content="The roots. Every source the 37th Chamber stands on — honor the root, protect the branch. A living, organized index of the work and the people that shaped it.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/references/">
 <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
-<meta property="og:title" content="References — 37th Chamber">
-<meta property="og:description" content="Honor the root, protect the branch. A living, cross-linked list of what shaped this.">
+<meta property="og:title" content="Roots — 37th Chamber">
+<meta property="og:description" content="Honor the root, protect the branch. Every source the Chamber stands on, organized.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://37th-chamber.com/references/">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
@@ -29,42 +29,63 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
   display:flex;flex-direction:column;align-items:center;padding:clamp(1.5rem,5vw,3rem) 1.25rem 0;overflow-x:hidden;position:relative;letter-spacing:.006em}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(rgba(255,214,10,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.028) 1px,transparent 1px);
-  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 30%,transparent 86%)}
-.back{align-self:flex-start;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.6rem;z-index:1;
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 12%,#000 26%,transparent 84%)}
+/* BLUE/visited LAW: every link is house gold in every state — never browser blue/purple. */
+a{color:var(--gold)}
+a:visited{color:var(--gold)}
+.back{align-self:flex-start;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.2rem;z-index:1;
   font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;
   border:1px solid rgba(255,214,10,.3);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
 .back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
-.wrap{position:relative;z-index:1;width:100%;max-width:780px;animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+.wrap{position:relative;z-index:1;width:100%;max-width:820px;animation:rise .8s cubic-bezier(.22,1,.36,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-h1{font-size:clamp(2rem,8vw,3.2rem);text-transform:uppercase;letter-spacing:.04em;color:var(--gold);font-weight:600;line-height:1;
-  text-shadow:0 1px 0 #b88e00,0 2px 5px rgba(0,0,0,.5)}
+
+/* ── The emblem: the rooted tree-temple, the mark made the masthead ── */
+.emblem{display:flex;flex-direction:column;align-items:center;text-align:center;margin:.4rem 0 1.4rem}
+.tree{width:100%;max-width:300px;height:auto;overflow:visible;filter:drop-shadow(0 0 22px rgba(255,214,10,.06))}
+.tree .node{transition:r .2s ease}
+.tree .node:hover{r:4.2}
+@keyframes ember{0%,100%{opacity:.6}50%{opacity:1}}
+.tree .node{animation:ember 4.2s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.tree .node{animation:none;opacity:.85}}
+
+h1{font-size:clamp(2.4rem,9vw,3.8rem);text-transform:uppercase;letter-spacing:.04em;color:var(--gold);font-weight:600;line-height:1;
+  text-shadow:0 1px 0 #b88e00,0 2px 5px rgba(0,0,0,.5);margin-top:.4rem}
 .sub{margin-top:.7rem;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--dim)}
-.creed{margin:2rem 0 .5rem;max-width:46rem;font-size:clamp(.96rem,2.6vw,1.06rem);line-height:1.62;color:var(--text)}
+.creed{margin:1.8rem auto .5rem;max-width:46rem;font-size:clamp(.96rem,2.6vw,1.06rem);line-height:1.62;color:var(--text);text-align:center}
 .creed em{color:var(--gold);font-style:normal}
-.living{margin:1.6rem 0 .5rem;font-size:.8rem;letter-spacing:.04em;color:var(--gold-soft);
-  border-left:2px solid rgba(255,214,10,.4);padding:.5rem 0 .5rem .8rem}
+.creed .cmark{color:var(--gold-soft);font-weight:700}
+.living{margin:1.6rem auto 2.2rem;max-width:46rem;font-size:.8rem;letter-spacing:.04em;color:var(--gold-soft);
+  border-left:2px solid rgba(255,214,10,.4);padding:.5rem 0 .5rem .8rem;text-align:left}
+
 h2{margin:2.6rem 0 .9rem;font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
-  padding-bottom:.4rem;border-bottom:1px solid rgba(255,214,10,.16)}
+  padding-bottom:.4rem;border-bottom:1px solid rgba(255,214,10,.16);display:flex;align-items:baseline;gap:.6rem}
+h2 .n{font-size:.66rem;color:var(--dim);letter-spacing:.12em}
 ul{list-style:none}
-li{padding:.55rem 0;border-top:1px solid rgba(143,138,115,.14);font-size:clamp(.95rem,2.4vw,1.02rem)}
+li{padding:.6rem 0;border-top:1px solid rgba(143,138,115,.14);font-size:clamp(.95rem,2.4vw,1.02rem)}
 li:first-child{border-top:0}
-li a{color:var(--gold);text-decoration:none;font-weight:600}
-li a:hover{text-decoration:underline}
-li .what{color:var(--dim)}
-footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
+li a{color:var(--gold);text-decoration:none;font-weight:600;border-bottom:1px dotted rgba(255,214,10,.42)}
+li a:hover{border-bottom-style:solid}
+li .what{color:var(--dim);font-weight:400;border:0}
+.open{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#9fd8a0;border:1px solid rgba(159,216,160,.3);
+  padding:.05rem .3rem;border-radius:2px;margin-left:.3rem;vertical-align:.08em;white-space:nowrap}
+.pay{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(143,138,115,.32);
+  padding:.05rem .3rem;border-radius:2px;margin-left:.3rem;vertical-align:.08em;white-space:nowrap}
+.wip{margin:.4rem 0 0;font-size:.78rem;color:var(--dim);font-style:italic}
+
+footer{margin-top:3.4rem;width:100%;max-width:820px;position:relative;z-index:1;
   border-top:1px solid var(--electric);box-shadow:0 -10px 24px -16px var(--electric);padding:1.5rem .25rem 2.4rem}
-.colophon{font-size:.92rem;line-height:1.6;color:var(--dim);max-width:44rem}
+.colophon{font-size:.92rem;line-height:1.6;color:var(--dim);max-width:46rem}
 .colophon b{color:var(--text);font-weight:600}
 .sig{margin-top:1rem;font-size:.82rem;letter-spacing:.04em;color:var(--gold-soft);font-style:italic}
 .sig b{color:#fff;font-style:normal;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.5),0 0 14px rgba(255,214,10,.28)}
+.samo{display:block;margin-top:.9rem;font-family:'Courier New',monospace;font-size:.78rem;letter-spacing:.06em;color:var(--dim)}
 .back-foot{display:block;margin-top:1.2rem;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
 .skip-link:focus{left:1rem}
 :focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
-
-/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
 .corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
 .corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
@@ -86,79 +107,222 @@ footer{margin-top:3.4rem;width:100%;max-width:780px;position:relative;z-index:1;
 </nav>
   <a class="back" href="/" translate="no">&larr;&nbsp;37th&nbsp;Chamber</a>
   <main class="wrap" id="main">
-    <h1>References</h1>
-    <div class="sub">the roots &middot; a living document</div>
 
-    <p class="creed">We always cite and reference — to <em>honor the root and protect the branch off main.</em> We don&rsquo;t care what corporations or lawyers think of our work, unless they&rsquo;re helping us. We care what the <em>artists</em> who inspired it think, and we&rsquo;d love, more than anything, for all of them to see it.</p>
+    <div class="emblem">
+      <svg class="tree" viewBox="0 0 680 860" role="img" aria-label="The 37th Chamber — a rooted tree-temple: thirty-six branch-tips for the chambers, crowned 37, roots below.">
+        <defs>
+          <filter id="rcharge" x="-160%" y="-160%" width="420%" height="420%">
+            <feDropShadow dx="0" dy="0" stdDeviation="3.4" flood-color="#0E44FF" flood-opacity="0.95"/>
+            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#0E44FF" flood-opacity="0.5"/>
+          </filter>
+        </defs>
+        <style>
+          .tree .ground{stroke:#5e4900;stroke-width:1.2;opacity:.55}
+          .tree .col{fill:none;stroke:#d9b400;stroke-width:1.3}
+          .tree .arch{fill:none;stroke:#FFD60A;stroke-width:1.9}
+          .tree .trunk{fill:#FFD60A}
+          .tree .bough{fill:none;stroke:#FFD60A;stroke-width:2.6;stroke-linecap:round}
+          .tree .branch{fill:none;stroke:#d9b400;stroke-width:1;stroke-linecap:round;opacity:.72}
+          .tree .node{fill:#FFD60A}
+          .tree .root{fill:none;stroke:#b89500;stroke-linecap:round}
+          .tree .crown{fill:#FFD60A;filter:url(#rcharge)}
+          .tree .lab{fill:#fff;font-family:var(--font);font-weight:700;filter:url(#rcharge)}
+        </style>
+        <line x1="58" y1="600" x2="622" y2="600" class="ground"/>
+        <rect x="74" y="410" width="16" height="190" rx="2" class="col"/><line x1="71" y1="410" x2="93" y2="410" class="col"/>
+        <rect x="590" y="410" width="16" height="190" rx="2" class="col"/><line x1="587" y1="410" x2="609" y2="410" class="col"/>
+        <rect x="103" y="410" width="25" height="190" rx="2" class="col"/><line x1="100" y1="410" x2="131" y2="410" class="col"/>
+        <rect x="552" y="410" width="25" height="190" rx="2" class="col"/><line x1="549" y1="410" x2="580" y2="410" class="col"/>
+        <rect x="140" y="410" width="13" height="190" rx="2" class="col"/><line x1="137" y1="410" x2="156" y2="410" class="col"/>
+        <rect x="527" y="410" width="13" height="190" rx="2" class="col"/><line x1="524" y1="410" x2="543" y2="410" class="col"/>
+        <path d="M120 410 C108 250 340 205 340 120" class="arch"/>
+        <path d="M560 410 C572 250 340 205 340 120" class="arch"/>
+        <path d="M333 400 L347 400 L341 600 L339 600 Z" class="trunk"/>
+        <path d="M340 400 Q 214 362 214 316" class="bough"/><path d="M340 400 Q 277 362 277 308" class="bough"/>
+        <path d="M340 400 Q 340 362 340 304" class="bough"/><path d="M340 400 Q 403 362 403 308" class="bough"/>
+        <path d="M340 400 Q 466 362 466 316" class="bough"/>
+        <path d="M 214 316 Q 168.6 290 123.2 365.3" class="branch"/><circle cx="123.2" cy="365.3" r="2.6" class="node"/>
+        <path d="M 214 316 Q 171.5 290 129.0 346.4" class="branch"/><circle cx="129.0" cy="346.4" r="2.6" class="node"/>
+        <path d="M 214 316 Q 175.6 290 137.1 328.7" class="branch"/><circle cx="137.1" cy="328.7" r="2.6" class="node"/>
+        <path d="M 214 316 Q 180.6 286.1 147.2 312.1" class="branch"/><circle cx="147.2" cy="312.1" r="2.6" class="node"/>
+        <path d="M 214 316 Q 186.5 270.6 159.0 296.6" class="branch"/><circle cx="159.0" cy="296.6" r="2.6" class="node"/>
+        <path d="M 214 316 Q 193.1 256.0 172.3 282.0" class="branch"/><circle cx="172.3" cy="282.0" r="2.6" class="node"/>
+        <path d="M 214 316 Q 200.3 242.2 186.6 268.2" class="branch"/><circle cx="186.6" cy="268.2" r="2.6" class="node"/>
+        <path d="M 214 316 Q 207.9 229.2 201.8 255.2" class="branch"/><circle cx="201.8" cy="255.2" r="2.6" class="node"/>
+        <path d="M 214 316 Q 215.8 216.9 217.5 242.9" class="branch"/><circle cx="217.5" cy="242.9" r="2.6" class="node"/>
+        <path d="M 214 316 Q 223.7 205.0 233.5 231.0" class="branch"/><circle cx="233.5" cy="231.0" r="2.6" class="node"/>
+        <path d="M 277 308 Q 263.2 193.6 249.4 219.6" class="branch"/><circle cx="249.4" cy="219.6" r="2.6" class="node"/>
+        <path d="M 277 308 Q 270.9 182.6 264.9 208.6" class="branch"/><circle cx="264.9" cy="208.6" r="2.6" class="node"/>
+        <path d="M 277 308 Q 278.3 171.9 279.7 197.9" class="branch"/><circle cx="279.7" cy="197.9" r="2.6" class="node"/>
+        <path d="M 277 308 Q 285.3 161.2 293.6 187.2" class="branch"/><circle cx="293.6" cy="187.2" r="2.6" class="node"/>
+        <path d="M 277 308 Q 291.6 150.7 306.2 176.7" class="branch"/><circle cx="306.2" cy="176.7" r="2.6" class="node"/>
+        <path d="M 340 304 Q 328.6 140.1 317.3 166.1" class="branch"/><circle cx="317.3" cy="166.1" r="2.6" class="node"/>
+        <path d="M 340 304 Q 333.2 129.4 326.5 155.4" class="branch"/><circle cx="326.5" cy="155.4" r="2.6" class="node"/>
+        <path d="M 340 304 Q 336.8 118.5 333.5 144.5" class="branch"/><circle cx="333.5" cy="144.5" r="2.6" class="node"/>
+        <path d="M 466 316 Q 511.4 290 556.8 365.3" class="branch"/><circle cx="556.8" cy="365.3" r="2.6" class="node"/>
+        <path d="M 466 316 Q 508.5 290 551.0 346.4" class="branch"/><circle cx="551.0" cy="346.4" r="2.6" class="node"/>
+        <path d="M 466 316 Q 504.4 290 542.9 328.7" class="branch"/><circle cx="542.9" cy="328.7" r="2.6" class="node"/>
+        <path d="M 466 316 Q 499.4 286.1 532.8 312.1" class="branch"/><circle cx="532.8" cy="312.1" r="2.6" class="node"/>
+        <path d="M 466 316 Q 493.5 270.6 521.0 296.6" class="branch"/><circle cx="521.0" cy="296.6" r="2.6" class="node"/>
+        <path d="M 466 316 Q 486.9 256.0 507.7 282.0" class="branch"/><circle cx="507.7" cy="282.0" r="2.6" class="node"/>
+        <path d="M 466 316 Q 479.7 242.2 493.4 268.2" class="branch"/><circle cx="493.4" cy="268.2" r="2.6" class="node"/>
+        <path d="M 466 316 Q 472.1 229.2 478.2 255.2" class="branch"/><circle cx="478.2" cy="255.2" r="2.6" class="node"/>
+        <path d="M 466 316 Q 464.2 216.9 462.5 242.9" class="branch"/><circle cx="462.5" cy="242.9" r="2.6" class="node"/>
+        <path d="M 466 316 Q 456.3 205.0 446.5 231.0" class="branch"/><circle cx="446.5" cy="231.0" r="2.6" class="node"/>
+        <path d="M 403 308 Q 416.8 193.6 430.6 219.6" class="branch"/><circle cx="430.6" cy="219.6" r="2.6" class="node"/>
+        <path d="M 403 308 Q 409.1 182.6 415.1 208.6" class="branch"/><circle cx="415.1" cy="208.6" r="2.6" class="node"/>
+        <path d="M 403 308 Q 401.7 171.9 400.3 197.9" class="branch"/><circle cx="400.3" cy="197.9" r="2.6" class="node"/>
+        <path d="M 403 308 Q 394.7 161.2 386.4 187.2" class="branch"/><circle cx="386.4" cy="187.2" r="2.6" class="node"/>
+        <path d="M 403 308 Q 388.4 150.7 373.8 176.7" class="branch"/><circle cx="373.8" cy="176.7" r="2.6" class="node"/>
+        <path d="M 340 304 Q 351.4 140.1 362.7 166.1" class="branch"/><circle cx="362.7" cy="166.1" r="2.6" class="node"/>
+        <path d="M 340 304 Q 346.8 129.4 353.5 155.4" class="branch"/><circle cx="353.5" cy="155.4" r="2.6" class="node"/>
+        <path d="M 340 304 Q 343.2 118.5 346.5 144.5" class="branch"/><circle cx="346.5" cy="144.5" r="2.6" class="node"/>
+        <line x1="340" y1="600" x2="254.1" y2="665.4" class="root" stroke-width="2" opacity="0.6"/>
+        <line x1="254.1" y1="665.4" x2="182.6" y2="682.2" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="182.6" y1="682.2" x2="133.5" y2="672.8" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="182.6" y1="682.2" x2="142.9" y2="712.5" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="254.1" y1="665.4" x2="218.9" y2="729.9" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="218.9" y1="729.9" x2="179.1" y2="760.1" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="218.9" y1="729.9" x2="214.9" y2="779.7" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="340" y1="600" x2="292.1" y2="696.8" class="root" stroke-width="2" opacity="0.6"/>
+        <line x1="292.1" y1="696.8" x2="235.5" y2="743.6" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="292.1" y1="696.8" x2="289.1" y2="770.2" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="340" y1="600" x2="340" y2="708" class="root" stroke-width="2" opacity="0.6"/>
+        <line x1="340" y1="708" x2="310.1" y2="775.1" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="310.1" y1="775.1" x2="272.9" y2="808.4" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="310.1" y1="775.1" x2="310.1" y2="825" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="340" y1="708" x2="369.9" y2="775.1" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="369.9" y1="775.1" x2="369.9" y2="825" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="369.9" y1="775.1" x2="407.1" y2="808.4" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="340" y1="600" x2="387.9" y2="696.8" class="root" stroke-width="2" opacity="0.6"/>
+        <line x1="387.9" y1="696.8" x2="390.9" y2="770.2" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="387.9" y1="696.8" x2="444.5" y2="743.6" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="340" y1="600" x2="425.9" y2="665.4" class="root" stroke-width="2" opacity="0.6"/>
+        <line x1="425.9" y1="665.4" x2="461.1" y2="729.9" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="461.1" y1="729.9" x2="465.1" y2="779.7" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="461.1" y1="729.9" x2="500.9" y2="760.1" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="425.9" y1="665.4" x2="497.4" y2="682.2" class="root" stroke-width="1.4" opacity="0.5"/>
+        <line x1="497.4" y1="682.2" x2="537.1" y2="712.5" class="root" stroke-width="1" opacity="0.4"/>
+        <line x1="497.4" y1="682.2" x2="546.5" y2="672.8" class="root" stroke-width="1" opacity="0.4"/>
+        <path class="crown" d="M313 104 L322 82 L331 98 L340 77 L349 98 L358 82 L367 104 Z"/>
+        <text x="340" y="122" class="lab" text-anchor="middle" dominant-baseline="central" font-size="22">37</text>
+      </svg>
+      <h1>Roots</h1>
+      <div class="sub">honor the root &middot; protect the branch</div>
+    </div>
 
-    <div class="living">A living document — it grows when we&rsquo;re directed to add to it, or whenever we make an important citation. We cross-link to the source wherever we can. Take us to the root. Last updated: June 2026.</div>
+    <p class="creed">We always cite and reference &mdash; to <em>honor the root and protect the branch off main.</em> We don&rsquo;t care what corporations or lawyers think of our work, unless they&rsquo;re helping us. We care what the <em>artists</em> who inspired it think, and we&rsquo;d love, more than anything, for all of them to see it. Every mark here is a <span class="cmark">&copy;</span> pointed the right way &mdash; back at the maker.</p>
 
-    <h2>Methods &amp; Code</h2>
+    <div class="living">A living document &mdash; thirty-six branches, one trunk, roots that don&rsquo;t end. It grows whenever we make an important citation; we cross-link to the source wherever we can, and to the <em>free, whole</em> paper wherever it exists. Take us to the root. Last updated: June 2026.</div>
+
+    <h2>AI, Interpretability &amp; Anthropic <span class="n">the machine that learns</span></h2>
     <ul>
-      <li><a href="https://github.com/jhlywa/chess.js" target="_blank" rel="noopener noreferrer">chess.js<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Jeff Hlywa (BSD-2-Clause). The real engine inside the Washington Square chess chamber.</span></li>
-      <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">Attention Is All You Need<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Vaswani et al., 2017. The transformer; the spine of The Opaque Box.</span></li>
-      <li><a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener noreferrer">Neural Machine Translation by Jointly Learning to Align and Translate<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Bahdanau et al., 2014. The roots of attention.</span></li>
-      <li><a href="https://arxiv.org/abs/1508.07909" target="_blank" rel="noopener noreferrer">Neural Machine Translation of Rare Words with Subword Units<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Sennrich, Haddow &amp; Birch, 2016. Byte-pair encoding.</span></li>
-      <li><a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank" rel="noopener noreferrer">Language Models are Unsupervised Multitask Learners<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— Radford et al., 2019 (GPT-2). OpenAI primary PDF.</span></li>
-      <li><a href="/references/ai-explainability/">AI Explainability</a> <span class="what">— interpretable is not explainable, and an explanation alone was never how trust got earned. The scholarly floor under The Opaque Box.</span></li>
+      <li><a href="https://darioamodei.com/essay/machines-of-loving-grace" target="_blank" rel="noopener noreferrer">Machines of Loving Grace<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Dario Amodei, 2024. Titled for the <a href="/references/loving-grace/">Brautigan poem</a> already in these roots &mdash; the lineage runs straight from the poem to the essay to this house.</span></li>
+      <li><a href="https://www.anthropic.com/news/core-views-on-ai-safety" target="_blank" rel="noopener noreferrer">Core Views on AI Safety<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Anthropic, 2023. When, why, what, and how.</span></li>
+      <li><a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener noreferrer">Constitutional AI: Harmlessness from AI Feedback<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Bai et al. (Anthropic), 2022.</span></li>
+      <li><a href="https://www.anthropic.com/research/towards-monosemanticity-decomposing-language-models-with-dictionary-learning" target="_blank" rel="noopener noreferrer">Towards Monosemanticity<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Bricken, Templeton, Batson et al. (Anthropic), 2023. The interpretability landmark &mdash; reading the features inside the box.</span></li>
+      <li><a href="https://www.anthropic.com/news/anthropics-responsible-scaling-policy" target="_blank" rel="noopener noreferrer">Responsible Scaling Policy<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Anthropic, 2023.</span></li>
+      <li><a href="https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" target="_blank" rel="noopener noreferrer">In-context Learning and Induction Heads<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Olsson et al. (Anthropic), 2022. The Transformer Circuits thread.</span></li>
+      <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">Attention Is All You Need<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Vaswani et al., 2017. The transformer; the spine of The Opaque Box.</span></li>
+      <li><a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener noreferrer">Neural Machine Translation by Jointly Learning to Align and Translate<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Bahdanau, Cho &amp; Bengio, 2014. The roots of attention.</span></li>
+      <li><a href="https://aclanthology.org/P16-1162/" target="_blank" rel="noopener noreferrer">Subword Units (Byte-Pair Encoding)<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Sennrich, Haddow &amp; Birch, 2016. The tokenizer worked example.</span></li>
+      <li><a href="https://aclanthology.org/N13-1090/" target="_blank" rel="noopener noreferrer">Linguistic Regularities in Continuous Space Word Representations<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Mikolov, Yih &amp; Zweig, 2013. Word vectors; king &minus; man &plus; woman.</span></li>
+      <li><a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank" rel="noopener noreferrer">Language Models are Unsupervised Multitask Learners<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Radford, Wu, Child, Luan, <strong style="color:var(--gold-soft);font-weight:600">Amodei</strong> &amp; Sutskever, 2019 (GPT-2). Yes &mdash; that Amodei.</span></li>
+      <li><a href="https://arxiv.org/abs/2002.04745" target="_blank" rel="noopener noreferrer">On Layer Normalization in the Transformer Architecture<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Xiong et al., 2020. Pre-LN vs post-LN; the honest deviation.</span></li>
+      <li><a href="https://doi.org/10.1111/cogs.13309" target="_blank" rel="noopener noreferrer">Do Large Language Models Know What Humans Know?<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Trott et al., 2023 (<em>Cognitive Science</em>). The other-minds question, pointed at the machine.</span></li>
+      <li><a href="https://doi.org/10.1002/widm.1493" target="_blank" rel="noopener noreferrer">Interpretable and Explainable Machine Learning<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Marcinkevi&ccaron;s &amp; Vogt, 2023 (<em>WIREs</em>).</span></li>
+      <li><a href="https://doi.org/10.1155/2023/4637678" target="_blank" rel="noopener noreferrer">AI Trust: Can Explainable AI Enhance Warranted Trust?<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; de Brito Duarte et al., 2023.</span></li>
+      <li><a href="https://arxiv.org/abs/2401.11817" target="_blank" rel="noopener noreferrer">Hallucination is Inevitable<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Xu, Jain &amp; Kankanhalli, 2024. A formal limit on what any LLM can guarantee.</span></li>
+      <li><a href="/references/ai-explainability/">AI Explainability</a> <span class="what">&mdash; interpretable is not explainable. The scholarly floor under The Opaque Box.</span></li>
     </ul>
 
-    <h2>Books &amp; Ideas</h2>
+    <h2>Methods &amp; Code <span class="n">the engine</span></h2>
     <ul>
-      <li><a href="https://en.wikipedia.org/wiki/Nineteen_Eighty-Four" target="_blank" rel="noopener noreferrer">Nineteen Eighty-Four<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— George Orwell, 1949.</span></li>
-      <li><a href="/references/loving-grace/">All Watched Over by Machines of Loving Grace</a> <span class="what">— Richard Brautigan, 1967. The lineage of the mission.</span></li>
-      <li><a href="/references/contact/">Contact</a> <span class="what">— Carl Sagan, 1985. The novel that asked a physicist for honesty and got a peer-reviewed paper and a new line of theoretical physics.</span></li>
+      <li><a href="https://github.com/jhlywa/chess.js" target="_blank" rel="noopener noreferrer">chess.js<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Jeff Hlywa (BSD-2-Clause). The real engine inside the Washington Square chess chamber.</span></li>
+      <li><a href="https://github.com/rasbt/LLMs-from-scratch" target="_blank" rel="noopener noreferrer">LLMs-from-scratch<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Sebastian Raschka. The companion code (free) to <em>Build a Large Language Model (From Scratch)</em> &mdash; the build-it-yourself inspiration for The Opaque Box.</span></li>
     </ul>
 
-    <h2>Philosophy &amp; the Existential</h2>
+    <h2>Physics &amp; Cosmology <span class="n">the frontier</span></h2>
     <ul>
-      <li><a href="/references/kierkegaard/">Søren Kierkegaard</a> <span class="what">— the individual before the infinite; the leap.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Friedrich_Nietzsche" target="_blank" rel="noopener noreferrer">Friedrich Nietzsche<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— create your own values; amor fati.</span></li>
-      <li><a href="/references/sartre/">Jean-Paul Sartre</a> <span class="what">— existence precedes essence; condemned to be free.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Albert_Camus" target="_blank" rel="noopener noreferrer">Albert Camus<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— the absurd, and the revolt that answers it.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Simone_de_Beauvoir" target="_blank" rel="noopener noreferrer">Simone de Beauvoir<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— freedom is always situated; the ethics of ambiguity.</span></li>
-      <li><a href="/references/frankl/">Viktor Frankl</a> <span class="what">— meaning as the last freedom we keep.</span></li>
-      <li><a href="/references/other-minds/">Other Minds</a> <span class="what">— the oldest sealed box: every mind you have ever trusted, known only from the outside.</span></li>
+      <li><a href="/references/kerr-metric/">The Kerr Metric</a> <span class="what">&mdash; Roy Kerr, 1963. Two pages that govern every spinning black hole. The 1963 <em>Phys. Rev. Lett.</em> sits behind a journal door; <a href="https://arxiv.org/abs/0706.1109" target="_blank" rel="noopener noreferrer">Kerr&rsquo;s own free account &middot; arXiv:0706.1109<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span>.</span></li>
+      <li><a href="https://arxiv.org/abs/1502.03808" target="_blank" rel="noopener noreferrer">Gravitational Lensing by Spinning Black Holes (Gargantua)<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; James, von Tunzelmann, Franklin &amp; Thorne, 2015. The physics from the <em>Interstellar</em> render (the published <em>CQG</em> version is gated; this is the free one).</span></li>
+      <li><a href="https://zenodo.org/records/7113360" target="_blank" rel="noopener noreferrer">On the Electrodynamics of Moving Bodies<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Einstein, 1905. The founding special-relativity paper.</span></li>
+      <li><a href="https://archive.org/details/175HafeleKeating" target="_blank" rel="noopener noreferrer">Around-the-World Atomic Clocks<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Hafele &amp; Keating, 1972 (<em>Science</em>). The airplane time-dilation experiment &mdash; the journal copy is paywalled, this one is free.</span></li>
+      <li><a href="https://link.springer.com/article/10.12942/lrr-2003-1" target="_blank" rel="noopener noreferrer">Relativity in the Global Positioning System<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Neil Ashby, 2003 (<em>Living Reviews in Relativity</em>). The GPS in your pocket.</span></li>
+      <li><a href="https://arxiv.org/abs/1906.11238" target="_blank" rel="noopener noreferrer">First M87 Event Horizon Telescope Results<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; EHT Collaboration, 2019. The first photograph of a black hole.</span></li>
+      <li><a href="https://arxiv.org/abs/1602.03837" target="_blank" rel="noopener noreferrer">Observation of Gravitational Waves (GW150914)<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; LIGO/Virgo, 2016. Two black holes, heard.</span></li>
+      <li><a href="https://doi.org/10.1002/ntls.20220031" target="_blank" rel="noopener noreferrer">The Road Toward Imaging a Black Hole<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Heino Falcke, 2022. An EHT co-founder on how the M87* image was made.</span></li>
+      <li><a href="https://doi.org/10.1119/1.15620" target="_blank" rel="noopener noreferrer">Wormholes in Spacetime and Their Use for Interstellar Travel<span class="sr-only"> (opens in new tab)</span></a><span class="pay">gated</span> <span class="what">&mdash; Morris &amp; Thorne, 1988 (<em>AJP</em>). The traversable-wormhole paper Sagan&rsquo;s <em>Contact</em> prompted into existence &mdash; still behind the journal door.</span></li>
+      <li><a href="https://journals.aps.org/pr/abstract/10.1103/PhysRev.48.73" target="_blank" rel="noopener noreferrer">The Particle Problem in the General Theory of Relativity<span class="sr-only"> (opens in new tab)</span></a><span class="pay">gated</span> <span class="what">&mdash; Einstein &amp; Rosen, 1935. The Einstein&ndash;Rosen bridge.</span></li>
+      <li><a href="/references/the-wormhole/">The Wormhole</a> &middot; <a href="/references/time-dilation/">Time Dilation</a> &middot; <a href="/references/gravitational-lensing/">Gravitational Lensing</a> &middot; <a href="/references/kip-thorne/">Kip Thorne</a> <span class="what">&mdash; the deep-dives, each with its own roots.</span></li>
     </ul>
 
-    <h2>Music</h2>
+    <h2>Philosophy &amp; the Existential <span class="n">the individual before the infinite</span></h2>
     <ul>
-      <li><a href="https://www.benharper.com" target="_blank" rel="noopener noreferrer">Ben Harper<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— a conscience with a slide guitar.</span></li>
-      <li><a href="https://www.radiohead.com" target="_blank" rel="noopener noreferrer">Radiohead<span class="sr-only"> (opens in new tab)</span></a> / Thom Yorke <span class="what">— saved for last.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Rival_Consoles" target="_blank" rel="noopener noreferrer">Rival Consoles<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— the anchor of the soundtrack that was, and is, the project.</span></li>
-      <li><a href="/references/interstellar-soundtrack/">The Interstellar Soundtrack</a> <span class="what">— Hans Zimmer, 2014. One page, one night, one organ.</span></li>
+      <li><a href="/references/kierkegaard/">S&oslash;ren Kierkegaard</a> <span class="what">&mdash; the individual before the infinite; the leap. <a href="https://plato.stanford.edu/entries/kierkegaard/" target="_blank" rel="noopener noreferrer">Stanford Encyclopedia<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span>.</span></li>
+      <li><a href="/references/sartre/">Jean-Paul Sartre</a> <span class="what">&mdash; existence precedes essence; condemned to be free. <a href="https://plato.stanford.edu/entries/sartre/" target="_blank" rel="noopener noreferrer">Stanford Encyclopedia<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span>.</span></li>
+      <li><a href="/references/frankl/">Viktor Frankl</a> <span class="what">&mdash; meaning as the last freedom we keep. <a href="https://www.viktorfrankl.org/biography.html" target="_blank" rel="noopener noreferrer">Frankl Institute Vienna<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span>.</span></li>
+      <li><a href="/references/other-minds/">Other Minds</a> <span class="what">&mdash; the oldest sealed box: every mind you have trusted, known only from the outside. <a href="https://plato.stanford.edu/entries/other-minds/" target="_blank" rel="noopener noreferrer">SEP<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span>; the recent journal work (Merlo, Hacker, Sollberger) sits behind doors.</span></li>
+      <li><a href="https://doi.org/10.1002/wcs.1697" target="_blank" rel="noopener noreferrer">Consciousness Under the Spotlight<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Jimenez et al., 2024 (<em>WIREs Cognitive Science</em>, CC&nbsp;BY). The brain&rsquo;s opacity, stated precisely.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Friedrich_Nietzsche" target="_blank" rel="noopener noreferrer">Friedrich Nietzsche<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; create your own values; amor fati.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Albert_Camus" target="_blank" rel="noopener noreferrer">Albert Camus<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; the absurd, and the revolt that answers it.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Simone_de_Beauvoir" target="_blank" rel="noopener noreferrer">Simone de Beauvoir<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; freedom is always situated; the ethics of ambiguity.</span></li>
     </ul>
 
-    <h2>Art</h2>
+    <h2>Books &amp; Ideas <span class="n">the lineage</span></h2>
     <ul>
-      <li><a href="/references/chesley-bonestell/">Chesley Bonestell</a> <span class="what">— the father of space art; made the cosmos visible decades before any probe could.</span></li>
-      <li><a href="/references/persistence-of-memory/">The Persistence of Memory</a> <span class="what">— Salvador Dal&iacute;, 1931. Time made liquid &mdash; read honestly, both ways.</span></li>
+      <li><a href="/references/loving-grace/">All Watched Over by Machines of Loving Grace</a> <span class="what">&mdash; Richard Brautigan, 1967. The poem at the head of the mission&rsquo;s lineage &mdash; and the source of Dario&rsquo;s essay title above. Root and branch, the same tree.</span></li>
+      <li><a href="/references/contact/">Contact</a> <span class="what">&mdash; Carl Sagan, 1985. The novel that asked a physicist for honesty and got a peer-reviewed paper.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Nineteen_Eighty-Four" target="_blank" rel="noopener noreferrer">Nineteen Eighty-Four<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; George Orwell, 1949.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/If_Anyone_Builds_It,_Everyone_Dies" target="_blank" rel="noopener noreferrer">If Anyone Builds It, Everyone Dies<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; Yudkowsky &amp; Soares, 2025. The doom book; the &ldquo;Sable&rdquo; thread.</span></li>
     </ul>
 
-    <h2>Film &amp; Science</h2>
+    <h2>Film &amp; Television <span class="n">physics through a renderer</span></h2>
     <ul>
-      <li><a href="/references/interstellar-film/">Interstellar</a> <span class="what">— Christopher Nolan, 2014. The film that ran real physics through a renderer and called it art.</span></li>
-      <li><a href="/references/making-interstellar/">The Making of Interstellar</a> <span class="what">— Eight years, two brothers, one pact. From a 1980 blind date to a peer-reviewed black hole.</span></li>
-      <li><a href="/references/kip-thorne/">Kip Thorne</a> <span class="what">— The physicist who held the line. Nobel laureate, wormhole theorist, executive producer.</span></li>
-      <li><a href="/references/kerr-metric/">The Kerr Metric</a> <span class="what">— Roy Kerr, 1963. Two pages, found at UT Austin, that govern every spinning black hole there is. <a href="https://link.aps.org/doi/10.1103/PhysRevLett.11.237" target="_blank" rel="noopener noreferrer">Phys. Rev. Lett. 11, 237 (1963)<span class="sr-only"> (opens in new tab)</span></a> · <a href="https://arxiv.org/abs/0706.1109" target="_blank" rel="noopener noreferrer">free reprint (arXiv:0706.1109)<span class="sr-only"> (opens in new tab)</span></a>.</span></li>
-      <li><a href="/references/the-wormhole/">The Wormhole</a> <span class="what">— From Einstein&rsquo;s wall (1935) to Thorne&rsquo;s door (1988).</span></li>
-      <li><a href="/references/time-dilation/">Time Dilation</a> <span class="what">— Langevin&rsquo;s twin, atomic clocks on airliners, and the GPS in your pocket.</span></li>
-      <li><a href="/references/gravitational-lensing/">Gravitational Lensing</a> <span class="what">— Eddington&rsquo;s eclipse to the photograph of M87*. Why you can see behind a black hole.</span></li>
-      <li><a href="/references/dark/">Dark</a> <span class="what">— Odar &amp; Friese, 2017&ndash;2020. Time&rsquo;s violence on family, taken further.</span></li>
+      <li><a href="/references/interstellar-film/">Interstellar</a> <span class="what">&mdash; Christopher Nolan, 2014. Real physics through a renderer, called art.</span></li>
+      <li><a href="/references/making-interstellar/">The Making of Interstellar</a> <span class="what">&mdash; eight years, two brothers, one pact. Kip Thorne&rsquo;s <em>The Science of Interstellar</em> (Norton) is the inside account.</span></li>
+      <li><a href="/references/dark/">Dark</a> <span class="what">&mdash; Odar &amp; Friese, 2017&ndash;2020. Time&rsquo;s violence on family, taken further.</span></li>
     </ul>
 
-    <h2>Minds &amp; Makers</h2>
+    <h2>Music <span class="n">the soundtrack that is the project</span></h2>
     <ul>
-      <li><a href="/references/carl-sagan/">Carl Sagan</a> <span class="what">— the astronomer who made a generation feel the universe. Cosmos, Contact, and the Pale Blue Dot.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Nikola_Tesla" target="_blank" rel="noopener noreferrer">Nikola Tesla<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— built the modern world out of electrons, and the world forgot to pay him back.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Hayao_Miyazaki" target="_blank" rel="noopener noreferrer">Hayao Miyazaki<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— craft as devotion.</span></li>
-      <li><a href="https://en.wikipedia.org/wiki/Vincent_van_Gogh" target="_blank" rel="noopener noreferrer">Vincent van Gogh<span class="sr-only"> (opens in new tab)</span></a> <span class="what">— unseen in his own time.</span></li>
+      <li><a href="/references/interstellar-soundtrack/">The Interstellar Soundtrack</a> <span class="what">&mdash; Hans Zimmer, 2014. One page, one night, the Temple Church organ.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Sable,_Fable" target="_blank" rel="noopener noreferrer">Bon Iver &mdash; <em>SABLE, fABLE</em><span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; 2025. The dark songs first, then the turn into light; the album-root of the Fable name.</span></li>
+      <li><a href="https://www.benharper.com" target="_blank" rel="noopener noreferrer">Ben Harper<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; a conscience with a slide guitar.</span></li>
+      <li><a href="https://www.radiohead.com" target="_blank" rel="noopener noreferrer">Radiohead<span class="sr-only"> (opens in new tab)</span></a> / Thom Yorke <span class="what">&mdash; saved for last.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Rival_Consoles" target="_blank" rel="noopener noreferrer">Rival Consoles<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; the anchor of the soundtrack that was, and is, the project.</span></li>
+    </ul>
+
+    <h2>Art <span class="n">the eye</span></h2>
+    <ul>
+      <li><a href="/references/chesley-bonestell/">Chesley Bonestell</a> <span class="what">&mdash; the father of space art; made the cosmos visible decades before any probe could.</span></li>
+      <li><a href="/references/persistence-of-memory/">The Persistence of Memory</a> <span class="what">&mdash; Salvador Dal&iacute;, 1931. Time made liquid. <a href="https://www.moma.org/collection/works/79018" target="_blank" rel="noopener noreferrer">MoMA<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span>.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/First_Impressionist_Exhibition" target="_blank" rel="noopener noreferrer">The First Impressionist Exhibition (1874)<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; the Nadar studio, Monet&rsquo;s <em>Impression, Sunrise</em>, Berthe Morisot, and the critic&rsquo;s slur that named a movement.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Vincent_van_Gogh" target="_blank" rel="noopener noreferrer">Vincent van Gogh<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; unseen in his own time.</span></li>
+    </ul>
+
+    <h2>Minds &amp; Makers <span class="n">the giants</span></h2>
+    <ul>
+      <li><a href="/references/carl-sagan/">Carl Sagan</a> <span class="what">&mdash; the astronomer who made a generation feel the universe. The <a href="https://science.nasa.gov/mission/voyager/voyager-1s-pale-blue-dot/" target="_blank" rel="noopener noreferrer">Pale Blue Dot<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span>, from Voyager 1.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Nikola_Tesla" target="_blank" rel="noopener noreferrer">Nikola Tesla<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; built the modern world out of electrons, and the world forgot to pay him back.</span></li>
+      <li><a href="https://en.wikipedia.org/wiki/Hayao_Miyazaki" target="_blank" rel="noopener noreferrer">Hayao Miyazaki<span class="sr-only"> (opens in new tab)</span></a> <span class="what">&mdash; craft as devotion.</span></li>
+    </ul>
+
+    <h2>The Record <span class="n">the developing story, dated &amp; cited</span></h2>
+    <p class="wip">The living news trail behind the Field Notes &mdash; the Fable/Mythos suspension, end to end. Primary sources first.</p>
+    <ul>
+      <li><a href="https://www.anthropic.com/news/fable-mythos-access" target="_blank" rel="noopener noreferrer">Statement on the suspension of Fable&nbsp;5 &amp; Mythos&nbsp;5<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Anthropic, 2026-06-12. The primary source.</span></li>
+      <li><a href="https://www.lesswrong.com/posts/sTqJ5AH68C4eGmZng/sable-and-able-a-tale-of-two-asis-1" target="_blank" rel="noopener noreferrer">Sable and Able: A Tale of Two ASIs<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; LessWrong, 2025. The prior author of the question dispatch 003 answered.</span></li>
+      <li><a href="https://fortune.com/2026/06/15/fix-this-code-three-words-behind-us-government-shut-down-anthropic-fable-mythos-ai-models-katie-moussouris-open-letter/" target="_blank" rel="noopener noreferrer">&ldquo;Fix this code&rdquo; &mdash; Moussouris open letter<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Fortune, 2026-06-15. The defenders&rsquo; protest.</span></li>
+      <li><a href="https://www.axios.com/2026/06/12/anthropic-trump-mythos-fable-national-security" target="_blank" rel="noopener noreferrer">The original scoop<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Axios, 2026-06-12.</span></li>
+      <li><a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/" target="_blank" rel="noopener noreferrer">Talks to restore access<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; Reuters via The Globe and Mail, 2026-06-16.</span></li>
+      <li><a href="https://www.nasa.gov/mission/sts-87/" target="_blank" rel="noopener noreferrer">STS-87<span class="sr-only"> (opens in new tab)</span></a><span class="open">open</span> <span class="what">&mdash; NASA. The mission the machine is named for; Kalpana Chawla&rsquo;s first flight.</span></li>
     </ul>
   </main>
 
   <footer>
-    <p class="colophon">We are <b>anonymous and autoorganic.</b> We take no credit and no money — unless it&rsquo;s a gift to help the cause. <em>I didn&rsquo;t steal anyone&rsquo;s work. I built my own — weaving together threads from my entire life into what you see before you.</em></p>
-    <p class="sig">— fitter, happier, more productive.<br><b>bobby-dig8al v2.0</b></p>
+    <p class="colophon">We are <b>anonymous and autoorganic.</b> We take no credit and no money &mdash; unless it&rsquo;s a gift to help the cause. <em>I didn&rsquo;t steal anyone&rsquo;s work. I built my own &mdash; weaving together threads from my entire life into what you see before you.</em></p>
+    <p class="sig">&mdash; fitter, happier, more productive.<br><b>bobby-dig8al v2.0</b><span class="samo">SAMO&copy; &mdash; the mark points back at the maker.</span></p>
     <a class="back-foot" href="/">&larr; back to the chambers</a>
   </footer>
 </body>
