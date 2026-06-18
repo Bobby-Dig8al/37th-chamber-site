@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaleidoscope Iris — L7 / the 7th day · 37th Chamber</title>
+<!--
+  MOCK v1 — NOT LIVE. The Sunday summit (Level 7) of the weekly evolving eye:
+  the iris opens into a KALEIDOSCOPE. Our own version — blue + white, 12-fold radial
+  symmetry (rhymes with the 12 Jewelz / 12-point), slowly turning + breathing.
+  The whole sigil is an EYE: outer ring = the eye's edge, dark center = the pupil,
+  and this turning kaleidoscope between them = the iris. Target: ready by Sunday.
+  For Kyle's mother, who loved kaleidoscopes.
+-->
+<style>
+  :root{ --bg:#08080a; --gold:#FFD60A; --dim:#8f8a73; --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--gold);font-family:var(--font);min-height:100vh;padding:2rem 1rem 3rem;
+    display:flex;flex-direction:column;align-items:center;gap:1.2rem;
+    background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);background-size:46px 46px}
+  h1{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);text-align:center;font-weight:600}
+  .stage{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;align-items:flex-end}
+  .eye{position:relative;display:flex;flex-direction:column;align-items:center;gap:.7rem}
+  .disc{position:relative;border-radius:50%;overflow:hidden;background:#08080a;
+    box-shadow:0 0 0 1px rgba(255,214,10,.5),0 0 22px -2px rgba(14,68,255,.7),inset 0 0 30px -6px rgba(14,68,255,.4)}
+  .disc.big{width:360px;height:360px}
+  .disc.hero{width:84px;height:84px}
+  .disc canvas{display:block;width:100%;height:100%}
+  .cap{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .sub{font-size:.56rem;color:var(--dim);text-align:center;max-width:22ch;line-height:1.45}
+  .note{font-size:.62rem;color:var(--dim);letter-spacing:.05em;text-align:center;max-width:62ch;line-height:1.6}
+  .note b{color:var(--gold)}
+</style>
+</head>
+<body>
+  <h1>Kaleidoscope iris &mdash; L7 / the 7th day (Sunday summit) &middot; mock v1, not live</h1>
+  <div class="stage">
+    <div class="eye"><div class="disc big"><canvas id="kbig"></canvas></div><div class="cap">The iris, opened</div><div class="sub">12-fold, blue + white, slowly turning &amp; breathing</div></div>
+    <div class="eye"><div class="disc hero"><canvas id="khero"></canvas></div><div class="cap">At hero size</div><div class="sub">does it read small?</div></div>
+  </div>
+  <p class="note">The eye climbs the hex mountain Mon&ndash;Sat; on <b>Sunday</b> the iris becomes this. First pass &mdash; we tune symmetry (6/12-fold), palette (more teal? more white?), turn speed, pupil size, and how much gold rim stays. <b>For your mother.</b></p>
+
+<script>
+(function(){
+  function mk(canvas){
+    var ctx=canvas.getContext('2d'), DPR=Math.min(window.devicePixelRatio||1,2);
+    function fit(){canvas.width=Math.max(1,Math.floor(canvas.clientWidth*DPR));canvas.height=Math.max(1,Math.floor(canvas.clientHeight*DPR));}
+    fit(); window.addEventListener('resize',fit);
+    var N=12, seg=Math.PI*2/N;
+    var COLS=[[14,68,255],[34,108,255],[77,130,255],[120,170,255],[31,182,255],[160,200,255]];
+    function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+    function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+    var rnd=mb(20260621), shards=[];
+    for(var i=0;i<11;i++){shards.push({r:0.14+rnd()*0.78,a:rnd()*seg,size:0.05+rnd()*0.13,col:COLS[(rnd()*COLS.length)|0],drift:0.3+rnd()*0.9,phase:rnd()*6.283,tri:rnd()<0.72});}
+    function shardsDraw(ts,R){
+      for(var i=0;i<shards.length;i++){var s=shards[i];
+        var rr=(s.r+0.05*Math.sin(ts*0.0004*s.drift+s.phase))*R, ang=s.a;
+        var x=Math.cos(ang)*rr, y=Math.sin(ang)*rr;
+        var sz=s.size*R*(0.85+0.3*Math.sin(ts*0.0006+s.phase));
+        var al=0.5+0.4*Math.sin(ts*0.0005+s.phase*1.7);
+        ctx.fillStyle=rgba(s.col,Math.max(0.10,al*0.5));
+        if(s.tri){ctx.beginPath();ctx.moveTo(x,y-sz);ctx.lineTo(x+sz*0.9,y+sz*0.7);ctx.lineTo(x-sz*0.9,y+sz*0.7);ctx.closePath();ctx.fill();}
+        else{ctx.beginPath();ctx.arc(x,y,sz*0.6,0,6.283);ctx.fill();}
+      }
+      for(var j=0;j<4;j++){var sr=(0.22+0.66*((j*0.27+0.13)%1))*R, sa=seg*(0.2+j*0.17);
+        var sx=Math.cos(sa)*sr, sy=Math.sin(sa)*sr, a2=0.3+0.5*Math.abs(Math.sin(ts*0.0008+j));
+        ctx.fillStyle=rgba([234,241,255],a2);
+        ctx.beginPath();ctx.arc(sx,sy,R*0.014*(0.7+0.6*Math.sin(ts*0.001+j)),0,6.283);ctx.fill();}
+    }
+    function frame(ts){
+      var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2,R=Math.min(w,h)/2;
+      ctx.globalCompositeOperation='source-over';ctx.fillStyle='#08080a';ctx.fillRect(0,0,w,h);
+      ctx.globalCompositeOperation='lighter';
+      var grot=ts*0.00004;
+      for(var i=0;i<N;i++){ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+        ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+        shardsDraw(ts,R);ctx.restore();}
+      ctx.globalCompositeOperation='source-over';
+      // pupil
+      ctx.beginPath();ctx.arc(cx,cy,R*0.14,0,6.283);ctx.fillStyle='#08080a';ctx.fill();
+      ctx.beginPath();ctx.arc(cx,cy,R*0.14,0,6.283);ctx.strokeStyle='rgba(14,68,255,.5)';ctx.lineWidth=DPR;ctx.stroke();
+      // catch-light
+      ctx.beginPath();ctx.arc(cx-R*0.045,cy-R*0.055,R*0.025,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  mk(document.getElementById('kbig'));
+  mk(document.getElementById('khero'));
+})();
+</script>
+</body>
+</html>
