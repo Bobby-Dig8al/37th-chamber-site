@@ -171,8 +171,12 @@ function eye_ice_seed(canvas, opts){
 
     // --- iris (the elevated ice-seed kaleidoscope) ---
     ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
-    // deep navy iris floor (slightly cooler/darker than base to let ice read)
-    ctx.fillStyle='#070912';ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    // FILLED iris floor — saturated cold-blue radial bed; no black between panes
+    var bed=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    bed.addColorStop(0,'rgba(70,140,200,1)');     // bright icy blue center
+    bed.addColorStop(0.55,'rgba(38,90,160,1)');   // mid steel blue
+    bed.addColorStop(1,'rgba(12,40,90,1)');       // deep navy edge
+    ctx.fillStyle=bed;ctx.fillRect(cx-R,cy-R,R*2,R*2);
     // faint radial navy depth so the center reads as cold + recessed
     var ng=ctx.createRadialGradient(cx,cy,R*0.10,cx,cy,R);
     ng.addColorStop(0,'rgba(20,34,70,0.55)');
@@ -456,7 +460,12 @@ function eye_crystal_bloom(canvas, opts){
     g.addColorStop(0,'rgba(170,195,255,0)');g.addColorStop(0.5,'rgba(200,220,255,0.12)');g.addColorStop(1,'rgba(236,243,255,0.46)');
     ctx.fillStyle=g;ctx.fillRect(0,0,w,h); ctx.restore();
     ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
-    ctx.fillStyle='#08080a';ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    // FILLED iris floor — saturated bloom-violet radial bed; no black between panes
+    var bed=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    bed.addColorStop(0,'rgba(200,80,160,1)');     // bright magenta center
+    bed.addColorStop(0.55,'rgba(120,42,120,1)');  // mid plum
+    bed.addColorStop(1,'rgba(58,18,82,1)');       // deep aubergine edge
+    ctx.fillStyle=bed;ctx.fillRect(cx-R,cy-R,R*2,R*2);
     // deep blue glow base under the bloom
     var gb=ctx.createRadialGradient(cx,cy,R*0.10,cx,cy,R);
     gb.addColorStop(0,'rgba(18,60,180,0.30)');gb.addColorStop(0.6,'rgba(10,30,90,0.18)');gb.addColorStop(1,'rgba(6,10,30,0)');
@@ -992,7 +1001,12 @@ function eye_sapphire_jewel(canvas, opts){
 
     /* ---- iris disc ---- */
     ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
-    ctx.fillStyle='#06081a';ctx.fillRect(cx-R,cy-R,R*2,R*2); /* deep sapphire-black bed */
+    /* FILLED iris floor — saturated sapphire radial bed; no black between panes */
+    var bed=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    bed.addColorStop(0,'rgba(28,84,200,1)');      /* bright sapphire center */
+    bed.addColorStop(0.55,'rgba(18,52,160,1)');   /* mid royal blue */
+    bed.addColorStop(1,'rgba(10,28,110,1)');      /* deep navy edge */
+    ctx.fillStyle=bed;ctx.fillRect(cx-R,cy-R,R*2,R*2);
 
     /* electric-blue inner glow under the kaleidoscope — the bright heart of the jewel */
     var core=ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.95);
@@ -1214,7 +1228,12 @@ function eye_summit(canvas, opts){
 
     ctx.save();
     ctx.beginPath(); ctx.arc(cx,cy, R, 0, 6.283); ctx.clip();
-    ctx.fillStyle = '#08080a'; ctx.fillRect(cx-R, cy-R, R*2, R*2);
+    // FILLED iris floor — saturated summit-teal radial bed; no black between panes
+    var bed = ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    bed.addColorStop(0,'rgba(30,160,180,1)');     // bright teal center (Summit elevation)
+    bed.addColorStop(0.55,'rgba(18,90,140,1)');   // mid deep teal-blue
+    bed.addColorStop(1,'rgba(10,40,90,1)');       // deep navy edge
+    ctx.fillStyle = bed; ctx.fillRect(cx-R, cy-R, R*2, R*2);
 
     var ir = ctx.createRadialGradient(cx,cy, R*0.28, cx,cy, R);
     ir.addColorStop(0, 'rgba(8,20,60,0.0)');
