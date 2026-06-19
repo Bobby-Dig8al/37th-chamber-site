@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mast-Eye Review — large + live</title>
+<style>
+  :root{ --gold:#FFD60A; --dim:#8f8a73; --bg:#08080a; --electric:#0E44FF; }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--gold);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  header{text-align:center;padding:26px 18px 6px;}
+  h1{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.34em;margin:0 0 6px;}
+  .sub{font-size:11px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;}
+  .grid{display:flex;flex-wrap:wrap;gap:34px;justify-content:center;
+    align-items:flex-start;padding:24px 18px 64px;max-width:1500px;margin:0 auto;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  /* eye box: DEFINITE width AND height (a canvas at height:100% inside an
+     aspect-ratio-only box collapses to 0 — that was the blank-gallery bug). */
+  .eyebox{width:min(44vw,540px);height:calc(min(44vw,540px) / 1.46);
+    filter:drop-shadow(0 0 12px rgba(14,68,255,.42)) drop-shadow(0 0 30px rgba(14,68,255,.26));}
+  /* !important so teal-nebula (which pins an explicit px style.width at mount) still fills its box here */
+  canvas{display:block;width:100%!important;height:100%!important;}
+  .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
+  .desc{font-size:10.5px;letter-spacing:.06em;color:rgba(255,214,10,.62);}
+  .badge{display:inline-block;margin-left:8px;font-size:9px;letter-spacing:.16em;
+    color:var(--bg);background:var(--gold);padding:1px 6px;border-radius:3px;vertical-align:middle;}
+  .badge.bloom{background:var(--electric);color:#fff;}
+  .badge.drop{background:transparent;color:var(--dim);border:1px solid var(--dim);}
+  .note{max-width:700px;margin:0 auto;text-align:center;font-size:11.5px;line-height:1.7;
+    color:rgba(255,214,10,.7);padding:0 18px 40px;}
+  code{color:#cfe0ff;}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Mast-Eye Review · large + live</h1>
+    <div class="sub">exactly the production renderers — what ships is what you see here</div>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="note">
+    Each eye is the real per-day renderer from <code>assets/mast-eye.js</code> (the same code the homepage hero mounts).
+    Current rotation shown in day order; <span class="badge bloom">the bloom</span> is the new Sunday full kaleidoscope;
+    <span class="badge drop">dropped</span> is out of rotation but kept available.
+    See any one at hero size in context via <code>/?eye=&lt;slug&gt;</code> on the homepage.
+  </p>
+
+  <script src="/assets/mast-eye.js?v=3"></script>
+  <script>
+    var LIST = [
+      // ---- FILLED Sunday candidates (no black wedges) ----
+      { slug:'sapphire-fill',   lbl:'SUN · Sapphire FILLED',   desc:'no black · shimmering jewel iris — Sunday default', badge:'the fill', bloom:true },
+      { slug:'shattered-fill',  lbl:'Shattered FILLED',        desc:'no black · bold filled panes', badge:'fill' },
+      { slug:'teal-fill',       lbl:'Teal FILLED',             desc:'no black · teal/cyan (renders small — renderer quirk)', badge:'fill' },
+      // ---- the dark originals, for contrast (rays / spotlight on black) ----
+      { slug:'sapphire-jewel',  lbl:'SAT · Sapphire (dark)',   desc:'12-fold · gemstone on black' },
+      { slug:'shattered-glass', lbl:'FRI · Shattered (dark)',  desc:'12-fold · panes on black' },
+      { slug:'teal-nebula',     lbl:'THU · Teal (dark)',       desc:'12-fold · teal field on black' },
+      { slug:'crystal-bloom',   lbl:'WED · Crystal Bloom',     desc:'10-fold · voronoi cells' },
+      { slug:'ice-seed',        lbl:'MON · Ice Seed',          desc:'6-fold · sparse frost needles' },
+      { slug:'summit',          lbl:'TUE · The Summit',        desc:'12-fold · dual layers + starburst' },
+      { slug:'first-facets',    lbl:'First Facets',            desc:'8-fold · the "eh" — dropped', badge:'dropped', drop:true }
+    ];
+    var grid = document.getElementById('grid');
+    var canvases = [];
+    LIST.forEach(function(it){
+      var cell = document.createElement('div'); cell.className='cell';
+      var box = document.createElement('div'); box.className='eyebox';
+      var cv = document.createElement('canvas'); box.appendChild(cv);
+      var lbl = document.createElement('div'); lbl.className='lbl'; lbl.textContent = it.lbl;
+      if(it.badge){ var b=document.createElement('span');
+        b.className='badge'+(it.bloom?' bloom':'')+(it.drop?' drop':'');
+        b.textContent=it.badge; lbl.appendChild(b); }
+      var desc = document.createElement('div'); desc.className='desc'; desc.textContent=it.desc;
+      cell.appendChild(box); cell.appendChild(lbl); cell.appendChild(desc);
+      grid.appendChild(cell);
+      canvases.push({cv:cv, slug:it.slug});
+    });
+    // Mount SYNCHRONOUSLY — getBoundingClientRect forces layout so each factory's
+    // fit() reads the real box size, and paint(0) draws the first frame immediately.
+    // (Deferring to requestAnimationFrame fails in a backgrounded tab, where rAF is paused.)
+    canvases.forEach(function(o){ window.MastEye && MastEye.mountSlug(o.cv, o.slug); });
+  </script>
+</body>
+</html>
