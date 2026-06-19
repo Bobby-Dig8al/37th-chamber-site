@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Name a Chamber · 37th Chamber</title>
+<meta name="description" content="Thirty-six chambers. The thirty-seventh is the one you give away. Eighteen doors are still dark — help name one, and a chamber you name is a chamber we build.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/chambers/name/">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
+<meta property="og:title" content="Name a Chamber · 37th Chamber">
+<meta property="og:description" content="Eighteen doors are still dark. Help name one — a name is a parable, and a chamber you name is a chamber we build.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://37th-chamber.com/chambers/name/">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="37th Chamber — geometric gold sigil on near-black background">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Name a Chamber · 37th Chamber">
+<meta name="twitter:description" content="Eighteen doors are still dark. Help name one — a chamber you name is a chamber we build.">
+<meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;line-height:1.7;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.5rem,5vw,3rem) 1.25rem 0;overflow-x:hidden;position:relative;letter-spacing:.006em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 16%,#000 28%,transparent 86%)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+.back{align-self:flex-start;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.5rem;z-index:1;
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.3);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:1rem}
+.title{font-size:clamp(2.1rem,8vw,3.6rem);line-height:1;text-transform:uppercase;letter-spacing:.03em;color:var(--gold);font-weight:600;text-align:center;
+  text-shadow:0 1px 0 #b88e00,0 2px 5px rgba(0,0,0,.5)}
+.hook{margin:1.4rem auto 0;max-width:36rem;text-align:center;font-size:clamp(1.05rem,3vw,1.3rem);line-height:1.5;color:#fff;font-weight:600}
+.hook .glow{text-shadow:0 0 8px rgba(255,214,10,.7),0 0 18px rgba(255,214,10,.35)}
+.section-label{margin:3rem 0 1.1rem;display:flex;align-items:center;gap:1rem;color:var(--dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase}
+.section-label::before,.section-label::after{content:'';height:1px;background:rgba(143,138,115,.28);flex:1}
+.body p{margin:0 0 1.2rem;font-size:clamp(1rem,2.6vw,1.1rem)}
+.body strong{color:#fff;font-weight:600}
+.body .gold{color:var(--gold);font-weight:600}
+.lede{border:1px solid rgba(255,214,10,.4);background:rgba(255,214,10,.03);position:relative;overflow:hidden;padding:clamp(1.4rem,4vw,2rem);margin-top:1rem}
+.lede::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.95),0 0 20px rgba(14,68,255,.6)}
+.lede p{margin:0 0 .9rem;font-size:clamp(1rem,2.7vw,1.12rem)}
+.lede p:last-child{margin:0}
+.lede .build{color:#fff;font-weight:600;text-shadow:0 0 8px rgba(255,214,10,.7),0 0 16px rgba(255,214,10,.4)}
+/* the bar — what makes a chamber name */
+.bar{margin-top:.4rem}
+.bar li{list-style:none;margin:0 0 .85rem;padding-left:1.5rem;position:relative;font-size:clamp(1rem,2.6vw,1.08rem);line-height:1.55}
+.bar li::before{content:'\25C6';position:absolute;left:0;top:.05em;color:var(--gold-soft);font-size:.7em}
+.bar li b{color:#fff;font-weight:600}
+.model{margin-top:1.3rem;font-size:.95rem;color:var(--dim);line-height:1.6}
+.model a{color:var(--gold);text-decoration:none;font-weight:600}.model a:hover{text-decoration:underline}
+/* the domains */
+.domains{margin-top:.4rem;display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.dom{border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.012);padding:1rem 1.1rem}
+.dom .h{font-size:.95rem;letter-spacing:.02em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.dom .s{font-size:.9rem;color:var(--text);line-height:1.5;margin-top:.25rem}
+.dom .key{color:var(--gold-soft);font-weight:600}
+/* the submit */
+.submit{border:1px solid rgba(255,214,10,.4);background:rgba(255,214,10,.025);padding:clamp(1.4rem,4vw,2rem);margin-top:1rem}
+.submit p{font-size:clamp(1rem,2.6vw,1.08rem);margin:0 0 1.1rem}
+.cta{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:var(--bg);background:var(--gold);text-decoration:none;padding:.7rem 1.2rem;border-radius:2px;transition:.16s ease}
+.cta:hover{background:#ffe14d;transform:translateY(-2px)}
+.tmpl-toggle{display:inline-block;margin-left:.9rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-decoration:none;border-bottom:1px dotted var(--dim)}
+.tmpl-toggle:hover{color:var(--gold)}
+.tmpl{margin-top:1.2rem;border:1px solid rgba(143,138,115,.3);background:rgba(0,0,0,.25);padding:1.1rem 1.2rem;
+  font-family:ui-monospace,'Cascadia Code','Consolas',monospace;font-size:.82rem;line-height:1.7;color:var(--text);white-space:pre-wrap;letter-spacing:0}
+.note{margin-top:1rem;font-size:.85rem;color:var(--dim);line-height:1.6}
+/* the credit */
+.credit{margin-top:.4rem}
+.credit p{font-size:clamp(1rem,2.6vw,1.08rem);margin:0 0 1rem}
+.credit .named{color:var(--gold-soft);font-weight:600;letter-spacing:.02em}
+.xlink{margin-top:1.6rem;font-size:.95rem;color:var(--dim)}
+.xlink a{color:var(--gold);text-decoration:none;font-weight:600}.xlink a:hover{text-decoration:underline}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);box-shadow:0 -10px 24px -16px var(--electric);padding:1.5rem .25rem 2.4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+.foot-back{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* the corridor */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+</style>
+<script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
+  <nav aria-label="Site navigation"><a class="back" href="/chambers/">&larr;&nbsp;The Chambers</a></nav>
+  <main class="wrap" id="main">
+    <div class="eyebrow">The Dojo &middot; an open call</div>
+    <h1 class="title">Name a Chamber</h1>
+    <p class="hook">Thirty-six chambers. The thirty-seventh is the one you <span class="glow">give away.</span></p>
+
+    <div class="lede" style="margin-top:1.8rem">
+      <p>Eighteen of the doors are still dark &mdash; no name on them, nothing built behind them yet. <span class="gold">Go</span> was the nineteenth, the first we opened to you: trained on the move a machine played that no human would have, and that turned out to be beautiful.</p>
+      <p>We don't want to name the rest alone. <strong>Help us.</strong> Tell us what a chamber should teach, what it should be called, and why &mdash; and <span class="build">a chamber you name is a chamber we build.</span> The naming sets the order. The dark doors light up in the order the room behind them earns a name.</p>
+    </div>
+
+    <h2 class="section-label">What makes a chamber name</h2>
+    <p class="body" style="color:var(--text)">A chamber's name is not a label. It's a <span class="gold">parable</span> &mdash; a small story you can stand inside. Ours hold to three things:</p>
+    <ul class="bar">
+      <li><b>It carries meaning.</b> The name <em>is</em> the lesson, compressed. "Move 37" is a whole argument about what AI can be, folded into two words.</li>
+      <li><b>It honors a root.</b> Real people, a real moment, a real place. We cite to honor the root &mdash; a chamber is named <em>for</em> someone, the way Go is named for Lee Sedol and Demis Hassabis.</li>
+      <li><b>It rewards a second look.</b> The best ones have a floor under the floor &mdash; a turn that opens only when you read it twice.</li>
+    </ul>
+    <p class="model">See the bar set: <a href="/chambers/go/">Move 37</a>, the Go room &mdash; and <a href="/chambers/washington-square/">Washington Square</a>, the chess room. Read either, then name yours against them.</p>
+
+    <h2 class="section-label">What's open</h2>
+    <p class="body" style="color:var(--text)">The thirty-six span four grounds. Propose a room on any of them &mdash; or open a new ground we haven't lit.</p>
+    <div class="domains">
+      <div class="dom"><div class="h">The Games</div><div class="s">Where a mind is sharpened against a worthy opponent. <span class="key">Chess &amp; Go are lit.</span></div></div>
+      <div class="dom"><div class="h">AI Literacy by Craft</div><div class="s">Understanding the machine by building with it &mdash; not fearing it, not worshipping it.</div></div>
+      <div class="dom"><div class="h">The Sciences</div><div class="s">Cosmology, physics, the shape of what's real &mdash; learned to the floor, not skimmed.</div></div>
+      <div class="dom"><div class="h">Philosophy</div><div class="s">The keystone. How to think, how to live, what the whole dojo is <span class="key">for.</span></div></div>
+    </div>
+
+    <h2 class="section-label">Propose a chamber</h2>
+    <div class="submit">
+      <p>One door, one email. Tell us the room you'd build &mdash; we read every one.</p>
+      <a class="cta" href="mailto:bobby-dig8al@outlook.com?subject=Name%20a%20Chamber&body=The%20chamber%20I%20would%20name%3A%0A%0ADomain%20%28games%20%2F%20AI%20literacy%20%2F%20the%20sciences%20%2F%20philosophy%20%2F%20something%20new%29%3A%0AWhat%20it%20teaches%3A%0AThe%20name%3A%0AWhy%20this%20name%20%28what%20it%20carries%2C%20the%20root%20it%20honors%29%3A%0ACredit%20%28the%20name%20or%20handle%20to%20use%20if%20it%20is%20chosen%2C%20or%20anonymous%29%3A%0A">Open a draft &rarr;</a>
+      <a class="tmpl-toggle" href="#template" id="tmpl-link">or copy the template</a>
+      <pre class="tmpl" id="template">The chamber I would name:
+
+Domain (games / AI literacy / the sciences / philosophy / something new):
+What it teaches:
+The name:
+Why this name (what it carries, the root it honors):
+Credit (the name or handle to use if it is chosen, or anonymous):</pre>
+      <p class="note">No account, no form, no tracking &mdash; just your words to our inbox. Send to <strong style="color:var(--gold-soft)">bobby-dig8al@outlook.com</strong> if the button doesn't open your mail app.</p>
+    </div>
+
+    <h2 class="section-label">If yours is chosen</h2>
+    <div class="credit">
+      <p>The names that land get built &mdash; and the page that opens behind that door carries <span class="named">"named by ___,"</span> your name or your handle, the way Lee Sedol and Demis Hassabis are named on the Go room. The root is honored. That's the whole creed: <strong>knowledge is free, and the people who shape it are seen.</strong></p>
+      <p style="color:var(--dim);font-size:.92rem;margin:0">We can't promise to use a name &mdash; the bar is high and most rooms take a few tries to name true. But every proposal is read, and the ones that ring stay on the board.</p>
+    </div>
+
+    <p class="xlink">Walk the rooms first &mdash; <a href="/chambers/">The Chambers &rarr;</a></p>
+  </main>
+
+  <footer>
+    <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+    <a class="foot-back" href="/chambers/">&larr; back to the chambers</a>
+  </footer>
+</body>
+</html>
