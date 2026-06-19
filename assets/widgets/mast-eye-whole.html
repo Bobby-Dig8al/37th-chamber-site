@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mast Eye — the whole-eye direction — 37th Chamber</title>
+<!--
+  MOCK — NOT LIVE. The "whole eye" direction for the MAST EYE only:
+  no gold cage, no blueprint grid. The mark IS an eye —
+    - the negative space between the eyelids (the almond) glows WHITE (the sclera),
+    - the IRIS is the turning crystalline kaleidoscope (blue + white, 12-fold),
+    - the PUPIL is dark (2x).
+  The kaleidoscope makes all the shapes. Gold geometry + grid stay on the favicon series.
+  Seeded 20260621. For his mother, who loved kaleidoscopes.
+-->
+<style>
+  :root{ --bg:#08080a; --gold:#FFD60A; --dim:#8f8a73; --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--gold);font-family:var(--font);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;gap:1.4rem;padding:2.6rem 1rem 3rem}
+  h1{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);text-align:center;font-weight:600}
+  .stage{display:flex;flex-wrap:wrap;gap:2.6rem;justify-content:center;align-items:center}
+  .eye{display:flex;flex-direction:column;align-items:center;gap:.7rem}
+  .cap{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .sub{font-size:.54rem;color:var(--dim);text-align:center;max-width:26ch;line-height:1.45}
+  canvas{display:block}
+  .big{width:440px;height:300px}
+  .hero{width:168px;height:116px}
+  .note{font-size:.62rem;color:var(--dim);text-align:center;max-width:62ch;line-height:1.6}
+  .note b{color:var(--gold)}
+</style>
+</head>
+<body>
+  <h1>Mast eye &mdash; the whole-eye direction &middot; almond sclera glow + crystalline iris &middot; mock, not live</h1>
+  <div class="stage">
+    <div class="eye"><canvas class="big" id="ebig"></canvas><div class="cap">The eye</div><div class="sub">white almond glow (sclera) &middot; crystalline kaleidoscope iris &middot; 2&times; pupil</div></div>
+    <div class="eye"><canvas class="hero" id="ehero"></canvas><div class="cap">At mast size</div><div class="sub">does it read small?</div></div>
+  </div>
+  <p class="note">The whole mark IS an eye: the negative space between the eyelids glows <b>white</b>, the iris is the turning <b>kaleidoscope</b>, the pupil is dark. No gold cage, no grid &mdash; the kaleidoscope makes the shapes. <b>For his mother.</b></p>
+
+<script>
+(function(){
+  function eye(canvas){
+    var ctx=canvas.getContext('2d'); if(!ctx) return;
+    var DPR=Math.min(window.devicePixelRatio||1,2);
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    function fit(){var r=canvas.getBoundingClientRect();var w=Math.max(1,Math.round((r.width||168)*DPR)),h=Math.max(1,Math.round((r.height||116)*DPR));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}}
+    fit(); window.addEventListener('resize',fit);
+    var N=12, seg=Math.PI*2/N;
+    var COLS=[[14,68,255],[34,108,255],[77,130,255],[120,170,255],[31,182,255],[160,200,255],[210,232,255]];
+    function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+    function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+    var rnd=mb(20260621), shards=[];
+    for(var i=0;i<16;i++){shards.push({r:0.20+rnd()*0.78,a:rnd()*seg,size:0.07+rnd()*0.15,col:COLS[(rnd()*COLS.length)|0],drift:0.3+rnd()*0.9,phase:rnd()*6.283});}
+    function almond(cx,cy,aw,peak){ctx.beginPath();ctx.moveTo(cx-aw,cy);ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);ctx.closePath();}
+    function shardsDraw(ts,R){
+      for(var i=0;i<shards.length;i++){var s=shards[i];
+        var rr=(s.r+0.04*Math.sin(ts*0.0004*s.drift+s.phase))*R, ang=s.a;
+        var x=Math.cos(ang)*rr, y=Math.sin(ang)*rr;
+        var sz=s.size*R*(0.9+0.22*Math.sin(ts*0.0006+s.phase));
+        var al=0.45+0.4*Math.sin(ts*0.0005+s.phase*1.7);
+        var rot=s.phase+ts*0.00018*s.drift;
+        ctx.beginPath();
+        for(var k=0;k<3;k++){var aa=rot+k*2.0944;ctx.lineTo(x+Math.cos(aa)*sz,y+Math.sin(aa)*sz);}
+        ctx.closePath();
+        ctx.fillStyle=rgba(s.col,Math.max(0.14,al*0.62));ctx.fill();
+        ctx.strokeStyle=rgba([224,238,255],Math.max(0.07,al*0.45));ctx.lineWidth=Math.max(1,R*0.006);ctx.stroke();
+      }
+      for(var j=0;j<5;j++){var sr=(0.24+0.62*((j*0.27+0.11)%1))*R, sa=seg*(0.18+j*0.16);
+        var sx=Math.cos(sa)*sr, sy=Math.sin(sa)*sr, a2=0.3+0.5*Math.abs(Math.sin(ts*0.0008+j));
+        ctx.fillStyle=rgba([234,241,255],a2);
+        ctx.beginPath();ctx.arc(sx,sy,R*0.016*(0.7+0.6*Math.sin(ts*0.001+j)),0,6.283);ctx.fill();}
+    }
+    function paint(ts){
+      var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2;
+      var aw=w*0.46, peak=h*0.40, R=Math.min(h*0.38, aw*0.66);
+      ctx.globalCompositeOperation='source-over';
+      ctx.fillStyle='#08080a';ctx.fillRect(0,0,w,h);
+      // white almond glow — the sclera / negative space between the eyelids
+      ctx.save();
+      almond(cx,cy,aw,peak); ctx.clip();
+      ctx.fillStyle='#0a0c12';ctx.fillRect(0,0,w,h);
+      var g=ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+      g.addColorStop(0,'rgba(170,195,255,0)');
+      g.addColorStop(0.5,'rgba(200,220,255,0.12)');
+      g.addColorStop(1,'rgba(236,243,255,0.46)');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      ctx.restore();
+      // iris — the crystalline kaleidoscope, expanded across the full iris
+      ctx.save();
+      ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+      ctx.fillStyle='#08080a';ctx.fillRect(cx-R,cy-R,R*2,R*2);
+      ctx.globalCompositeOperation='lighter';
+      var grot=ts*0.00004;
+      for(var i=0;i<N;i++){ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+        ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+        shardsDraw(ts,R);ctx.restore();}
+      ctx.restore();
+      // pupil (2x) + catch-light
+      ctx.globalCompositeOperation='source-over';
+      ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.fillStyle='#08080a';ctx.fill();
+      ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(14,68,255,.45)';ctx.lineWidth=DPR;ctx.stroke();
+      ctx.beginPath();ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+      // eyelid lines as a soft white rim glow
+      ctx.save();
+      almond(cx,cy,aw,peak);
+      ctx.shadowColor='rgba(200,222,255,0.9)';ctx.shadowBlur=R*0.22;
+      ctx.strokeStyle='rgba(236,243,255,0.55)';ctx.lineWidth=Math.max(1.2,R*0.022);
+      ctx.stroke();
+      ctx.restore();
+    }
+    function frame(ts){ fit(); paint(ts); if(!reduce) requestAnimationFrame(frame); }
+    fit(); paint(0);
+    if(!reduce){ requestAnimationFrame(frame);
+      document.addEventListener('visibilitychange',function(){ if(!document.hidden) requestAnimationFrame(frame); }); }
+  }
+  eye(document.getElementById('ebig'));
+  eye(document.getElementById('ehero'));
+})();
+</script>
+</body>
+</html>
