@@ -10,7 +10,8 @@
     "install:browser": "playwright install chromium"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.9.0",
     "@playwright/test": "^1.40.0",
-    "@axe-core/playwright": "^4.9.0"
+    "chess.js": "^1.4.0"
   }
 }
