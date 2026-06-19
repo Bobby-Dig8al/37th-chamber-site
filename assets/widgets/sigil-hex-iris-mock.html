@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vault Sigil — the weekly mountain (all 7 levels) · 37th Chamber</title>
+<!--
+  REVIEW MOCK — mirrors the LIVE production per-level sets (index.html evolving-eye script).
+  The hero eye climbs a 7-level complexity mountain across the week and resets Monday.
+  Mon=L1 (seed) ... Sun=L7 (summit). TODAY = Thursday = L4 (live now). Bench, not deployed.
+-->
+<style>
+  :root{ --bg:#08080a; --gold:#FFD60A; --dim:#8f8a73; --electric:#0E44FF; --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--gold);font-family:var(--font);min-height:100vh;padding:2rem 1rem 3rem;
+    display:flex;flex-direction:column;align-items:center;gap:1.2rem;
+    background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);background-size:46px 46px}
+  h1{font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);text-align:center;font-weight:600}
+  .seclab{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:.5rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:1.2rem;width:min(1000px,97vw)}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:.5rem;border:1px solid rgba(255,214,10,.14);padding:1rem .6rem .8rem;background:rgba(8,8,10,.5)}
+  .cell.today{border-color:rgba(255,214,10,.6);box-shadow:0 0 0 1px rgba(255,214,10,.15),0 0 30px -8px rgba(14,68,255,.5)}
+  .cell svg{width:170px;height:170px;overflow:visible}
+  .cap{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600;text-align:center}
+  .sub{font-size:.55rem;color:var(--dim);text-align:center;max-width:20ch;line-height:1.4}
+  .live{color:#08080a;background:var(--gold);padding:.08rem .4rem;font-size:.5rem;letter-spacing:.12em;font-weight:700}
+  .heroband{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:1rem;border:1px solid rgba(255,214,10,.14);padding:1rem 1.3rem;background:rgba(8,8,10,.5)}
+  .heroband .h{display:flex;flex-direction:column;align-items:center;gap:.3rem}
+  .heroband svg{width:72px;height:72px;overflow:visible}
+  .heroband .d{font-size:.5rem;letter-spacing:.1em;color:var(--dim)}
+  .note{font-size:.62rem;color:var(--dim);letter-spacing:.05em;text-align:center;max-width:64ch;line-height:1.6}
+  .ring-charge{filter:drop-shadow(0 0 5px #0E44FF) drop-shadow(0 0 14px rgba(14,68,255,.55))}
+  .iris{animation:iris-pulse 3.6s ease-in-out infinite}
+  @keyframes iris-pulse{0%,100%{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 6px rgba(14,68,255,.8)) drop-shadow(0 0 12px rgba(14,68,255,.45))}50%{filter:drop-shadow(0 0 4px #2b6cff) drop-shadow(0 0 12px rgba(14,68,255,1)) drop-shadow(0 0 26px rgba(14,68,255,.82))}}
+  .sg-hex{animation:sg-hexpulse 3.6s ease-in-out infinite}
+  @keyframes sg-hexpulse{0%,100%{filter:drop-shadow(0 0 1px #2b6cff) drop-shadow(0 0 4px rgba(14,68,255,.5))}50%{filter:drop-shadow(0 0 2px #2b6cff) drop-shadow(0 0 10px rgba(14,68,255,.85))}}
+  .sg-cw,.sg-ccw{transform-box:fill-box;transform-origin:center}
+  .sg-cw{animation:sg-hexpulse 3.6s ease-in-out infinite,sg-spin 56s linear infinite}
+  .sg-ccw{animation:sg-hexpulse 3.6s ease-in-out infinite,sg-spin 56s linear infinite reverse}
+  @keyframes sg-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important}}
+</style>
+</head>
+<body>
+  <h1>The weekly mountain &mdash; the eye evolves Mon&rarr;Sun, resets Monday &middot; mirrors LIVE</h1>
+
+  <div class="seclab">All 7 levels &mdash; display size</div>
+  <div class="grid" id="grid"></div>
+
+  <div class="seclab">At hero size (~72px)</div>
+  <div class="heroband" id="hero"></div>
+
+  <p class="note">Each weekday the hero eye gains complexity, then <b style="color:var(--gold)">resets to the seed on Monday</b> and climbs again. Today is <b style="color:var(--gold)">Thursday &mdash; Level 4</b>, the static 12-point combo (live now). L5&ndash;L7 add counter-rotation and outer rings. Every knob (radius, stroke, glow, spin speed, which set maps to which day) is one small script &mdash; tweak at the speed of light.</p>
+
+<script>
+(function(){
+  function hexD(R,pointy){var off=pointy?-Math.PI/2:0,p=[];for(var i=0;i<6;i++){var a=off+(Math.PI/3)*i;p.push((100+R*Math.cos(a)).toFixed(2)+','+(100+R*Math.sin(a)).toFixed(2));}return 'M'+p.join(' L')+' Z';}
+  function hex(R,pointy,spin,w){return '<path class="sg-hex'+(spin?(' sg-'+spin):'')+'" d="'+hexD(R,pointy)+'" fill="none" stroke="#FFD500" stroke-width="'+w+'" stroke-linejoin="round"/>';}
+  // EXACT production sets (index.html)
+  var SETS={
+    1:[], 2:[[14,false,null,1.4]], 3:[[20,true,null,1.4]],
+    4:[[20,false,null,1.3],[20,true,null,1.3]],
+    5:[[20,false,'cw',1.3],[20,true,'ccw',1.3]],
+    6:[[20,false,'cw',1.3],[20,true,'ccw',1.3],[28,false,'ccw',1.2]],
+    7:[[20,false,'cw',1.3],[20,true,'ccw',1.3],[28,false,'ccw',1.2],[28,true,'cw',1.2]]
+  };
+  var META={
+    1:{day:'Mon',name:'Seed',sub:'the bare eye'},
+    2:{day:'Tue',name:'First bezel',sub:'one tight flat hex'},
+    3:{day:'Wed',name:'The point',sub:'a larger pointy hex'},
+    4:{day:'Thu',name:'12-point combo',sub:'flat + pointy together'},
+    5:{day:'Fri',name:'It turns',sub:'12-point, counter-rotating'},
+    6:{day:'Sat',name:'Outer ring',sub:'+ a wider hex ring'},
+    7:{day:'Sun',name:'Summit',sub:'double 12-point, all turning'}
+  };
+  function hexesFor(level){return (SETS[level]||[]).map(function(s){return hex(s[0],s[1],s[2],s[3]);}).join('');}
+  function sigil(level){
+    return '<circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>'
+    + '<rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>'
+    + '<g stroke="#FFD500" stroke-width="3" stroke-linecap="round">'
+    + '<line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>'
+    + '<line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>'
+    + '<line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>'
+    + '<line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/></g>'
+    + '<g fill="#FFD500"><circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>'
+    + '<circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>'
+    + '<circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>'
+    + '<circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/></g>'
+    + '<circle cx="100" cy="100" r="5" fill="#08080a"/>'
+    + hexesFor(level)
+    + '<circle class="iris" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>'
+    + '<circle cx="96.8" cy="96.6" r="1.4" fill="#cfe0ff"/>';
+  }
+  var grid=document.getElementById('grid'), hero=document.getElementById('hero');
+  for(var L=1;L<=7;L++){
+    var m=META[L], today=(L===4);
+    var c=document.createElement('div'); c.className='cell'+(today?' today':'');
+    c.innerHTML='<svg viewBox="0 0 200 200" role="img" aria-label="Level '+L+'">'+sigil(L)+'</svg>'
+      +'<div class="cap">L'+L+' &middot; '+m.day+' &mdash; '+m.name+(today?' <span class="live">LIVE TODAY</span>':'')+'</div>'
+      +'<div class="sub">'+m.sub+'</div>';
+    grid.appendChild(c);
+    var h=document.createElement('div'); h.className='h';
+    h.innerHTML='<svg viewBox="0 0 200 200" aria-hidden="true">'+sigil(L)+'</svg><div class="d">L'+L+' '+m.day+'</div>';
+    hero.appendChild(h);
+  }
+})();
+</script>
+</body>
+</html>
