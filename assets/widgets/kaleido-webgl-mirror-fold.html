@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>webgl-mirror-fold — kaleidoscope iris</title>
+<style>
+  :root{
+    --gold:#FFD60A;
+    --field:#08080a;
+    --blue:#0E44FF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background-color:var(--field);
+    background-image:
+      linear-gradient(rgba(255,214,10,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,214,10,.045) 1px, transparent 1px);
+    background-size:32px 32px;
+    color:var(--gold);
+    font-family:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:26px;
+    padding:34px 16px;
+  }
+  h1{
+    font-size:11px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.32em;
+    margin:0;
+    text-align:center;
+    opacity:.92;
+  }
+  .stage{
+    display:flex;
+    gap:42px;
+    align-items:flex-start;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .disc{
+    border-radius:50%;
+    overflow:hidden;
+    background:#08080a;
+    box-shadow:
+      0 0 0 1px rgba(255,214,10,.5),
+      0 0 22px -2px rgba(14,68,255,.7),
+      inset 0 0 30px -6px rgba(14,68,255,.4);
+  }
+  .disc.big{width:360px;height:360px;}
+  .disc.hero{width:84px;height:84px;}
+  .disc canvas{display:block;width:100%;height:100%;}
+  .caption{
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    opacity:.62;
+    text-align:center;
+    max-width:240px;
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+  <h1>webgl-mirror-fold &middot; kaleidoscope iris &mdash; candidate</h1>
+  <div class="stage">
+    <div class="col">
+      <div class="disc big"><canvas id="kbig"></canvas></div>
+      <div class="caption">the iris &mdash; 12 mirrored wedges</div>
+    </div>
+    <div class="col">
+      <div class="disc hero"><canvas id="khero"></canvas></div>
+      <div class="caption">at hero size &mdash; does it read small?</div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- deterministic PRNG (mulberry32) seeded with the brand constant ----
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  var SEED = 20260621;
+
+  var prefersReduced = false;
+  try {
+    prefersReduced = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch(e){ prefersReduced = false; }
+
+  var VERT = [
+    "attribute vec2 aPos;",
+    "void main(){ gl_Position = vec4(aPos, 0.0, 1.0); }"
+  ].join("\n");
+
+  // Fragment shader: true kaleidoscope domain-fold + crystalline voronoi facets.
+  var FRAG = [
+    "precision highp float;",
+    "uniform vec2  uRes;",
+    "uniform float uTime;",
+    "uniform float uSeed;",
+    "",
+    "#define PI 3.14159265359",
+    "#define TAU 6.28318530718",
+    "#define WEDGES 12.0",   // N mirrored wedges -> 12 Jewelz
+    "",
+    "// hash helpers (deterministic, seeded via uSeed offset)",
+    "vec2 hash2(vec2 p){",
+    "  p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));",
+    "  return fract(sin(p) * 43758.5453123);",
+    "}",
+    "float hash1(vec2 p){",
+    "  return fract(sin(dot(p, vec2(41.7, 289.3))) * 24634.6345);",
+    "}",
+    "",
+    "// Voronoi returning F1 (nearest), F2 (second), and the nearest cell id.",
+    "// The F2-F1 edge term gives sharp crystalline facet borders.",
+    "vec4 voronoi(vec2 p, float t){",
+    "  vec2 ip = floor(p);",
+    "  vec2 fp = fract(p);",
+    "  float f1 = 8.0; float f2 = 8.0;",
+    "  vec2 cellId = vec2(0.0);",
+    "  for(int j=-1;j<=1;j++){",
+    "    for(int i=-1;i<=1;i++){",
+    "      vec2 g = vec2(float(i), float(j));",
+    "      vec2 o = hash2(ip + g + uSeed*0.013);",
+    "      // gentle drift so facets shimmer/breathe without going soft",
+    "      o = 0.5 + 0.5*sin(t*0.45 + TAU*o + (ip.x+ip.y));",
+    "      vec2 r = g + o - fp;",
+    "      float d = dot(r, r);",
+    "      if(d < f1){ f2 = f1; f1 = d; cellId = ip + g; }",
+    "      else if(d < f2){ f2 = d; }",
+    "    }",
+    "  }",
+    "  return vec4(sqrt(f1), sqrt(f2), cellId);",
+    "}",
+    "",
+    "// blue->white crystalline ramp (brand stops)",
+    "vec3 palette(float v){",
+    "  v = clamp(v, 0.0, 1.0);",
+    "  vec3 c0 = vec3(0.031,0.039,0.078);", // deep navy field
+    "  vec3 c1 = vec3(0.055,0.267,1.000);", // electric blue 14,68,255
+    "  vec3 c2 = vec3(0.133,0.424,1.000);", // 34,108,255
+    "  vec3 c3 = vec3(0.122,0.714,1.000);", // cyan/teal 31,182,255
+    "  vec3 c4 = vec3(0.471,0.667,1.000);", // 120,170,255 ice
+    "  vec3 c5 = vec3(0.918,0.945,1.000);", // near white eaf1ff
+    "  vec3 col;",
+    "  if(v < 0.2)       col = mix(c0, c1, smoothstep(0.0,0.2,v));",
+    "  else if(v < 0.42) col = mix(c1, c2, smoothstep(0.2,0.42,v));",
+    "  else if(v < 0.62) col = mix(c2, c3, smoothstep(0.42,0.62,v));",
+    "  else if(v < 0.82) col = mix(c3, c4, smoothstep(0.62,0.82,v));",
+    "  else              col = mix(c4, c5, smoothstep(0.82,1.0,v));",
+    "  return col;",
+    "}",
+    "",
+    "void main(){",
+    "  // normalized coords centered, range ~[-1,1], aspect-correct",
+    "  vec2 uv = (gl_FragCoord.xy - 0.5*uRes) / (0.5*min(uRes.x,uRes.y));",
+    "  float R = length(uv);",
+    "",
+    "  // ---- iris disc mask ----",
+    "  // everything beyond r=1.0 is transparent (disc already clips, but guard)",
+    "  if(R > 1.02){ gl_FragColor = vec4(0.0); return; }",
+    "",
+    "  float ang = atan(uv.y, uv.x);",
+    "",
+    "  // ---- KALEIDOSCOPE DOMAIN FOLD ----",
+    "  // slow global turn",
+    "  float spin = uTime * (TAU / 56.0);",  // ~56s per full rotation
+    "  ang += spin;",
+    "  float seg = TAU / WEDGES;",
+    "  // fold angle into one wedge, then mirror it -> perfect radial+mirror symmetry",
+    "  ang = mod(ang, seg);",
+    "  ang = abs(ang - 0.5*seg);",  // mirror across the wedge centerline
+    "",
+    "  // gentle radial breathing of the source field",
+    "  float breath = 1.0 + 0.05*sin(uTime*0.5);",
+    "  float rr = R * breath;",
+    "",
+    "  // back to cartesian for the source wedge sampling",
+    "  vec2 fold = vec2(cos(ang), sin(ang)) * rr;",
+    "",
+    "  // sample the crystalline field; scale gives facet density",
+    "  float scale = 4.6;",
+    "  vec2 sp = fold * scale;",
+    "  // slow swirl of the source plane adds life without breaking symmetry-after-fold",
+    "  float sw = uTime * 0.06;",
+    "  sp += vec2(sin(sw), cos(sw)) * 0.6;",
+    "",
+    "  vec4 vo = voronoi(sp, uTime);",
+    "  float f1 = vo.x;",
+    "  float f2 = vo.y;",
+    "  float edge = f2 - f1;",            // facet border distance
+    "  float cellRnd = hash1(vo.zw + uSeed*0.007);",
+    "",
+    "  // facet base tone: each crystal cell gets a value; blend with radial",
+    "  float facetTone = cellRnd;",
+    "  // push contrast / make it glassy & faceted",
+    "  float body = mix(0.12, 0.95, facetTone);",
+    "  // radial falloff: bright toward center, deep toward rim",
+    "  body *= mix(1.15, 0.42, smoothstep(0.0, 1.0, R));",
+    "",
+    "  vec3 col = palette(body);",
+    "",
+    "  // sharp crystalline facet seams (bright glassy edges)",
+    "  float seam = 1.0 - smoothstep(0.0, 0.06, edge);",
+    "  col = mix(col, vec3(0.918,0.945,1.000), seam * 0.85);",
+    "",
+    "  // thin dark fracture just inside each seam for shattered-glass depth",
+    "  float crack = smoothstep(0.0,0.02,edge) - smoothstep(0.02,0.05,edge);",
+    "  col = mix(col, vec3(0.02,0.03,0.09), crack*0.5);",
+    "",
+    "  // facet-internal specular shimmer (animated, keeps it crystalline not flat)",
+    "  float spec = pow(max(0.0, 1.0 - f1*1.4), 3.0);",
+    "  spec *= 0.5 + 0.5*sin(uTime*0.9 + cellRnd*TAU);",
+    "  col += vec3(0.35,0.45,0.7) * spec * 0.5;",
+    "",
+    "  // ---- central star-burst glint ----",
+    "  float core = pow(max(0.0, 1.0 - R*3.2), 2.2);",
+    "  col = mix(col, vec3(0.95,0.97,1.0), core*0.85);",
+    "  // 12-point radial spikes from center (kaleidoscope starburst)",
+    "  float spikes = pow(abs(cos(atan(uv.y,uv.x)*WEDGES*0.5 - spin*2.0)), 26.0);",
+    "  col += vec3(0.8,0.88,1.0) * spikes * core * 0.6;",
+    "",
+    "  // ---- pupil ----",
+    "  float pupilR = 0.14;",
+    "  if(R < pupilR){",
+    "    vec3 pup = vec3(0.031,0.031,0.039);",  // #08080a
+    "    // thin electric-blue stroke at the pupil edge",
+    "    float ring = smoothstep(pupilR-0.012, pupilR-0.004, R);",
+    "    pup = mix(pup, vec3(0.055,0.267,1.0), ring*0.5);",
+    "    col = pup;",
+    "  } else {",
+    "    // soften the pupil edge into the iris",
+    "    float pe = smoothstep(pupilR, pupilR+0.02, R);",
+    "    col = mix(vec3(0.031,0.031,0.039), col, pe);",
+    "  }",
+    "",
+    "  // ---- catch-light glint (specular highlight on the cornea) ----",
+    "  vec2 cl = uv - vec2(-0.045, 0.055);",  // gl_FragCoord y is up, so +0.055 = upper-left
+    "  float clD = length(cl);",
+    "  float cat = smoothstep(0.030, 0.0, clD);",
+    "  col = mix(col, vec3(0.918,0.945,1.0), cat);",
+    "",
+    "  // ---- subtle inner gold rim (minimal brand mark) ----",
+    "  float rim = smoothstep(0.965, 1.0, R) * (1.0 - smoothstep(1.0,1.01,R));",
+    "  col = mix(col, vec3(1.0,0.84,0.04), rim*0.18);",
+    "",
+    "  // vignette toward the field at the very edge",
+    "  col *= mix(1.0, 0.55, smoothstep(0.85, 1.0, R));",
+    "",
+    "  // soft disc alpha edge for clean masking",
+    "  float alpha = 1.0 - smoothstep(0.99, 1.01, R);",
+    "  gl_FragColor = vec4(col, alpha);",
+    "}"
+  ].join("\n");
+
+  function compile(gl, type, src){
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+      gl.deleteShader(s);
+      return null;
+    }
+    return s;
+  }
+
+  // Canvas2D fallback: still a recognizable mirrored mandala, masked + pupil + glint.
+  function fallback2D(canvas){
+    var ctx;
+    try { ctx = canvas.getContext('2d'); } catch(e){ return; }
+    if(!ctx) return;
+    var rnd = mulberry32(SEED);
+    // pre-pick deterministic shard hues
+    var stops = [
+      [14,68,255],[34,108,255],[77,130,255],[120,170,255],
+      [31,182,255],[160,200,255],[234,241,255]
+    ];
+    var shards = [];
+    for(var i=0;i<7;i++){
+      shards.push({
+        r0: 0.12 + rnd()*0.85,
+        r1: 0.12 + rnd()*0.85,
+        a0: rnd()*0.5,
+        a1: rnd()*0.5,
+        col: stops[(rnd()*stops.length)|0]
+      });
+    }
+    var DPR = Math.min(window.devicePixelRatio||1, 2);
+    function size(){
+      var w = canvas.clientWidth||canvas.width, h = canvas.clientHeight||canvas.height;
+      canvas.width = Math.max(1, Math.round(w*DPR));
+      canvas.height = Math.max(1, Math.round(h*DPR));
+    }
+    size();
+    function draw(t){
+      var W = canvas.width, H = canvas.height;
+      var cx = W/2, cy = H/2, R = Math.min(W,H)/2;
+      ctx.clearRect(0,0,W,H);
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
+      var g = ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+      g.addColorStop(0,'#1a2a6a'); g.addColorStop(1,'#08080a');
+      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      var spin = prefersReduced ? 0 : (t/56000)*Math.PI*2;
+      var N=12, seg=Math.PI*2/N;
+      for(var k=0;k<N;k++){
+        ctx.save();
+        ctx.translate(cx,cy);
+        ctx.rotate(spin + k*seg);
+        if(k%2===1) ctx.scale(1,-1); // mirror alternating wedges
+        for(var s=0;s<shards.length;s++){
+          var sh=shards[s];
+          ctx.beginPath();
+          ctx.moveTo(0,0);
+          ctx.lineTo(Math.cos(sh.a0)*R*sh.r0, Math.sin(sh.a0)*R*sh.r0);
+          ctx.lineTo(Math.cos(seg-sh.a1)*R*sh.r1, Math.sin(seg-sh.a1)*R*sh.r1);
+          ctx.closePath();
+          ctx.fillStyle='rgba('+sh.col[0]+','+sh.col[1]+','+sh.col[2]+','+(0.18+0.12*s)+')';
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      // pupil
+      ctx.beginPath(); ctx.arc(cx,cy,R*0.14,0,Math.PI*2);
+      ctx.fillStyle='#08080a'; ctx.fill();
+      ctx.lineWidth=Math.max(1,R*0.01); ctx.strokeStyle='rgba(14,68,255,.5)'; ctx.stroke();
+      // catch-light
+      ctx.beginPath(); ctx.arc(cx-R*0.045, cy-R*0.055, R*0.025,0,Math.PI*2);
+      ctx.fillStyle='#eaf1ff'; ctx.fill();
+      ctx.restore();
+      if(!prefersReduced) requestAnimationFrame(draw);
+    }
+    if(prefersReduced) draw(0); else requestAnimationFrame(draw);
+  }
+
+  function initGL(canvas){
+    var gl = null;
+    try {
+      gl = canvas.getContext('webgl', {alpha:true, premultipliedAlpha:false, antialias:true}) ||
+           canvas.getContext('experimental-webgl', {alpha:true, premultipliedAlpha:false, antialias:true});
+    } catch(e){ gl = null; }
+    if(!gl){ fallback2D(canvas); return; }
+
+    var vs = compile(gl, gl.VERTEX_SHADER, VERT);
+    var fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+    if(!vs || !fs){ fallback2D(canvas); return; }
+
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){ fallback2D(canvas); return; }
+    gl.useProgram(prog);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1,-1,  1,-1,  -1,1,
+      -1,1,   1,-1,   1,1
+    ]), gl.STATIC_DRAW);
+    var aPos = gl.getAttribLocation(prog, "aPos");
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    var uRes  = gl.getUniformLocation(prog, "uRes");
+    var uTime = gl.getUniformLocation(prog, "uTime");
+    var uSeed = gl.getUniformLocation(prog, "uSeed");
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    function resize(){
+      var w = canvas.clientWidth || canvas.width;
+      var h = canvas.clientHeight || canvas.height;
+      var W = Math.max(1, Math.round(w * DPR));
+      var H = Math.max(1, Math.round(h * DPR));
+      if(canvas.width !== W || canvas.height !== H){
+        canvas.width = W; canvas.height = H;
+      }
+      gl.viewport(0,0,canvas.width,canvas.height);
+    }
+    resize();
+    try { window.addEventListener('resize', resize); } catch(e){}
+
+    // deterministic seed value handed to the shader (no Math.random / Date.now at init)
+    var seedVal = mulberry32(SEED)() * 1000.0;
+
+    var start = null;
+    function frame(ts){
+      if(start === null) start = ts;
+      resize();
+      var t = prefersReduced ? 6.0 : (ts - start) / 1000.0; // frozen pose if reduced
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, t);
+      gl.uniform1f(uSeed, seedVal);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      if(!prefersReduced) requestAnimationFrame(frame);
+    }
+
+    // guard against context loss
+    try {
+      canvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); }, false);
+    } catch(e){}
+
+    if(prefersReduced){
+      // draw a single frozen frame
+      requestAnimationFrame(frame);
+    } else {
+      requestAnimationFrame(frame);
+    }
+  }
+
+  function boot(){
+    var big = document.getElementById('kbig');
+    var hero = document.getElementById('khero');
+    if(big) initGL(big);
+    if(hero) initGL(hero);
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
