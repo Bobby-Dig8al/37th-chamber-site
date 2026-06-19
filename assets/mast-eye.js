@@ -1291,13 +1291,13 @@ function eye_sapphire_fill(canvas, opts){
 
   /* ---- LAYER A: deep facets (broad, translucent, slow, the gemstone body) ---- */
   var facets=[];
-  for(var i=0;i<20;i++){
+  for(var i=0;i<34;i++){
     facets.push({
       r:0.16+rnd()*0.80,
       a:rnd()*seg,
-      size:0.12+rnd()*0.22,
-      col:COLS[1+((rnd()*5)|0)],          /* deep/royal/sapphire/electric band */
-      edge:COLS[7+((rnd()*2)|0)],         /* ice / cold-white edge light */
+      size:0.08+rnd()*0.13,
+      col:COLS[1+((rnd()*6)|0)],          /* royal..electric..teal-glint (richer variation) */
+      edge:COLS[5+((rnd()*2)|0)],         /* sky/teal edge (soft, not stark white) */
       drift:0.25+rnd()*0.7,
       phase:rnd()*6.283,
       sides:(rnd()<0.5?4:5),              /* cut-stone polygons */
@@ -1306,11 +1306,11 @@ function eye_sapphire_fill(canvas, opts){
   }
   /* ---- LAYER B: the cut crown — finer, brighter shards stacked on top ---- */
   var crown=[];
-  for(var j=0;j<16;j++){
+  for(var j=0;j<26;j++){
     crown.push({
       r:0.22+rnd()*0.66,
       a:rnd()*seg,
-      size:0.05+rnd()*0.12,
+      size:0.035+rnd()*0.075,
       col:COLS[3+((rnd()*5)|0)],          /* electric -> ice */
       drift:0.45+rnd()*1.1,
       phase:rnd()*6.283,
@@ -1355,12 +1355,12 @@ function eye_sapphire_fill(canvas, opts){
       /* inner refraction plane — brighter, offset toward upper-left light source */
       var lx=x-sz*0.22, ly=y-sz*0.26;
       polyPath(lx,ly,sz*0.56,s.sides,rot+0.5);
-      ctx.fillStyle=rgba(lerp(s.col,[120,180,255],0.5),Math.max(0.08,al*0.42));
+      ctx.fillStyle=rgba(lerp(s.col,[120,180,255],0.32),Math.max(0.06,al*0.28));
       ctx.fill();
 
       /* cold refracted edge */
       polyPath(x,y,sz,s.sides,rot);
-      ctx.strokeStyle=rgba(s.edge,Math.max(0.10,al*0.55));
+      ctx.strokeStyle=rgba(s.edge,Math.max(0.06,al*0.30));
       ctx.lineWidth=Math.max(1,R*0.009);
       ctx.stroke();
     }
@@ -1379,7 +1379,7 @@ function eye_sapphire_fill(canvas, opts){
       polyPath(x,y,sz,3,rot);
       ctx.fillStyle=rgba(s.col,Math.max(0.14,al*0.6));
       ctx.fill();
-      ctx.strokeStyle=rgba([224,238,255],Math.max(0.08,al*0.5));
+      ctx.strokeStyle=rgba([175,208,255],Math.max(0.05,al*0.30));
       ctx.lineWidth=Math.max(1,R*0.006);
       ctx.stroke();
 
