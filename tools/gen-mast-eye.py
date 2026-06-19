@@ -26,12 +26,14 @@ RENDERERS = [
     ("shattered-glass", "5-fri-shattered-glass.html"),
     ("sapphire-jewel",  "6-sat-sapphire-jewel.html"),
     ("summit",          "7-sun-the-summit.html"),
-    ("kaleido",         "8-sun-full-kaleidoscope.html"),
+    ("sapphire-fill",   "8-sun-full-kaleidoscope.html"),   # FILLED sapphire jewel (operator fav) — no black wedges
+    ("shattered-fill",  "9-sun-shattered-fill.html"),      # FILLED shattered glass
+    ("teal-fill",       "10-sun-teal-fill.html"),          # FILLED teal nebula
 ]
 
 # the 7-day rotation, indexed by Date.getDay(): 0=Sun .. 6=Sat
 ROTATION = [
-    "kaleido",         # 0 Sun — FULL BLOOM (the climax, no black, rotating)
+    "sapphire-fill",   # 0 Sun — FILLED sapphire jewel kaleidoscope (no black wedges) — operator fav
     "ice-seed",        # 1 Mon
     "summit",          # 2 Tue — classic Summit repurposed into the freed slot (was first-facets)
     "crystal-bloom",   # 3 Wed

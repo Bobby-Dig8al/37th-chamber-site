@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fri — Shattered Glass · day kaleidoscope 5/7</title>
+<style>
+  :root{ --bg:#08080a; --gold:#FFD60A; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);}
+  body{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:30px;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    color:var(--gold);
+    padding:44px 16px;
+  }
+  h1{
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.30em;
+    margin:0;text-align:center;color:var(--gold);opacity:.92;line-height:1.6;
+  }
+  .stage{ display:flex;gap:56px;align-items:flex-start;justify-content:center;flex-wrap:wrap; }
+  .col{ display:flex;flex-direction:column;align-items:center;gap:12px; }
+  .frame{ position:relative;line-height:0; }
+  .frame canvas{ display:block; }
+  .cap{
+    font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(255,214,10,.70);text-align:center;max-width:240px;line-height:1.5;
+  }
+  .note{
+    font-size:12px;line-height:1.7;letter-spacing:.02em;max-width:520px;text-align:center;
+    color:rgba(255,214,10,.62);margin:4px 0 0;
+  }
+  .note b{ color:rgba(255,214,10,.9);font-weight:600; }
+</style>
+</head>
+<body>
+  <h1>FRI — SHATTERED GLASS &middot; DAY KALEIDOSCOPE 5/7</h1>
+  <div class="stage">
+    <div class="col">
+      <div class="frame"><canvas id="ebig" width="440" height="300"></canvas></div>
+      <div class="cap">the eye at full size</div>
+    </div>
+    <div class="col">
+      <div class="frame"><canvas id="ehero" width="168" height="116"></canvas></div>
+      <div class="cap">at mast size</div>
+    </div>
+  </div>
+  <p class="note">
+    <b>Friday &mdash; Shattered Glass.</b> A 12-fold iris of bold, fractured glass planes:
+    fewer and larger shards, each a faceted pane with a bright specular edge and a
+    refraction-split fringe of color along its rim. High-contrast, dramatic, near-black
+    between the panes &mdash; light caught in broken crystal. For his mother, who loved kaleidoscopes.
+  </p>
+
+<script>
+"use strict";
+(function(){
+  /* =========================================================================
+     PROVEN BASE whole-eye renderer. The almond / sclera / pupil / catch-light /
+     rim FRAME is kept IDENTICAL across all seven siblings for cohesion.
+     ELEVATED for Friday: the iris drawWedge() is rebuilt as bold faceted GLASS
+     PLANES — fewer, larger shards, bright specular edges, refraction color-split,
+     sharp glints, layered translucency. Seeded deterministically (no Date.now /
+     Math.random at init); only animation time varies frame to frame.
+     ========================================================================= */
+  function eye(canvas, opts){
+    var ctx;
+    try{ ctx = canvas.getContext('2d'); }catch(e){ ctx = null; }
+    if(!ctx) return; // guard against context failure — leave the dark frame
+
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var reduce = false;
+    try{ reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches; }catch(e){}
+
+    function fit(){
+      var r = canvas.getBoundingClientRect();
+      var w = Math.max(1, Math.round((r.width  || canvas.width  || 440) * DPR));
+      var h = Math.max(1, Math.round((r.height || canvas.height || 300) * DPR));
+      if(canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+    }
+    fit();
+    window.addEventListener('resize', fit);
+
+    var N   = opts.N || 12, seg = Math.PI*2 / N;
+    // Friday palette: deep electric blue -> mid -> teal/cyan -> ice white. High contrast.
+    var COLS = opts.COLS || [
+      [10,40,150],[14,68,255],[34,108,255],[64,140,255],
+      [31,182,255],[120,196,255],[190,224,255],[236,246,255]
+    ];
+
+    function rgba(c,a){ return 'rgba('+c[0]+','+c[1]+','+c[2]+','+(a<0?0:a>1?1:a).toFixed(3)+')'; }
+    function lerpC(a,b,t){ return [ a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t ]; }
+
+    // mulberry32 — deterministic PRNG, seeded once at init.
+    function mb(s){ return function(){ s|=0; s=s+0x6D2B79F5|0; var t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+    var rnd = mb(opts.seed || 20260619);
+
+    // ---- BOLD FACETS: fewer, larger glass PLANES (the Shattered-Glass elevation) ----
+    // Each shard is a chunky polygon (3-5 sides) tiling a wedge — a fractured pane.
+    var shards = [];
+    var COUNT = 14; // fewer + larger than the base's 16
+    for(var i=0;i<COUNT;i++){
+      var sides = 3 + ((rnd()*3)|0); // 3..5 sided panes
+      var verts = [];
+      var baseR = 0.05 + rnd()*0.16;
+      for(var v=0; v<sides; v++){
+        var va = (v/sides)*Math.PI*2 + rnd()*0.9;
+        var vr = baseR * (0.55 + rnd()*0.95); // irregular, jagged glass
+        verts.push([Math.cos(va)*vr, Math.sin(va)*vr]);
+      }
+      shards.push({
+        r:     0.16 + rnd()*0.80,        // radial placement in the wedge
+        a:     rnd()*seg,                // angular placement
+        scale: 1.0 + rnd()*1.35,         // big planes
+        col:   COLS[(rnd()*COLS.length)|0],
+        col2:  COLS[(rnd()*COLS.length)|0],
+        drift: 0.25 + rnd()*0.85,
+        phase: rnd()*6.283,
+        spin:  (rnd()<0.5?-1:1) * (0.10 + rnd()*0.22),
+        verts: verts,
+        // a per-shard light direction for flat-plane specular shading
+        ldx:   Math.cos(rnd()*6.283),
+        ldy:   Math.sin(rnd()*6.283),
+        bright: rnd()                    // some panes read as bright glass
+      });
+    }
+
+    function almond(cx,cy,aw,peak){
+      ctx.beginPath();
+      ctx.moveTo(cx-aw,cy);
+      ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);
+      ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);
+      ctx.closePath();
+    }
+
+    // Draw one mirror wedge of the iris — the part that is distinct for this day.
+    function drawWedge(ts,R){
+      for(var i=0;i<shards.length;i++){
+        var s = shards[i];
+        // slow radial breathing + a gentle continuous turn within the wedge
+        var rr  = (s.r + 0.035*Math.sin(ts*0.0004*s.drift + s.phase)) * R;
+        var ang = s.a + 0.05*Math.sin(ts*0.00022*s.drift + s.phase*1.3);
+        var cxp = Math.cos(ang)*rr, cyp = Math.sin(ang)*rr;
+        var sz  = s.scale * 0.9 * R * (0.92 + 0.12*Math.sin(ts*0.0005 + s.phase));
+        var rot = s.phase + ts*0.00016*s.spin;
+        var cosR = Math.cos(rot), sinR = Math.sin(rot);
+
+        // build the rotated/positioned pane polygon
+        var pts = [], vx, vy, k;
+        for(k=0;k<s.verts.length;k++){
+          var vx0 = s.verts[k][0]*sz, vy0 = s.verts[k][1]*sz;
+          vx = cxp + vx0*cosR - vy0*sinR;
+          vy = cyp + vx0*sinR + vy0*cosR;
+          pts.push([vx,vy]);
+        }
+
+        // flat-plane luminance: how the pane "faces" its light direction
+        var nlen = Math.sqrt(cxp*cxp + cyp*cyp) + 1e-5;
+        var facing = 0.5 + 0.5*((cxp/nlen)*s.ldx + (cyp/nlen)*s.ldy);
+        var lum = 0.45 + 0.7*facing; // 0.45..1.15
+
+        // base translucent fill — a gradient across the pane for depth
+        var tone = (rr/R)*0.45 + 0.25 + 0.3*facing;
+        tone = tone<0?0:tone>1?1:tone;
+        var baseCol = lerpC(s.col, s.col2, tone);
+        var al = 0.40 + 0.34*Math.sin(ts*0.0005 + s.phase*1.7);
+        al = al<0.18?0.18:al;
+
+        // glassy pane gradient (lit corner -> shadow corner)
+        var gx0 = cxp + s.ldx*sz*0.6, gy0 = cyp + s.ldy*sz*0.6;
+        var gx1 = cxp - s.ldx*sz*0.6, gy1 = cyp - s.ldy*sz*0.6;
+        var grd = ctx.createLinearGradient(gx0,gy0,gx1,gy1);
+        var liteC = lerpC(baseCol, [236,246,255], 0.45*lum);
+        var darkC = lerpC(baseCol, [6,10,28], 0.55);
+        grd.addColorStop(0,  rgba(liteC, Math.min(0.95, al*lum*1.15)));
+        grd.addColorStop(0.5,rgba(baseCol, al*0.9));
+        grd.addColorStop(1,  rgba(darkC, al*0.7));
+
+        // ---- fill the pane ----
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0],pts[0][1]);
+        for(k=1;k<pts.length;k++) ctx.lineTo(pts[k][0],pts[k][1]);
+        ctx.closePath();
+        ctx.fillStyle = grd;
+        ctx.fill();
+
+        // ---- REFRACTION COLOR-SPLIT edge: a faint warm/blue offset rim ----
+        ctx.save();
+        ctx.lineJoin = 'round';
+        // outer chromatic fringe — cyan
+        ctx.strokeStyle = rgba([31,182,255], Math.min(0.5, al*0.6));
+        ctx.lineWidth = Math.max(1, R*0.012);
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0]+1.2,pts[0][1]);
+        for(k=1;k<pts.length;k++) ctx.lineTo(pts[k][0]+1.2,pts[k][1]);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
+
+        // ---- bright SPECULAR EDGE: crisp ice-white rim (the crystalline catch) ----
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0],pts[0][1]);
+        for(k=1;k<pts.length;k++) ctx.lineTo(pts[k][0],pts[k][1]);
+        ctx.closePath();
+        ctx.strokeStyle = rgba([236,246,255], Math.min(0.85, 0.30 + al*0.55*lum));
+        ctx.lineWidth = Math.max(1, R*0.0075);
+        ctx.stroke();
+
+        // ---- specular HOTSPOT glint on the lit corner of bright panes ----
+        if(s.bright > 0.5){
+          var hx = cxp + s.ldx*sz*0.5, hy = cyp + s.ldy*sz*0.5;
+          var hsz = sz*0.22*(0.7+0.5*Math.sin(ts*0.0009 + s.phase));
+          var hg = ctx.createRadialGradient(hx,hy,0,hx,hy,Math.max(1,hsz));
+          hg.addColorStop(0, rgba([255,255,255], Math.min(0.9, 0.5*lum)));
+          hg.addColorStop(0.4, rgba([200,228,255], 0.30*lum));
+          hg.addColorStop(1, 'rgba(200,228,255,0)');
+          ctx.beginPath();
+          ctx.arc(hx,hy,Math.max(1,hsz),0,6.283);
+          ctx.fillStyle = hg;
+          ctx.fill();
+        }
+      }
+    }
+
+    function paint(ts){
+      var w = canvas.width, h = canvas.height, cx = w/2, cy = h/2;
+      var aw = w*0.46, peak = h*0.40, R = Math.min(h*0.38, aw*0.66);
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0,0,w,h);
+
+      // ---- ALMOND + SCLERA (identical frame) ----
+      ctx.save();
+      almond(cx,cy,aw,peak); ctx.clip();
+      ctx.fillStyle = '#0a0c12'; ctx.fillRect(0,0,w,h);
+      var g = ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+      g.addColorStop(0,'rgba(170,195,255,0)');
+      g.addColorStop(0.5,'rgba(200,220,255,0.12)');
+      g.addColorStop(1,'rgba(236,243,255,0.46)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+      ctx.restore();
+
+      // ---- IRIS: clipped circle, additive faceted-glass kaleidoscope ----
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx,cy,R,0,6.283); ctx.clip();
+      var bed = ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+      bed.addColorStop(0,'rgba(24,72,190,1)');
+      bed.addColorStop(0.55,'rgba(16,52,150,1)');
+      bed.addColorStop(1,'rgba(10,30,104,1)');
+      ctx.fillStyle = bed; ctx.fillRect(cx-R,cy-R,R*2,R*2); // FILLED: saturated base, no black between panes
+      // faint cold base wash so the dark reads as deep glass, not flat black
+      var ig = ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+      ig.addColorStop(0,'rgba(20,42,96,0.55)');
+      ig.addColorStop(0.6,'rgba(10,20,52,0.35)');
+      ig.addColorStop(1,'rgba(4,8,22,0)');
+      ctx.fillStyle = ig; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+
+      ctx.globalCompositeOperation = 'lighter';
+      var grot = ts*0.00004; // very slow whole-iris turn
+      for(var i=0;i<N;i++){
+        ctx.save();
+        ctx.translate(cx,cy);
+        ctx.rotate(grot + i*seg);
+        if(i%2===1) ctx.scale(1,-1); // mirror alternating wedges -> kaleidoscope fold
+        ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,R*1.02,0,seg); ctx.closePath(); ctx.clip();
+        drawWedge(ts,R);
+        ctx.restore();
+      }
+      ctx.restore();
+      ctx.globalCompositeOperation = 'source-over';
+
+      // central bright kaleidoscope core (shattered light converging)
+      var coreG = ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.40);
+      coreG.addColorStop(0,'rgba(236,246,255,0.55)');
+      coreG.addColorStop(0.5,'rgba(120,180,255,0.18)');
+      coreG.addColorStop(1,'rgba(120,180,255,0)');
+      ctx.beginPath(); ctx.arc(cx,cy,R*0.40,0,6.283); ctx.fillStyle = coreG; ctx.fill();
+
+      // ---- PUPIL (identical frame) ----
+      ctx.beginPath(); ctx.arc(cx,cy,R*0.30,0,6.283); ctx.fillStyle = '#08080a'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,R*0.30,0,6.283);
+      ctx.strokeStyle = 'rgba(14,68,255,.45)'; ctx.lineWidth = DPR; ctx.stroke();
+
+      // ---- CATCH-LIGHT GLINT (identical frame) ----
+      ctx.beginPath(); ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);
+      ctx.fillStyle = '#eaf1ff'; ctx.fill();
+
+      // ---- EYELID RIM GLOW (identical frame) ----
+      ctx.save();
+      almond(cx,cy,aw,peak);
+      ctx.shadowColor = 'rgba(200,222,255,0.9)'; ctx.shadowBlur = R*0.22;
+      ctx.strokeStyle = 'rgba(236,243,255,0.55)'; ctx.lineWidth = Math.max(1.2,R*0.022);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function frame(ts){ fit(); paint(ts); if(!reduce) requestAnimationFrame(frame); }
+
+    // immediate first paint so it is never blank on a hidden/throttled tab
+    fit(); paint(0);
+    if(!reduce){
+      requestAnimationFrame(frame);
+      document.addEventListener('visibilitychange', function(){ if(!document.hidden) requestAnimationFrame(frame); });
+    }
+  }
+
+  // ---- mount the SAME renderer twice with the SAME opts ----
+  var OPTS = {
+    N: 12,
+    seed: 20260619,
+    COLS: [
+      [10,40,150],[14,68,255],[34,108,255],[64,140,255],
+      [31,182,255],[120,196,255],[190,224,255],[236,246,255]
+    ]
+  };
+  function boot(){
+    var big  = document.getElementById('ebig');
+    var hero = document.getElementById('ehero');
+    if(big)  eye(big,  OPTS);
+    if(hero) eye(hero, OPTS);
+  }
+  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', boot); }
+  else { boot(); }
+})();
+</script>
+</body>
+</html>

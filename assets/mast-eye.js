@@ -1262,239 +1262,572 @@ function eye_summit(canvas, opts){
   }
 }
 
-  /* ---- kaleido ---- */
-function eye_kaleido(canvas, opts){
-  var ctx = canvas.getContext('2d'); if(!ctx) return;
-  var DPR = Math.min(window.devicePixelRatio||1, 2);
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  /* ---- sapphire-fill ---- */
+function eye_sapphire_fill(canvas, opts){
+  var ctx=canvas.getContext('2d'); if(!ctx) return;
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function fit(){var r=canvas.getBoundingClientRect();var w=Math.max(1,Math.round((r.width||320)*DPR)),h=Math.max(1,Math.round((r.height||218)*DPR));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}}
+  fit(); window.addEventListener('resize',fit);
 
-  function fit(){
-    var r = canvas.getBoundingClientRect();
-    var w = Math.max(1, Math.round((r.width||320)*DPR));
-    var h = Math.max(1, Math.round((r.height||218)*DPR));
-    if(canvas.width!==w || canvas.height!==h){ canvas.width=w; canvas.height=h; }
-  }
-  fit(); window.addEventListener('resize', fit);
-
-  var N = opts.N || 12, seg = Math.PI*2 / N;
-  var COLS = opts.COLS || [
-    [10,52,255],
-    [30,104,255],
-    [64,150,255],
-    [110,196,255],
-    [0,200,235],
-    [70,224,224],
-    [180,232,255],
-    [232,246,255]
+  var N=opts.N||12, seg=Math.PI*2/N;
+  /* Saturated sapphire gemstone ramp — abyssal blue -> royal -> electric -> cold white edge */
+  var COLS=opts.COLS||[
+    [6,22,92],     /* abyss sapphire */
+    [10,40,150],   /* deep royal */
+    [18,68,210],   /* sapphire */
+    [34,108,255],  /* electric blue */
+    [70,140,255],  /* bright */
+    [120,180,255], /* sky facet */
+    [30,160,235],  /* teal-blue glint */
+    [180,214,255], /* pale ice */
+    [224,238,255]  /* cold white edge */
   ];
-  function rgba(c,a){ return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')'; }
+  function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+  function lerp(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+  function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 
-  function mb(s){ return function(){ s|=0; s=s+0x6D2B79F5|0; var t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
-  var rnd = mb(opts.seed||20260621);
+  var rnd=mb(opts.seed||20260620);
 
-  var shardsA = [];
-  for(var i=0;i<44;i++){
-    shardsA.push({
-      r: 0.16 + rnd()*0.86,
-      a: rnd()*seg,
-      size: 0.06 + rnd()*0.20,
-      col: COLS[(rnd()*COLS.length)|0],
-      hot: COLS[6 + ((rnd()*2)|0)],
-      drift: 0.30 + rnd()*1.05,
-      phase: rnd()*6.283,
-      sides: 3 + ((rnd()*3)|0),
-      spin: (rnd()<0.5?-1:1)*(0.6+rnd()*0.9)
+  /* ---- LAYER A: deep facets (broad, translucent, slow, the gemstone body) ---- */
+  var facets=[];
+  for(var i=0;i<20;i++){
+    facets.push({
+      r:0.16+rnd()*0.80,
+      a:rnd()*seg,
+      size:0.12+rnd()*0.22,
+      col:COLS[1+((rnd()*5)|0)],          /* deep/royal/sapphire/electric band */
+      edge:COLS[7+((rnd()*2)|0)],         /* ice / cold-white edge light */
+      drift:0.25+rnd()*0.7,
+      phase:rnd()*6.283,
+      sides:(rnd()<0.5?4:5),              /* cut-stone polygons */
+      orient:rnd()*6.283
     });
   }
-  var shardsB = [];
-  for(var j=0;j<32;j++){
-    shardsB.push({
-      r: 0.22 + rnd()*0.80,
-      a: rnd()*seg,
-      size: 0.035 + rnd()*0.10,
-      col: COLS[3 + ((rnd()*5)|0)],
-      drift: 0.45 + rnd()*1.15,
-      phase: rnd()*6.283,
-      spin: (rnd()<0.5?-1:1)*(0.9+rnd()*1.3)
+  /* ---- LAYER B: the cut crown — finer, brighter shards stacked on top ---- */
+  var crown=[];
+  for(var j=0;j<16;j++){
+    crown.push({
+      r:0.22+rnd()*0.66,
+      a:rnd()*seg,
+      size:0.05+rnd()*0.12,
+      col:COLS[3+((rnd()*5)|0)],          /* electric -> ice */
+      drift:0.45+rnd()*1.1,
+      phase:rnd()*6.283,
+      orient:rnd()*6.283
     });
   }
-  var RAYS = 16, rays = [];
-  for(var k=0;k<RAYS;k++){
-    rays.push({ a: (k/RAYS)*Math.PI*2, len: 0.55+rnd()*0.42, w: 0.5+rnd()*0.6, ph: rnd()*6.283 });
-  }
 
-  function almond(cx,cy,aw,peak){
-    ctx.beginPath();
-    ctx.moveTo(cx-aw,cy);
-    ctx.quadraticCurveTo(cx, cy-peak*2, cx+aw, cy);
-    ctx.quadraticCurveTo(cx, cy+peak*2, cx-aw, cy);
-    ctx.closePath();
-  }
+  function almond(cx,cy,aw,peak){ctx.beginPath();ctx.moveTo(cx-aw,cy);ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);ctx.closePath();}
 
-  function poly(x,y,sz,sides,rot){
+  function polyPath(x,y,sz,sides,rot){
     ctx.beginPath();
     for(var k=0;k<sides;k++){
-      var aa = rot + k*(Math.PI*2/sides);
-      var px = x + Math.cos(aa)*sz, py = y + Math.sin(aa)*sz;
-      if(k===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      var aa=rot+k*(Math.PI*2/sides);
+      var px=x+Math.cos(aa)*sz, py=y+Math.sin(aa)*sz;
+      if(k===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
     }
     ctx.closePath();
   }
 
-  function drawWedge(ts, R){
-    var t = ts;
+  function drawWedge(ts,R){
+    var i,s,rr,ang,x,y,sz,al,rot;
 
-    for(var i=0;i<shardsA.length;i++){
-      var s = shardsA[i];
-      var breathe = 0.045*Math.sin(t*0.00045*s.drift + s.phase);
-      var rr = (s.r + breathe)*R, ang = s.a;
-      var x = Math.cos(ang)*rr, y = Math.sin(ang)*rr;
-      var sz = s.size*R*(0.85 + 0.26*Math.sin(t*0.0006 + s.phase));
-      var al = 0.42 + 0.42*Math.sin(t*0.00052 + s.phase*1.7);
-      var rot = s.phase + t*0.00020*s.drift*s.spin;
+    /* LAYER A — deep translucent gemstone body. Faceted polygons with a refracted
+       inner highlight (a second smaller poly offset toward the light) + cold edge stroke. */
+    for(i=0;i<facets.length;i++){
+      s=facets[i];
+      rr=(s.r+0.05*Math.sin(ts*0.00035*s.drift+s.phase))*R;
+      ang=s.a;
+      x=Math.cos(ang)*rr; y=Math.sin(ang)*rr;
+      sz=s.size*R*(0.92+0.14*Math.sin(ts*0.00045+s.phase));
+      al=0.34+0.28*Math.sin(ts*0.0004+s.phase*1.6);
+      rot=s.orient+ts*0.00012*s.drift;
 
-      poly(x,y,sz,s.sides,rot);
-      ctx.fillStyle = rgba(s.col, Math.max(0.12, al*0.60));
+      /* depth shade: tint deepens with radius so the stone feels recessed at center */
+      var depth=Math.min(1,rr/R);
+      var body=lerp(s.col,[6,22,92],0.35*(1-depth));
+
+      polyPath(x,y,sz,s.sides,rot);
+      ctx.fillStyle=rgba(body,Math.max(0.12,al*0.55));
       ctx.fill();
-      ctx.strokeStyle = rgba(s.hot, Math.max(0.10, al*0.62));
-      ctx.lineWidth = Math.max(1, R*0.0075);
+
+      /* inner refraction plane — brighter, offset toward upper-left light source */
+      var lx=x-sz*0.22, ly=y-sz*0.26;
+      polyPath(lx,ly,sz*0.56,s.sides,rot+0.5);
+      ctx.fillStyle=rgba(lerp(s.col,[120,180,255],0.5),Math.max(0.08,al*0.42));
+      ctx.fill();
+
+      /* cold refracted edge */
+      polyPath(x,y,sz,s.sides,rot);
+      ctx.strokeStyle=rgba(s.edge,Math.max(0.10,al*0.55));
+      ctx.lineWidth=Math.max(1,R*0.009);
       ctx.stroke();
-      poly(x,y,sz*0.50,s.sides,-rot*0.7);
-      ctx.fillStyle = rgba(s.hot, Math.max(0.06, al*0.30));
-      ctx.fill();
     }
 
-    for(var b=0;b<shardsB.length;b++){
-      var q = shardsB[b];
-      var rr2 = (q.r + 0.05*Math.sin(t*0.0005*q.drift + q.phase))*R;
-      var x2 = Math.cos(q.a)*rr2, y2 = Math.sin(q.a)*rr2;
-      var sz2 = q.size*R*(0.9 + 0.3*Math.sin(t*0.0008 + q.phase*1.3));
-      var al2 = 0.30 + 0.45*Math.abs(Math.sin(t*0.0007 + q.phase));
-      var rot2 = q.phase - t*0.00034*q.drift*q.spin;
-      ctx.save();
-      ctx.translate(x2,y2);
-      ctx.rotate(rot2);
-      ctx.beginPath();
-      ctx.moveTo(0,-sz2*1.7);
-      ctx.lineTo(sz2*0.55,0);
-      ctx.lineTo(0,sz2*1.7);
-      ctx.lineTo(-sz2*0.55,0);
-      ctx.closePath();
-      ctx.fillStyle = rgba(q.col, Math.max(0.10, al2*0.55));
+    /* LAYER B — the cut crown: brighter, sharper triangular shards riding on top,
+       each with a crisp specular tip. Faster drift so the surface scintillates. */
+    for(i=0;i<crown.length;i++){
+      s=crown[i];
+      rr=(s.r+0.06*Math.sin(ts*0.0006*s.drift+s.phase))*R;
+      ang=s.a;
+      x=Math.cos(ang)*rr; y=Math.sin(ang)*rr;
+      sz=s.size*R*(0.88+0.30*Math.sin(ts*0.0007+s.phase));
+      al=0.42+0.42*Math.sin(ts*0.00055+s.phase*1.9);
+      rot=s.orient+ts*0.00026*s.drift;
+
+      polyPath(x,y,sz,3,rot);
+      ctx.fillStyle=rgba(s.col,Math.max(0.14,al*0.6));
       ctx.fill();
-      ctx.strokeStyle = rgba([235,247,255], Math.max(0.08, al2*0.5));
-      ctx.lineWidth = Math.max(1, R*0.0055);
+      ctx.strokeStyle=rgba([224,238,255],Math.max(0.08,al*0.5));
+      ctx.lineWidth=Math.max(1,R*0.006);
       ctx.stroke();
-      ctx.restore();
-    }
-  }
 
-  function drawStarburst(ts, cx, cy, R){
-    var t = ts;
-    var inner = R*0.305, peakR = R*0.62;
-    ctx.save();
-    ctx.translate(cx,cy);
-    ctx.globalCompositeOperation = 'lighter';
-    var spin = t*0.00012;
-    for(var k=0;k<rays.length;k++){
-      var ry = rays[k];
-      var pulse = 0.45 + 0.55*Math.pow(Math.abs(Math.sin(t*0.0009 + ry.ph)), 2.0);
-      var a = ry.a + spin*(k%2? 1 : 0.7);
-      var L = inner + (peakR-inner)*ry.len*(0.7+0.3*pulse);
-      var ca = Math.cos(a), sa = Math.sin(a);
-      var bw = (R*0.012)*ry.w*(0.6+pulse);
-      var nx = -sa, ny = ca;
-      ctx.beginPath();
-      ctx.moveTo(ca*inner + nx*bw, sa*inner + ny*bw);
-      ctx.lineTo(ca*L, sa*L);
-      ctx.lineTo(ca*inner - nx*bw, sa*inner - ny*bw);
-      ctx.closePath();
-      ctx.fillStyle = rgba([238,247,255], 0.16*pulse + 0.03);
-      ctx.fill();
+      /* specular sparkle tip — tiny bright dot where light catches the facet apex */
+      var spk=al;
+      if(spk>0.62){
+        var tipx=x+Math.cos(rot)*sz, tipy=y+Math.sin(rot)*sz;
+        ctx.beginPath();
+        ctx.arc(tipx,tipy,Math.max(0.8,R*0.012*(spk-0.55)*3),0,6.283);
+        ctx.fillStyle=rgba([235,245,255],Math.min(0.85,(spk-0.55)*1.6));
+        ctx.fill();
+      }
     }
-    var rg = ctx.createRadialGradient(0,0, inner*0.92, 0,0, inner*1.5);
-    rg.addColorStop(0, 'rgba(120,200,255,0.0)');
-    rg.addColorStop(0.55, 'rgba(180,222,255,0.18)');
-    rg.addColorStop(1, 'rgba(120,190,255,0.0)');
-    ctx.beginPath(); ctx.arc(0,0, inner*1.5, 0, 6.283); ctx.fillStyle = rg; ctx.fill();
-    ctx.restore();
   }
 
   function paint(ts){
-    var w = canvas.width, h = canvas.height, cx = w/2, cy = h/2;
-    var aw = w*0.46, peak = h*0.40, R = Math.min(h*0.38, aw*0.66);
+    var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2, aw=w*0.46, peak=h*0.40, R=Math.min(h*0.38,aw*0.66);
+    ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,w,h);
 
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.clearRect(0,0,w,h);
+    /* ---- almond eye + white sclera glow (FRAME, identical to base) ---- */
+    ctx.save(); almond(cx,cy,aw,peak); ctx.clip();
+    ctx.fillStyle='#0a0c12';ctx.fillRect(0,0,w,h);
+    var g=ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+    g.addColorStop(0,'rgba(170,195,255,0)');g.addColorStop(0.5,'rgba(200,220,255,0.12)');g.addColorStop(1,'rgba(236,243,255,0.46)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h); ctx.restore();
 
-    ctx.save();
-    almond(cx,cy,aw,peak); ctx.clip();
-    ctx.fillStyle = '#0a0c12'; ctx.fillRect(0,0,w,h);
-    var g = ctx.createRadialGradient(cx,cy, R*0.55, cx,cy, aw*1.02);
-    g.addColorStop(0,  'rgba(170,195,255,0)');
-    g.addColorStop(0.5,'rgba(200,220,255,0.12)');
-    g.addColorStop(1,  'rgba(236,243,255,0.46)');
-    ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+    /* ---- iris disc ---- */
+    ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+    var bed=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    bed.addColorStop(0,'rgba(22,70,190,1)');
+    bed.addColorStop(0.55,'rgba(14,50,156,1)');
+    bed.addColorStop(1,'rgba(9,32,110,1)');
+    ctx.fillStyle=bed;ctx.fillRect(cx-R,cy-R,R*2,R*2); /* FILLED: saturated sapphire bed, no black */
+
+    /* electric-blue inner glow under the kaleidoscope — the bright heart of the jewel */
+    var core=ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.95);
+    core.addColorStop(0,'rgba(60,140,255,0.55)');
+    core.addColorStop(0.35,'rgba(28,90,235,0.30)');
+    core.addColorStop(0.7,'rgba(12,44,150,0.14)');
+    core.addColorStop(1,'rgba(6,20,80,0)');
+    ctx.fillStyle=core;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+
+    ctx.globalCompositeOperation='lighter'; var grot=ts*0.00004;
+    for(var i=0;i<N;i++){
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+      ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+      drawWedge(ts,R);ctx.restore();
+    }
+
+    /* faceted limbal ring — darken the outer edge of the iris for gemstone containment */
+    ctx.globalCompositeOperation='source-over';
+    var limb=ctx.createRadialGradient(cx,cy,R*0.78,cx,cy,R);
+    limb.addColorStop(0,'rgba(4,10,40,0)');
+    limb.addColorStop(1,'rgba(7,28,104,0.42)');
+    ctx.fillStyle=limb;ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.fill();
     ctx.restore();
 
-    ctx.save();
-    ctx.beginPath(); ctx.arc(cx,cy, R, 0, 6.283); ctx.clip();
-    var bloom = ctx.createRadialGradient(cx,cy, 0, cx,cy, R);
-    bloom.addColorStop(0.0,'rgba(22,92,200,0.90)');
-    bloom.addColorStop(0.42,'rgba(14,110,175,0.94)');
-    bloom.addColorStop(0.74,'rgba(20,58,168,0.96)');
-    bloom.addColorStop(1.0,'rgba(9,26,92,1.0)');
-    ctx.fillStyle = bloom; ctx.fillRect(cx-R, cy-R, R*2, R*2);
+    ctx.globalCompositeOperation='source-over';
 
-    var ir = ctx.createRadialGradient(cx,cy, R*0.28, cx,cy, R);
-    ir.addColorStop(0, 'rgba(8,20,60,0.0)');
-    ir.addColorStop(1, 'rgba(10,46,160,0.0)');
-    ctx.fillStyle = ir; ctx.fillRect(cx-R, cy-R, R*2, R*2);
+    /* ---- pupil (FRAME, identical to base) ---- */
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.fillStyle='#08080a';ctx.fill();
+    /* a faint electric ring glowing up from beneath the pupil edge — the heart shows through */
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(34,108,255,.55)';ctx.lineWidth=DPR*1.4;ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(14,68,255,.45)';ctx.lineWidth=DPR;ctx.stroke();
 
-    ctx.globalCompositeOperation = 'lighter';
-    var grot = ts*0.00013;
-    for(var i=0;i<N;i++){
+    /* ---- catch-light glint (FRAME, identical to base) ---- */
+    ctx.beginPath();ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+
+    /* ---- soft white eyelid rim glow (FRAME, identical to base) ---- */
+    ctx.save(); almond(cx,cy,aw,peak); ctx.shadowColor='rgba(200,222,255,0.9)';ctx.shadowBlur=R*0.22;
+    ctx.strokeStyle='rgba(236,243,255,0.55)';ctx.lineWidth=Math.max(1.2,R*0.022);ctx.stroke(); ctx.restore();
+  }
+
+  function frame(ts){fit();paint(ts);if(!reduce)requestAnimationFrame(frame);}
+  fit();paint(0);if(!reduce){requestAnimationFrame(frame);document.addEventListener('visibilitychange',function(){if(!document.hidden)requestAnimationFrame(frame);});}
+}
+
+  /* ---- shattered-fill ---- */
+function eye_shattered_fill(canvas, opts){
+    var ctx;
+    try{ ctx = canvas.getContext('2d'); }catch(e){ ctx = null; }
+    if(!ctx) return; // guard against context failure — leave the dark frame
+
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var reduce = false;
+    try{ reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches; }catch(e){}
+
+    function fit(){
+      var r = canvas.getBoundingClientRect();
+      var w = Math.max(1, Math.round((r.width  || canvas.width  || 440) * DPR));
+      var h = Math.max(1, Math.round((r.height || canvas.height || 300) * DPR));
+      if(canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+    }
+    fit();
+    window.addEventListener('resize', fit);
+
+    var N   = opts.N || 12, seg = Math.PI*2 / N;
+    // Friday palette: deep electric blue -> mid -> teal/cyan -> ice white. High contrast.
+    var COLS = opts.COLS || [
+      [10,40,150],[14,68,255],[34,108,255],[64,140,255],
+      [31,182,255],[120,196,255],[190,224,255],[236,246,255]
+    ];
+
+    function rgba(c,a){ return 'rgba('+c[0]+','+c[1]+','+c[2]+','+(a<0?0:a>1?1:a).toFixed(3)+')'; }
+    function lerpC(a,b,t){ return [ a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t ]; }
+
+    // mulberry32 — deterministic PRNG, seeded once at init.
+    function mb(s){ return function(){ s|=0; s=s+0x6D2B79F5|0; var t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+    var rnd = mb(opts.seed || 20260619);
+
+    // ---- BOLD FACETS: fewer, larger glass PLANES (the Shattered-Glass elevation) ----
+    // Each shard is a chunky polygon (3-5 sides) tiling a wedge — a fractured pane.
+    var shards = [];
+    var COUNT = 14; // fewer + larger than the base's 16
+    for(var i=0;i<COUNT;i++){
+      var sides = 3 + ((rnd()*3)|0); // 3..5 sided panes
+      var verts = [];
+      var baseR = 0.05 + rnd()*0.16;
+      for(var v=0; v<sides; v++){
+        var va = (v/sides)*Math.PI*2 + rnd()*0.9;
+        var vr = baseR * (0.55 + rnd()*0.95); // irregular, jagged glass
+        verts.push([Math.cos(va)*vr, Math.sin(va)*vr]);
+      }
+      shards.push({
+        r:     0.16 + rnd()*0.80,        // radial placement in the wedge
+        a:     rnd()*seg,                // angular placement
+        scale: 1.0 + rnd()*1.35,         // big planes
+        col:   COLS[(rnd()*COLS.length)|0],
+        col2:  COLS[(rnd()*COLS.length)|0],
+        drift: 0.25 + rnd()*0.85,
+        phase: rnd()*6.283,
+        spin:  (rnd()<0.5?-1:1) * (0.10 + rnd()*0.22),
+        verts: verts,
+        // a per-shard light direction for flat-plane specular shading
+        ldx:   Math.cos(rnd()*6.283),
+        ldy:   Math.sin(rnd()*6.283),
+        bright: rnd()                    // some panes read as bright glass
+      });
+    }
+
+    function almond(cx,cy,aw,peak){
+      ctx.beginPath();
+      ctx.moveTo(cx-aw,cy);
+      ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);
+      ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);
+      ctx.closePath();
+    }
+
+    // Draw one mirror wedge of the iris — the part that is distinct for this day.
+    function drawWedge(ts,R){
+      for(var i=0;i<shards.length;i++){
+        var s = shards[i];
+        // slow radial breathing + a gentle continuous turn within the wedge
+        var rr  = (s.r + 0.035*Math.sin(ts*0.0004*s.drift + s.phase)) * R;
+        var ang = s.a + 0.05*Math.sin(ts*0.00022*s.drift + s.phase*1.3);
+        var cxp = Math.cos(ang)*rr, cyp = Math.sin(ang)*rr;
+        var sz  = s.scale * 0.9 * R * (0.92 + 0.12*Math.sin(ts*0.0005 + s.phase));
+        var rot = s.phase + ts*0.00016*s.spin;
+        var cosR = Math.cos(rot), sinR = Math.sin(rot);
+
+        // build the rotated/positioned pane polygon
+        var pts = [], vx, vy, k;
+        for(k=0;k<s.verts.length;k++){
+          var vx0 = s.verts[k][0]*sz, vy0 = s.verts[k][1]*sz;
+          vx = cxp + vx0*cosR - vy0*sinR;
+          vy = cyp + vx0*sinR + vy0*cosR;
+          pts.push([vx,vy]);
+        }
+
+        // flat-plane luminance: how the pane "faces" its light direction
+        var nlen = Math.sqrt(cxp*cxp + cyp*cyp) + 1e-5;
+        var facing = 0.5 + 0.5*((cxp/nlen)*s.ldx + (cyp/nlen)*s.ldy);
+        var lum = 0.45 + 0.7*facing; // 0.45..1.15
+
+        // base translucent fill — a gradient across the pane for depth
+        var tone = (rr/R)*0.45 + 0.25 + 0.3*facing;
+        tone = tone<0?0:tone>1?1:tone;
+        var baseCol = lerpC(s.col, s.col2, tone);
+        var al = 0.40 + 0.34*Math.sin(ts*0.0005 + s.phase*1.7);
+        al = al<0.18?0.18:al;
+
+        // glassy pane gradient (lit corner -> shadow corner)
+        var gx0 = cxp + s.ldx*sz*0.6, gy0 = cyp + s.ldy*sz*0.6;
+        var gx1 = cxp - s.ldx*sz*0.6, gy1 = cyp - s.ldy*sz*0.6;
+        var grd = ctx.createLinearGradient(gx0,gy0,gx1,gy1);
+        var liteC = lerpC(baseCol, [236,246,255], 0.45*lum);
+        var darkC = lerpC(baseCol, [6,10,28], 0.55);
+        grd.addColorStop(0,  rgba(liteC, Math.min(0.95, al*lum*1.15)));
+        grd.addColorStop(0.5,rgba(baseCol, al*0.9));
+        grd.addColorStop(1,  rgba(darkC, al*0.7));
+
+        // ---- fill the pane ----
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0],pts[0][1]);
+        for(k=1;k<pts.length;k++) ctx.lineTo(pts[k][0],pts[k][1]);
+        ctx.closePath();
+        ctx.fillStyle = grd;
+        ctx.fill();
+
+        // ---- REFRACTION COLOR-SPLIT edge: a faint warm/blue offset rim ----
+        ctx.save();
+        ctx.lineJoin = 'round';
+        // outer chromatic fringe — cyan
+        ctx.strokeStyle = rgba([31,182,255], Math.min(0.5, al*0.6));
+        ctx.lineWidth = Math.max(1, R*0.012);
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0]+1.2,pts[0][1]);
+        for(k=1;k<pts.length;k++) ctx.lineTo(pts[k][0]+1.2,pts[k][1]);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
+
+        // ---- bright SPECULAR EDGE: crisp ice-white rim (the crystalline catch) ----
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0],pts[0][1]);
+        for(k=1;k<pts.length;k++) ctx.lineTo(pts[k][0],pts[k][1]);
+        ctx.closePath();
+        ctx.strokeStyle = rgba([236,246,255], Math.min(0.85, 0.30 + al*0.55*lum));
+        ctx.lineWidth = Math.max(1, R*0.0075);
+        ctx.stroke();
+
+        // ---- specular HOTSPOT glint on the lit corner of bright panes ----
+        if(s.bright > 0.5){
+          var hx = cxp + s.ldx*sz*0.5, hy = cyp + s.ldy*sz*0.5;
+          var hsz = sz*0.22*(0.7+0.5*Math.sin(ts*0.0009 + s.phase));
+          var hg = ctx.createRadialGradient(hx,hy,0,hx,hy,Math.max(1,hsz));
+          hg.addColorStop(0, rgba([255,255,255], Math.min(0.9, 0.5*lum)));
+          hg.addColorStop(0.4, rgba([200,228,255], 0.30*lum));
+          hg.addColorStop(1, 'rgba(200,228,255,0)');
+          ctx.beginPath();
+          ctx.arc(hx,hy,Math.max(1,hsz),0,6.283);
+          ctx.fillStyle = hg;
+          ctx.fill();
+        }
+      }
+    }
+
+    function paint(ts){
+      var w = canvas.width, h = canvas.height, cx = w/2, cy = h/2;
+      var aw = w*0.46, peak = h*0.40, R = Math.min(h*0.38, aw*0.66);
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0,0,w,h);
+
+      // ---- ALMOND + SCLERA (identical frame) ----
       ctx.save();
-      ctx.translate(cx,cy);
-      ctx.rotate(grot + i*seg);
-      if(i%2===1) ctx.scale(1,-1);
-      ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0, R*1.02, 0, seg); ctx.closePath(); ctx.clip();
-      drawWedge(ts, R);
+      almond(cx,cy,aw,peak); ctx.clip();
+      ctx.fillStyle = '#0a0c12'; ctx.fillRect(0,0,w,h);
+      var g = ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+      g.addColorStop(0,'rgba(170,195,255,0)');
+      g.addColorStop(0.5,'rgba(200,220,255,0.12)');
+      g.addColorStop(1,'rgba(236,243,255,0.46)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+      ctx.restore();
+
+      // ---- IRIS: clipped circle, additive faceted-glass kaleidoscope ----
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx,cy,R,0,6.283); ctx.clip();
+      var bed = ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+      bed.addColorStop(0,'rgba(24,72,190,1)');
+      bed.addColorStop(0.55,'rgba(16,52,150,1)');
+      bed.addColorStop(1,'rgba(10,30,104,1)');
+      ctx.fillStyle = bed; ctx.fillRect(cx-R,cy-R,R*2,R*2); // FILLED: saturated base, no black between panes
+      // faint cold base wash so the dark reads as deep glass, not flat black
+      var ig = ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+      ig.addColorStop(0,'rgba(20,42,96,0.55)');
+      ig.addColorStop(0.6,'rgba(10,20,52,0.35)');
+      ig.addColorStop(1,'rgba(4,8,22,0)');
+      ctx.fillStyle = ig; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+
+      ctx.globalCompositeOperation = 'lighter';
+      var grot = ts*0.00004; // very slow whole-iris turn
+      for(var i=0;i<N;i++){
+        ctx.save();
+        ctx.translate(cx,cy);
+        ctx.rotate(grot + i*seg);
+        if(i%2===1) ctx.scale(1,-1); // mirror alternating wedges -> kaleidoscope fold
+        ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,R*1.02,0,seg); ctx.closePath(); ctx.clip();
+        drawWedge(ts,R);
+        ctx.restore();
+      }
+      ctx.restore();
+      ctx.globalCompositeOperation = 'source-over';
+
+      // central bright kaleidoscope core (shattered light converging)
+      var coreG = ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.40);
+      coreG.addColorStop(0,'rgba(236,246,255,0.55)');
+      coreG.addColorStop(0.5,'rgba(120,180,255,0.18)');
+      coreG.addColorStop(1,'rgba(120,180,255,0)');
+      ctx.beginPath(); ctx.arc(cx,cy,R*0.40,0,6.283); ctx.fillStyle = coreG; ctx.fill();
+
+      // ---- PUPIL (identical frame) ----
+      ctx.beginPath(); ctx.arc(cx,cy,R*0.30,0,6.283); ctx.fillStyle = '#08080a'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,cy,R*0.30,0,6.283);
+      ctx.strokeStyle = 'rgba(14,68,255,.45)'; ctx.lineWidth = DPR; ctx.stroke();
+
+      // ---- CATCH-LIGHT GLINT (identical frame) ----
+      ctx.beginPath(); ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);
+      ctx.fillStyle = '#eaf1ff'; ctx.fill();
+
+      // ---- EYELID RIM GLOW (identical frame) ----
+      ctx.save();
+      almond(cx,cy,aw,peak);
+      ctx.shadowColor = 'rgba(200,222,255,0.9)'; ctx.shadowBlur = R*0.22;
+      ctx.strokeStyle = 'rgba(236,243,255,0.55)'; ctx.lineWidth = Math.max(1.2,R*0.022);
+      ctx.stroke();
       ctx.restore();
     }
-    drawStarburst(ts, cx, cy, R);
-    ctx.restore();
 
-    ctx.globalCompositeOperation = 'source-over';
+    function frame(ts){ fit(); paint(ts); if(!reduce) requestAnimationFrame(frame); }
 
-    ctx.beginPath(); ctx.arc(cx,cy, R*0.30, 0, 6.283); var core = ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.20);
-    core.addColorStop(0,'rgba(230,242,255,0.78)');
-    core.addColorStop(0.6,'rgba(150,205,255,0.30)');
-    core.addColorStop(1,'rgba(90,160,255,0.0)');
-    ctx.fillStyle = core; ctx.fill();
-    ctx.beginPath(); ctx.arc(cx,cy, R*0.30, 0, 6.283);
-    ctx.strokeStyle = 'rgba(14,68,255,.45)'; ctx.lineWidth = DPR; ctx.stroke();
-
-    ctx.beginPath(); ctx.arc(cx - R*0.10, cy - R*0.13, R*0.05, 0, 6.283);
-    ctx.fillStyle = '#eaf1ff'; ctx.fill();
-
-    ctx.save();
-    almond(cx,cy,aw,peak);
-    ctx.shadowColor = 'rgba(200,222,255,0.9)'; ctx.shadowBlur = R*0.22;
-    ctx.strokeStyle = 'rgba(236,243,255,0.55)';
-    ctx.lineWidth = Math.max(1.2, R*0.022);
-    ctx.stroke();
-    ctx.restore();
+    // immediate first paint so it is never blank on a hidden/throttled tab
+    fit(); paint(0);
+    if(!reduce){
+      requestAnimationFrame(frame);
+      document.addEventListener('visibilitychange', function(){ if(!document.hidden) requestAnimationFrame(frame); });
+    }
   }
 
-  function frame(ts){ fit(); paint(ts); if(!reduce) requestAnimationFrame(frame); }
+  /* ---- teal-fill ---- */
+function eye_teal_fill(canvas, opts){
+    var ctx=canvas.getContext('2d'); if(!ctx) return;
+    var DPR=Math.min(window.devicePixelRatio||1,2);
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    function fit(){
+      var r=canvas.getBoundingClientRect();
+      var w=Math.max(1,Math.round((r.width||canvas.width||320)*DPR)),
+          h=Math.max(1,Math.round((r.height||canvas.height||218)*DPR));
+      if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+    }
+    var cssW=canvas.width, cssH=canvas.height;
+    canvas.style.width=cssW+'px'; canvas.style.height=cssH+'px';
+    canvas.width=Math.round(cssW*DPR); canvas.height=Math.round(cssH*DPR);
+    window.addEventListener('resize',function(){
+      canvas.style.width=cssW+'px'; canvas.style.height=cssH+'px';
+      canvas.width=Math.round(cssW*DPR); canvas.height=Math.round(cssH*DPR);
+    });
 
-  fit(); paint(0);
-  if(!reduce){
-    requestAnimationFrame(frame);
-    document.addEventListener('visibilitychange', function(){ if(!document.hidden) requestAnimationFrame(frame); });
+    var N=opts.N||12, seg=Math.PI*2/N;
+    // Teal-forward palette: deep navy -> electric blue -> cyan -> aqua -> teal-white -> ice
+    var COLS=opts.COLS||[[10,40,120],[14,86,200],[20,150,200],[28,200,220],[90,225,225],[150,240,235],[224,248,255]];
+    function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+    function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+    var rnd=mb(opts.seed||20260618);
+
+    // Soft drifting nebula puffs (the dreamy teal field) + sharp crystalline sparkle-shards.
+    var clouds=[], sparks=[];
+    for(var i=0;i<14;i++){
+      clouds.push({
+        r:0.16+rnd()*0.80, a:rnd()*seg,
+        size:0.18+rnd()*0.34, col:COLS[2+((rnd()*4)|0)],
+        drift:0.25+rnd()*0.8, phase:rnd()*6.283
+      });
+    }
+    for(var j=0;j<16;j++){
+      sparks.push({
+        r:0.22+rnd()*0.72, a:rnd()*seg,
+        size:0.018+rnd()*0.034, phase:rnd()*6.283, tw:0.6+rnd()*1.1
+      });
+    }
+
+    function almond(cx,cy,aw,peak){ctx.beginPath();ctx.moveTo(cx-aw,cy);ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);ctx.closePath();}
+
+    // ---- ELEVATED IRIS: flowing teal nebula + sharp white crystalline sparkle-shards ----
+    function drawWedge(ts,R){
+      // 1) dreamy teal cloud field: soft radial puffs, slow drift
+      for(var i=0;i<clouds.length;i++){var c=clouds[i];
+        var rr=(c.r+0.05*Math.sin(ts*0.0003*c.drift+c.phase))*R,
+            ang=c.a+0.05*Math.sin(ts*0.00022+c.phase);
+        var x=Math.cos(ang)*rr, y=Math.sin(ang)*rr;
+        var sz=c.size*R*(0.9+0.18*Math.sin(ts*0.00045+c.phase*1.3));
+        var al=0.22+0.16*Math.sin(ts*0.0004+c.phase*1.6);
+        var g=ctx.createRadialGradient(x,y,0,x,y,sz);
+        g.addColorStop(0,rgba(c.col,Math.max(0.10,al)));
+        g.addColorStop(0.55,rgba(c.col,Math.max(0.05,al*0.5)));
+        g.addColorStop(1,rgba(c.col,0));
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,sz,0,6.283);ctx.fill();
+      }
+      // 2) faint crystalline lattice rings: crisp polygon ridges give the cut-glass structure
+      for(var s=0;s<6;s++){
+        var fr=(0.18+s*0.135)*R, frot=ts*0.00012*(s%2?1:-1)+s*0.6;
+        ctx.beginPath();
+        for(var p=0;p<=5;p++){var pa=frot+p*(seg/5);ctx.lineTo(Math.cos(pa)*fr,Math.sin(pa)*fr);}
+        ctx.strokeStyle=rgba(COLS[5],0.10+0.05*Math.sin(ts*0.0006+s));
+        ctx.lineWidth=Math.max(0.6,R*0.004);ctx.stroke();
+      }
+      // 3) sharp white crystalline sparkle-shards: 4-point glints with halo + hot core
+      for(var k=0;k<sparks.length;k++){var sp=sparks[k];
+        var sr=(sp.r+0.03*Math.sin(ts*0.00035*sp.tw+sp.phase))*R, sa=sp.a;
+        var sx=Math.cos(sa)*sr, sy=Math.sin(sa)*sr;
+        var tw=0.5+0.5*Math.sin(ts*0.0013*sp.tw+sp.phase*6.283);
+        var ssz=sp.size*R*(0.5+0.7*tw);
+        ctx.save();ctx.translate(sx,sy);ctx.rotate(sp.phase+ts*0.00008);
+        var gg=ctx.createRadialGradient(0,0,0,0,0,ssz*2.4);
+        gg.addColorStop(0,rgba([235,248,255],Math.min(0.95,0.4+0.55*tw)));
+        gg.addColorStop(0.4,rgba([150,235,255],0.22*tw));
+        gg.addColorStop(1,rgba([150,235,255],0));
+        ctx.fillStyle=gg;ctx.beginPath();ctx.arc(0,0,ssz*2.4,0,6.283);ctx.fill();
+        ctx.fillStyle=rgba([240,250,255],Math.min(1,0.55+0.45*tw));
+        for(var ax=0;ax<2;ax++){ctx.rotate(ax*1.5708);
+          ctx.beginPath();ctx.moveTo(0,-ssz*3.0);ctx.lineTo(ssz*0.42,0);ctx.lineTo(0,ssz*3.0);ctx.lineTo(-ssz*0.42,0);ctx.closePath();ctx.fill();}
+        ctx.beginPath();ctx.arc(0,0,ssz*0.6,0,6.283);ctx.fillStyle=rgba([255,255,255],Math.min(1,0.6+0.4*tw));ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function paint(ts){
+      var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2, aw=w*0.46, peak=h*0.40, R=Math.min(h*0.38,aw*0.66);
+      ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,w,h);
+      // --- ALMOND + SCLERA (frame, identical to base) ---
+      ctx.save(); almond(cx,cy,aw,peak); ctx.clip();
+      ctx.fillStyle='#0a0c12';ctx.fillRect(0,0,w,h);
+      var g=ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+      g.addColorStop(0,'rgba(170,195,255,0)');g.addColorStop(0.5,'rgba(200,220,255,0.12)');g.addColorStop(1,'rgba(236,243,255,0.46)');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h); ctx.restore();
+      // --- IRIS DISC ---
+      ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+      var bed=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+      bed.addColorStop(0,'rgba(20,128,178,1)');
+      bed.addColorStop(0.55,'rgba(14,84,156,1)');
+      bed.addColorStop(1,'rgba(9,42,112,1)');
+      ctx.fillStyle=bed;ctx.fillRect(cx-R,cy-R,R*2,R*2); /* FILLED: saturated teal base, no black */
+      // glowing teal core wash beneath the folds
+      var coreG=ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.9);
+      coreG.addColorStop(0,'rgba(40,170,200,0.30)');coreG.addColorStop(0.5,'rgba(16,90,170,0.16)');coreG.addColorStop(1,'rgba(10,30,80,0)');
+      ctx.fillStyle=coreG;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+      ctx.globalCompositeOperation='lighter'; var grot=ts*0.000045;
+      for(var i=0;i<N;i++){ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+        ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+        drawWedge(ts,R);ctx.restore();}
+      ctx.restore(); ctx.globalCompositeOperation='source-over';
+      // --- PUPIL + PUPIL STROKE (frame; stroke tinted teal to match palette) ---
+      ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.fillStyle='#06070a';ctx.fill();
+      ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(28,200,220,.5)';ctx.lineWidth=DPR;ctx.stroke();
+      // --- CATCH-LIGHT GLINT (frame, identical) ---
+      ctx.beginPath();ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+      // --- EYELID RIM GLOW (frame, identical) ---
+      ctx.save(); almond(cx,cy,aw,peak); ctx.shadowColor='rgba(200,222,255,0.9)';ctx.shadowBlur=R*0.22;
+      ctx.strokeStyle='rgba(236,243,255,0.55)';ctx.lineWidth=Math.max(1.2,R*0.022);ctx.stroke(); ctx.restore();
+    }
+
+    function frame(ts){paint(ts);if(!reduce)requestAnimationFrame(frame);}
+    paint(0); // immediate first frame
+    if(!reduce){
+      requestAnimationFrame(frame);
+      document.addEventListener('visibilitychange',function(){if(!document.hidden)requestAnimationFrame(frame);});
+    }
   }
-}
 
   /* every available renderer, keyed by slug */
   var REND = {
@@ -1517,11 +1850,20 @@ function eye_kaleido(canvas, opts){
   } },
     'sapphire-jewel': { mount:eye_sapphire_jewel, opts:{N:12, seed:20260620, COLS:null} },
     'summit': { mount:eye_summit, opts:{ N:12, seed:20260621 } },
-    'kaleido': { mount:eye_kaleido, opts:{ N:12, seed:20260621 } },
+    'sapphire-fill': { mount:eye_sapphire_fill, opts:{N:12, seed:20260620, COLS:null} },
+    'shattered-fill': { mount:eye_shattered_fill, opts:{
+    N: 12,
+    seed: 20260619,
+    COLS: [
+      [10,40,150],[14,68,255],[34,108,255],[64,140,255],
+      [31,182,255],[120,196,255],[190,224,255],[236,246,255]
+    ]
+  } },
+    'teal-fill': { mount:eye_teal_fill, opts:{N:12,seed:20260618} },
   };
 
   /* the 7-day rotation, indexed by Date.getDay(): 0=Sun .. 6=Sat */
-  var ROTATION = ['kaleido', 'ice-seed', 'summit', 'crystal-bloom', 'teal-nebula', 'shattered-glass', 'sapphire-jewel'];
+  var ROTATION = ['sapphire-fill', 'ice-seed', 'summit', 'crystal-bloom', 'teal-nebula', 'shattered-glass', 'sapphire-jewel'];
 
   function mountSlug(canvas, slug){
     var d = REND[slug];
