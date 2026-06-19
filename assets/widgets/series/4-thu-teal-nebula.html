@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thu — Teal Nebula · day kaleidoscope 4/7</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:#08080a;
+    color:#FFD60A;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;
+    padding:42px 16px 64px;
+  }
+  h1{
+    font-size:12px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.26em;margin:0 0 34px;text-align:center;
+    color:#FFD60A;opacity:.93;
+  }
+  .stage{display:flex;gap:54px;align-items:center;flex-wrap:wrap;justify-content:center}
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+  canvas{display:block}
+  .cap{
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    opacity:.62;text-align:center;max-width:240px;line-height:1.5;color:#FFD60A;
+  }
+  .note{
+    margin:38px auto 0;max-width:520px;text-align:center;
+    font-size:12.5px;line-height:1.7;letter-spacing:.02em;
+    color:#FFD60A;opacity:.72;
+  }
+</style>
+</head>
+<body>
+  <h1>Thu — Teal Nebula · day kaleidoscope 4/7</h1>
+  <div class="stage">
+    <div class="col">
+      <canvas id="ebig" width="440" height="300"></canvas>
+      <div class="cap">presentation size</div>
+    </div>
+    <div class="col">
+      <canvas id="ehero" width="168" height="116"></canvas>
+      <div class="cap">at mast size</div>
+    </div>
+  </div>
+  <p class="note">Thursday — the teal nebula. A flowing cyan-and-aqua field folded twelve ways, drifting like deep water, and pricked through with sharp white crystalline sparkle-shards. Dreamy, but crisp.</p>
+
+<script>
+(function(){
+  "use strict";
+
+  function eye(canvas, opts){
+    var ctx=canvas.getContext('2d'); if(!ctx) return;
+    var DPR=Math.min(window.devicePixelRatio||1,2);
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    function fit(){
+      var r=canvas.getBoundingClientRect();
+      var w=Math.max(1,Math.round((r.width||canvas.width||320)*DPR)),
+          h=Math.max(1,Math.round((r.height||canvas.height||218)*DPR));
+      if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+    }
+    var cssW=canvas.width, cssH=canvas.height;
+    canvas.style.width=cssW+'px'; canvas.style.height=cssH+'px';
+    canvas.width=Math.round(cssW*DPR); canvas.height=Math.round(cssH*DPR);
+    window.addEventListener('resize',function(){
+      canvas.style.width=cssW+'px'; canvas.style.height=cssH+'px';
+      canvas.width=Math.round(cssW*DPR); canvas.height=Math.round(cssH*DPR);
+    });
+
+    var N=opts.N||12, seg=Math.PI*2/N;
+    // Teal-forward palette: deep navy -> electric blue -> cyan -> aqua -> teal-white -> ice
+    var COLS=opts.COLS||[[10,40,120],[14,86,200],[20,150,200],[28,200,220],[90,225,225],[150,240,235],[224,248,255]];
+    function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+    function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+    var rnd=mb(opts.seed||20260618);
+
+    // Soft drifting nebula puffs (the dreamy teal field) + sharp crystalline sparkle-shards.
+    var clouds=[], sparks=[];
+    for(var i=0;i<10;i++){
+      clouds.push({
+        r:0.16+rnd()*0.80, a:rnd()*seg,
+        size:0.18+rnd()*0.34, col:COLS[2+((rnd()*4)|0)],
+        drift:0.25+rnd()*0.8, phase:rnd()*6.283
+      });
+    }
+    for(var j=0;j<11;j++){
+      sparks.push({
+        r:0.22+rnd()*0.72, a:rnd()*seg,
+        size:0.018+rnd()*0.034, phase:rnd()*6.283, tw:0.6+rnd()*1.1
+      });
+    }
+
+    function almond(cx,cy,aw,peak){ctx.beginPath();ctx.moveTo(cx-aw,cy);ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);ctx.closePath();}
+
+    // ---- ELEVATED IRIS: flowing teal nebula + sharp white crystalline sparkle-shards ----
+    function drawWedge(ts,R){
+      // 1) dreamy teal cloud field: soft radial puffs, slow drift
+      for(var i=0;i<clouds.length;i++){var c=clouds[i];
+        var rr=(c.r+0.05*Math.sin(ts*0.0003*c.drift+c.phase))*R,
+            ang=c.a+0.05*Math.sin(ts*0.00022+c.phase);
+        var x=Math.cos(ang)*rr, y=Math.sin(ang)*rr;
+        var sz=c.size*R*(0.9+0.18*Math.sin(ts*0.00045+c.phase*1.3));
+        var al=0.22+0.16*Math.sin(ts*0.0004+c.phase*1.6);
+        var g=ctx.createRadialGradient(x,y,0,x,y,sz);
+        g.addColorStop(0,rgba(c.col,Math.max(0.10,al)));
+        g.addColorStop(0.55,rgba(c.col,Math.max(0.05,al*0.5)));
+        g.addColorStop(1,rgba(c.col,0));
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,sz,0,6.283);ctx.fill();
+      }
+      // 2) faint crystalline lattice rings: crisp polygon ridges give the cut-glass structure
+      for(var s=0;s<6;s++){
+        var fr=(0.18+s*0.135)*R, frot=ts*0.00012*(s%2?1:-1)+s*0.6;
+        ctx.beginPath();
+        for(var p=0;p<=5;p++){var pa=frot+p*(seg/5);ctx.lineTo(Math.cos(pa)*fr,Math.sin(pa)*fr);}
+        ctx.strokeStyle=rgba(COLS[5],0.10+0.05*Math.sin(ts*0.0006+s));
+        ctx.lineWidth=Math.max(0.6,R*0.004);ctx.stroke();
+      }
+      // 3) sharp white crystalline sparkle-shards: 4-point glints with halo + hot core
+      for(var k=0;k<sparks.length;k++){var sp=sparks[k];
+        var sr=(sp.r+0.03*Math.sin(ts*0.00035*sp.tw+sp.phase))*R, sa=sp.a;
+        var sx=Math.cos(sa)*sr, sy=Math.sin(sa)*sr;
+        var tw=0.5+0.5*Math.sin(ts*0.0013*sp.tw+sp.phase*6.283);
+        var ssz=sp.size*R*(0.5+0.7*tw);
+        ctx.save();ctx.translate(sx,sy);ctx.rotate(sp.phase+ts*0.00008);
+        var gg=ctx.createRadialGradient(0,0,0,0,0,ssz*2.4);
+        gg.addColorStop(0,rgba([235,248,255],Math.min(0.95,0.4+0.55*tw)));
+        gg.addColorStop(0.4,rgba([150,235,255],0.22*tw));
+        gg.addColorStop(1,rgba([150,235,255],0));
+        ctx.fillStyle=gg;ctx.beginPath();ctx.arc(0,0,ssz*2.4,0,6.283);ctx.fill();
+        ctx.fillStyle=rgba([240,250,255],Math.min(1,0.55+0.45*tw));
+        for(var ax=0;ax<2;ax++){ctx.rotate(ax*1.5708);
+          ctx.beginPath();ctx.moveTo(0,-ssz*3.0);ctx.lineTo(ssz*0.42,0);ctx.lineTo(0,ssz*3.0);ctx.lineTo(-ssz*0.42,0);ctx.closePath();ctx.fill();}
+        ctx.beginPath();ctx.arc(0,0,ssz*0.6,0,6.283);ctx.fillStyle=rgba([255,255,255],Math.min(1,0.6+0.4*tw));ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function paint(ts){
+      var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2, aw=w*0.46, peak=h*0.40, R=Math.min(h*0.38,aw*0.66);
+      ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,w,h);
+      // --- ALMOND + SCLERA (frame, identical to base) ---
+      ctx.save(); almond(cx,cy,aw,peak); ctx.clip();
+      ctx.fillStyle='#0a0c12';ctx.fillRect(0,0,w,h);
+      var g=ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+      g.addColorStop(0,'rgba(170,195,255,0)');g.addColorStop(0.5,'rgba(200,220,255,0.12)');g.addColorStop(1,'rgba(236,243,255,0.46)');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h); ctx.restore();
+      // --- IRIS DISC ---
+      ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+      ctx.fillStyle='#06080c';ctx.fillRect(cx-R,cy-R,R*2,R*2);
+      // glowing teal core wash beneath the folds
+      var coreG=ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.9);
+      coreG.addColorStop(0,'rgba(40,170,200,0.30)');coreG.addColorStop(0.5,'rgba(16,90,170,0.16)');coreG.addColorStop(1,'rgba(10,30,80,0)');
+      ctx.fillStyle=coreG;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+      ctx.globalCompositeOperation='lighter'; var grot=ts*0.000045;
+      for(var i=0;i<N;i++){ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+        ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+        drawWedge(ts,R);ctx.restore();}
+      ctx.restore(); ctx.globalCompositeOperation='source-over';
+      // --- PUPIL + PUPIL STROKE (frame; stroke tinted teal to match palette) ---
+      ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.fillStyle='#06070a';ctx.fill();
+      ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(28,200,220,.5)';ctx.lineWidth=DPR;ctx.stroke();
+      // --- CATCH-LIGHT GLINT (frame, identical) ---
+      ctx.beginPath();ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+      // --- EYELID RIM GLOW (frame, identical) ---
+      ctx.save(); almond(cx,cy,aw,peak); ctx.shadowColor='rgba(200,222,255,0.9)';ctx.shadowBlur=R*0.22;
+      ctx.strokeStyle='rgba(236,243,255,0.55)';ctx.lineWidth=Math.max(1.2,R*0.022);ctx.stroke(); ctx.restore();
+    }
+
+    function frame(ts){paint(ts);if(!reduce)requestAnimationFrame(frame);}
+    paint(0); // immediate first frame
+    if(!reduce){
+      requestAnimationFrame(frame);
+      document.addEventListener('visibilitychange',function(){if(!document.hidden)requestAnimationFrame(frame);});
+    }
+  }
+
+  function boot(){
+    var opts={N:12,seed:20260618};
+    var big=document.getElementById('ebig');
+    var hero=document.getElementById('ehero');
+    try{ if(big) eye(big,opts); }catch(e){}
+    try{ if(hero) eye(hero,opts); }catch(e){}
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',boot);}else{boot();}
+})();
+</script>
+</body>
+</html>

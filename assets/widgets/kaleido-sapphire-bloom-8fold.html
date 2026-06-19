@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sapphire-bloom-8fold — day kaleidoscope candidate</title>
+<style>
+  :root{
+    --bg:#08080a;
+    --gold:#FFD60A;
+    --blue:#0E44FF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background-color:var(--bg);
+    background-image:
+      linear-gradient(rgba(255,214,10,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,214,10,.045) 1px, transparent 1px);
+    background-size:32px 32px;
+    color:var(--gold);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    gap:26px;
+    padding:38px 16px 60px;
+  }
+  h1{
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.34em;
+    margin:0;
+    text-align:center;
+    opacity:.92;
+  }
+  .stage{
+    display:flex;
+    gap:46px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .cell{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+  }
+  .disc{
+    border-radius:50%;
+    overflow:hidden;
+    background:#08080a;
+    box-shadow:
+      0 0 0 1px rgba(255,214,10,.5),
+      0 0 22px -2px rgba(14,68,255,.7),
+      inset 0 0 30px -6px rgba(14,68,255,.4);
+  }
+  .disc canvas{display:block;width:100%;height:100%;}
+  .caption{
+    font-size:10.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    opacity:.66;
+    text-align:center;
+    max-width:200px;
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+  <h1>sapphire-bloom-8fold — day kaleidoscope candidate</h1>
+  <div class="stage">
+    <div class="cell">
+      <div class="disc" style="width:360px;height:360px;">
+        <canvas id="kbig" width="360" height="360"></canvas>
+      </div>
+      <div class="caption">dense jewel sapphire bloom · 8-fold</div>
+    </div>
+    <div class="cell">
+      <div class="disc" style="width:84px;height:84px;">
+        <canvas id="khero" width="84" height="84"></canvas>
+      </div>
+      <div class="caption">at hero size — does it read small?</div>
+    </div>
+  </div>
+
+<script>
+"use strict";
+(function(){
+  var SEED = 20260616;
+
+  // ---- mulberry32 deterministic PRNG (seeded at init only) ----
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  var reduceMotion = false;
+  try {
+    reduceMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch(e){ reduceMotion = false; }
+
+  // ---------- WebGL fragment-shader renderer ----------
+  var VERT = [
+    "attribute vec2 aPos;",
+    "void main(){ gl_Position = vec4(aPos,0.0,1.0); }"
+  ].join("\n");
+
+  // 8-fold mirror kaleidoscope, layered translucent sapphire facets.
+  var FRAG = [
+    "precision highp float;",
+    "uniform vec2  uRes;",
+    "uniform float uTime;",
+    "uniform float uSeed;",
+
+    "const float PI = 3.14159265359;",
+    "const float SEG = PI / 8.0;",   // half-wedge for 8-fold (16 mirror cells)
+
+    // hash helpers (seeded by uSeed; deterministic, no time at init)
+    "float hash11(float p){",
+    "  p = fract(p*0.1031);",
+    "  p *= p + 33.33;",
+    "  p *= p + p;",
+    "  return fract(p);",
+    "}",
+    "float hash21(vec2 p){",
+    "  vec3 p3 = fract(vec3(p.xyx)*0.1031);",
+    "  p3 += dot(p3, p3.yzx+33.33);",
+    "  return fract((p3.x+p3.y)*p3.z);",
+    "}",
+    "vec2 hash22(vec2 p){",
+    "  vec3 p3 = fract(vec3(p.xyx)*vec3(.1031,.1030,.0973));",
+    "  p3 += dot(p3, p3.yzx+33.33);",
+    "  return fract((p3.xx+p3.yz)*p3.zy);",
+    "}",
+
+    // smooth value noise
+    "float vnoise(vec2 p){",
+    "  vec2 i = floor(p); vec2 f = fract(p);",
+    "  vec2 u = f*f*(3.0-2.0*f);",
+    "  float a = hash21(i+vec2(0.0,0.0));",
+    "  float b = hash21(i+vec2(1.0,0.0));",
+    "  float c = hash21(i+vec2(0.0,1.0));",
+    "  float d = hash21(i+vec2(1.0,1.0));",
+    "  return mix(mix(a,b,u.x), mix(c,d,u.x), u.y);",
+    "}",
+
+    // palette: deep navy -> electric blue -> ice -> white glint
+    "vec3 palette(float t){",
+    "  t = clamp(t,0.0,1.0);",
+    "  vec3 navy = vec3(0.016,0.031,0.094);",   // very deep
+    "  vec3 royal= vec3(0.055,0.267,1.0);",     // #0E44FF
+    "  vec3 elec = vec3(0.133,0.424,1.0);",     // #2270FF
+    "  vec3 cyan = vec3(0.121,0.714,1.0);",     // bright cyan-blue
+    "  vec3 ice  = vec3(0.627,0.784,1.0);",     // pale ice
+    "  vec3 white= vec3(0.918,0.945,1.0);",     // #eaf1ff glint
+    "  vec3 col;",
+    "  if(t<0.22){ col = mix(navy, royal, t/0.22); }",
+    "  else if(t<0.45){ col = mix(royal, elec, (t-0.22)/0.23); }",
+    "  else if(t<0.66){ col = mix(elec, cyan, (t-0.45)/0.21); }",
+    "  else if(t<0.85){ col = mix(cyan, ice, (t-0.66)/0.19); }",
+    "  else { col = mix(ice, white, (t-0.85)/0.15); }",
+    "  return col;",
+    "}",
+
+    // one sharp faceted shard layer in wedge-space.
+    // returns vec4(color.rgb, coverage/alpha)
+    "vec4 shardLayer(vec2 q, float layer, float t){",
+    "  float seed = uSeed*0.000123 + layer*7.0;",
+    "  // per-layer cell scale + slow radial drift (bloom outward)",
+    "  float scale = mix(3.0, 9.0, hash11(seed+1.0));",
+    "  // facet grid in polar-ish wedge coords -> angular cells = crisp shards",
+    "  vec2 cell = q * scale;",
+    "  // gentle bloom breathing: cells push outward & back",
+    "  float breathe = 0.5 + 0.5*sin(t*0.5 + layer*1.7);",
+    "  cell += vec2(0.0, breathe*0.35);",
+    "  vec2 id = floor(cell);",
+    "  vec2 fr = fract(cell) - 0.5;",
+    "  vec2 rnd = hash22(id + seed);",
+    "  // shard center jitter -> irregular faceting",
+    "  vec2 cdir = fr - (rnd-0.5)*0.55;",
+    "  // angular facet cut: distance to a rotated diamond/triangle edge => SHARP",
+    "  float ang = (rnd.x)*PI;",
+    "  vec2 rot = vec2(cos(ang), sin(ang));",
+    "  float d1 = abs(dot(cdir, rot));",
+    "  float d2 = abs(dot(cdir, vec2(-rot.y, rot.x)));",
+    "  // faceted polygon distance (diamond) -> crisp glass edges",
+    "  float facet = max(d1*1.0, d2*1.15) + (d1+d2)*0.25;",
+    "  // edge width tiny for crisp shards (scaled by fwidth for AA only)",
+    "  float aa = fwidth(facet)*1.2 + 0.002;",
+    "  float thresh = mix(0.16, 0.34, rnd.y);",
+    "  float cov = 1.0 - smoothstep(thresh-aa, thresh+aa, facet);",
+    "  // drop some cells for sparse layered glass",
+    "  float keep = step(0.18, hash11(dot(id,vec2(12.9,78.2)) + seed));",
+    "  cov *= keep;",
+    "  // color: tie to radius (bloom: bright ice/white core -> navy edge) + per-shard hue",
+    "  float rad = length(q);",
+    "  // strong radial ramp: near core pushes toward ice/white, edge toward navy",
+    "  float shade = clamp(1.0 - rad*1.05, 0.0, 1.0);",  // bright near core
+    "  shade = pow(shade, 0.78);",                          // lift mid-bright -> more ice
+    "  // per-shard hue variation so facets read as distinct gems",
+    "  shade = mix(shade, shade*0.55 + rnd.x*0.55, 0.45);",
+    "  // a fraction of shards are bright ice/white glints (crystalline contrast)",
+    "  float bright = step(0.78, rnd.y);",
+    "  shade = mix(shade, clamp(shade+0.42,0.0,1.0), bright*0.85);",
+    "  // shimmer per shard",
+    "  shade += 0.10*sin(t*0.9 + rnd.y*6.28 + layer);",
+    "  vec3 col = palette(shade);",
+    "  // crisp facet inner highlight (glassy specular ridge)",
+    "  float ridge = smoothstep(thresh, thresh-0.055, facet);",
+    "  col += vec3(0.30,0.40,0.62) * ridge * (0.45+0.6*rnd.x);",
+    "  return vec4(col, cov);",
+    "}",
+
+    "void main(){",
+    "  vec2 uv = (gl_FragCoord.xy - 0.5*uRes) / min(uRes.x, uRes.y);",
+    "  uv *= 2.0;",                       // disc fills [-1,1]
+    "  float R = length(uv);",
+    "  float baseAng = atan(uv.y, uv.x);",
+
+    // discard outside the disc (mask to circle)
+    "  if(R > 1.0){ gl_FragColor = vec4(0.031,0.031,0.039,1.0); return; }",
+
+    // ---- kaleidoscope mirror fold: 8-fold => fold angle into one wedge ----
+    "  float slowRot = uTime * 0.018;",   // ~ slow continuous turn
+    "  float a = baseAng + slowRot;",
+    "  a = mod(a, 2.0*SEG);",
+    "  a = abs(a - SEG);",                // mirror within wedge
+    "  // reconstruct folded coordinate",
+    "  vec2 q = vec2(cos(a), sin(a)) * R;",
+
+    // ---- background bloom: radial deep-blue gradient ----
+    "  float coreGlow = smoothstep(0.95, 0.0, R);",
+    "  vec3 bg = mix(vec3(0.012,0.024,0.075), vec3(0.031,0.090,0.32), coreGlow);",
+    "  bg = mix(bg, vec3(0.055,0.267,1.0)*0.55, smoothstep(0.5,0.0,R)*0.6);",
+    "  vec3 color = bg;",
+
+    // ---- layered translucent sapphire facets (jewel depth) ----
+    "  const int LAYERS = 5;",
+    "  for(int i=0;i<LAYERS;i++){",
+    "    float fl = float(i);",
+    "    // each layer slightly rotated & scaled for depth parallax",
+    "    float lr = fl*0.21 + uTime*0.006*(1.0+fl*0.15);",
+    "    mat2 m = mat2(cos(lr),-sin(lr),sin(lr),cos(lr));",
+    "    vec2 ql = m * q;",
+    "    vec4 sh = shardLayer(ql, fl, uTime);",
+    "    // translucent over-compositing -> stacked glass",
+    "    float alpha = sh.a * (0.85 - fl*0.06);",
+    "    color = mix(color, sh.rgb, alpha);",
+    "    // additive jewel glint on bright facets",
+    "    color += sh.rgb * sh.a * 0.10;",
+    "  }",
+
+    // ---- bright electric-blue core bloom (rings the pupil; brightest just outside it) ----
+    "  float core = smoothstep(0.46, 0.10, R);",
+    "  color += vec3(0.12,0.34,0.92) * core * 0.72;",
+    "  // ice/white halo hugging the pupil edge (luminous iris collarette) -- restrained so gems stay hero",
+    "  float halo = smoothstep(0.28, 0.145, R);",
+    "  color += vec3(0.55,0.72,1.0) * halo * 0.62;",
+    "  color += vec3(0.86,0.93,1.0) * smoothstep(0.185,0.145,R) * 0.45;",
+
+    // ---- subtle global shimmer / caustic ----
+    "  float shim = vnoise(q*6.0 + uTime*0.15);",
+    "  color += vec3(0.04,0.07,0.14) * (shim-0.5);",
+
+    // ---- PUPIL: dark center disc ----
+    "  float pupilR = 0.14;",
+    "  float pupil = smoothstep(pupilR+0.006, pupilR-0.006, R);",
+    "  color = mix(color, vec3(0.031,0.031,0.039), pupil);",
+    "  // thin electric-blue pupil stroke",
+    "  float ring = smoothstep(0.010, 0.0, abs(R - pupilR));",
+    "  color = mix(color, vec3(0.055,0.267,1.0), ring*0.5);",
+
+    // ---- CATCH-LIGHT glint (upper-left, sits on the dark pupil like an eye reflection) ----
+    // spec: #eaf1ff at ~(-0.045R,-0.055R), radius ~0.025R. uv is R-space*2, +y is up.
+    "  vec2 glintC = vec2(-0.09, 0.11);",
+    "  float gd = length(uv - glintC);",
+    "  float glint = smoothstep(0.075, 0.0, gd);",
+    "  // soft outer bloom + hot inner dot",
+    "  color = mix(color, vec3(0.918,0.945,1.0), glint*0.85);",
+    "  color += vec3(0.918,0.945,1.0) * smoothstep(0.045,0.0,gd) * 0.6;",
+
+    // ---- soft inner vignette to seat shards into the disc ----
+    "  color *= mix(1.0, 0.72, smoothstep(0.7,1.0,R));",
+
+    // ---- edge AA of the disc itself ----
+    "  float edge = smoothstep(1.0, 0.985, R);",
+    "  color = mix(vec3(0.031,0.031,0.039), color, edge);",
+
+    "  gl_FragColor = vec4(color, 1.0);",
+    "}"
+  ].join("\n");
+
+  function makeGL(canvas){
+    var gl = null;
+    try {
+      gl = canvas.getContext("webgl", {antialias:true, alpha:false, premultipliedAlpha:false})
+        || canvas.getContext("experimental-webgl", {antialias:true, alpha:false});
+    } catch(e){ gl = null; }
+    if(!gl) return null;
+    // derivatives extension for fwidth (crisp facet AA)
+    try { gl.getExtension("OES_standard_derivatives"); } catch(e){}
+    return gl;
+  }
+
+  function compile(gl, type, src){
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+      // swallow; caller falls back
+      return null;
+    }
+    return s;
+  }
+
+  function initWebGL(canvas){
+    var gl = makeGL(canvas);
+    if(!gl) return null;
+    var ext = gl.getExtension("OES_standard_derivatives");
+    var fragSrc = FRAG;
+    if(ext){
+      fragSrc = "#extension GL_OES_standard_derivatives : enable\n" + FRAG;
+    } else {
+      // replace fwidth with a constant fallback if derivatives missing
+      fragSrc = FRAG.replace("fwidth(facet)*1.2", "0.004");
+    }
+    var vs = compile(gl, gl.VERTEX_SHADER, VERT);
+    var fs = compile(gl, gl.FRAGMENT_SHADER, fragSrc);
+    if(!vs || !fs) return null;
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+    gl.useProgram(prog);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1,-1,  3,-1,  -1,3
+    ]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, "aPos");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    return {
+      gl: gl,
+      prog: prog,
+      uRes: gl.getUniformLocation(prog, "uRes"),
+      uTime: gl.getUniformLocation(prog, "uTime"),
+      uSeed: gl.getUniformLocation(prog, "uSeed")
+    };
+  }
+
+  // ---------- Canvas2D fallback (still a real 8-fold kaleidoscope) ----------
+  function initCanvas2D(canvas){
+    var ctx = canvas.getContext("2d");
+    if(!ctx) return null;
+    var rnd = mulberry32(SEED);
+    // precompute shards in one wedge
+    var SHARDS = [];
+    var N = 26;
+    for(var i=0;i<N;i++){
+      SHARDS.push({
+        r: 0.16 + rnd()*0.82,
+        a: rnd()*(Math.PI/8),
+        size: 0.04 + rnd()*0.12,
+        shade: rnd(),
+        rot: rnd()*Math.PI,
+        ph: rnd()*Math.PI*2
+      });
+    }
+    var stops = [[16,68,255],[34,108,255],[77,130,255],[120,170,255],[31,182,255],[160,200,255],[234,241,255]];
+    function pal(t){
+      t = Math.max(0,Math.min(1,t));
+      var f = t*(stops.length-1);
+      var i0 = Math.floor(f); var i1 = Math.min(stops.length-1,i0+1);
+      var k = f-i0;
+      var c0=stops[i0], c1=stops[i1];
+      return "rgb("+Math.round(c0[0]+(c1[0]-c0[0])*k)+","+
+                    Math.round(c0[1]+(c1[1]-c0[1])*k)+","+
+                    Math.round(c0[2]+(c1[2]-c0[2])*k)+")";
+    }
+    return { ctx: ctx, shards: SHARDS, pal: pal };
+  }
+
+  function drawCanvas2D(state, canvas, t){
+    var ctx = state.ctx;
+    var W = canvas.width, H = canvas.height;
+    var cx = W/2, cy = H/2, R = Math.min(W,H)/2;
+    ctx.save();
+    ctx.clearRect(0,0,W,H);
+    // disc clip
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
+    // bg radial bloom
+    var g = ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    g.addColorStop(0,"#163aa8");
+    g.addColorStop(0.5,"#0c2a8c");
+    g.addColorStop(1,"#06122b");
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+    var rot = t*0.018;
+    ctx.globalCompositeOperation = "lighter";
+    for(var s=0;s<16;s++){
+      ctx.save();
+      ctx.translate(cx,cy);
+      ctx.rotate(rot + s*(Math.PI/8));
+      if(s%2===1) ctx.scale(1,-1); // mirror alternate wedges
+      for(var i=0;i<state.shards.length;i++){
+        var sh = state.shards[i];
+        var rr = sh.r*R;
+        var breathe = 1 + 0.04*Math.sin(t*0.5 + sh.ph);
+        var x = Math.cos(sh.a)*rr*breathe;
+        var y = Math.sin(sh.a)*rr*breathe;
+        var sz = sh.size*R;
+        var shade = sh.shade*(1 - sh.r*0.6) + 0.2;
+        shade += 0.1*Math.sin(t*0.9 + sh.ph);
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(sh.rot + t*0.05);
+        ctx.globalAlpha = 0.5;
+        ctx.fillStyle = state.pal(shade);
+        // crisp faceted diamond
+        ctx.beginPath();
+        ctx.moveTo(0,-sz);
+        ctx.lineTo(sz*0.7,0);
+        ctx.lineTo(0,sz);
+        ctx.lineTo(-sz*0.7,0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
+
+    // core bloom
+    var cg = ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.4);
+    cg.addColorStop(0,"rgba(150,190,255,0.85)");
+    cg.addColorStop(0.4,"rgba(30,90,230,0.4)");
+    cg.addColorStop(1,"rgba(30,90,230,0)");
+    ctx.fillStyle = cg; ctx.fillRect(0,0,W,H);
+
+    // pupil
+    ctx.beginPath(); ctx.arc(cx,cy,R*0.14,0,Math.PI*2);
+    ctx.fillStyle = "#08080a"; ctx.fill();
+    ctx.lineWidth = Math.max(1,R*0.012);
+    ctx.strokeStyle = "rgba(14,68,255,0.5)"; ctx.stroke();
+
+    // catch-light
+    ctx.beginPath();
+    ctx.arc(cx - 0.045*R, cy - 0.055*R, R*0.025, 0, Math.PI*2);
+    ctx.fillStyle = "#eaf1ff"; ctx.fill();
+
+    // vignette
+    var vg = ctx.createRadialGradient(cx,cy,R*0.6,cx,cy,R);
+    vg.addColorStop(0,"rgba(0,0,0,0)");
+    vg.addColorStop(1,"rgba(4,6,16,0.55)");
+    ctx.fillStyle = vg; ctx.fillRect(0,0,W,H);
+    ctx.restore();
+  }
+
+  // ---------- per-canvas setup ----------
+  function setup(canvasId){
+    var canvas = document.getElementById(canvasId);
+    if(!canvas) return;
+    var cssW = canvas.width, cssH = canvas.height; // logical size from attrs
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(cssW * dpr);
+    canvas.height = Math.round(cssH * dpr);
+    canvas.style.width = cssW + "px";
+    canvas.style.height = cssH + "px";
+
+    var glState = initWebGL(canvas);
+    var c2d = null;
+    if(!glState){
+      c2d = initCanvas2D(canvas);
+    }
+
+    var start = null;
+    function frame(now){
+      if(start === null) start = now;
+      var t = (now - start) / 1000;
+      if(reduceMotion) t = 8.0; // frozen, pleasant static pose
+      if(glState){
+        var gl = glState.gl;
+        gl.viewport(0,0,canvas.width,canvas.height);
+        gl.useProgram(glState.prog);
+        gl.uniform2f(glState.uRes, canvas.width, canvas.height);
+        gl.uniform1f(glState.uTime, t);
+        gl.uniform1f(glState.uSeed, SEED % 100000);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      } else if(c2d){
+        drawCanvas2D(c2d, canvas, t);
+      }
+      if(!reduceMotion) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    if(reduceMotion){
+      // draw a single static frame
+      requestAnimationFrame(frame);
+    }
+  }
+
+  function boot(){
+    setup("kbig");
+    setup("khero");
+  }
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon — Ice Seed · day kaleidoscope 1/7</title>
+<style>
+  html,body{margin:0;padding:0;background:#08080a;}
+  body{
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:22px;padding:40px 16px;box-sizing:border-box;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#FFD60A;
+  }
+  h1{
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.34em;
+    margin:0;text-align:center;opacity:.92;
+  }
+  .stage{display:flex;align-items:flex-end;gap:40px;flex-wrap:wrap;justify-content:center;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:9px;}
+  canvas{display:block;}
+  .cap{font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.62;color:#cfe2ff;}
+  .note{
+    max-width:520px;text-align:center;font-size:12.5px;line-height:1.7;
+    color:#9fb6e0;letter-spacing:.02em;margin:2px 0 0;opacity:.9;
+  }
+  .note b{color:#dceaff;font-weight:600;}
+</style>
+</head>
+<body>
+  <h1>Mon — Ice Seed · day kaleidoscope 1/7</h1>
+  <div class="stage">
+    <div class="cell">
+      <canvas id="ebig" width="440" height="300" style="width:440px;height:300px;"></canvas>
+      <div class="cap">the seed eye — 6-fold ice crystal</div>
+    </div>
+    <div class="cell">
+      <canvas id="ehero" width="168" height="116" style="width:168px;height:116px;"></canvas>
+      <div class="cap">at mast size</div>
+    </div>
+  </div>
+  <p class="note">
+    <b>Monday · Ice Seed.</b> The quiet beginning of the week — sparse hexagonal needles
+    and frost dendrites drifting in deep navy, pale ice-blue and white. Lots of dark space.
+    A single crystal, just beginning to grow.
+  </p>
+
+<script>
+function eye(canvas, opts){
+  var ctx=canvas.getContext('2d'); if(!ctx) return;
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function fit(){var r=canvas.getBoundingClientRect();var w=Math.max(1,Math.round((r.width||320)*DPR)),h=Math.max(1,Math.round((r.height||218)*DPR));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}}
+  fit(); window.addEventListener('resize',fit);
+
+  var N=opts.N||6, seg=Math.PI*2/N;
+  // Ice-seed palette: pale ice-blue, frost white, faint cyan — cold + desaturated on near-black navy.
+  var COLS=opts.COLS||[
+    [188,214,255], // pale ice blue
+    [214,232,255], // frost blue-white
+    [236,245,255], // near white
+    [150,196,255], // colder blue
+    [176,228,255], // faint cyan
+    [122,170,248], // deep ice
+    [248,252,255]  // bright white glint
+  ];
+  function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+  function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  var rnd=mb(opts.seed||20260615);
+
+  // --- ICE SEED: build a sparse set of crystal "needles" arranged along the wedge radius.
+  // Each needle is a hexagonal-armed snow element: a spine, paired dendrite branches, and
+  // a tiny hex facet near its tip. Sparse on purpose — the quiet seed, lots of dark navy.
+  var needles=[];
+  var COUNT=7;
+  for(var i=0;i<COUNT;i++){
+    var rr=0.16+ (i/(COUNT-1))*0.78;            // climb the radius, evenly spaced + jitter
+    rr += (rnd()-0.5)*0.06;
+    needles.push({
+      r: rr,
+      a: (rnd()-0.5)*seg*0.36,                  // slight angular lean within the wedge
+      len: 0.10+rnd()*0.20,                      // spine length (fraction of R)
+      branch: 0.32+rnd()*0.42,                   // branch length as fraction of spine
+      branches: 2+((rnd()*3)|0),                 // dendrite pairs along the spine
+      hex: 0.018+rnd()*0.040,                    // hex facet size at tip
+      col: COLS[(rnd()*(COLS.length-1))|0],
+      tip: COLS[6],
+      drift: 0.4+rnd()*0.9,
+      phase: rnd()*6.283,
+      bright: 0.5+rnd()*0.5
+    });
+  }
+  // a handful of free-floating frost glints (sparse sparkle in the dark space)
+  var glints=[];
+  for(var g=0;g<5;g++){
+    glints.push({ r:0.22+rnd()*0.74, a:(rnd()-0.5)*seg*0.7, size:0.010+rnd()*0.022, phase:rnd()*6.283, spd:0.5+rnd()*1.1 });
+  }
+
+  function almond(cx,cy,aw,peak){ctx.beginPath();ctx.moveTo(cx-aw,cy);ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);ctx.closePath();}
+
+  // Draw one hexagon centered at (x,y) with circumradius s, rotation rot.
+  function hex(x,y,s,rot){
+    ctx.beginPath();
+    for(var k=0;k<6;k++){var aa=rot+k*1.0471975512;var px=x+Math.cos(aa)*s,py=y+Math.sin(aa)*s;if(k===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}
+    ctx.closePath();
+  }
+
+  function drawWedge(ts,R){
+    // breathing is very slow + small — the seed is still.
+    for(var i=0;i<needles.length;i++){
+      var s=needles[i];
+      var breath = 1 + 0.05*Math.sin(ts*0.00035*s.drift + s.phase);
+      var rr=(s.r + 0.015*Math.sin(ts*0.0003*s.drift+s.phase))*R;
+      var ang=s.a;
+      var bx=Math.cos(ang)*rr, by=Math.sin(ang)*rr;           // base of the needle
+      var dirx=Math.cos(ang), diry=Math.sin(ang);             // outward direction (radial)
+      var nx=-diry, ny=dirx;                                  // perpendicular (for branches)
+      var L=s.len*R*breath;
+      var tx=bx+dirx*L, ty=by+diry*L;                         // tip of the spine
+
+      var shimmer = 0.55 + 0.45*Math.sin(ts*0.0004 + s.phase*1.6);
+      var al = (0.30 + 0.34*shimmer) * s.bright;
+
+      // soft halo behind the needle (faint, gives the frost glow without filling the dark)
+      ctx.strokeStyle = rgba(s.col, Math.max(0.05, al*0.20));
+      ctx.lineWidth = Math.max(1.6, R*0.020);
+      ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(tx,ty); ctx.stroke();
+
+      // the crystalline spine — crisp, bright
+      ctx.strokeStyle = rgba(s.col, Math.max(0.16, al*0.85));
+      ctx.lineWidth = Math.max(1, R*0.0075);
+      ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(tx,ty); ctx.stroke();
+
+      // dendrite branches — paired, swept toward the tip at the snow-crystal 60° lean
+      var nb=s.branches;
+      for(var b=1;b<=nb;b++){
+        var f=b/(nb+1);                       // position along spine
+        var px=bx+dirx*L*f, py=by+diry*L*f;
+        var blen=s.branch*L*(1-f*0.45);       // branches shorten toward the tip
+        // sweep: each branch leans outward ~ +30° (cos/sin blend of radial + perp)
+        var sw=0.5;                            // forward lean factor
+        var ex1=px + (nx*0.866 + dirx*sw)*blen,  ey1=py + (ny*0.866 + diry*sw)*blen;
+        var ex2=px + (-nx*0.866 + dirx*sw)*blen, ey2=py + (-ny*0.866 + diry*sw)*blen;
+        ctx.strokeStyle = rgba(s.col, Math.max(0.10, al*0.62));
+        ctx.lineWidth = Math.max(0.8, R*0.0048);
+        ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(ex1,ey1); ctx.moveTo(px,py); ctx.lineTo(ex2,ey2); ctx.stroke();
+        // tiny secondary frost ticks on the longer branches
+        if(blen>R*0.05){
+          var mx1=px+(nx*0.866+dirx*sw)*blen*0.6, my1=py+(ny*0.866+diry*sw)*blen*0.6;
+          var mx2=px+(-nx*0.866+dirx*sw)*blen*0.6, my2=py+(-ny*0.866+diry*sw)*blen*0.6;
+          var tick=blen*0.32;
+          ctx.lineWidth=Math.max(0.6,R*0.0030);
+          ctx.beginPath();
+          ctx.moveTo(mx1,my1); ctx.lineTo(mx1+nx*tick+dirx*sw*tick, my1+ny*tick+diry*sw*tick);
+          ctx.moveTo(mx2,my2); ctx.lineTo(mx2-nx*tick+dirx*sw*tick, my2-ny*tick+diry*sw*tick);
+          ctx.stroke();
+        }
+      }
+
+      // hex facet at the tip — translucent ice plate with a bright edge (refraction/edge light)
+      var hs=s.hex*R*breath;
+      var hrot = s.phase + ts*0.00012*s.drift;
+      // translucent fill
+      hex(tx,ty,hs,hrot);
+      ctx.fillStyle = rgba(s.col, Math.max(0.06, al*0.28));
+      ctx.fill();
+      // crisp edge light
+      hex(tx,ty,hs,hrot);
+      ctx.strokeStyle = rgba([232,244,255], Math.max(0.12, al*0.75));
+      ctx.lineWidth = Math.max(0.8, R*0.0045);
+      ctx.stroke();
+      // inner bright nucleus dot at the tip
+      ctx.beginPath(); ctx.arc(tx,ty,Math.max(0.8,R*0.006),0,6.283);
+      ctx.fillStyle = rgba(s.tip, Math.max(0.25, al*0.95)); ctx.fill();
+    }
+
+    // sparse free-floating frost glints — six-point micro-stars in the dark space
+    for(var gi=0;gi<glints.length;gi++){
+      var gl=glints[gi];
+      var gr=gl.r*R, ga=gl.a;
+      var gx=Math.cos(ga)*gr, gy=Math.sin(ga)*gr;
+      var tw=0.5+0.5*Math.sin(ts*0.0009*gl.spd+gl.phase);
+      var gs=gl.size*R*(0.7+0.5*tw);
+      var gal=Math.max(0.06,0.55*tw);
+      ctx.strokeStyle=rgba([240,248,255],gal);
+      ctx.lineWidth=Math.max(0.6,R*0.0030);
+      ctx.beginPath();
+      for(var p=0;p<3;p++){var aa=gl.phase+p*1.0471975512;ctx.moveTo(gx-Math.cos(aa)*gs,gy-Math.sin(aa)*gs);ctx.lineTo(gx+Math.cos(aa)*gs,gy+Math.sin(aa)*gs);}
+      ctx.stroke();
+    }
+  }
+
+  function paint(ts){
+    var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2, aw=w*0.46, peak=h*0.40, R=Math.min(h*0.38,aw*0.66);
+    ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,w,h);
+
+    // --- almond eye frame (sclera glow) — KEPT IDENTICAL to the proven base ---
+    ctx.save(); almond(cx,cy,aw,peak); ctx.clip();
+    ctx.fillStyle='#0a0c12';ctx.fillRect(0,0,w,h);
+    var g=ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+    g.addColorStop(0,'rgba(170,195,255,0)');g.addColorStop(0.5,'rgba(200,220,255,0.12)');g.addColorStop(1,'rgba(236,243,255,0.46)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h); ctx.restore();
+
+    // --- iris (the elevated ice-seed kaleidoscope) ---
+    ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+    // deep navy iris floor (slightly cooler/darker than base to let ice read)
+    ctx.fillStyle='#070912';ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    // faint radial navy depth so the center reads as cold + recessed
+    var ng=ctx.createRadialGradient(cx,cy,R*0.10,cx,cy,R);
+    ng.addColorStop(0,'rgba(20,34,70,0.55)');
+    ng.addColorStop(0.6,'rgba(10,18,44,0.35)');
+    ng.addColorStop(1,'rgba(5,7,16,0)');
+    ctx.fillStyle=ng;ctx.fillRect(cx-R,cy-R,R*2,R*2);
+
+    ctx.globalCompositeOperation='lighter'; var grot=ts*0.00003;  // very slow turn — the still seed
+    for(var i=0;i<N;i++){ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+      ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+      drawWedge(ts,R);ctx.restore();}
+    ctx.restore(); ctx.globalCompositeOperation='source-over';
+
+    // --- pupil (KEPT identical to base, ice-blue ring) ---
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.fillStyle='#070910';ctx.fill();
+    // a faint frosted inner ring inside the pupil edge (ice touch, subtle)
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(150,196,255,.42)';ctx.lineWidth=DPR;ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,R*0.265,0,6.283);ctx.strokeStyle='rgba(210,232,255,.16)';ctx.lineWidth=Math.max(1,DPR*0.7);ctx.stroke();
+
+    // catch-light glint (KEPT identical placement to base)
+    ctx.beginPath();ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+
+    // --- eyelid rim glow (KEPT IDENTICAL to base) ---
+    ctx.save(); almond(cx,cy,aw,peak); ctx.shadowColor='rgba(200,222,255,0.9)';ctx.shadowBlur=R*0.22;
+    ctx.strokeStyle='rgba(236,243,255,0.55)';ctx.lineWidth=Math.max(1.2,R*0.022);ctx.stroke(); ctx.restore();
+  }
+
+  function frame(ts){fit();paint(ts);if(!reduce)requestAnimationFrame(frame);}
+  fit();paint(0);if(!reduce){requestAnimationFrame(frame);document.addEventListener('visibilitychange',function(){if(!document.hidden)requestAnimationFrame(frame);});}
+}
+
+(function(){
+  var OPTS={N:6, seed:20260615};
+  eye(document.getElementById('ebig'), OPTS);
+  eye(document.getElementById('ehero'), OPTS);
+})();
+</script>
+</body>
+</html>
