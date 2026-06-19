@@ -24,7 +24,7 @@ runs the specs, and tears it down. No manual server needed.
 | Layout / render (the file-label bug) | Playwright DOM/geometry assertions | ✅ `board.spec.mjs` |
 | Accessibility / ARIA (what *caused* that bug) | `@axe-core/playwright` | ✅ critical+serious gate |
 | Responsive (`<400px` breakpoint) | Playwright `mobile` project (Pixel 7) | ✅ |
-| Engine logic (legality, mate, the belt ladder) | Node + the vendored `chess.js` API | ▶ next suite (see `Projects/bobby-digital-mrr-c/_team-scratch/*.mjs` for the existing logic probes) |
+| Engine logic (legality, mate, the belt ladder) | Node + the vendored `chess.js` API | ▶ next suite |
 
 ## Add a test
 Drop another `*.spec.mjs` in this dir. Keep assertions geometric/observable (positions,

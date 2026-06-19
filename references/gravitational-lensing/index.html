@@ -22,77 +22,28 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gravitational Lensing · The Roots">
 <meta name="twitter:description" content="Why you can see behind a black hole. Eddington's eclipse, Gargantua's disk, and the photograph that proved the physics.">
-<style>
-:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
-  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem env(safe-area-inset-bottom,0px);
-  overflow-x:hidden;position:relative;letter-spacing:.005em}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
-  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
-.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
-.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
-.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
-.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
-.meta-pill .num{color:var(--gold-soft);font-weight:600}
-.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
-  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
-h1.title{font-size:clamp(1.7rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;letter-spacing:.012em;color:var(--gold);
-  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
-.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
-hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
-h2{margin:2.2rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
-p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
-p strong{color:var(--gold);font-weight:600}
-p em{color:var(--gold-soft);font-style:italic}
-blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(255,214,10,.5);background:rgba(255,214,10,.02);
-  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62;font-style:italic}
-blockquote .src{display:block;margin-top:.5rem;font-style:normal;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
-  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
-.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
-.roots a:hover{border-bottom-style:solid}
-.roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
-.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
-  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
-.signoff strong{color:var(--gold-soft)}
-.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
-.signoff a:hover{border-bottom-style:solid}
-footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
-  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
-.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
-.foot-back:hover{text-decoration:underline}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
-  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
-:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;scroll-behavior:auto !important}
-}
-</style>
+<link rel="stylesheet" href="/assets/temple.css">
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Science</span> &middot; Eddington &rarr; EHT &middot; 1919&ndash;2019</span>
 </nav>
 
 <main class="wrap" id="main">
-  <div class="eyebrow">The Roots &middot; The 37th Chamber</div>
+  <div class="eyebrow">The Roots &middot; <span translate="no">The 37th Chamber</span></div>
   <h1 class="title">Gravitational Lensing</h1>
   <p class="dek">Mass bends light. Push that bending to the extreme &mdash; around a black hole &mdash; and you can see things that are behind it. Not metaphorically. <em>Geometrically.</em></p>
 
@@ -102,26 +53,93 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   <p>The problem was you couldn&rsquo;t check it while the Sun was up. You needed the Sun in your field of view and a dark sky at the same time. You needed a total solar eclipse.</p>
 
   <h2>May 29, 1919 &mdash; two expeditions, one answer</h2>
-  <p>Arthur Eddington organized simultaneous expeditions to <strong>Sobral, Brazil</strong> and the island of <strong>Pr&iacute;ncipe</strong> off the West African coast &mdash; two sites in the path of totality. Both teams photographed the star field around the eclipsed Sun and compared it against the same stars photographed months earlier, when the Sun was nowhere near them. The stars had shifted. The shift matched Einstein&rsquo;s prediction, not Newton&rsquo;s smaller one.</p>
+  <p>Frank Dyson, the Astronomer Royal, organized simultaneous expeditions &mdash; Eddington led the team at <strong>Pr&iacute;ncipe</strong> off the West African coast; Crommelin and Davidson went to <strong>Sobral, Brazil</strong> &mdash; two sites in the path of totality. Both teams photographed the star field around the eclipsed Sun and compared it against the same stars photographed months earlier, when the Sun was nowhere near them. The stars had shifted. The shift matched Einstein&rsquo;s prediction, not Newton&rsquo;s smaller one.</p>
   <p>The results were announced in London that November. By morning, Einstein was world-famous. The London <em>Times</em> ran the headline: <em>Revolution in Science &mdash; New Theory of the Universe &mdash; Newtonian Ideas Overthrown.</em> A man working in wartime Berlin had rewritten the operating rules of the sky, and a man with a telescope on a small island off Africa had confirmed it.</p>
 
   <h2>What happens when the bending goes extreme</h2>
   <p>The Sun bends light gently. A black hole bends it without limit. Light can orbit a black hole &mdash; a path called the <em>photon sphere</em> &mdash; and if the geometry is right, light that left <em>behind</em> the black hole can curve all the way around to reach your eye. The far side is not hidden. It is bent into view.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 380" width="100%" height="auto" role="img" aria-label="Gravitational lensing schematic: light from a single source behind a massive body curves around it along two paths to reach the observer, producing two duplicate images." xmlns="http://www.w3.org/2000/svg">
+  <title>Gravitational lensing — one source, two curved paths, duplicate images</title>
+  <desc>A source sits at the right behind a massive body in the center. Light from the source travels two symmetric curved paths that bend around the mass and arrive at the observer on the left from two different directions. Tracing each arriving ray straight back gives two apparent images of the single source, one above and one below the mass.</desc>
+  <style>
+    .ink{fill:#f3eede;font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+    .dim{fill:#8f8a73;font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+    .lab{font-size:14px;}
+    .sub{font-size:11px;}
+    .gold{stroke:#FFD60A;fill:none;}
+    .struct{stroke:#2a2a33;fill:none;}
+    .sight{stroke:rgba(255,214,10,.30);fill:none;stroke-dasharray:3 5;}
+    .ray{stroke:#FFD60A;fill:none;stroke-width:2;filter:url(#blueglow);}
+  </style>
+  <defs>
+    <filter id="blueglow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#0E44FF" flood-opacity="0.9"/>
+    </filter>
+    <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#FFD60A"/>
+    </marker>
+  </defs>
+
+  <line class="struct" x1="70" y1="190" x2="650" y2="190" stroke-dasharray="2 6" aria-hidden="true"/>
+
+  <g aria-hidden="true">
+    <circle cx="360" cy="190" r="30" class="gold" stroke-width="1.5"/>
+    <circle cx="360" cy="190" r="16" fill="#0b0b0d" stroke="#d9b400" stroke-width="1"/>
+    <circle cx="360" cy="190" r="44" class="struct" stroke-dasharray="1 7"/>
+  </g>
+
+  <path class="ray" d="M610 190 Q470 150 400 130 Q360 118 320 130 Q250 150 110 190" marker-end="url(#arw)" aria-hidden="true"/>
+  <path class="ray" d="M610 190 Q470 230 400 250 Q360 262 320 250 Q250 230 110 190" marker-end="url(#arw)" aria-hidden="true"/>
+
+  <line class="sight" x1="110" y1="190" x2="470" y2="78" aria-hidden="true"/>
+  <line class="sight" x1="110" y1="190" x2="470" y2="302" aria-hidden="true"/>
+
+  <g aria-hidden="true">
+    <circle cx="610" cy="190" r="7" fill="#d9b400"/>
+    <circle cx="610" cy="190" r="13" class="gold" stroke-dasharray="2 3"/>
+  </g>
+
+  <g aria-hidden="true">
+    <circle cx="470" cy="78" r="6" class="gold" stroke-width="1.5"/>
+    <circle cx="470" cy="302" r="6" class="gold" stroke-width="1.5"/>
+  </g>
+
+  <g aria-hidden="true">
+    <path d="M86 190 Q98 178 110 190 Q98 202 86 190 z" class="gold" stroke-width="1.5"/>
+    <circle cx="98" cy="190" r="2.5" fill="#FFD60A"/>
+  </g>
+
+  <text class="ink lab" x="98" y="226" text-anchor="middle">observer</text>
+  <text class="ink lab" x="610" y="230" text-anchor="middle">source</text>
+  <text class="dim sub" x="610" y="246" text-anchor="middle">(true position)</text>
+  <text class="ink lab" x="360" y="120" text-anchor="middle">mass</text>
+  <text class="dim sub" x="360" y="262" text-anchor="middle">curves spacetime</text>
+
+  <text class="dim sub" x="486" y="74">image 1</text>
+  <text class="dim sub" x="486" y="306">image 2</text>
+
+  <text class="dim sub" x="360" y="356" text-anchor="middle">One source. Two curved paths around the mass. Two images where there is one thing.</text>
+</svg>
+<figcaption>One source, hidden behind the mass. Its light bends around both sides and reaches the observer from two directions at once — so the eye traces it back to two images of a single thing. Push the bending to the extreme, around a black hole, and the far side is bent into view.</figcaption>
+</figure>
   <p>For a spinning black hole with an accretion disk &mdash; the glowing ring of superheated gas falling inward &mdash; this produces a result that looks like a filmmaking choice but is not. The near side of the disk runs across the equator, as you&rsquo;d expect. The far side of the disk, which should be behind the black hole and invisible, is bent up <strong>over the shadow and arches overhead</strong>. You see the same disk twice: once below, once above. The geometry is the artist.</p>
 
   <h2>The renderer that became a research instrument</h2>
-  <p>When Christopher Nolan&rsquo;s team built <em>Interstellar</em>, the visual effects studio Double Negative &mdash; working with physicist <strong>Kip Thorne</strong> &mdash; wrote a renderer they called <strong>DNGR</strong> (Double Negative Gravitational Renderer). Where ordinary film renderers trace one ray per pixel, DNGR pushed <em>bundles</em> of rays through Kerr&rsquo;s geometry, computing how each bundle spread and distorted as it curved through the field. The result was the first IMAX-grade image of a physically correct spinning black hole.</p>
+  <p>When Christopher Nolan&rsquo;s team built <em>Interstellar</em>, the visual effects studio Double Negative (now DNEG) &mdash; working with physicist <strong>Kip Thorne</strong> &mdash; wrote a renderer they called <strong>DNGR</strong> (Double Negative Gravitational Renderer). Where ordinary film renderers trace one ray per pixel, DNGR pushed <em>bundles</em> of rays through Kerr&rsquo;s geometry, computing how each bundle spread and distorted as it curved through the field. The result was the first IMAX-grade image of a physically correct spinning black hole.</p>
   <p>Running DNGR as a research instrument rather than just a filmmaking tool, the team discovered things not previously seen. Caustics &mdash; points where light rays converge after following multiple paths around the hole &mdash; can produce <strong>up to 13 distinct images of a single star</strong> near a rapidly spinning black hole. That finding went into a peer-reviewed paper. The credits rolled; the research continued.</p>
-  <p>One honest compromise was documented in that paper: the <strong>Doppler beaming asymmetry</strong> &mdash; the way one side of a spinning disk is brighter than the other, because on the approaching side light is blueshifted and amplified &mdash; was softened for the film. The science team and Nolan agreed that audiences needed to read the image, not decode an asymmetric brightness distribution they had no context for. It was a deliberate, recorded choice, not an error.</p>
+  <p>One honest compromise was documented in that paper: the <strong>Doppler beaming asymmetry</strong> &mdash; the way one side of a spinning disk is brighter than the other, because on the approaching side light is blueshifted and amplified &mdash; was omitted from the film. The science team and Nolan agreed that audiences needed to read the image, not decode an asymmetric brightness distribution they had no context for. It was a deliberate, recorded choice, not an error.</p>
 
   <h2>2019 &mdash; nature kept what the film set aside</h2>
-  <p>The <strong>Event Horizon Telescope</strong> is not a single telescope. It is a planet-spanning network of radio dishes linked by atomic clocks and synchronized with extraordinary precision &mdash; effectively an Earth-sized interferometer. In April 2019, it released the first direct image of a black hole: <strong>M87*</strong>, the supermassive black hole at the center of the galaxy Messier 87, some 55 million light-years away.</p>
+  <p>The <strong>Event Horizon Telescope</strong> is not a single telescope. It is a planet-spanning network of radio dishes linked by atomic clocks and synchronized with extraordinary precision &mdash; effectively an Earth-sized interferometer. In April 2019, it released the first direct image of a black hole: <strong>M87*</strong>, the supermassive black hole at the center of the galaxy Messier 87, about 53–55 million light-years away.</p>
   <p>The image shows a bright ring with one side noticeably brighter than the other. That asymmetry is exactly the Doppler beaming the <em>Interstellar</em> team softened for clarity. The film left it out so audiences could see the shape. Nature left it in because nature keeps everything. The two images &mdash; one from a renderer, one from a telescope &mdash; are the same physics, rendered differently, one hundred years after Eddington sailed to Pr&iacute;ncipe to catch a shadow.</p>
 
   <div class="roots">
     <span class="rlab">Take us to the root &rarr;</span>
     <a href="https://arxiv.org/abs/1502.03808" target="_blank" rel="noopener noreferrer">James, von Tunzelmann, Franklin &amp; Thorne &mdash; &ldquo;Gravitational Lensing by Spinning Black Holes&rdquo; (arXiv, free)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://iopscience.iop.org/article/10.1088/0264-9381/32/6/065001" target="_blank" rel="noopener noreferrer">Published version &mdash; Classical and Quantum Gravity 32 (2015)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://arxiv.org/abs/1906.11238" target="_blank" rel="noopener noreferrer">EHT Collaboration &mdash; &ldquo;First M87 Results. I.&rdquo; ApJL 875, L1 (2019) (arXiv, free)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://eventhorizontelescope.org/" target="_blank" rel="noopener noreferrer">The Event Horizon Telescope &mdash; M87* and beyond<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://en.wikipedia.org/wiki/Gravitational_lens" target="_blank" rel="noopener noreferrer">The encyclopedia overview &mdash; Wikipedia<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <p class="note">The DNGR paper is free on arXiv &mdash; start there. It reads like two things at once: a visual effects post-mortem and a genuine astrophysics result. The EHT site carries the original press release and the full first-image paper suite for those who want to go further.</p>

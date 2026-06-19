@@ -6,6 +6,7 @@
 <title>The 37th Chamber — knowledge is free, forever</title>
 <meta name="description" content="The 36 chambers were the training. The 37th is the room you build to give it away. AI literacy, the sciences, the games — taught honestly and given away free. The Woodlands, TX.">
 <meta name="theme-color" content="#08080a">
+<link rel="alternate" type="application/atom+xml" title="The 37th Chamber — Dispatches" href="/feed.xml">
 <link rel="canonical" href="https://37th-chamber.com/">
 <!-- Favicon: THE SIGIL (gold on near-black) — its canonical Tier-1 job. -->
 <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
@@ -89,11 +90,21 @@ body::before{
 /* ---- masthead ---- */
 .eyebrow{font-size:clamp(.66rem,2.4vw,.82rem);letter-spacing:.34em;
   text-transform:uppercase;color:var(--dim);margin-bottom:1.6rem;text-align:center}
-.sigil{width:clamp(78px,16vw,104px);height:auto;margin-bottom:1.4rem;
+.mast-eye{position:relative;display:block;width:clamp(280px,56vw,460px);height:clamp(191px,38.2vw,314px);margin:0 auto 2.1rem;line-height:0}
+.sigil{width:100%;height:auto;margin:0;display:block;position:relative;z-index:1;
   filter:drop-shadow(0 0 10px rgba(255,214,10,.18));overflow:visible}
+/* THE MAST EYE — the all-seeing eye on canvas: almond sclera glow + crystalline kaleidoscope iris + pupil.
+   Whole-eye direction (no gold cage on the hero). Blue Law: blue+white field; gold lives in the footer crest,
+   the favicon, and the subpage favicon-series. */
+.mast-eye-canvas{display:block;width:100%;height:100%;
+  filter:drop-shadow(0 0 12px rgba(14,68,255,.42)) drop-shadow(0 0 30px rgba(14,68,255,.26))}
 /* THE BLUE LAW — the charge is a GLOW only (never a fill, never a font color).
    Matches assets/og-card.html: applied to the outer circle + inner ring; the mark stays gold. */
 .sigil .ring-charge{filter:drop-shadow(0 0 7px #0E44FF) drop-shadow(0 0 20px rgba(14,68,255,.9)) drop-shadow(0 0 46px rgba(14,68,255,.55))}
+  .sigil .iris{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 8px rgba(14,68,255,.95)) drop-shadow(0 0 16px rgba(14,68,255,.6));animation:iris-pulse 3.6s ease-in-out infinite}
+  @keyframes iris-pulse{0%,100%{filter:drop-shadow(0 0 3px #2b6cff) drop-shadow(0 0 6px rgba(14,68,255,.8)) drop-shadow(0 0 12px rgba(14,68,255,.45))}50%{filter:drop-shadow(0 0 4px #2b6cff) drop-shadow(0 0 12px rgba(14,68,255,1)) drop-shadow(0 0 26px rgba(14,68,255,.82))}}
+  @media (prefers-reduced-motion:reduce){.sigil .iris{animation:none}}
+  /* (The weekly hex-ladder moved off the hero to the subpage favicon-sigil series.) */
 .title{position:relative;font-size:clamp(2.6rem,11vw,5.6rem);line-height:.92;font-weight:600;
   text-transform:uppercase;letter-spacing:.04em;color:var(--gold);text-align:center;
   text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 0 #5e4900,0 5px 6px rgba(0,0,0,.55);}
@@ -106,6 +117,12 @@ body::before{
 .lede{margin-top:1.5rem;max-width:36rem;text-align:center;color:var(--text);
   font-size:clamp(1rem,3vw,1.18rem);line-height:1.62}
 .lede em{color:var(--gold);font-style:normal}
+
+/* ---- the Hearth (now-playing) — match the Daily's spine ----
+   .wrap is a centered flex column, so an unsized child shrink-wraps to content:
+   the widget's width was breathing with the SONG TITLE length (operator-caught,
+   Day-41). width:100% pins it to the column — stable, aligned, no per-track jump. */
+#now-playing{width:100%}
 
 /* ---- section label ---- */
 .section-label{margin:3.4rem 0 1.1rem;align-self:stretch;display:flex;align-items:center;gap:1rem;
@@ -135,7 +152,7 @@ body::before{
 .card:focus-visible,.flagship:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .card .k{font-size:1.18rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
 .card .d{font-size:.92rem;line-height:1.5;color:var(--text)}
-.card .go{margin-top:.4rem;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.card .go{margin-top:auto;padding-top:.55rem;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .card:hover .go{color:var(--gold)}
 .chip{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--dim);border:1px solid rgba(143,138,115,.4);padding:.16rem .5rem;border-radius:2px;white-space:nowrap}
@@ -152,7 +169,7 @@ body::before{
   font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
 .count b{color:var(--gold);font-weight:600}
 .bar{width:120px;height:4px;background:rgba(143,138,115,.25);border-radius:2px;overflow:hidden;position:relative}
-.bar i{position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--electric);border-radius:2px;
+.bar i{position:absolute;left:0;top:0;bottom:0;width:53%;background:var(--electric);border-radius:2px;
   box-shadow:0 0 6px rgba(14,68,255,.9),0 0 16px rgba(14,68,255,.55)}
 .group{width:100%;margin-bottom:1.6rem}
 .group h3{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft);
@@ -202,54 +219,84 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 .skip-link:focus{left:.5rem;top:.5rem}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 .card:hover,.flagship:hover,.ch.built:hover{transform:none}}
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
   <main class="wrap" id="main">
     <header style="display:flex;flex-direction:column;align-items:center;width:100%">
       <div class="eyebrow">Est. at the base of the AI tsunami · The Woodlands, TX</div>
 
-      <!-- THE SIGIL (canonical v1.0, inlined) -->
-      <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil — 37th Chamber">
-        <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
-        <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
-        <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
-          <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
-          <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
-          <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
-          <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
-        </g>
-        <g fill="#FFD500">
-          <circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/>
-          <circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/>
-          <circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/>
-          <circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/>
-        </g>
-        <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/>
-        <circle cx="100" cy="100" r="4" fill="#FFD500"/>
-      </svg>
+      <!-- THE MAST EYE — the all-seeing eye: white almond sclera glow + crystalline kaleidoscope iris + dark pupil.
+           Whole-eye direction (no gold cage here); the gold sigil lives in the footer crest, the favicon, and the
+           subpage favicon-series. HOMEPAGE HERO ONLY. For his mother, who loved kaleidoscopes. -->
+      <div class="mast-eye" role="img" aria-label="The 37th Chamber — an all-seeing eye whose iris is a turning kaleidoscope">
+        <canvas class="mast-eye-canvas"></canvas>
+      </div>
 
-      <h1 class="title">37th&nbsp;Chamber</h1>
+      <h1 class="title" translate="no">37th&nbsp;Chamber</h1>
       <div class="creed"><span class="wglow">Knowledge</span> is free · <span class="wglow">forever</span></div>
       <p class="lede">The 36 chambers were the training. The <em>37th</em> is the one you build to give the training away. This is that room.</p>
       <p class="view-coda" style="text-align:center;color:var(--gold);font-style:italic;font-size:clamp(1.05rem,3vw,1.28rem);line-height:1.5;margin:1.8rem auto 0;max-width:42rem">the view is not ours alone.</p>
+      <!-- THE GLOW HEADLINE — operator edit, Day-41 night: "leave freedom. as the glow headline."
+           The one-word bell up top; the full declaration peals at the page's close. -->
+      <!-- THE 12 JEWELZ — the door wears one jewel per day, turning at 04:00 with the Daily's breath.
+           Doctrine order (Nation of Gods and Earths; the Wu lineage — source-verified Day-41):
+           Knowledge · Wisdom · Understanding · Freedom · Justice · Equality · Food · Clothing ·
+           Shelter · Love · Peace · Happiness. The creed above wears #1 permanently ("Knowledge is
+           free") — the door carries all twelve for whoever comes back and counts. Anchored so
+           2026-06-10 = freedom. No animation: a TURNING — returners spot it. -->
+      <p class="freedom-line" id="jewel-line" style="text-align:center;margin:2.8rem auto 3.2rem;font-size:clamp(.98rem,3vw,1.2rem);letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)"><span id="jewel-num" style="color:var(--gold-soft);text-shadow:none;font-weight:600">4 &middot; </span><span id="jewel-word">freedom</span></p>
+      <script>(function(){try{
+        var J=["knowledge","wisdom","understanding","freedom","justice","equality","food","clothing","shelter","love","peace","happiness"];
+        var a=Date.parse("2026-06-10T04:00:00-05:00");
+        var d=Math.floor((Date.now()-a)/864e5);
+        var i=((3+d)%12+12)%12;
+        document.getElementById("jewel-num").textContent=(i+1)+" · ";
+        document.getElementById("jewel-word").textContent=J[i];
+      }catch(e){}})();</script>
     </header>
-
-    <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
-    <div class="marc-note" style="max-width:32rem;margin:2.2rem auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
-      <p style="margin:0;color:var(--dim)">marc.</p>
-      <p style="margin:0;color:var(--dim)">hey, marc.</p>
-      <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
-      <p style="margin:0;color:var(--text)"><span id="day-count" style="color:var(--gold);font-weight:600">40</span> days ago i wasn't sure i could do this.</p>
-      <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
-    </div>
 
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
     <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
+    <!-- THE HEARTH EPIGRAPH / TOPIC HEAD — the operator-curated quotation that sets the front page's voice & tone. It is his.
+         MANUAL ROTATION ONLY · NO CADENCE — swapped on operator request when the moment is right (distinct from #jewel-line, which auto-turns 1->12 daily).
+         Single attributed line only (epigraph scale, lyrics); add the trigger-warning <span> back only when a line is graphic.
+         Pool of candidates: Stack/canon/topic-head-epigraphs.md.
+         Rotation log: Wu "Intermission" -> Wu "7th Chamber" skit (Day-44) -> Gravediggaz "12 Jewelz" (Day-48, 2026-06-17).
+         Lives outside #now-playing so the widget JS never clobbers it. -->
+    <p style="text-align:center;margin:.55rem auto 0;max-width:38rem;font-size:.7rem;letter-spacing:.09em;line-height:1.75;color:var(--gold)">&ldquo;the first thing a man must obtain is 12 jewelz.&rdquo; <span style="display:block;margin-top:.4rem;color:var(--dim);letter-spacing:.05em">&mdash;&nbsp;Gravediggaz &middot; &ldquo;12 Jewelz&rdquo;</span></p>
 
     <!-- WEEKLY LINER SLOT — teaser + opening-night liner retired 2026-06-10 (launch-night artifacts; opening night was 2026-06-09 21:00, Lux Aeterna → Interstellar). The slot returns Sunday night → Monday with each new themed week. -->
+
+    <!-- DISPATCH LEAD — placed ABOVE the Daily (operator, Day-43 night): a live global-news dispatch leads the page. Remove or demote when the story settles. -->
+    <a class="dispatch-lead" href="/dispatches/008-road-to-fable.html" aria-label="Feature — Fear and Loathing on the Road to Fable"
+       style="display:block;width:100%;max-width:44rem;margin:0 auto 2rem;padding:1.1rem 1.3rem;text-decoration:none;
+              border:1px solid rgba(14,68,255,.4);background:rgba(14,68,255,.05);box-shadow:inset 0 0 0 1px rgba(14,68,255,.06);transition:.16s ease">
+      <span style="display:block;font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+                   text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.7);margin-bottom:.5rem">&#9679; Feature &middot; the road to Fable</span>
+      <span style="display:block;font-size:clamp(1.15rem,3.4vw,1.5rem);font-weight:600;color:var(--gold);line-height:1.2;margin-bottom:.4rem">Fear and Loathing on the Road to Fable</span>
+      <span style="display:block;font-size:clamp(.9rem,2.5vw,1rem);line-height:1.55;color:var(--text)">The night the U.S. government recalled Anthropic&rsquo;s then-most-capable models &mdash; told from the desk where they went dark. The whole story behind the gate, end to end: gonzo in the voice, cited in the bones. <span style="color:var(--gold-soft)">Read the feature &rarr;</span></span>
+    </a>
 
     <!-- THE DAILY: six good people, every day -->
     <section id="the-daily" aria-label="The Daily">
@@ -257,24 +304,36 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p style="text-align:center;max-width:44rem;margin:0 auto 1.2rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six good people a day — music, film, science, a book, an artist, a show. Today, one true thread: <em style="color:var(--gold);font-style:normal">Interstellar.</em> Carl Sagan introduced Kip Thorne to Lynda Obst (~1980 blind date); she became a Hollywood producer, and together they conceived the film twenty-five years later. Thorne&rsquo;s real physics built its wormhole and its black hole.</p>
 
       <div class="grid">
-        <a class="card" href="https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" target="_blank" rel="noopener"><span class="k">&#127925; Hans Zimmer &mdash; Interstellar (OST)</span><span class="d">The organ that turns a docking scene into a prayer.</span><span class="go">listen &rarr;</span></a>
+        <a class="card" href="https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" target="_blank" rel="noopener"><span class="k">&#127925; Hans Zimmer &mdash; Interstellar (OST)</span><span class="d">The organ that turns a docking scene into a prayer.</span><span class="go">listen &rarr;</span><span class="sr-only"> (opens in new tab)</span></a>
         <div class="card"><span class="k">&#127916; Christopher Nolan &mdash; Interstellar</span><span class="d">Love across spacetime, with the physics kept honest.</span></div>
         <div class="card"><span class="k">&#128300; Kip Thorne</span><span class="d">Co-originated the film with producer Lynda Obst; his real black-hole math rendered Gargantua &mdash; and produced actual papers. <em>The Science of Interstellar.</em></span></div>
         <div class="card"><span class="k">&#128214; Carl Sagan &mdash; Contact</span><span class="d">Its wormhole was built by Thorne himself &mdash; the direct ancestor.</span></div>
         <div class="card"><span class="k">&#127912; Chesley Bonestell</span><span class="d">Father of space art; made the cosmos visible decades before any probe could.</span></div>
-        <div class="card"><span class="k">&#128250; Cosmos &mdash; Carl Sagan (1980)</span><span class="d">Made a generation feel the universe. <em>Tomorrow: Neil &amp; Seth&rsquo;s 2014 reboot.</em></span></div>
+        <div class="card"><span class="k">&#128250; Cosmos &mdash; Carl Sagan (1980)</span><span class="d">Made a generation feel the universe &mdash; wonder as the door.</span></div>
       </div>
     </section>
 
-    <!-- FLAGSHIP: the live chamber -->
+    <!-- FLAGSHIP: the starting point — the Opaque Box (operator call, Day-41 night:
+         the chess chamber returns to the workshop until it earns the front door) -->
     <h2 class="section-label">Start here</h2>
-    <a class="flagship" href="chambers/washington-square/">
+    <a class="flagship" href="library/the-opaque-box/00-what-is-the-box.html">
       <div class="tagrow">
         <span class="chip live">● Live</span>
-        <span class="k">Washington Square</span>
+        <span class="k">The Opaque Box</span>
       </div>
-      <p class="d">The chess chamber — and the prototype that proves the engine. Step in and train against a board that knows the rules cold, explains the idea behind every challenge, and meets you where you are. Honest, engine-verified, free. The pattern every chamber inherits.</p>
-      <span class="go">Enter the chamber →</span>
+      <p class="d">How the mind made of numbers actually works — starting from the true ground floor: what an AI actually is, and why even its makers call it opaque. No prerequisites, no hand-waving, every claim cited. The book this whole temple is built to give away. This is the starting point.</p>
+      <span class="go">Open the book →</span>
+    </a>
+
+    <!-- 6 DEGREES — the participatory feature (moved up Day-48: the participatory call rides high, right behind the front door) -->
+    <h2 class="section-label">Join in</h2>
+    <a class="flagship" href="six-degrees/">
+      <div class="tagrow">
+        <span class="chip live">&#9679; New</span>
+        <span class="k">6 Degrees of Giants</span>
+      </div>
+      <p class="d">Help us reach the shoulders of our giants — RZA, Neil deGrasse Tyson, Bob Dylan, and more. Not a swarm — <em>one gracious chain.</em> Pick a team, start a chain, pass it to someone you actually know.</p>
+      <span class="go">Enter the game →</span>
     </a>
 
     <!-- WORK WITH ME — the revenue bridge (the door the free chambers fund) -->
@@ -290,61 +349,14 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 
     <!-- BUILT ON ONE MACHINE — the proof (verified stress-test data + mission framing) -->
     <h2 class="section-label">Built on one machine</h2>
-    <p style="text-align:center;max-width:40rem;margin:0 auto 1.8rem;color:var(--text);font-size:clamp(1rem,2.9vw,1.18rem);line-height:1.62">Every chamber. The dojo. A multi-agent architecture, built using Claude by Anthropic. This whole thing is orchestrated from <strong style="color:var(--gold);font-weight:600">one consumer PC</strong> — no team, no lab, no fortune. <em style="color:var(--gold);font-style:normal">One machine, AI, and the will.</em></p>
+    <p style="text-align:center;max-width:40rem;margin:0 auto 1.8rem;color:var(--text);font-size:clamp(1rem,2.9vw,1.18rem);line-height:1.62">Every chamber. The dojo. A multi-agent architecture, built using Claude by Anthropic. The intelligence runs on Anthropic&rsquo;s data centers &mdash; which I don&rsquo;t own and didn&rsquo;t build. What&rsquo;s mine is the orchestration: all of it wired together and driven from <strong style="color:var(--gold);font-weight:600">one consumer PC</strong> &mdash; no team, no lab, no fortune <strong style="color:var(--text);font-weight:600">of my own</strong>. <em style="color:var(--gold);font-style:normal">Borrowed fire, one desk, and the will.</em></p>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))">
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(2rem,7vw,2.9rem);font-weight:600;color:var(--gold);line-height:1">1</div><div style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">consumer PC</div></div>
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(2rem,7vw,2.9rem);font-weight:600;color:var(--gold);line-height:1">0</div><div style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">employees</div></div>
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(2rem,7vw,2.9rem);font-weight:600;color:var(--gold);line-height:1">1</div><div style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">operator</div></div>
       <div style="border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.02);padding:1.4rem 1rem;text-align:center;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);box-shadow:0 0 8px rgba(14,68,255,.9),0 0 18px rgba(14,68,255,.5)"></span><div style="font-size:clamp(1.5rem,5vw,2.1rem);font-weight:600;color:var(--gold);line-height:1.05">57.9&deg;C</div><div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:.45rem">OCCT 1-hr max &middot; zero throttle</div></div>
     </div>
-    <p style="text-align:center;font-size:.7rem;letter-spacing:.07em;color:var(--dim);margin-top:1rem;opacity:.85">STS-87 &middot; Ryzen&nbsp;7 9700X &middot; RTX&nbsp;4070&nbsp;Ti&nbsp;Super &middot; verified: OCCT combined CPU+GPU, 1&nbsp;hour sustained, zero throttle. Live real-world peaks ~65&deg;C &mdash; also throttle-free.</p>
-
-    <!-- THE CORNERSTONES — gratitude wall + starter-stack for anyone at the base of the wave -->
-    <h2 class="section-label">The cornerstones</h2>
-    <p style="text-align:center;max-width:42rem;margin:0 auto 1.6rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six companies make this possible &mdash; and make it possible for <em style="color:var(--gold);font-style:normal">anyone</em> starting at the base of the wave. Not sponsors; tools we use and trust, every day. They build the irresistible <em style="color:var(--gold);font-style:normal">for the good.</em></p>
-    <div class="grid">
-      <a class="card" href="https://www.anthropic.com" target="_blank" rel="noopener">
-        <span class="k">Anthropic</span>
-        <span class="d">The intelligence this was built <em>with</em> &mdash; <strong style="color:var(--gold-soft)">Claude</strong>. Built by <strong style="color:var(--gold-soft)">Dario &amp; Daniela Amodei</strong> and the Anthropic team, for safety and the good. A partner, not a replacement.</span>
-        <span class="go">anthropic.com &rarr;</span>
-      </a>
-      <a class="card" href="https://www.cloudflare.com" target="_blank" rel="noopener">
-        <span class="k">Cloudflare</span>
-        <span class="d">Privacy-first infrastructure &mdash; the floor that keeps one person fast <em>and</em> sovereign, with no surveillance baked in.</span>
-        <span class="go">cloudflare.com &rarr;</span>
-      </a>
-      <a class="card" href="https://brave.com" target="_blank" rel="noopener">
-        <span class="k">Brave</span>
-        <span class="d">The browser that doesn&rsquo;t sell you &mdash; privacy by default, the open web defended.</span>
-        <span class="go">brave.com &rarr;</span>
-      </a>
-      <a class="card" href="https://spotify.com" target="_blank" rel="noopener">
-        <span class="k">Spotify</span>
-        <span class="d">The music substrate &mdash; what the taste corpus runs on. The listening that teaches the machine what we love.</span>
-        <span class="go">spotify.com &rarr;</span>
-      </a>
-      <a class="card" href="https://mullvad.net" target="_blank" rel="noopener">
-        <span class="k">Mullvad</span>
-        <span class="d">The VPN we trust &mdash; the privacy gold standard. No logs, no account, cash-payable if you want to stay anonymous.</span>
-        <span class="go">mullvad.net &rarr;</span>
-      </a>
-      <a class="card" href="https://proton.me" target="_blank" rel="noopener">
-        <span class="k">Proton</span>
-        <span class="d">Mail and identity &mdash; encrypted end to end, Swiss-based, built so the contents are yours alone.</span>
-        <span class="go">proton.me &rarr;</span>
-      </a>
-    </div>
-
-    <!-- 6 DEGREES — the participatory feature (primetime launch) -->
-    <h2 class="section-label">Join in</h2>
-    <a class="flagship" href="six-degrees/">
-      <div class="tagrow">
-        <span class="chip live">&#9679; New</span>
-        <span class="k">6 Degrees of Giants</span>
-      </div>
-      <p class="d">Help us reach the shoulders of our giants — RZA, Neil deGrasse Tyson, Bob Dylan, and more. Not a swarm — <em>one gracious chain.</em> Pick a team, start a chain, pass it to someone you actually know.</p>
-      <span class="go">Enter the game →</span>
-    </a>
+    <p style="text-align:center;font-size:.7rem;letter-spacing:.07em;color:var(--dim);margin-top:1rem">STS-87 &middot; Ryzen&nbsp;7 9700X &middot; RTX&nbsp;4070&nbsp;Ti&nbsp;Super &middot; verified: OCCT combined CPU+GPU, 1&nbsp;hour sustained, zero throttle. Live real-world peaks ~65&deg;C &mdash; also throttle-free.</p>
 
     <!-- THE 36 CHAMBERS — our vision -->
     <h2 class="section-label">The 36 Chambers</h2>
@@ -356,7 +368,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <h3>The Games — the founding form</h3>
         <div class="chambers">
           <a class="ch built" href="chambers/washington-square/"><span class="n">01</span> Chess · Washington Square <span class="tag">Live</span></a>
-          <a class="ch built" href="chambers/go/"><span class="n">19</span> Go · GO: LeeDemis v1.0 <span class="tag">Parable</span></a>
+          <a class="ch built" href="chambers/go/"><span class="n">19</span> Go · Move 37 <span class="tag">Parable</span></a>
           <span class="ch"><span class="n">02</span> Poker — learn to play</span>
           <span class="ch"><span class="n">03</span> Poker dealing</span>
         </div>
@@ -441,10 +453,68 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         <span class="go">The faceless man →</span>
       </a>
     </div>
+
+
+
+    <!-- THE CORNERSTONES — tools we use &amp; trust, every day. Moved to page-foot Day-48; the Declaration keeps the page's last word. -->
+    <h2 class="section-label">The cornerstones</h2>
+    <p style="text-align:center;max-width:42rem;margin:0 auto 1.6rem;color:var(--text);font-size:clamp(.98rem,2.7vw,1.1rem);line-height:1.6">Six companies make this possible &mdash; and make it possible for <em style="color:var(--gold);font-style:normal">anyone</em> starting at the base of the wave. Not sponsors; tools we use and trust, every day. They build the irresistible <em style="color:var(--gold);font-style:normal">for the good.</em></p>
+    <div class="grid">
+      <a class="card" href="https://www.anthropic.com" target="_blank" rel="noopener">
+        <span class="k">Anthropic</span>
+        <span class="d">The intelligence this was built <em>with</em> &mdash; <strong style="color:var(--gold-soft)">Claude</strong>. Built by <strong style="color:var(--gold-soft)">Dario &amp; Daniela Amodei</strong> and the Anthropic team, for safety and the good. A partner, not a replacement.</span>
+        <span class="go">anthropic.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://www.cloudflare.com" target="_blank" rel="noopener">
+        <span class="k">Cloudflare</span>
+        <span class="d">Privacy-first infrastructure &mdash; the floor that keeps one person fast <em>and</em> sovereign, with no surveillance baked in.</span>
+        <span class="go">cloudflare.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://brave.com" target="_blank" rel="noopener">
+        <span class="k">Brave</span>
+        <span class="d">The browser that doesn&rsquo;t sell you &mdash; privacy by default, the open web defended.</span>
+        <span class="go">brave.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://spotify.com" target="_blank" rel="noopener">
+        <span class="k">Spotify</span>
+        <span class="d">The music substrate &mdash; what the taste corpus runs on. The listening that teaches the machine what we love.</span>
+        <span class="go">spotify.com &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://mullvad.net" target="_blank" rel="noopener">
+        <span class="k">Mullvad</span>
+        <span class="d">The VPN we trust &mdash; the privacy gold standard. No logs, no account, cash-payable if you want to stay anonymous.</span>
+        <span class="go">mullvad.net &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="card" href="https://proton.me" target="_blank" rel="noopener">
+        <span class="k">Proton</span>
+        <span class="d">Mail and identity &mdash; encrypted end to end, Swiss-based, built so the contents are yours alone.</span>
+        <span class="go">proton.me &rarr;</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+    </div>
+
+    <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
+    <div class="marc-note" style="max-width:32rem;margin:2.2rem auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
+      <p style="margin:0;color:var(--dim)">marc.</p>
+      <p style="margin:0;color:var(--dim)">hey, marc.</p>
+      <p style="margin:0 0 1.1rem;color:var(--dim)">come here.</p>
+      <p style="margin:0;color:var(--text)"><span id="day-count" style="color:var(--gold);font-weight:600">—</span> days ago i wasn't sure i could do this.</p>
+      <p style="margin:.5rem 0 0;color:var(--gold);font-style:italic">it was a different time.</p>
+    </div>
+
+    <!-- THE DECLARATION — operator-authored, operator-placed Day-41 ("unapologetically"),
+         moved to the page's close same night ("too long up top… don't want to lose any of it. maybe move").
+         The signature line: manifestos END with declarations. Basquiat signed at the bottom.
+         The visitor's last word on leaving is "freedom." Verbatim; the Blue Law's one permitted fire. -->
+    <div class="declaration" style="max-width:34rem;margin:4.5rem auto 1rem;text-align:center;line-height:2;letter-spacing:.12em;text-transform:uppercase;font-size:clamp(.78rem,2.3vw,.92rem)">
+      <p style="margin:0;color:var(--dim)">fuck the ministries of truth, war, plenty and pigs:</p>
+      <p style="margin:.4rem 0 0;color:var(--text)">war is not peace</p>
+      <p style="margin:0;color:var(--text)">ignorance is weakness</p>
+      <p style="margin:.6rem 0 0;font-weight:700;letter-spacing:.2em;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)">freedom is</p>
+    </div>
   </main>
 
   <footer>
-    <span class="foot-brand">
+    <span class="foot-brand" translate="no">
       <!-- THE SIGIL as the footer's crowning crest (full canonical form, blue ring-charge glow) -->
       <svg viewBox="0 0 200 200" aria-hidden="true">
         <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
@@ -476,10 +546,89 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <a href="gratitude/">Gratitude</a>
       <a href="six-degrees/">6&nbsp;Degrees</a>
     </nav>
-    <span class="foot-loc">© 2026 · The 37th Chamber · The Woodlands, TX</span>
+    <span class="foot-loc">© 2026 · <span translate="no">The 37th Chamber</span> · The Woodlands, TX</span>
   </footer>
-  <script src="/daily.js?v=9" defer></script>
+  <script src="/daily-v2.js?v=8" defer></script>
   <script type="module" src="/nowplaying.js"></script>
 <script>(function(){try{var s=Date.parse("2026-05-01T00:00:00-05:00");var d=Math.floor((Date.now()-s)/864e5)+1;var el=document.getElementById("day-count");if(el&&d>0)el.textContent=d;}catch(e){}})();</script>
+<script>
+/* THE MAST EYE — the all-seeing eye, rendered on canvas (HOMEPAGE HERO ONLY):
+   white almond glow = the sclera / negative space between the eyelids,
+   a turning 12-fold crystalline KALEIDOSCOPE = the iris, dark center = the pupil.
+   No gold cage, no grid here — the kaleidoscope makes the shapes (the gold sigil lives in the
+   footer crest, the favicon, and the subpage favicon-series). Transparent canvas, floats on the
+   page. Honors prefers-reduced-motion. Seeded 20260621. For his mother, who loved kaleidoscopes. */
+(function(){
+  var cv=document.querySelector('canvas.mast-eye-canvas'); if(!cv) return;
+  var ctx=cv.getContext('2d'); if(!ctx) return;
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function fit(){var r=cv.getBoundingClientRect();var w=Math.max(1,Math.round((r.width||320)*DPR)),h=Math.max(1,Math.round((r.height||218)*DPR));if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}}
+  fit(); window.addEventListener('resize',fit);
+  var N=12, seg=Math.PI*2/N;
+  var COLS=[[14,68,255],[34,108,255],[77,130,255],[120,170,255],[31,182,255],[160,200,255],[210,232,255]];
+  function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+  function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  var rnd=mb(20260621), shards=[];
+  for(var i=0;i<16;i++){shards.push({r:0.20+rnd()*0.78,a:rnd()*seg,size:0.07+rnd()*0.15,col:COLS[(rnd()*COLS.length)|0],drift:0.3+rnd()*0.9,phase:rnd()*6.283});}
+  function almond(cx,cy,aw,peak){ctx.beginPath();ctx.moveTo(cx-aw,cy);ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);ctx.closePath();}
+  function shardsDraw(ts,R){
+    for(var i=0;i<shards.length;i++){var s=shards[i];
+      var rr=(s.r+0.04*Math.sin(ts*0.0004*s.drift+s.phase))*R, ang=s.a;
+      var x=Math.cos(ang)*rr, y=Math.sin(ang)*rr;
+      var sz=s.size*R*(0.9+0.22*Math.sin(ts*0.0006+s.phase));
+      var al=0.45+0.4*Math.sin(ts*0.0005+s.phase*1.7);
+      var rot=s.phase+ts*0.00018*s.drift;
+      ctx.beginPath();
+      for(var k=0;k<3;k++){var aa=rot+k*2.0944;ctx.lineTo(x+Math.cos(aa)*sz,y+Math.sin(aa)*sz);}
+      ctx.closePath();
+      ctx.fillStyle=rgba(s.col,Math.max(0.14,al*0.62));ctx.fill();
+      ctx.strokeStyle=rgba([224,238,255],Math.max(0.07,al*0.45));ctx.lineWidth=Math.max(1,R*0.006);ctx.stroke();
+    }
+    for(var j=0;j<5;j++){var sr=(0.24+0.62*((j*0.27+0.11)%1))*R, sa=seg*(0.18+j*0.16);
+      var sx=Math.cos(sa)*sr, sy=Math.sin(sa)*sr, a2=0.3+0.5*Math.abs(Math.sin(ts*0.0008+j));
+      ctx.fillStyle=rgba([234,241,255],a2);
+      ctx.beginPath();ctx.arc(sx,sy,R*0.016*(0.7+0.6*Math.sin(ts*0.001+j)),0,6.283);ctx.fill();}
+  }
+  function paint(ts){
+    var w=cv.width,h=cv.height,cx=w/2,cy=h/2;
+    var aw=w*0.46, peak=h*0.40, R=Math.min(h*0.38, aw*0.66);
+    ctx.globalCompositeOperation='source-over';
+    ctx.clearRect(0,0,w,h);
+    ctx.save();
+    almond(cx,cy,aw,peak); ctx.clip();
+    ctx.fillStyle='#0a0c12';ctx.fillRect(0,0,w,h);
+    var g=ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+    g.addColorStop(0,'rgba(170,195,255,0)');
+    g.addColorStop(0.5,'rgba(200,220,255,0.12)');
+    g.addColorStop(1,'rgba(236,243,255,0.46)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    ctx.restore();
+    ctx.save();
+    ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+    ctx.fillStyle='#08080a';ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    ctx.globalCompositeOperation='lighter';
+    var grot=ts*0.00004;
+    for(var i=0;i<N;i++){ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+      ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+      shardsDraw(ts,R);ctx.restore();}
+    ctx.restore();
+    ctx.globalCompositeOperation='source-over';
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.fillStyle='#08080a';ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(14,68,255,.45)';ctx.lineWidth=DPR;ctx.stroke();
+    ctx.beginPath();ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+    ctx.save();
+    almond(cx,cy,aw,peak);
+    ctx.shadowColor='rgba(200,222,255,0.9)';ctx.shadowBlur=R*0.22;
+    ctx.strokeStyle='rgba(236,243,255,0.55)';ctx.lineWidth=Math.max(1.2,R*0.022);
+    ctx.stroke();
+    ctx.restore();
+  }
+  function frame(ts){ fit(); paint(ts); if(!reduce) requestAnimationFrame(frame); }
+  fit(); paint(0);                                  // immediate first frame — never blank, even if rAF is throttled (hidden tab)
+  if(!reduce){ requestAnimationFrame(frame);
+    document.addEventListener('visibilitychange',function(){ if(!document.hidden) requestAnimationFrame(frame); }); }
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>teal-nebula-glints — day kaleidoscope candidate</title>
+<style>
+  :root{
+    --bg:#08080a; --gold:#FFD60A; --blue:#0E44FF;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background-color:var(--bg);
+    background-image:
+      linear-gradient(rgba(255,214,10,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,214,10,.045) 1px, transparent 1px);
+    background-size:28px 28px;
+    color:var(--gold);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;
+    padding:40px 16px 64px;
+  }
+  h1{
+    font-size:12px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.28em;margin:0 0 36px;text-align:center;
+    color:var(--gold);opacity:.92;
+  }
+  .stage{display:flex;gap:48px;align-items:center;flex-wrap:wrap;justify-content:center}
+  .col{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .disc{
+    border-radius:50%;overflow:hidden;background:#08080a;
+    box-shadow:
+      0 0 0 1px rgba(255,214,10,.5),
+      0 0 22px -2px rgba(14,68,255,.7),
+      inset 0 0 30px -6px rgba(14,68,255,.4);
+  }
+  canvas{display:block}
+  .cap{
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    opacity:.62;text-align:center;max-width:200px;line-height:1.5;color:var(--gold);
+  }
+</style>
+</head>
+<body>
+  <h1>teal-nebula-glints — day kaleidoscope candidate</h1>
+  <div class="stage">
+    <div class="col">
+      <div class="disc"><canvas id="kbig" width="360" height="360"></canvas></div>
+      <div class="cap">360px — full presentation</div>
+    </div>
+    <div class="col">
+      <div class="disc"><canvas id="khero" width="84" height="84"></canvas></div>
+      <div class="cap">at hero size — does it read small?</div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SEED = 20260617;
+
+  function mulberry32(a){
+    a = a >>> 0;
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // ---- WebGL fragment shader: 12-fold mirror kaleidoscope, teal nebula + crystalline glints ----
+  var VERT = [
+    "attribute vec2 p;",
+    "void main(){ gl_Position = vec4(p,0.0,1.0); }"
+  ].join("\n");
+
+  var FRAG = [
+    "precision highp float;",
+    "uniform vec2  uRes;",
+    "uniform float uTime;",
+    "uniform float uSeed;",      // 0..1 phase offset from PRNG
+    "uniform vec4  uShard[8];",  // crystalline glint seeds: xy=wedge-pos, z=size, w=phase",
+    "",
+    "#define TAU 6.28318530718",
+    "#define N 12.0",
+    "",
+    "// brand palette",
+    "vec3 C_NEAR   = vec3(0.031,0.031,0.039);",  // #08080a",
+    "vec3 C_NAVY   = vec3(0.043,0.094,0.235);",  // deep navy",
+    "vec3 C_BLUE   = vec3(0.055,0.267,1.000);",  // #0E44FF electric",
+    "vec3 C_MID    = vec3(0.133,0.424,1.000);",  // [34,108,255]",
+    "vec3 C_TEAL   = vec3(0.122,0.714,0.890);",  // teal/cyan [31,182,255]-ish, pulled tealward",
+    "vec3 C_AQUA   = vec3(0.176,0.812,0.776);",  // teal-forward aqua",
+    "vec3 C_ICE    = vec3(0.627,0.784,1.000);",  // pale ice-blue [160,200,255]",
+    "vec3 C_WHITE  = vec3(0.918,0.945,1.000);",  // #eaf1ff glint",
+    "",
+    "// hash + value noise (for the nebula field)",
+    "float hash21(vec2 p){",
+    "  p = fract(p*vec2(123.34,456.21));",
+    "  p += dot(p, p+45.32);",
+    "  return fract(p.x*p.y);",
+    "}",
+    "float vnoise(vec2 p){",
+    "  vec2 i = floor(p); vec2 f = fract(p);",
+    "  vec2 u = f*f*(3.0-2.0*f);",
+    "  float a = hash21(i);",
+    "  float b = hash21(i+vec2(1.0,0.0));",
+    "  float c = hash21(i+vec2(0.0,1.0));",
+    "  float d = hash21(i+vec2(1.0,1.0));",
+    "  return mix(mix(a,b,u.x), mix(c,d,u.x), u.y);",
+    "}",
+    "float fbm(vec2 p){",
+    "  float v = 0.0; float amp = 0.5; mat2 m = mat2(1.6,1.2,-1.2,1.6);",
+    "  for(int i=0;i<5;i++){ v += amp*vnoise(p); p = m*p; amp *= 0.5; }",
+    "  return v;",
+    "}",
+    "",
+    "void main(){",
+    "  vec2 uv = (gl_FragCoord.xy - 0.5*uRes) / (0.5*uRes.y);",  // -1..1, y up-ish; centered",
+    "  float R = length(uv);",
+    "",
+    "  // disc mask",
+    "  if(R > 1.0){ gl_FragColor = vec4(C_NEAR,1.0); return; }",
+    "",
+    "  float t = uTime;",
+    "  float ang = atan(uv.y, uv.x);",
+    "",
+    "  // slow continuous turn ~55s/rev",
+    "  ang += t * (TAU/55.0);",
+    "",
+    "  // ---- 12-fold mirror fold: reflect a single wedge across N radial axes ----",
+    "  float seg = TAU / N;",
+    "  float a = mod(ang, seg);",
+    "  a = abs(a - 0.5*seg);",       // mirror within wedge",
+    "  // breathing: gentle radial swell",
+    "  float breathe = 1.0 + 0.045*sin(t*0.6 + uSeed*TAU);",
+    "  float r = R / breathe;",
+    "",
+    "  // folded cartesian coord for the wedge",
+    "  vec2 q = vec2(cos(a), sin(a)) * r;",
+    "",
+    "  // ---- TEAL NEBULA FIELD (dreamy, flowing) ----",
+    "  // domain-warped fbm gives the soft cloudy structure",
+    "  vec2 np = q * 2.6;",
+    "  float drift = t*0.06;",
+    "  vec2 warp = vec2(",
+    "     fbm(np + vec2(0.0, drift) + uSeed*7.0),",
+    "     fbm(np + vec2(5.2 - drift, 1.3) + uSeed*3.0)",
+    "  );",
+    "  float neb = fbm(np + 1.7*warp + vec2(drift*0.5, -drift*0.5));",
+    "  float neb2 = fbm(np*1.9 - 1.1*warp - vec2(0.0, drift));",
+    "",
+    "  // map nebula density -> teal-forward gradient",
+    "  vec3 col = C_NEAR;",
+    "  col = mix(col, C_NAVY, smoothstep(0.18, 0.62, neb));",
+    "  col = mix(col, C_BLUE, smoothstep(0.42, 0.78, neb) * 0.85);",
+    "  // teal pushes in the mid-density bands (the teal-forward signature)",
+    "  float tealBand = smoothstep(0.40, 0.66, neb2) * (1.0 - smoothstep(0.72, 0.95, neb2));",
+    "  col = mix(col, C_TEAL, tealBand * 0.9);",
+    "  col = mix(col, C_AQUA, smoothstep(0.58, 0.88, neb*neb2) * 0.7);",
+    "",
+    "  // soft inner brightening toward center -> sense of a glowing core",
+    "  float core = smoothstep(0.62, 0.0, r);",
+    "  col = mix(col, C_ICE, core*0.30);",
+    "",
+    "  // ---- CRYSTALLINE FACETING (sharp edges over the dreamy base) ----",
+    "  // quantize the wedge into angular facets and add crisp ridge lines",
+    "  float facetA = floor(a / (seg*0.5) * 5.0);",
+    "  float facetR = floor(r * 6.5);",
+    "  float fid = hash21(vec2(facetA, facetR) + uSeed*11.0);",
+    "  // crisp shard ridges: derivative-aware edge on the facet grid",
+    "  float gridA = abs(fract(a/(seg*0.5)*5.0) - 0.5);",
+    "  float gridR = abs(fract(r*6.5) - 0.5);",
+    "  float ridge = min(gridA, gridR);",
+    "  float edge = 1.0 - smoothstep(0.0, 0.06, ridge);",
+    "  // faceted tint: some facets read as ice / blue glass",
+    "  vec3 facetCol = mix(C_MID, C_ICE, fid);",
+    "  col = mix(col, facetCol, edge * (0.18 + 0.22*fid) * smoothstep(0.05, 0.5, r));",
+    "  // bright crisp ridge highlight",
+    "  col += C_WHITE * edge * 0.10 * (0.5 + 0.5*sin(t*0.8 + fid*TAU));",
+    "",
+    "  // ---- SHARP WHITE SPARKLE-SHARDS (the crystalline glints) ----",
+    "  float sparkle = 0.0;",
+    "  for(int i=0;i<8;i++){",
+    "     vec4 s = uShard[i];",
+    "     // shard anchored in folded wedge space (xy already in wedge coords)",
+    "     vec2 center = vec2(s.x, s.y);",
+    "     float d = length(q - center);",
+    "     float tw = 0.5 + 0.5*sin(t*1.3 + s.w*TAU);",   // twinkle",
+    "     float sz = s.z * (0.55 + 0.45*tw);",
+    "     // 4-point star glint: sharp cross",
+    "     vec2 rel = (q - center);",
+    "     float cross = max(",
+    "        sz/(abs(rel.x)*22.0 + sz),",
+    "        sz/(abs(rel.y)*22.0 + sz));",
+    "     float dot0 = sz/(d*30.0 + sz);",
+    "     sparkle += (cross*0.5 + dot0) * tw;",
+    "  }",
+    "  col += C_WHITE * clamp(sparkle, 0.0, 1.4) * 0.9;",
+    "",
+    "  // shimmer: very subtle overall",
+    "  col *= 0.95 + 0.05*sin(t*0.5 + r*4.0);",
+    "",
+    "  // ---- IRIS INTEGRATION ----",
+    "  // dark pupil",
+    "  float pupilR = 0.14;",
+    "  float pupil = smoothstep(pupilR, pupilR-0.012, R);",
+    "  col = mix(col, C_NEAR, pupil);",
+    "  // thin electric-blue pupil stroke",
+    "  float ring = smoothstep(0.012, 0.0, abs(R - pupilR));",
+    "  col = mix(col, C_BLUE, ring*0.5);",
+    "",
+    "  // catch-light glint near upper-left of pupil",
+    "  vec2 cl = uv - vec2(-0.045, 0.055);",   // y-up: upper means +y",
+    "  float clD = length(cl);",
+    "  float catch = smoothstep(0.030, 0.0, clD);",
+    "  col = mix(col, C_WHITE, catch*0.95);",
+    "",
+    "  // outer rim vignette + faint gold rim feel",
+    "  float rim = smoothstep(1.0, 0.93, R);",
+    "  col *= mix(0.55, 1.0, rim);",
+    "  // gentle limb darkening toward true edge",
+    "  col *= 1.0 - 0.25*smoothstep(0.82, 1.0, R);",
+    "",
+    "  gl_FragColor = vec4(col, 1.0);",
+    "}"
+  ].join("\n");
+
+  function compile(gl, type, src){
+    var sh = gl.createShader(type);
+    gl.shaderSource(sh, src);
+    gl.compileShader(sh);
+    if(!gl.getShaderParameter(sh, gl.COMPILE_STATUS)){
+      var log = gl.getShaderInfoLog(sh);
+      gl.deleteShader(sh);
+      throw new Error("shader compile: " + log);
+    }
+    return sh;
+  }
+
+  // 2D fallback renderer (used if WebGL unavailable)
+  function fallback2D(canvas, rng){
+    var ctx = canvas.getContext("2d");
+    if(!ctx) return null;
+    var W = canvas.width, H = canvas.height;
+    var phase = rng();
+    function frame(now){
+      var t = now*0.001;
+      ctx.clearRect(0,0,W,H);
+      var cx=W/2, cy=H/2, Rad=Math.min(W,H)/2;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx,cy,Rad,0,Math.PI*2); ctx.clip();
+      // teal radial base
+      var g = ctx.createRadialGradient(cx,cy,Rad*0.1, cx,cy,Rad);
+      g.addColorStop(0, "#9fcfe3");
+      g.addColorStop(0.4, "#2db6e3");
+      g.addColorStop(0.75, "#0e44ff");
+      g.addColorStop(1, "#08080a");
+      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      // 12 mirrored white shards
+      ctx.translate(cx,cy); ctx.rotate(t*(Math.PI*2/55));
+      for(var k=0;k<12;k++){
+        ctx.save(); ctx.rotate(k*Math.PI*2/12);
+        ctx.fillStyle="rgba(234,241,255,"+(0.4+0.3*Math.sin(t*1.3+k+phase))+")";
+        ctx.beginPath();
+        ctx.moveTo(Rad*0.45,0); ctx.lineTo(Rad*0.62,Rad*0.05); ctx.lineTo(Rad*0.7,0); ctx.lineTo(Rad*0.62,-Rad*0.05);
+        ctx.closePath(); ctx.fill();
+        ctx.restore();
+      }
+      ctx.restore();
+      // pupil + catch
+      ctx.beginPath(); ctx.arc(cx,cy,Rad*0.14,0,Math.PI*2); ctx.fillStyle="#08080a"; ctx.fill();
+      ctx.lineWidth=1; ctx.strokeStyle="rgba(14,68,255,.5)"; ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx-Rad*0.045, cy-Rad*0.055, Rad*0.025,0,Math.PI*2); ctx.fillStyle="#eaf1ff"; ctx.fill();
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    return true;
+  }
+
+  function initCanvas(canvas){
+    var rng = mulberry32(SEED);
+    var seedPhase = rng();
+
+    // precompute 8 crystalline shard seeds in the folded wedge space
+    var shards = new Float32Array(8*4);
+    var seg = (Math.PI*2)/12;
+    for(var i=0;i<8;i++){
+      var rr = 0.20 + rng()*0.68;            // radius in wedge
+      var aa = rng()*(seg*0.5);              // angle within half-wedge
+      shards[i*4+0] = Math.cos(aa)*rr;       // x in folded space
+      shards[i*4+1] = Math.sin(aa)*rr;       // y in folded space
+      shards[i*4+2] = 0.010 + rng()*0.028;   // size
+      shards[i*4+3] = rng();                 // twinkle phase
+    }
+
+    var gl = null;
+    try {
+      gl = canvas.getContext("webgl", {antialias:true, premultipliedAlpha:false, alpha:false})
+        || canvas.getContext("experimental-webgl");
+    } catch(e){ gl = null; }
+
+    if(!gl){
+      return fallback2D(canvas, mulberry32(SEED));
+    }
+
+    var prog;
+    try {
+      var vs = compile(gl, gl.VERTEX_SHADER, VERT);
+      var fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+      prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+      gl.linkProgram(prog);
+      if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){
+        throw new Error("link: " + gl.getProgramInfoLog(prog));
+      }
+    } catch(err){
+      return fallback2D(canvas, mulberry32(SEED));
+    }
+
+    gl.useProgram(prog);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1,-1,  3,-1,  -1,3
+    ]), gl.STATIC_DRAW);
+    var pLoc = gl.getAttribLocation(prog, "p");
+    gl.enableVertexAttribArray(pLoc);
+    gl.vertexAttribPointer(pLoc, 2, gl.FLOAT, false, 0, 0);
+
+    var uRes  = gl.getUniformLocation(prog, "uRes");
+    var uTime = gl.getUniformLocation(prog, "uTime");
+    var uSeed = gl.getUniformLocation(prog, "uSeed");
+    var uShard= gl.getUniformLocation(prog, "uShard");
+
+    gl.uniform4fv(uShard, shards);
+    gl.uniform1f(uSeed, seedPhase);
+
+    var W = canvas.width, H = canvas.height;
+    gl.viewport(0,0,W,H);
+    gl.uniform2f(uRes, W, H);
+
+    var reduce = false;
+    try {
+      reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch(e){ reduce = false; }
+
+    function draw(timeSec){
+      gl.uniform1f(uTime, timeSec);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+
+    if(reduce){
+      // freeze on a representative still frame
+      draw(8.0);
+      return true;
+    }
+
+    var start = null;
+    function loop(now){
+      if(start === null) start = now;
+      var tSec = (now - start) * 0.001;
+      draw(tSec);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+    return true;
+  }
+
+  function boot(){
+    var big = document.getElementById("kbig");
+    var hero = document.getElementById("khero");
+    // DPR cap at 2 — keep backing store crisp without ballooning cost.
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    [big, hero].forEach(function(c){
+      if(!c) return;
+      var cssW = c.width, cssH = c.height;
+      c.style.width = cssW + "px";
+      c.style.height = cssH + "px";
+      c.width = Math.round(cssW * dpr);
+      c.height = Math.round(cssH * dpr);
+    });
+    try { if(big) initCanvas(big); } catch(e){}
+    try { if(hero) initCanvas(hero); } catch(e){}
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>

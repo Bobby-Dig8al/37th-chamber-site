@@ -6,13 +6,13 @@
 <!-- SACRED: Alana's tribute — reachable by link, kept OUT of search indexes per canon. Do not remove without bd8. -->
 <meta name="robots" content="noindex, nofollow">
 <title>In Gratitude · 37th Chamber</title>
-<meta name="description" content="The 37th Chamber is dedicated to Alana Samaniego.">
+<meta name="description" content="The 37th Chamber is dedicated to Alana.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/gratitude/">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <meta property="og:title" content="In Gratitude — 37th Chamber">
-<meta property="og:description" content="Dedicated to Alana Samaniego.">
+<meta property="og:description" content="Dedicated to Alana.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://37th-chamber.com/gratitude/">
 <meta property="og:image" content="https://37th-chamber.com/assets/og.png">
@@ -47,11 +47,21 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .way{margin-top:clamp(2.6rem,7vw,3.6rem);font-size:clamp(.92rem,3vw,1.1rem);letter-spacing:.04em;color:var(--text)}
 .way b{color:#fff;font-weight:600;text-shadow:0 0 6px rgba(14,68,255,.9),0 0 16px rgba(14,68,255,.55)}
 footer{position:absolute;bottom:clamp(1.2rem,4vw,2rem);z-index:1;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
 </style>
 </head>
 <body>
-  <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
-  <main class="wrap">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="back" href="/" translate="no">&larr;&nbsp;37th&nbsp;Chamber</a>
+  <main class="wrap" id="main">
     <svg class="sigil" viewBox="0 0 200 200" aria-label="The Sigil">
       <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
       <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
@@ -66,8 +76,7 @@ footer{position:absolute;bottom:clamp(1.2rem,4vw,2rem);z-index:1;font-size:.68re
     </svg>
     <div class="eyebrow">In gratitude</div>
     <div class="lead">The 37th Chamber is built for</div>
-    <h1 class="name">Alana Samaniego</h1>
-    <div class="aka">née Simpson.</div>
+    <h1 class="name">Alana</h1>
     <div class="role">the faceless man&rsquo;s mother</div>
     <div class="story">her story &middot; <span class="soon">coming</span></div>
     <p class="way">this is the way to <b>gratitude</b>.</p>

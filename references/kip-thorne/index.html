@@ -22,85 +22,36 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kip Thorne · The Roots">
 <meta name="twitter:description" content="The physicist who kept the movies honest — and spent half a century listening for colliding black holes.">
-<style>
-:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
-  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem env(safe-area-inset-bottom,0px);
-  overflow-x:hidden;position:relative;letter-spacing:.005em}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
-  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
-.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
-.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
-.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
-.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
-.meta-pill .num{color:var(--gold-soft);font-weight:600}
-.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
-  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
-h1.title{font-size:clamp(1.7rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;letter-spacing:.012em;color:var(--gold);
-  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
-.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
-hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
-h2{margin:2.2rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
-p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
-p strong{color:var(--gold);font-weight:600}
-p em{color:var(--gold-soft);font-style:italic}
-blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(255,214,10,.5);background:rgba(255,214,10,.02);
-  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62;font-style:italic}
-blockquote .src{display:block;margin-top:.5rem;font-style:normal;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
-  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
-.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
-.roots a:hover{border-bottom-style:solid}
-.roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
-.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
-  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
-.signoff strong{color:var(--gold-soft)}
-.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
-.signoff a:hover{border-bottom-style:solid}
-footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
-  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
-.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
-.foot-back:hover{text-decoration:underline}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
-  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
-:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;scroll-behavior:auto !important}
-}
-</style>
+<link rel="stylesheet" href="/assets/temple.css">
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Science</span> &middot; Kip Thorne &middot; b. 1940</span>
 </nav>
 
 <main class="wrap" id="main">
-  <div class="eyebrow">The Roots &middot; The 37th Chamber</div>
+  <div class="eyebrow">The Roots &middot; <span translate="no">The 37th Chamber</span></div>
   <h1 class="title">Kip Thorne</h1>
   <p class="dek">The physicist who kept the movies honest &mdash; and spent half a century with his ear to the universe waiting for a sound that no one had ever heard.</p>
 
   <hr class="rule">
 
-  <p>In September 1980, Carl Sagan threw a party for the premiere of <em>Cosmos</em> at the Griffith Observatory. He sat two of his friends next to each other: Kip Thorne, a theoretical physicist from Caltech, and Lynda Obst, then an editor at the <em>New York Times Magazine</em>. Sagan had a gift for introductions. That blind date would take twenty-five years to fully arrive &mdash; and when it did, it arrived as <em>Interstellar</em>.</p>
+  <p>In September 1980, Carl Sagan threw a party for the premiere of <em>Cosmos</em> at the Griffith Observatory. He sat two of his friends next to each other: Kip Thorne, a theoretical physicist from Caltech, and Lynda Obst, a former <em>New York Times Magazine</em> editor newly arrived in Hollywood. Sagan had a gift for introductions. That blind date would take twenty-five years to fully arrive &mdash; and when it did, it arrived as <em>Interstellar</em>.</p>
 
-  <p>By then Thorne was already one of the architects of modern gravitational physics. He had trained under John Wheeler at Princeton &mdash; the man who named <strong>black holes</strong> &mdash; and spent his career mapping the extreme end of Einstein&rsquo;s universe: what happens inside a collapsing star, how spacetime behaves when it is twisted past its limit, what the signatures of catastrophe look like when they finally reach us across a billion years.</p>
+  <p>By then Thorne was already one of the architects of modern gravitational physics. He had trained under John Wheeler at Princeton &mdash; the man widely credited with popularizing the term <strong>black hole</strong> &mdash; and spent his career mapping the extreme end of Einstein&rsquo;s universe: what happens inside a collapsing star, how spacetime behaves when it is twisted past its limit, what the signatures of catastrophe look like when they finally reach us across a billion years.</p>
 
   <h2>The wormhole that started with a novel</h2>
   <p>In 1985, Carl Sagan was writing <em>Contact</em> and ran into a physics problem: how do you move your protagonist across the galaxy faster than light without violating everything? He called Thorne. Thorne looked at the route Sagan had chosen &mdash; a black hole &mdash; and told him it wouldn&rsquo;t work; the interior conditions would destroy the traveler. What <em>could</em> work, at least in theory, was a <strong>traversable wormhole</strong>: a tunnel through spacetime held open by exotic matter with negative energy density.</p>
@@ -113,7 +64,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 
   <h2>Half a century of patience</h2>
   <p>While Thorne was advising films, he was also tending something older and larger. <strong>LIGO</strong> &mdash; the Laser Interferometer Gravitational-Wave Observatory &mdash; had been his project for decades, built on a prediction in Einstein&rsquo;s equations that almost no one believed could be tested. The idea: when two massive objects merge somewhere in the universe, they send ripples through spacetime itself. Those ripples, called gravitational waves, would arrive at Earth as a compression and stretching of space smaller than a thousandth the width of a proton. To detect them, you would need a machine of almost impossible precision and the patience to wait for the right event.</p>
-  <p>On September 14, 2015, LIGO heard it: two black holes, each roughly thirty times the mass of the Sun, spiraling together and merging <em>1.3 billion light-years away</em>. The signal lasted a fifth of a second. The spacetime distortion it produced, arriving at Earth, was twenty-one orders of magnitude smaller than the arm length of the detector. The instrument caught it anyway. Einstein had predicted gravitational waves in 1916. It took <strong>a century</strong> to confirm them.</p>
+  <p>On September 14, 2015, LIGO heard it: two black holes &mdash; roughly 36 and 29 times the mass of the Sun, spiraling together and merging <em>1.3 billion light-years away</em>. The signal lasted a fifth of a second. The spacetime distortion it produced, arriving at Earth, was twenty-one orders of magnitude smaller than the arm length of the detector. The instrument caught it anyway. Einstein had predicted gravitational waves in 1916. It took <strong>a century</strong> to confirm them.</p>
   <p>In 2017, Kip Thorne shared the Nobel Prize in Physics with Rainer Weiss and Barry Barish for their decisive contributions to LIGO and the observation of gravitational waves. The citation is exact: <em>decisive contributions</em>. Not building it alone. Decades of scientific case-making, collaboration, and insistence that the measurement was worth attempting &mdash; that the universe owed us the signal if we built the ear.</p>
 
   <div class="roots">
@@ -121,6 +72,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
     <a href="https://www.nobelprize.org/prizes/physics/2017/thorne/facts/" target="_blank" rel="noopener noreferrer">Nobel Prize page &mdash; Kip Thorne, Physics 2017<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://wwnorton.com/books/The-Science-of-Interstellar/" target="_blank" rel="noopener noreferrer">The Science of Interstellar &mdash; W. W. Norton<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://arxiv.org/abs/1502.03808" target="_blank" rel="noopener noreferrer">The Gargantua paper, free &mdash; arXiv 1502.03808<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://arxiv.org/abs/1602.03837" target="_blank" rel="noopener noreferrer">The GW150914 detection paper &mdash; Physical Review Letters 116, 061102 (free at arXiv:1602.03837)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://en.wikipedia.org/wiki/Kip_Thorne" target="_blank" rel="noopener noreferrer">The encyclopedia overview &mdash; Wikipedia<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <p class="note">We point; we don&rsquo;t reproduce. Start with the Nobel facts page for the official record, then go to arXiv for the Gargantua paper &mdash; it&rsquo;s free, and the figures alone are worth the read. <em>The Science of Interstellar</em> is the book to own: Thorne draws the truth/guess/speculation line himself, in public, chapter by chapter.</p>
   </div>

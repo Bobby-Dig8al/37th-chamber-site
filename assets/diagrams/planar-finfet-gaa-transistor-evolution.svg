@@ -1,0 +1,100 @@
+<svg viewBox="0 0 1080 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d" font-family="'Bahnschrift', system-ui, sans-serif">
+<title id="t">Transistor geometry evolution: planar to FinFET to gate-all-around</title>
+<desc id="d">Three cross-sections show the gate (gold) progressively wrapping the conducting channel (electric blue): planar touches 1 face, FinFET wraps 3 faces, gate-all-around surrounds all 4. More wrapped faces means tighter electrostatic control and less off-state leakage.</desc>
+
+<rect x="0" y="0" width="1080" height="640" fill="#08080a"/>
+
+<text x="48" y="52" fill="#FFD60A" font-size="27" font-weight="700" letter-spacing="0.5">THE GATE LEARNS TO WRAP</text>
+<text x="48" y="80" fill="#8f8a73" font-size="15.5">Each generation surrounds the channel on more faces — so the gate, not stray voltage, decides whether current flows.</text>
+<line x1="48" y1="98" x2="1032" y2="98" stroke="#d9b400" stroke-width="1" opacity="0.35"/>
+
+<g font-size="13.5">
+  <rect x="48" y="116" width="15" height="15" rx="2" fill="#0E44FF"/>
+  <text x="70" y="128" fill="#f3eede">channel — where current flows (the silicon)</text>
+  <rect x="430" y="116" width="15" height="15" rx="2" fill="#FFD60A"/>
+  <text x="452" y="128" fill="#f3eede">gate — the control electrode (the switch)</text>
+  <rect x="760" y="116" width="15" height="15" rx="2" fill="#2a2a30"/>
+  <text x="782" y="128" fill="#f3eede">insulator + body</text>
+</g>
+
+<text x="48" y="160" fill="#8f8a73" font-size="13" font-style="italic">Cross-sections — you are looking straight down the wire, into the current flowing toward you.</text>
+
+<line x1="372" y1="178" x2="372" y2="548" stroke="#d9b400" stroke-width="1" opacity="0.18"/>
+<line x1="708" y1="178" x2="708" y2="548" stroke="#d9b400" stroke-width="1" opacity="0.18"/>
+
+<g>
+  <text x="186" y="200" fill="#FFD60A" font-size="19" font-weight="700" text-anchor="middle">PLANAR</text>
+  <text x="186" y="222" fill="#8f8a73" font-size="13" text-anchor="middle">~1960s–2011</text>
+  <rect x="86" y="330" width="200" height="80" fill="#1a1a1f"/>
+  <rect x="86" y="318" width="200" height="14" fill="#0E44FF"/>
+  <rect x="116" y="312" width="140" height="6" fill="#2a2a30"/>
+  <rect x="116" y="284" width="140" height="28" rx="2" fill="#FFD60A"/>
+  <text x="186" y="303" fill="#08080a" font-size="13" font-weight="700" text-anchor="middle">GATE</text>
+  <line x1="116" y1="318" x2="256" y2="318" stroke="#FFD60A" stroke-width="3"/>
+  <text x="186" y="430" fill="#a0c0ff" font-size="12.5" text-anchor="middle">channel</text>
+  <path d="M 116 332 q -20 36 4 60" fill="none" stroke="#4d82ff" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.9" marker-end="url(#leak)"/>
+  <path d="M 256 332 q 20 36 -4 60" fill="none" stroke="#4d82ff" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.9" marker-end="url(#leak)"/>
+  <text x="186" y="466" fill="#8f8a73" font-size="11.5" text-anchor="middle">leakage slips under the gate</text>
+  <text x="186" y="506" fill="#f3eede" font-size="14" text-anchor="middle">Gate touches <tspan fill="#FFD60A" font-weight="700">1 face</tspan></text>
+  <text x="186" y="528" fill="#8f8a73" font-size="12.5" text-anchor="middle">weakest grip · most leakage</text>
+</g>
+
+<g>
+  <text x="540" y="200" fill="#FFD60A" font-size="19" font-weight="700" text-anchor="middle">FinFET</text>
+  <text x="540" y="222" fill="#8f8a73" font-size="13" text-anchor="middle">2011–2022 · 22nm→</text>
+  <rect x="440" y="382" width="200" height="28" fill="#1a1a1f"/>
+  <rect x="526" y="300" width="28" height="86" fill="#0E44FF"/>
+  <path d="M 520 300 v 86 h 40 v -86" fill="none" stroke="#2a2a30" stroke-width="6"/>
+  <path d="M 500 296 v 92 h 18 v -82 h 44 v 82 h 18 v -92 Z" fill="#FFD60A"/>
+  <text x="540" y="284" fill="#FFD60A" font-size="13" font-weight="700" text-anchor="middle">GATE</text>
+  <text x="568" y="350" fill="#a0c0ff" font-size="12.5" text-anchor="start">fin</text>
+  <line x1="556" y1="345" x2="562" y2="345" stroke="#a0c0ff" stroke-width="1.5"/>
+  <path d="M 520 300 h 40 M 520 300 v 86 M 560 300 v 86" fill="none" stroke="#FFD60A" stroke-width="3" opacity="0.95"/>
+  <path d="M 540 386 q 0 22 0 30" fill="none" stroke="#4d82ff" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.8" marker-end="url(#leak)"/>
+  <text x="540" y="466" fill="#8f8a73" font-size="11.5" text-anchor="middle">leak only at the buried base</text>
+  <text x="540" y="506" fill="#f3eede" font-size="14" text-anchor="middle">Gate wraps <tspan fill="#FFD60A" font-weight="700">3 faces</tspan></text>
+  <text x="540" y="528" fill="#8f8a73" font-size="12.5" text-anchor="middle">channel raised into a fin</text>
+</g>
+
+<g>
+  <text x="876" y="200" fill="#FFD60A" font-size="19" font-weight="700" text-anchor="middle">GATE-ALL-AROUND</text>
+  <text x="876" y="222" fill="#8f8a73" font-size="13" text-anchor="middle">2022→ · nanosheet · 3nm/2nm</text>
+  <rect x="776" y="392" width="200" height="18" fill="#1a1a1f"/>
+  <rect x="828" y="270" width="96" height="116" rx="4" fill="#FFD60A"/>
+  <text x="876" y="262" fill="#FFD60A" font-size="13" font-weight="700" text-anchor="middle">GATE</text>
+  <g>
+    <rect x="848" y="288" width="56" height="14" rx="3" fill="#0E44FF" stroke="#2a2a30" stroke-width="3"/>
+    <rect x="848" y="318" width="56" height="14" rx="3" fill="#0E44FF" stroke="#2a2a30" stroke-width="3"/>
+    <rect x="848" y="348" width="56" height="14" rx="3" fill="#0E44FF" stroke="#2a2a30" stroke-width="3"/>
+  </g>
+  <text x="940" y="299" fill="#a0c0ff" font-size="12" text-anchor="start">stacked</text>
+  <text x="940" y="335" fill="#a0c0ff" font-size="12" text-anchor="start">nano-</text>
+  <text x="940" y="351" fill="#a0c0ff" font-size="12" text-anchor="start">sheets</text>
+  <rect x="843" y="283" width="66" height="24" rx="6" fill="none" stroke="#FFD60A" stroke-width="2" stroke-dasharray="2 3" opacity="0.7"/>
+  <text x="876" y="466" fill="#8f8a73" font-size="11.5" text-anchor="middle">no buried path left to leak</text>
+  <text x="876" y="506" fill="#f3eede" font-size="14" text-anchor="middle">Gate surrounds <tspan fill="#FFD60A" font-weight="700">all 4 faces</tspan></text>
+  <text x="876" y="528" fill="#8f8a73" font-size="12.5" text-anchor="middle">tightest grip · least leakage</text>
+</g>
+
+<g opacity="0.85">
+  <path d="M 318 350 h 36" fill="none" stroke="#d9b400" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 654 350 h 36" fill="none" stroke="#d9b400" stroke-width="2.5" marker-end="url(#arrow)"/>
+</g>
+
+<line x1="48" y1="566" x2="1032" y2="566" stroke="#d9b400" stroke-width="1" opacity="0.35"/>
+<text x="540" y="596" fill="#f3eede" font-size="15.5" text-anchor="middle">
+  <tspan fill="#FFD60A" font-weight="700">The mechanism:</tspan> a transistor leaks when stray voltage in the silicon — not the gate — keeps current flowing while it should be OFF.
+</text>
+<text x="540" y="620" fill="#a0c0ff" font-size="15.5" text-anchor="middle">
+  Wrap the gate around more of the channel and there is nowhere for that stray field to hide. More faces controlled = a cleaner OFF.
+</text>
+
+<defs>
+  <marker id="leak" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+    <path d="M 0 0 L 6 3.5 L 0 7 Z" fill="#4d82ff"/>
+  </marker>
+  <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+    <path d="M 0 0 L 8 4.5 L 0 9 Z" fill="#d9b400"/>
+  </marker>
+</defs>
+</svg>

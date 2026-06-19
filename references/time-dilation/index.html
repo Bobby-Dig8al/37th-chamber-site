@@ -22,77 +22,28 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Time Dilation · The Roots">
 <meta name="twitter:description" content="Einstein, 1905. The clock that runs slower than yours.">
-<style>
-:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
-  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem env(safe-area-inset-bottom,0px);
-  overflow-x:hidden;position:relative;letter-spacing:.005em}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
-  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
-.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
-.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
-.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
-.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
-.meta-pill .num{color:var(--gold-soft);font-weight:600}
-.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
-  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
-h1.title{font-size:clamp(1.7rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;letter-spacing:.012em;color:var(--gold);
-  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
-.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
-hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
-h2{margin:2.2rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
-p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
-p strong{color:var(--gold);font-weight:600}
-p em{color:var(--gold-soft);font-style:italic}
-blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(255,214,10,.5);background:rgba(255,214,10,.02);
-  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62;font-style:italic}
-blockquote .src{display:block;margin-top:.5rem;font-style:normal;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
-  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
-.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
-.roots a:hover{border-bottom-style:solid}
-.roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
-.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
-  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
-.signoff strong{color:var(--gold-soft)}
-.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
-.signoff a:hover{border-bottom-style:solid}
-footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
-  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
-.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
-.foot-back:hover{text-decoration:underline}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
-  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
-:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;scroll-behavior:auto !important}
-}
-</style>
+<link rel="stylesheet" href="/assets/temple.css">
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Science</span> &middot; Einstein / Langevin &middot; 1905&ndash;1971</span>
 </nav>
 
 <main class="wrap" id="main">
-  <div class="eyebrow">The Roots &middot; The 37th Chamber</div>
+  <div class="eyebrow">The Roots &middot; <span translate="no">The 37th Chamber</span></div>
   <h1 class="title">Time Dilation</h1>
   <p class="dek">The clock that runs slower than yours &mdash; moving clocks tick slow, deep clocks tick slower, and your GPS has to correct for both before it can tell you where you are.</p>
 
@@ -103,29 +54,214 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
 
   <h2>The twin who stayed home</h2>
   <p>In 1911, the French physicist <strong>Paul Langevin</strong> sharpened this into a story that has never left the culture. Imagine two people who start at the same place, the same age, the same moment. One stays home. The other boards a spacecraft, accelerates to a substantial fraction of the speed of light, travels to a distant star, turns around, and comes back. When they meet again, the traveler is <em>younger</em> &mdash; not subjectively, not by feeling, but physically, biologically, in every cell. The traveler&rsquo;s clock accumulated less time because the traveler&rsquo;s path through spacetime was genuinely shorter.</p>
-  <p>This gets called the &ldquo;twin paradox,&rdquo; but it is not a paradox. The apparent puzzle &mdash; why doesn&rsquo;t each twin see the other moving, so each should find the other younger? &mdash; dissolves when you account for the fact that the traveler had to <em>turn around</em>. Turning around requires acceleration. Acceleration breaks the symmetry. The two paths through spacetime are not equivalent, and the traveler&rsquo;s is the shorter one. The reunion is unambiguous: the traveler returns younger, full stop.</p>
+  <p>This gets called the &ldquo;twin paradox,&rdquo; but it is not a paradox. The apparent puzzle &mdash; why doesn&rsquo;t each twin see the other moving, so each should find the other younger? &mdash; dissolves when you account for the fact that the traveler had to <em>turn around</em>. Turning around requires acceleration, and acceleration marks which twin changed their state of motion &mdash; but the deeper answer is geometric: the two paths through spacetime are not equivalent. The traveler&rsquo;s path, however the turn is modeled, accumulates less proper time. That is what the spacetime interval measures. The reunion is unambiguous: the traveler returns younger, full stop.</p>
 
   <h2>Gravity pulls clocks slow</h2>
   <p>Special relativity handled motion. When Einstein finished general relativity in 1915, it added gravity to the account &mdash; and gravity does the same thing from a different direction. <strong>Clocks deeper in a gravitational well run slower than clocks higher up.</strong> A clock sitting on the floor of a building ticks fractionally slower than a clock on the roof. A clock on the surface of the Earth ticks slower than a clock in orbit. The difference is tiny in everyday life, but it is real, it accumulates, and it cannot be ignored.</p>
   <p>The mechanism, in the language of general relativity, is that gravity is the curvature of spacetime. Sitting near a massive object bends your path through time just as motion does. The two effects &mdash; from motion and from gravity &mdash; are distinct, can oppose each other, and both have to be tracked.</p>
 
+  <!-- TIME DILATION CHART — Schwarzschild metric, inline SVG + script -->
+  <div role="region" aria-label="Gravitational time dilation chart — Schwarzschild metric" style="margin:2rem 0 0">
+    <svg id="td-grav" viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:100%;display:block;overflow:visible" aria-hidden="true">
+      <defs><filter id="td-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <rect x="80" y="30" width="600" height="290" fill="rgba(255,214,10,.018)" stroke="rgba(255,214,10,.14)" stroke-width="1"/>
+      <!-- horizontal grid f=2–8 -->
+      <line x1="80" x2="680" y1="279" y2="279" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="237" y2="237" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="196" y2="196" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="155" y2="155" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="113" y2="113" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="80" x2="680" y1="72"  y2="72"  stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <!-- vertical grid r=2–10 -->
+      <line x1="147" x2="147" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="213" x2="213" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="280" x2="280" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="347" x2="347" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="413" x2="413" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="480" x2="480" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="547" x2="547" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="613" x2="613" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <line x1="680" x2="680" y1="30" y2="320" stroke="rgba(255,214,10,.07)" stroke-width="1"/>
+      <!-- y-axis labels -->
+      <text x="72" y="324" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">1×</text>
+      <text x="72" y="283" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">2×</text>
+      <text x="72" y="241" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">3×</text>
+      <text x="72" y="200" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">4×</text>
+      <text x="72" y="159" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">5×</text>
+      <text x="72" y="117" text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">6×</text>
+      <text x="72" y="76"  text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">7×</text>
+      <text x="72" y="34"  text-anchor="end" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">8×</text>
+      <!-- x-axis labels -->
+      <text x="80"  y="340" text-anchor="middle" fill="#FFD60A" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">rₛ</text>
+      <text x="147" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">2</text>
+      <text x="213" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">3</text>
+      <text x="280" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">4</text>
+      <text x="347" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">5</text>
+      <text x="413" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">6</text>
+      <text x="480" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">7</text>
+      <text x="547" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">8</text>
+      <text x="613" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">9</text>
+      <text x="680" y="340" text-anchor="middle" fill="#8f8a73" font-size="11" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">10</text>
+      <!-- axis titles -->
+      <text transform="rotate(-90)" x="-175" y="18" text-anchor="middle" fill="#d9b400" font-size="10" letter-spacing="2" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">TIME DILATION FACTOR</text>
+      <text x="390" y="362" text-anchor="middle" fill="#d9b400" font-size="10" letter-spacing="2" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">DISTANCE FROM EVENT HORIZON (units of r&#x209B;)</text>
+      <text x="390" y="17" text-anchor="middle" fill="#FFD60A" font-size="11" letter-spacing="3" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">GRAVITATIONAL TIME DILATION — SCHWARZSCHILD METRIC</text>
+      <!-- event horizon blue dashed line -->
+      <line x1="80" x2="80" y1="30" y2="320" stroke="#0E44FF" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="84" y="46" fill="#0E44FF" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">&#x2190; event horizon</text>
+      <!-- GPS annotation near r=10 -->
+      <line x1="663" x2="655" y1="318" y2="302" stroke="#8f8a73" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="530" y="300" fill="#8f8a73" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">GPS satellites correct for this</text>
+      <!-- Interstellar annotation: top of curve -->
+      <line x1="87" x2="130" y1="42" y2="56" stroke="#d9b400" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="133" y="52" fill="#d9b400" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">Interstellar — Miller&#x2019;s planet</text>
+      <text x="133" y="64" fill="#d9b400" font-size="10" font-family="Bahnschrift,'DIN Alternate','Century Gothic',sans-serif">requires Kerr (much steeper)</text>
+      <!-- curve: script-drawn -->
+      <path id="td-grav-path" fill="none" stroke="#FFD60A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#td-glow)"/>
+    </svg>
+    <p style="text-align:center;font-size:.76rem;color:#8f8a73;margin:.5rem auto 0;max-width:500px;line-height:1.5">Formula: dilation = 1 / &#x221a;(1 &minus; r<sub>s</sub>/r). Chart shows Schwarzschild (non-rotating) black hole; the Kerr (spinning) metric used for Miller&rsquo;s planet in <em>Interstellar</em> allows even greater dilation at comparable distances.</p>
+  </div>
+  <script>
+  (function(){
+    var p = document.getElementById('td-grav-path');
+    if (!p) return;
+    var d = [];
+    for (var i = 0; i <= 200; i++) {
+      var r = 1.01 + i / 200 * (10 - 1.01);
+      var f = Math.min(1 / Math.sqrt(1 - 1 / r), 8);
+      var x = 80 + (r - 1.01) / (10 - 1.01) * 600;
+      var y = 320 - (f - 1) / 7 * 290;
+      d.push((i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1));
+    }
+    p.setAttribute('d', d.join(' '));
+  })();
+  </script>
+
   <h2>The clocks on the airplanes</h2>
-  <p>In 1971, physicists <strong>Joseph Hafele and Richard Keating</strong> did the obvious thing: they put cesium atomic clocks on commercial airliners and flew them around the world, once eastward and once westward. The clocks flew at altitude (gravity effect: clocks higher up run faster) and at speed (motion effect: clocks moving fast run slower). The two effects partially cancel each other, and cancel differently depending on which direction the plane is flying relative to the Earth&rsquo;s rotation. When the airborne clocks came home and were compared to ground clocks, they disagreed &mdash; by exactly the amount both effects predicted, to the measurement&rsquo;s precision. The results were published in <em>Science</em> in 1972. Time dilation stopped being a theoretical consequence that day and became a confirmed experimental fact on the record books.</p>
+  <p>In 1971, physicists <strong>Joseph Hafele and Richard Keating</strong> did the obvious thing: they put cesium atomic clocks on commercial airliners and flew them around the world, once eastward and once westward. The clocks flew at altitude (gravity effect: clocks higher up run faster) and at speed (motion effect: clocks moving fast run slower). The two effects partially cancel each other, and cancel differently depending on which direction the plane is flying relative to the Earth&rsquo;s rotation. When the airborne clocks came home and were compared to ground clocks, they disagreed &mdash; within the precision the experiment permitted. The westward leg matched the prediction cleanly; the eastward leg showed more scatter, though both effects were directionally confirmed. The results were published in <em>Science</em> in 1972. Time dilation was confirmed that day by the most direct method yet — flying actual clocks around the planet and reading what they said when they landed.</p>
 
   <h2>Working engineering, not philosophy</h2>
-  <p>The GPS network put the question past any doubt. Each GPS satellite orbits at high altitude and high speed. The altitude means its clocks run <em>faster</em> than ground clocks by about 45 microseconds per day (gravitational effect). The speed means they run <em>slower</em> by about 7 microseconds per day (velocity effect). The <strong>net result is that each satellite&rsquo;s clock gains roughly 38 microseconds per day</strong> relative to a clock on the ground. Thirty-eight microseconds. Light travels about 11 kilometers in that time. If the system did not correct for both effects, your position fix would drift by kilometers every day. GPS navigation works because the engineers built Einstein&rsquo;s corrections in from the start. Every time you get directions, the math that makes them accurate is the math that says time runs at different rates in different places.</p>
+  <p>The GPS network put the question past any doubt. Each GPS satellite orbits at high altitude and high speed. The altitude means its clocks run <em>faster</em> than ground clocks by about 45 microseconds per day (gravitational effect). The speed means they run <em>slower</em> by about 7 microseconds per day (velocity effect). The <strong>net result is that each satellite&rsquo;s clock gains roughly 38 microseconds per day</strong> relative to a clock on the ground. Thirty-eight microseconds. Light travels about 11.4 kilometers in that time. If the system did not correct for both effects, your position fix would drift by kilometers every day. GPS navigation works because the engineers built Einstein&rsquo;s corrections in from the start. Every time you get directions, the math that makes them accurate is the math that says time runs at different rates in different places.</p>
 
   <h2>One hour, seven years</h2>
   <p>The film <em>Interstellar</em> (2014) dramatizes the twin effect exactly. Miller&rsquo;s planet orbits so close to the spinning black hole Gargantua that one hour on its surface equals seven Earth years above. The crew descends, spends a few hours, and returns to find their colleague visibly aged decades. The reunion scene &mdash; a father standing younger than his dying daughter &mdash; is the Langevin thought experiment made flesh.</p>
-  <p>Kip Thorne, the Caltech physicist who served as the film&rsquo;s scientific advisor, worked out the exact conditions that make this kind of time dilation &ldquo;marginally possible.&rdquo; It requires Gargantua to be spinning at very close to the maximum rate the Kerr geometry allows, and the planet to orbit at an extreme proximity that would normally be forbidden by tidal forces. The scenario lives at the outer edge of what the equations permit, not comfortably inside it. Thorne&rsquo;s book <em>The Science of Interstellar</em> sorts every claim in the film into truth, educated guess, and speculation &mdash; honestly, by chapter.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 380" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A gravity-well schematic. Spacetime is drawn as a sheet that funnels down into a massive body at lower right. Far up the gentle slope, a clock ticks at the normal rate — one hour is one hour. Deep in the steep part of the well, near the mass, a second clock glows blue and ticks far slower: one hour passing there equals seven years passing far away.">
+<title>Gravitational time dilation — clocks run slower deeper in a gravity well</title>
+<desc>Spacetime drawn as a funneling sheet around a massive body. A clock far away (shallow, almost flat region) runs at the normal rate: 1 hour equals 1 hour. A clock deep in the well, close to the mass, runs slow — and is the most-charged element, marked with a blue glow: 1 hour there equals 7 years far away, the Interstellar Miller-planet scale.</desc>
+<defs>
+<filter id="td2-glow" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur stdDeviation="3.4" result="b"/>
+<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<radialGradient id="td2-mass" cx="50%" cy="42%" r="62%">
+<stop offset="0%" stop-color="#1a1208"/>
+<stop offset="68%" stop-color="#0d0a05"/>
+<stop offset="100%" stop-color="#08080a"/>
+</radialGradient>
+<style>
+.lab{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+.dim{fill:#8f8a73;}
+.txt{fill:#f3eede;}
+.gold{fill:#FFD60A;}
+.softgold{fill:#d9b400;}
+</style>
+</defs>
+
+<!-- ===== TITLE ===== -->
+<text class="lab gold" x="20" y="26" font-size="13" letter-spacing="2.5">DEEPER IN THE WELL, THE CLOCK RUNS SLOWER</text>
+<text class="lab dim" x="20" y="44" font-size="11" letter-spacing="0.5">gravitational time dilation &#183; Interstellar &#8212; Miller&#8217;s planet scale</text>
+
+<!-- ===== THE SPACETIME SHEET (gravity well) ===== decorative -->
+<g aria-hidden="true" fill="none" stroke="rgba(255,214,10,.18)" stroke-width="1">
+<!-- nested funnel rings: flat far (left/top), steep deep (right) -->
+<ellipse cx="500" cy="248" rx="208" ry="58"/>
+<ellipse cx="500" cy="248" rx="160" ry="46" stroke="rgba(255,214,10,.22)"/>
+<ellipse cx="500" cy="250" rx="116" ry="36" stroke="rgba(255,214,10,.26)"/>
+<ellipse cx="500" cy="254" rx="78" ry="27" stroke="rgba(255,214,10,.30)"/>
+<ellipse cx="500" cy="260" rx="46" ry="18" stroke="rgba(255,214,10,.34)"/>
+</g>
+<!-- meridian curves sweeping down into the well -->
+<g aria-hidden="true" fill="none" stroke="rgba(255,214,10,.14)" stroke-width="1">
+<path d="M292 248 Q396 196 500 268"/>
+<path d="M708 248 Q604 196 500 268"/>
+<path d="M392 207 Q446 188 500 263" stroke="rgba(255,214,10,.10)"/>
+<path d="M608 207 Q554 188 500 263" stroke="rgba(255,214,10,.10)"/>
+</g>
+
+<!-- the massive body at the bottom of the well -->
+<ellipse aria-hidden="true" cx="500" cy="266" rx="34" ry="22" fill="url(#td2-mass)" stroke="#d9b400" stroke-width="1.2"/>
+<text class="lab softgold" x="500" y="300" text-anchor="middle" font-size="10.5" letter-spacing="1">THE MASS &#183; GARGANTUA</text>
+
+<!-- ===== DEPTH GUIDE LINE (far -> deep) ===== -->
+<g aria-hidden="true">
+<line x1="118" y1="150" x2="468" y2="262" stroke="rgba(255,214,10,.30)" stroke-width="1" stroke-dasharray="2,4"/>
+<polygon points="468,262 459,257 460,264" fill="#d9b400"/>
+</g>
+
+<!-- ===================================================== -->
+<!-- FAR CLOCK — shallow part of the well, ticks FAST/normal -->
+<!-- ===================================================== -->
+<g aria-hidden="true">
+<circle cx="118" cy="150" r="34" fill="none" stroke="#FFD60A" stroke-width="2"/>
+<!-- 12 ticks -->
+<g stroke="#d9b400" stroke-width="1.4">
+<line x1="118" y1="120" x2="118" y2="127"/>
+<line x1="148" y1="150" x2="141" y2="150"/>
+<line x1="118" y1="180" x2="118" y2="173"/>
+<line x1="88" y1="150" x2="95" y2="150"/>
+</g>
+<!-- hands pointing to a brisk time -->
+<line x1="118" y1="150" x2="118" y2="129" stroke="#FFD60A" stroke-width="2" stroke-linecap="round"/>
+<line x1="118" y1="150" x2="135" y2="158" stroke="#FFD60A" stroke-width="2" stroke-linecap="round"/>
+<circle cx="118" cy="150" r="2.6" fill="#FFD60A"/>
+</g>
+<text class="lab txt" x="118" y="100" text-anchor="middle" font-size="12" letter-spacing="0.5">FAR FROM THE MASS</text>
+<text class="lab dim" x="118" y="207" text-anchor="middle" font-size="11">clock ticks at the</text>
+<text class="lab gold" x="118" y="222" text-anchor="middle" font-size="12.5" letter-spacing="1">normal rate</text>
+<text class="lab dim" x="118" y="244" text-anchor="middle" font-size="11">1 hour = 1 hour</text>
+
+<!-- ===================================================== -->
+<!-- DEEP CLOCK — bottom of the well, ticks SLOW (CHARGED, blue glow) -->
+<!-- ===================================================== -->
+<g aria-hidden="true" filter="url(#td2-glow)">
+<circle cx="500" cy="138" r="40" fill="none" stroke="#0E44FF" stroke-width="2.4"/>
+<g stroke="#0E44FF" stroke-width="1.6">
+<line x1="500" y1="103" x2="500" y2="111"/>
+<line x1="535" y1="138" x2="527" y2="138"/>
+<line x1="500" y1="173" x2="500" y2="165"/>
+<line x1="465" y1="138" x2="473" y2="138"/>
+</g>
+<!-- hands barely moved: nearly frozen -->
+<line x1="500" y1="138" x2="500" y2="106" stroke="#0E44FF" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="500" y1="138" x2="506" y2="120" stroke="#0E44FF" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="500" cy="138" r="3" fill="#0E44FF"/>
+</g>
+<text class="lab txt" x="500" y="84" text-anchor="middle" font-size="12" letter-spacing="0.5">DEEP IN THE WELL</text>
+<text class="lab dim" x="500" y="200" text-anchor="middle" font-size="11">the same clock crawls</text>
+<text class="lab gold" x="500" y="216" text-anchor="middle" font-size="13" letter-spacing="1">1 hour here</text>
+
+<!-- ===== THE CONTRAST BRIDGE ===== -->
+<g aria-hidden="true">
+<line x1="158" y1="150" x2="456" y2="138" stroke="rgba(255,214,10,.28)" stroke-width="1" stroke-dasharray="5,4"/>
+</g>
+<text class="lab softgold" x="305" y="128" text-anchor="middle" font-size="12.5" letter-spacing="1.5">=  7  YEARS  THERE</text>
+<text class="lab dim" x="305" y="146" text-anchor="middle" font-size="10.5">61,320&#215; slower &#183; one descent, a colleague aged decades</text>
+</svg>
+<figcaption>A gravity well, read as two clocks. Far up the gentle slope the clock keeps the normal rate — one hour is one hour. Drop the same clock deep beside the mass and it crawls: on Miller's planet, one hour by that clock is seven years for everyone far above. The deeper you sit in the curve of spacetime, the slower your own time runs.</figcaption>
+</figure>
+  <p>Kip Thorne, the Caltech physicist who served as the film&rsquo;s scientific advisor, worked out the exact conditions that make this kind of time dilation &ldquo;marginally possible.&rdquo; It requires Gargantua to be spinning at very close to the maximum rate the Kerr geometry allows, and the planet to orbit at an extreme proximity that would normally be forbidden by tidal forces. The scenario lives at the outer edge of what the equations permit, not comfortably inside it. Thorne&rsquo;s book <em>The Science of Interstellar</em> sorts every claim in the film into truth, educated guess, and speculation &mdash; honestly, claim by claim.</p>
 
   <blockquote>The two effects &mdash; special relativistic and gravitational &mdash; must be accounted for to a precision of a few parts in 10<sup>10</sup> in order for GPS to work.
     <span class="src">&mdash; the working requirement beneath GPS &middot; derived from the record, not quoted</span></blockquote>
 
   <div class="roots">
     <span class="rlab">Take us to the root &rarr;</span>
+    <a href="https://zenodo.org/records/7113360" target="_blank" rel="noopener noreferrer">Einstein &mdash; &ldquo;Zur Elektrodynamik bewegter K&ouml;rper,&rdquo; Annalen der Physik 322 (1905) &mdash; the founding paper<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://www.science.org/doi/10.1126/science.177.4044.166" target="_blank" rel="noopener noreferrer">Hafele &amp; Keating &mdash; <em>Science</em> 177, 1972 (the airplane experiment)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://wwnorton.com/books/The-Science-of-Interstellar/" target="_blank" rel="noopener noreferrer">Thorne &mdash; <em>The Science of Interstellar</em> (2014)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://link.springer.com/article/10.12942/lrr-2003-1" target="_blank" rel="noopener noreferrer">Ashby &mdash; &ldquo;Relativity in the Global Positioning System,&rdquo; Living Reviews in Relativity 6 (2003)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://en.wikipedia.org/wiki/Time_dilation" target="_blank" rel="noopener noreferrer">The encyclopedia overview &mdash; Wikipedia<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <p class="note">The Hafele-Keating paper is behind a journal paywall, but the experiment is described in detail in every standard physics text and across reliable open sources. Thorne&rsquo;s book is the single best guide to what the physics allows versus what the film dramatizes &mdash; worth owning.</p>
   </div>

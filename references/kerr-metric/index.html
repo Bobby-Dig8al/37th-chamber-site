@@ -22,105 +22,158 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Kerr Metric · The Roots">
 <meta name="twitter:description" content="Roy Kerr, 1963. Two pages that govern every spinning black hole in the universe.">
-<style>
-:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
-  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem env(safe-area-inset-bottom,0px);
-  overflow-x:hidden;position:relative;letter-spacing:.005em}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
-  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
-.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
-.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
-.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
-.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
-.meta-pill .num{color:var(--gold-soft);font-weight:600}
-.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
-  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
-h1.title{font-size:clamp(1.7rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;letter-spacing:.012em;color:var(--gold);
-  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
-.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
-hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
-h2{margin:2.2rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
-p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
-p strong{color:var(--gold);font-weight:600}
-p em{color:var(--gold-soft);font-style:italic}
-blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(255,214,10,.5);background:rgba(255,214,10,.02);
-  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62;font-style:italic}
-blockquote .src{display:block;margin-top:.5rem;font-style:normal;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
-  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
-.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
-.roots a:hover{border-bottom-style:solid}
-.roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
-.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
-  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
-.signoff strong{color:var(--gold-soft)}
-.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
-.signoff a:hover{border-bottom-style:solid}
-footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
-  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
-.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
-.foot-back:hover{text-decoration:underline}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
-  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
-:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;scroll-behavior:auto !important}
-}
-</style>
+<link rel="stylesheet" href="/assets/temple.css">
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Science</span> &middot; Roy Kerr &middot; 1963</span>
 </nav>
 
 <main class="wrap" id="main">
-  <div class="eyebrow">The Roots &middot; The 37th Chamber</div>
+  <div class="eyebrow">The Roots &middot; <span translate="no">The 37th Chamber</span></div>
   <h1 class="title">The Kerr Metric</h1>
   <p class="dek">Roy Kerr, 1963. Two pages in <em>Physical Review Letters</em> that govern every spinning black hole in the universe &mdash; found by the man who saw the flaw in the proof that it couldn&rsquo;t be done.</p>
 
   <hr class="rule">
 
-  <p>For forty-seven years, Einstein&rsquo;s equations had an exact solution for exactly one kind of star: a perfectly still one. Schwarzschild found that solution in 1916, in a trench, in wartime. But nothing in this universe sits still. Real stars spin &mdash; and when they die, they spin faster, the way a skater pulls her arms in. For half a century the spinning case stood open, and a folklore grew up around it: <em>too hard, maybe impossible.</em> There were arguments going around that no such clean solution could exist.</p>
+  <p>For forty-seven years, Einstein&rsquo;s equations had an exact solution for exactly one kind of star: a perfectly still one. Schwarzschild found that solution in 1915, in a trench, in wartime &mdash; published weeks before he died, in 1916. But nothing in this universe sits still. Real stars spin &mdash; and when they die, they spin faster, the way a skater pulls her arms in. For half a century the spinning case stood open, and a folklore grew up around it: <em>too hard, maybe impossible.</em> There were arguments going around that no such clean solution could exist.</p>
   <p>Roy Kerr &mdash; a mathematician from New Zealand, working at <strong>the University of Texas at Austin</strong> &mdash; read those arguments and found the flaw in them. Then he walked through the gap. The solution he published in 1963 runs about <strong>two pages</strong>. It describes, exactly, the spacetime around any spinning mass &mdash; which means it describes, exactly, every real black hole there is. Not approximately. <em>Exactly.</em> A universe of objects, each one obeying two pages found in Austin.</p>
 
   <h2>What the two pages say</h2>
-  <p>A still mass curves spacetime &mdash; that was Schwarzschild. A <em>spinning</em> mass does something stranger: it <strong>drags spacetime around with it</strong>, the way a spoon turning in honey pulls the honey into the turn. Close enough to a spinning black hole, in a region called the <em>ergosphere</em>, the drag becomes absolute: nothing &mdash; no rocket, no light beam &mdash; can hold still. Space itself is moving, and you move with it.</p>
-  <p>This isn&rsquo;t exotic decoration; it is the operating condition of the real sky. Every black hole astronomers have ever weighed spins, most of them furiously. The film this page serves &mdash; <em>Interstellar</em> &mdash; needed its Gargantua spinning at <strong>~99.8% of the limit</strong> the Kerr geometry allows, because only that extreme makes a planet like Miller&rsquo;s, one hour to seven years, even &ldquo;marginally possible.&rdquo; The drama runs on the metric.</p>
+  <p>A still mass curves spacetime &mdash; that was Schwarzschild. A <em>spinning</em> mass does something stranger: it <strong>drags spacetime around with it</strong>, the way a spoon turning in honey pulls the honey into the turn. Close enough to a spinning black hole, in a region called the <em>ergosphere</em>, the drag becomes absolute: nothing &mdash; no rocket, no light beam &mdash; can hold still. Space itself is moving, and you move with it.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 380" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section of a spinning Kerr black hole. A small black event horizon sits at the center, ringed by an oblate ergosphere boundary that bulges at the equator and pinches at the spin poles. Curved arrows around it show spacetime being dragged into the rotation; inside the ergosphere nothing can hold still.">
+  <title>The ergosphere and frame-dragging of a spinning black hole</title>
+  <desc>A schematic cross-section. At the center, a black circle marks the event horizon. Around it, a flattened oval — the ergosphere — bulges at the equator and pinches at the poles, the exact shape the Kerr geometry demands. Curved arrows swirl in the same direction the mass spins, showing spacetime itself being dragged around. A note marks that inside the ergosphere, nothing — no rocket, no light — can hold still.</desc>
+
+  <defs>
+    <filter id="kerr-drag-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="kerr-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#FFD60A"/>
+    </marker>
+    <marker id="kerr-arrow-blue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0E44FF"/>
+    </marker>
+  </defs>
+
+  <style>
+    .lbl{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+    .lbl-pri{fill:#f3eede;}
+    .lbl-dim{fill:#8f8a73;}
+    .lbl-cap{fill:#d9b400;letter-spacing:.14em;}
+  </style>
+
+  <!-- ===== central group, x=300 axis ===== -->
+  <g aria-hidden="true">
+
+    <!-- spin axis (poles) -->
+    <line x1="300" y1="42" x2="300" y2="338" stroke="#2a2a33" stroke-width="1.5" stroke-dasharray="3 6"/>
+
+    <!-- ERGOSPHERE — the charged element: oblate, bulging at equator, pinched at poles, drawn in blue glow -->
+    <ellipse cx="300" cy="190" rx="168" ry="118"
+             fill="rgba(14,68,255,0.06)"
+             stroke="#0E44FF" stroke-width="2.5"
+             filter="url(#kerr-drag-glow)"/>
+
+    <!-- static-limit hint: ergosphere touches the horizon at the poles -->
+    <!-- event horizon (the still center) -->
+    <circle cx="300" cy="190" r="62" fill="#08080a" stroke="#FFD60A" stroke-width="2.5"/>
+    <circle cx="300" cy="190" r="62" fill="none" stroke="rgba(255,214,10,0.18)" stroke-width="7"/>
+
+    <!-- inner singularity ring (Kerr's ring, faint) -->
+    <ellipse cx="300" cy="190" rx="30" ry="9" fill="none" stroke="#d9b400" stroke-width="1.4" stroke-dasharray="2 4" opacity="0.8"/>
+
+    <!-- spin indicator at the core -->
+    <path d="M 285 168 A 24 24 0 1 1 282 196" fill="none" stroke="#FFD60A" stroke-width="2" marker-end="url(#kerr-arrow)"/>
+
+    <!-- ===== FRAME-DRAGGING swirl arrows (spacetime dragged around) ===== -->
+    <!-- outer drag streamline, glowing blue at its head: the drag made visible -->
+    <path d="M 472 150 A 178 128 0 0 1 414 304" fill="none" stroke="#0E44FF" stroke-width="2.2"
+          marker-end="url(#kerr-arrow-blue)" filter="url(#kerr-drag-glow)" opacity="0.95"/>
+
+    <!-- gold drag streamlines, same rotational sense -->
+    <path d="M 138 232 A 168 118 0 0 1 196 78"  fill="none" stroke="#FFD60A" stroke-width="2" marker-end="url(#kerr-arrow)"/>
+    <path d="M 404 300 A 150 105 0 0 1 470 156" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#kerr-arrow)" opacity="0.85"/>
+    <path d="M 196 80  A 150 105 0 0 1 130 224" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#kerr-arrow)" opacity="0.6"/>
+
+  </g>
+
+  <!-- ===== LABELS ===== -->
+  <!-- event horizon -->
+  <g class="lbl" aria-hidden="true">
+    <line x1="300" y1="190" x2="300" y2="190" stroke="none"/>
+    <line x1="338" y1="158" x2="392" y2="120" stroke="#2a2a33" stroke-width="1.2"/>
+    <text x="396" y="116" font-size="13" class="lbl-pri">event horizon</text>
+    <text x="396" y="133" font-size="11" class="lbl-dim">the still center &mdash; nothing escapes</text>
+  </g>
+
+  <!-- ergosphere -->
+  <g class="lbl" aria-hidden="true">
+    <line x1="180" y1="252" x2="120" y2="296" stroke="#2a2a33" stroke-width="1.2"/>
+    <text x="116" y="312" font-size="13" text-anchor="end" class="lbl-pri">the ergosphere</text>
+    <text x="116" y="329" font-size="11" text-anchor="end" class="lbl-dim">space itself is moving</text>
+    <text x="116" y="345" font-size="11" text-anchor="end" class="lbl-dim">you move with it</text>
+  </g>
+
+  <!-- frame dragging caption -->
+  <g class="lbl" aria-hidden="true">
+    <text x="486" y="206" font-size="11" class="lbl-cap">FRAME-DRAGGING</text>
+    <text x="486" y="224" font-size="11" class="lbl-dim">spacetime dragged</text>
+    <text x="486" y="239" font-size="11" class="lbl-dim">into the spin</text>
+  </g>
+
+  <!-- pole labels -->
+  <g class="lbl lbl-dim" font-size="10.5" text-anchor="middle" aria-hidden="true">
+    <text x="300" y="36">spin axis</text>
+  </g>
+
+  <!-- footer note: the honest claim -->
+  <text x="300" y="366" font-size="11" text-anchor="middle" class="lbl lbl-dim" aria-hidden="true">Inside the ergosphere, the drag is absolute &mdash; no rocket, no light beam can hold still.</text>
+</svg>
+<figcaption>A spinning mass doesn't just curve spacetime — it drags it around. Inside the flattened ergosphere (bulging at the equator, pinched at the poles, exactly as the Kerr geometry demands) the drag becomes absolute: nothing, not even light, can hold still.</figcaption>
+</figure>
+</p>
+  <p>This isn&rsquo;t exotic decoration; it is the operating condition of the real sky. Every black hole astronomers have ever weighed spins, most of them furiously. The film this page serves &mdash; <em>Interstellar</em> &mdash; needed its Gargantua spinning at <strong>very nearly the maximum rate</strong> the Kerr geometry allows, because only that extreme makes a planet like Miller&rsquo;s, one hour to seven years, even &ldquo;marginally possible.&rdquo; The drama runs on the metric.</p>
 
   <h2>Sixty years to &ldquo;stable&rdquo;</h2>
   <p>Here is the part that should give you a healthy respect for how slowly certainty is earned. Kerr wrote the solution down in 1963. Whether a Kerr black hole is <em>stable</em> &mdash; whether, if you poke one, it settles back instead of unraveling &mdash; was only <strong>proven in the 2020s</strong>, six decades on, in mathematics running to thousands of pages. The universe ran on an unproven assumption the whole time. The universe, of course, didn&rsquo;t care. The mathematicians did, and kept working until the proof was real. That patience is a creed this chamber recognizes.</p>
 
   <h2>From two pages to a photograph</h2>
-  <p>When the <em>Interstellar</em> team built their renderer, they didn&rsquo;t paint a black hole &mdash; they pushed bundles of light rays through Kerr&rsquo;s actual geometry and filmed what came out. The result set a world record for scientific accuracy and produced real published research. Five years later, in 2019, the Event Horizon Telescope photographed M87* &mdash; an actual black hole, brighter on one side from its spin, just as the geometry demands. The two pages became a movie, then a measurement, then a photograph. <em>That</em> is what an exact solution buys you.</p>
+  <p>When the <em>Interstellar</em> team built their renderer, they didn&rsquo;t paint a black hole &mdash; they pushed bundles of light rays through Kerr&rsquo;s actual geometry and filmed what came out. The result was, as far as the published record shows, the first Hollywood depiction of a black hole rendered directly from the equations of general relativity — and it produced real published research. Five years later, in 2019, the Event Horizon Telescope photographed M87* &mdash; an actual black hole, brighter on one side from its spin, just as the geometry demands. The two pages became a movie, then a measurement, then a photograph. <em>That</em> is what an exact solution buys you.</p>
 
   <blockquote>In my entire scientific life, extending over forty-five years, the most shattering experience has been the realization that an exact solution of Einstein&rsquo;s equations of general relativity, discovered by the New Zealand mathematician, Roy Kerr, provides the absolutely exact representation of untold numbers of massive black holes that populate the universe&hellip; This shuddering before the beautiful, this incredible fact that a discovery motivated by a search after the beautiful in mathematics should find its exact replica in Nature, persuades me to say that beauty is that to which the human mind responds at its deepest and most profound.
-    <span class="src">&mdash; S. Chandrasekhar &middot; Truth and Beauty, 1987</span></blockquote>
+    <span class="src">&mdash; S. Chandrasekhar &middot; <a href="https://search.worldcat.org/title/15695801" target="_blank" rel="noopener noreferrer">Truth and Beauty, 1987<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a></span></blockquote>
 
   <div class="roots">
     <span class="rlab">Take us to the root &rarr;</span>
     <a href="https://arxiv.org/abs/0706.1109" target="_blank" rel="noopener noreferrer">Kerr&rsquo;s own telling of the discovery (2007, free)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.11.237" target="_blank" rel="noopener noreferrer">The 1963 paper itself &mdash; Phys. Rev. Lett. 11, 237<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://www.quantamagazine.org/black-holes-finally-proven-mathematically-stable-20220804/" target="_blank" rel="noopener noreferrer">The stability proof, told well &mdash; Quanta, 2022<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://iopscience.iop.org/article/10.1088/0264-9381/32/6/065001" target="_blank" rel="noopener noreferrer">The paper from the render &mdash; James, von Tunzelmann, Franklin &amp; Thorne, Classical and Quantum Gravity 32 (2015)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://en.wikipedia.org/wiki/Kerr_metric" target="_blank" rel="noopener noreferrer">The encyclopedia overview &mdash; Wikipedia<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
-    <p class="note">We point; we don&rsquo;t reproduce. The 1963 pages sit behind a journal door, but Kerr&rsquo;s first-person account of finding them is free on arXiv &mdash; start there. It reads like a detective story because it is one.</p>
+    <a href="https://doi.org/10.1002/ntls.20220031" target="_blank" rel="noopener noreferrer">From the metric to the photograph &mdash; Heino Falcke, &ldquo;The road toward imaging a black hole&rdquo; (<em>Natural Sciences</em>, 2022; open) &mdash; an EHT co-founder on how the M87* image was actually made<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://doi.org/10.1002/andp.201600105" target="_blank" rel="noopener noreferrer">Why the spinning case stood open so long &mdash; Blum, Lalli &amp; Renn, &ldquo;The renaissance of General Relativity&rdquo; (<em>Annalen der Physik</em>, 2016; open) &mdash; the decades GR sat dormant before it woke, told in Einstein&rsquo;s own journal<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <p class="note">We point; we don&rsquo;t reproduce. The 1963 pages sit behind a journal door, but Kerr&rsquo;s first-person account of finding them is free on arXiv &mdash; start there. It reads like a detective story because it is one. The two newest roots happen to be open all the way through.</p>
   </div>
 
   <div class="signoff">

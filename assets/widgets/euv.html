@@ -1,0 +1,433 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The EUV Light Source — Interactive Firing-Cycle Explainer - widget preview</title>
+<style>body{margin:0;background:#08080a;color:#f3eede;font-family:'Bahnschrift',system-ui,sans-serif;padding:20px;display:flex;justify-content:center}</style></head><body>
+<div class="euv" role="group" aria-label="The EUV light source: an interactive firing-cycle explainer">
+  <style>
+    .euv{
+      --bg:#08080a; --gold:#FFD60A; --gold-soft:#d9b400;
+      --blue:#0E44FF; --blue-2:#4d82ff; --blue-3:#a0c0ff;
+      --text:#f3eede; --dim:#8f8a73;
+      --line:#1c1c22; --panel:#0d0d11;
+      color:var(--text);
+      font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;
+      background:var(--bg);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:20px 20px 16px;
+      max-width:860px; margin:0 auto;
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+    }
+    .euv *{box-sizing:border-box;}
+    .euv .eyebrow{
+      font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--gold-soft); margin:0 0 2px;
+    }
+    .euv h2{
+      font-size:22px; font-weight:600; margin:0 0 4px; color:var(--text);
+      letter-spacing:.01em;
+    }
+    .euv .sub{font-size:13px; color:var(--dim); margin:0 0 16px; max-width:62ch;}
+    .euv .sub b{color:var(--blue-3); font-weight:600;}
+
+    .euv .stage-wrap{position:relative;}
+    .euv svg.stage{display:block; width:100%; height:auto; background:#060608;
+      border:1px solid var(--line); border-radius:8px;}
+    .euv .rate{
+      position:absolute; top:8px; right:12px;
+      font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--dim); pointer-events:none;
+    }
+    .euv .rate b{color:var(--blue-2); font-weight:600;}
+
+    .euv .readout{
+      display:grid; grid-template-columns:auto 1fr; gap:0 14px;
+      align-items:start; margin:14px 0 4px; min-height:58px;
+    }
+    .euv .pnum{
+      font-size:30px; font-weight:600; line-height:1;
+      color:var(--gold); width:46px; text-align:right;
+      font-variant-numeric:tabular-nums;
+    }
+    .euv .pnum small{display:block; font-size:9px; letter-spacing:.18em;
+      color:var(--dim); margin-top:4px; text-transform:uppercase;}
+    .euv .ptitle{font-size:16px; font-weight:600; color:var(--blue-3); margin:0 0 2px;}
+    .euv .pbody{font-size:13px; color:var(--text); margin:0;}
+    .euv .pbody .fig{color:var(--gold-soft); font-weight:600; white-space:nowrap;}
+
+    .euv .timeline{margin:14px 0 6px;}
+    .euv .track{
+      position:relative; height:34px; margin:0 2px;
+      cursor:pointer; touch-action:none;
+    }
+    .euv .track .bar{
+      position:absolute; top:14px; left:0; right:0; height:6px;
+      background:#15151b; border-radius:3px; overflow:hidden;
+    }
+    .euv .track .fill{
+      position:absolute; top:0; left:0; height:100%;
+      background:linear-gradient(90deg,var(--blue),var(--blue-2));
+      width:0%;
+    }
+    .euv .seg{
+      position:absolute; top:6px; height:22px; width:1px;
+      background:var(--line);
+    }
+    .euv .seg.active{background:var(--gold);}
+    .euv .seglabel{
+      position:absolute; top:-15px; transform:translateX(-50%);
+      font-size:9px; letter-spacing:.06em; color:var(--dim);
+      white-space:nowrap; text-transform:uppercase; pointer-events:none;
+    }
+    .euv .seglabel.on{color:var(--gold-soft);}
+    .euv .knob{
+      position:absolute; top:50%; width:16px; height:16px; margin:-8px 0 0 -8px;
+      border-radius:50%; background:var(--blue-2);
+      border:2px solid var(--bg);
+      box-shadow:0 0 0 1px var(--blue),0 0 10px rgba(77,130,255,.55);
+      left:0;
+    }
+    .euv .track:focus{outline:none;}
+    .euv .track:focus-visible .knob{box-shadow:0 0 0 2px var(--gold),0 0 12px rgba(255,214,10,.6);}
+
+    .euv .controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px;}
+    .euv button{
+      font-family:inherit; font-size:12px; letter-spacing:.04em;
+      color:var(--text); background:var(--panel);
+      border:1px solid var(--line); border-radius:6px;
+      padding:7px 12px; cursor:pointer; transition:border-color .12s,color .12s;
+    }
+    .euv button:hover{border-color:var(--gold-soft); color:var(--gold);}
+    .euv button:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+    .euv button.primary{border-color:var(--blue); color:var(--blue-3);}
+    .euv button.primary:hover{border-color:var(--blue-2); color:#fff;}
+    .euv button[aria-pressed="true"]{border-color:var(--blue-2); color:var(--blue-3); background:#0b1430;}
+    .euv .spacer{flex:1 1 auto;}
+    .euv .hint{font-size:11px; color:var(--dim);}
+    .euv .hint kbd{
+      font-family:inherit; background:#13131a; border:1px solid var(--line);
+      border-radius:3px; padding:0 5px; color:var(--gold-soft); font-size:10px;
+    }
+
+    .euv .key{
+      display:flex; flex-wrap:wrap; gap:14px; margin:14px 0 0;
+      padding-top:12px; border-top:1px solid var(--line);
+      font-size:11px; color:var(--dim);
+    }
+    .euv .key span{display:inline-flex; align-items:center; gap:6px;}
+    .euv .dot{width:10px; height:10px; border-radius:2px; display:inline-block;}
+    .euv .footnote{font-size:11px; color:var(--dim); margin:10px 0 0; max-width:64ch;}
+
+    @media (max-width:560px){
+      .euv .pnum{font-size:24px; width:38px;}
+      .euv h2{font-size:19px;}
+      .euv .seglabel{display:none;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .euv .pulse-anim{animation:none !important;}
+    }
+    .euv .plasma-glow{transform-origin:center; transform-box:fill-box;}
+  </style>
+
+  <p class="eyebrow">37th Chamber — How the light is made</p>
+  <h2>The EUV Light Source</h2>
+  <p class="sub">Every leading-edge chip is printed with <b>13.5 nm</b> extreme-ultraviolet light.
+  There is no lamp that makes it — you have to <b>vaporize a falling drop of tin into a star</b> and
+  catch what it screams. Scrub one firing cycle below. In a real machine this repeats
+  <b>~50,000 times a second</b>.</p>
+
+  <div class="stage-wrap">
+    <svg class="stage" viewBox="0 0 820 300" role="img"
+         aria-label="Cross-section of one EUV firing cycle: a tin droplet falls, a pre-pulse flattens it, a CO2 main pulse turns it to plasma emitting EUV, and an ellipsoidal collector mirror focuses it to an intermediate focus.">
+      <defs>
+        <radialGradient id="euvPlasma" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="22%" stop-color="#a0c0ff"/>
+          <stop offset="55%" stop-color="#4d82ff"/>
+          <stop offset="100%" stop-color="#0E44FF" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="euvBeam" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#a0c0ff" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="#0E44FF" stop-opacity="0"/>
+        </linearGradient>
+        <marker id="euvArrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#d9b400"/>
+        </marker>
+      </defs>
+
+      <text x="118" y="28" fill="#d9b400" font-size="11" letter-spacing="1.5">DROPLET GENERATOR</text>
+      <line x1="118" y1="36" x2="118" y2="60" stroke="#d9b400" stroke-width="1" opacity=".5"/>
+      <rect x="104" y="44" width="28" height="20" rx="2" fill="none" stroke="#d9b400" stroke-width="1.4"/>
+      <line x1="118" y1="64" x2="118" y2="230" stroke="#1c1c22" stroke-width="1" stroke-dasharray="2 5"/>
+
+      <path id="euvCollector" d="M 250 30 A 220 150 0 0 0 250 270"
+            fill="none" stroke="#FFD60A" stroke-width="2.4"/>
+      <path d="M 250 30 A 220 150 0 0 0 250 270" fill="none"
+            stroke="#FFD60A" stroke-width="9" opacity=".06"/>
+      <text x="262" y="44" fill="#d9b400" font-size="11" letter-spacing="1.2">COLLECTOR MIRROR</text>
+      <text x="262" y="58" fill="#8f8a73" font-size="9">Mo/Si multilayer · vacuum</text>
+
+      <text x="660" y="138" fill="#d9b400" font-size="11" letter-spacing="1.2" text-anchor="middle">INTERMEDIATE</text>
+      <text x="660" y="151" fill="#d9b400" font-size="11" letter-spacing="1.2" text-anchor="middle">FOCUS</text>
+      <text x="660" y="167" fill="#8f8a73" font-size="9" text-anchor="middle">handoff to the scanner</text>
+      <circle id="euvIF" cx="660" cy="120" r="3" fill="#8f8a73"/>
+
+      <text x="690" y="248" fill="#d9b400" font-size="10" letter-spacing="1.1" text-anchor="end">CO₂ DRIVE LASER →</text>
+
+      <line id="euvPulse" x1="700" y1="150" x2="430" y2="150"
+            stroke="#4d82ff" stroke-width="3" opacity="0"
+            marker-end="url(#euvArrow)"/>
+      <ellipse id="euvDrop" cx="118" cy="96" rx="6" ry="6" fill="#d9b400"/>
+      <circle id="euvPlasmaCore" class="plasma-glow" cx="118" cy="150" r="0" fill="url(#euvPlasma)"/>
+      <g id="euvRays" opacity="0"></g>
+      <path id="euvOut" d="M 250 150 L 660 120" stroke="url(#euvBeam)" stroke-width="0" opacity="0" fill="none"/>
+
+      <circle cx="118" cy="150" r="2" fill="#1c1c22"/>
+      <text x="118" y="288" fill="#8f8a73" font-size="9" text-anchor="middle">primary focus (plasma)</text>
+    </svg>
+    <div class="rate" aria-hidden="true">REAL RATE&nbsp; <b id="euvRate">~50,000 ×/sec</b></div>
+  </div>
+
+  <div class="readout" aria-live="polite">
+    <div class="pnum"><span id="euvPN">1</span><small>of 6</small></div>
+    <div>
+      <p class="ptitle" id="euvPT">The droplet falls</p>
+      <p class="pbody" id="euvPB">A generator pushes molten tin through a nozzle, breaking the stream into
+      identical droplets about <span class="fig">25–30 µm</span> wide — a third the width of a hair —
+      falling at roughly <span class="fig">70 m/s</span>.</p>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="track" id="euvTrack" tabindex="0" role="slider"
+         aria-label="Firing-cycle position"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Phase 1 of 6: The droplet falls">
+      <div class="seglabel" data-s="0">Fall</div>
+      <div class="seglabel" data-s="1">Pre-pulse</div>
+      <div class="seglabel" data-s="2">Flatten</div>
+      <div class="seglabel" data-s="3">Main pulse</div>
+      <div class="seglabel" data-s="4">EUV burst</div>
+      <div class="seglabel" data-s="5">Collect</div>
+      <div class="bar"><div class="fill" id="euvFill"></div></div>
+      <div class="seg" data-s="0"></div><div class="seg" data-s="1"></div>
+      <div class="seg" data-s="2"></div><div class="seg" data-s="3"></div>
+      <div class="seg" data-s="4"></div><div class="seg" data-s="5"></div>
+      <div class="knob" id="euvKnob"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="euvPlay" aria-label="Play or pause the firing cycle">▶ Play cycle</button>
+    <button id="euvPrev" aria-label="Previous phase">‹ Step</button>
+    <button id="euvNext" aria-label="Next phase">Step ›</button>
+    <button id="euvSlow" aria-pressed="false" aria-label="Toggle slow motion">Slow-mo</button>
+    <div class="spacer"></div>
+    <span class="hint"><kbd>←</kbd> <kbd>→</kbd> scrub · <kbd>Space</kbd> play</span>
+  </div>
+
+  <div class="key" aria-hidden="true">
+    <span><i class="dot" style="background:#FFD60A"></i> Structure &amp; optics (gold)</span>
+    <span><i class="dot" style="background:#4d82ff"></i> Energy: laser &amp; EUV light (blue)</span>
+    <span><i class="dot" style="background:#a0c0ff"></i> Plasma (~400,000 K)</span>
+  </div>
+
+  <p class="footnote" id="euvFoot">Two lasers, not one: a weak <b style="color:#a0c0ff">pre-pulse</b>
+  flattens the sphere into a thin pancake so the powerful <b style="color:#a0c0ff">CO₂ main pulse</b> couples
+  into it efficiently. EUV is absorbed by air and glass alike — so from this collector onward, the entire
+  path to the wafer is <b style="color:#d9b400">mirrors in a vacuum</b>.</p>
+
+  <noscript>
+    <p class="footnote" style="color:#f3eede; border-top:1px solid #1c1c22; padding-top:10px;">
+    <b>The cycle, in six steps (no script needed):</b><br>
+    <b style="color:#FFD60A">1. Fall</b> — molten tin breaks into ~25–30 µm droplets, falling ~70 m/s.
+    <b style="color:#FFD60A">2. Pre-pulse</b> — a low-energy laser hits the falling droplet.
+    <b style="color:#FFD60A">3. Flatten</b> — the droplet expands into a thin pancake (~30 µm → &gt;100 µm) for better coupling.
+    <b style="color:#FFD60A">4. Main pulse</b> — a high-power CO₂ laser (10.6 µm IR) slams the pancake.
+    <b style="color:#FFD60A">5. EUV burst</b> — the tin flashes to ~400,000 K plasma (Sn⁸⁺–Sn¹⁴⁺ ions, Sn¹¹⁺–Sn¹⁴⁺ strongest) emitting 13.5 nm EUV.
+    <b style="color:#FFD60A">6. Collect</b> — an ellipsoidal Mo/Si mirror, primary focus on the plasma,
+    focuses the light to the intermediate focus and on to the scanner. Repeats ~50,000×/sec.</p>
+  </noscript>
+
+  <script>(function(){
+    var root=document.currentScript.closest('.euv'); if(!root) return;
+    var $=function(s){return root.querySelector(s);};
+    var reduce=false;
+    try{reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+
+    var PHASES=[
+      {t:"The droplet falls",
+       b:'A generator pushes molten tin through a nozzle, breaking the stream into identical droplets about <span class="fig">25–30 µm</span> wide — a third the width of a hair — falling at roughly <span class="fig">70 m/s</span>.'},
+      {t:"The pre-pulse arrives",
+       b:'A first, low-energy laser pulse meets the droplet mid-flight. On its own it makes almost no EUV — its only job is to <span class="fig">re-shape the target</span> for the pulse that follows.'},
+      {t:"The droplet flattens",
+       b:'The pre-pulse blows the sphere out into a thin <span class="fig">pancake</span> (about <span class="fig">30 µm → &gt;100 µm</span> across). A flat sheet absorbs the main pulse far better than a tiny ball.'},
+      {t:"The main pulse hits",
+       b:'A high-power <span class="fig">CO₂ laser</span> (10.6 µm infrared) slams the pancake with a pulse lasting tens of nanoseconds. This is the shot that does the work.'},
+      {t:"Flash to plasma — EUV burst",
+       b:'The tin is torn to a <span class="fig">~400,000 K</span> plasma of Sn⁸⁺–Sn¹⁴⁺ ions (Sn¹¹⁺–Sn¹⁴⁺ strongest). As they recombine they radiate, with a sharp peak right at <span class="fig">13.5 nm</span> — the EUV you came for.'},
+      {t:"The collector catches it",
+       b:'An ellipsoidal <span class="fig">Mo/Si multilayer mirror</span> sits with its primary focus on the plasma. It gathers the EUV and refocuses it to the <span class="fig">intermediate focus</span> — the doorway into the scanner.'}
+    ];
+    var RATE_N=6, segW=1/RATE_N;
+
+    var els={
+      track:$('#euvTrack'), knob:$('#euvKnob'), fill:$('#euvFill'),
+      pn:$('#euvPN'), pt:$('#euvPT'), pb:$('#euvPB'),
+      play:$('#euvPlay'),
+      drop:$('#euvDrop'), pulse:$('#euvPulse'), core:$('#euvPlasmaCore'),
+      rays:$('#euvRays'), out:$('#euvOut'),
+      segLabels:Array.prototype.slice.call(root.querySelectorAll('.seglabel')),
+      segs:Array.prototype.slice.call(root.querySelectorAll('.seg'))
+    };
+
+    els.segs.forEach(function(s,i){ s.style.left=(i*segW*100)+'%'; });
+    els.segLabels.forEach(function(l,i){ l.style.left=((i+0.5)*segW*100)+'%'; });
+
+    (function(){
+      var raysHTML='';
+      var pts=[[250,42],[238,86],[232,150],[238,214],[250,258]];
+      pts.forEach(function(pt){
+        raysHTML+='<line x1="118" y1="150" x2="'+pt[0]+'" y2="'+pt[1]+'" stroke="#4d82ff" stroke-width="1.4" opacity=".75"/>';
+        raysHTML+='<line x1="'+pt[0]+'" y1="'+pt[1]+'" x2="660" y2="120" stroke="#a0c0ff" stroke-width="1.2" opacity=".55"/>';
+      });
+      els.rays.innerHTML=raysHTML;
+    })();
+
+    var p=0, playing=false, slow=false, raf=null, last=0;
+
+    function phaseIndex(prog){ return Math.min(RATE_N-1, Math.floor(prog*RATE_N + 1e-9)); }
+    function phaseLocal(prog){ var i=phaseIndex(prog); return (prog - i*segW)/segW; }
+    function stripTags(h){var d=document.createElement('div'); d.innerHTML=h; return d.textContent;}
+    function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+
+    function render(){
+      var i=phaseIndex(p), local=phaseLocal(p);
+
+      els.pn.textContent=(i+1);
+      els.pt.innerHTML=PHASES[i].t;
+      els.pb.innerHTML=PHASES[i].b;
+
+      els.fill.style.width=(p*100)+'%';
+      els.knob.style.left=(p*100)+'%';
+      els.segLabels.forEach(function(l,k){ l.classList.toggle('on',k===i); });
+      els.segs.forEach(function(s,k){ s.classList.toggle('active',k===i); });
+      els.track.setAttribute('aria-valuenow', Math.round(p*100));
+      els.track.setAttribute('aria-valuetext','Phase '+(i+1)+' of 6: '+stripTags(PHASES[i].t));
+
+      var dropProg = clamp(p / (segW*2.4), 0, 1);
+      var dy = 96 + dropProg*54;
+      els.drop.setAttribute('cy', dy.toFixed(1));
+
+      var flat = i>=2 ? clamp((i===2?local:1),0,1) : 0;
+      var rx = 6 + flat*9;
+      var ry = 6 - flat*4.2;
+      els.drop.setAttribute('rx', rx.toFixed(1));
+      els.drop.setAttribute('ry', Math.max(1.4,ry).toFixed(1));
+      els.drop.setAttribute('fill', i>=1 ? '#a0c0ff' : '#d9b400');
+      els.drop.style.opacity = i>=4 ? 0 : 1;
+
+      var pulseOn = (i===1)||(i===3);
+      if(pulseOn){
+        var travel = local;
+        els.pulse.setAttribute('x1', Math.max(140, 700 - travel*560).toFixed(0));
+        els.pulse.setAttribute('x2', (160).toFixed(0));
+        els.pulse.setAttribute('y1', dy.toFixed(1));
+        els.pulse.setAttribute('y2', dy.toFixed(1));
+        els.pulse.setAttribute('stroke-width', i===3 ? 4 : 2.2);
+        els.pulse.setAttribute('stroke', i===3 ? '#0E44FF' : '#4d82ff');
+        els.pulse.setAttribute('opacity', 0.5 + 0.5*Math.sin(Math.min(1,travel)*Math.PI));
+      } else {
+        els.pulse.setAttribute('opacity', 0);
+      }
+
+      var plasmaR=0, plasmaOp=1;
+      if(i===4){ plasmaR = 8 + Math.sin(local*Math.PI)*46; }
+      else if(i===5){ plasmaR = 30*(1-local)+6; plasmaOp=0.9*(1-local)+0.1; }
+      els.core.setAttribute('r', plasmaR.toFixed(1));
+      els.core.setAttribute('opacity', (i>=4?plasmaOp:0).toFixed(2));
+
+      var rayOp = i===4 ? local*0.9 : (i===5 ? 0.9 : 0);
+      els.rays.setAttribute('opacity', rayOp.toFixed(2));
+      els.out.setAttribute('opacity', (i===5 ? (0.4+0.6*local) : (i===4? local*0.4:0)).toFixed(2));
+      els.out.setAttribute('stroke-width', i>=4 ? (3+ (i===5?2*local:0)) : 0);
+
+      var ifEl=root.querySelector('#euvIF');
+      if(ifEl){ ifEl.setAttribute('fill', i===5 && local>0.4 ? '#a0c0ff':'#8f8a73');
+        ifEl.setAttribute('r', i===5 && local>0.4 ? 4.5 : 3); }
+    }
+
+    function tick(ts){
+      if(!playing) return;
+      if(!last) last=ts;
+      var dt=(ts-last)/1000; last=ts;
+      var dur = slow ? 14 : 6;
+      p += dt/dur;
+      if(p>=1){ p=1; render(); stop(); return; }
+      render();
+      raf=requestAnimationFrame(tick);
+    }
+    function start(){
+      if(p>=1) p=0;
+      playing=true; last=0;
+      els.play.textContent='❚❚ Pause';
+      els.play.setAttribute('aria-pressed','true');
+      if(reduce){
+        playing=false; els.play.textContent='▶ Play cycle';
+        stepTo(phaseIndex(p>=1?0:p)+1); return;
+      }
+      raf=requestAnimationFrame(tick);
+    }
+    function stop(){
+      playing=false;
+      if(raf) cancelAnimationFrame(raf);
+      els.play.textContent='▶ Play cycle';
+      els.play.setAttribute('aria-pressed','false');
+    }
+    function toggle(){ playing?stop():start(); }
+
+    function stepTo(i){
+      stop();
+      i=((i%RATE_N)+RATE_N)%RATE_N;
+      p = (i+0.55)*segW;
+      render();
+    }
+
+    function setFromClientX(cx){
+      var r=els.track.getBoundingClientRect();
+      p=clamp((cx-r.left)/r.width,0,1);
+      render();
+    }
+    var dragging=false;
+    els.track.addEventListener('pointerdown',function(e){
+      stop(); dragging=true;
+      try{els.track.setPointerCapture(e.pointerId);}catch(_){}
+      setFromClientX(e.clientX); e.preventDefault();
+    });
+    els.track.addEventListener('pointermove',function(e){ if(dragging) setFromClientX(e.clientX); });
+    els.track.addEventListener('pointerup',function(e){ dragging=false; try{els.track.releasePointerCapture(e.pointerId);}catch(_){} });
+    els.track.addEventListener('pointercancel',function(){ dragging=false; });
+
+    els.track.addEventListener('keydown',function(e){
+      var k=e.key, step=0.02;
+      if(k==='ArrowRight'||k==='ArrowUp'){ stop(); p=clamp(p+step,0,1); render(); e.preventDefault(); }
+      else if(k==='ArrowLeft'||k==='ArrowDown'){ stop(); p=clamp(p-step,0,1); render(); e.preventDefault(); }
+      else if(k==='Home'){ stop(); p=0; render(); e.preventDefault(); }
+      else if(k==='End'){ stop(); p=1; render(); e.preventDefault(); }
+      else if(k==='PageUp'){ stepTo(phaseIndex(p)+1); e.preventDefault(); }
+      else if(k==='PageDown'){ stepTo(phaseIndex(p)-1); e.preventDefault(); }
+      else if(k===' '||k==='Enter'){ toggle(); e.preventDefault(); }
+    });
+
+    els.play.addEventListener('click',toggle);
+    $('#euvNext').addEventListener('click',function(){ stepTo(phaseIndex(p)+1); });
+    $('#euvPrev').addEventListener('click',function(){ stepTo(phaseIndex(p)-1); });
+    $('#euvSlow').addEventListener('click',function(){
+      slow=!slow; this.setAttribute('aria-pressed',String(slow));
+      this.textContent = slow ? 'Slow-mo ✓' : 'Slow-mo';
+      $('#euvRate').textContent = slow ? 'shown ~700,000× slow' : '~50,000 ×/sec';
+    });
+
+    render();
+  })();</script>
+</div>
+</body></html>

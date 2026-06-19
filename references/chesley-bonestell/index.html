@@ -22,85 +22,36 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Chesley Bonestell · The Roots">
 <meta name="twitter:description" content="He painted the cosmos before anyone could photograph it — and a generation of scientists grew up on those images, then went to look for themselves.">
-<style>
-:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
-  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem env(safe-area-inset-bottom,0px);
-  overflow-x:hidden;position:relative;letter-spacing:.005em}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
-  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
-.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
-.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
-.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
-.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
-.meta-pill .num{color:var(--gold-soft);font-weight:600}
-.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
-  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
-h1.title{font-size:clamp(1.7rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;letter-spacing:.012em;color:var(--gold);
-  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
-.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
-hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
-h2{margin:2.2rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
-p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
-p strong{color:var(--gold);font-weight:600}
-p em{color:var(--gold-soft);font-style:italic}
-blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(255,214,10,.5);background:rgba(255,214,10,.02);
-  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62;font-style:italic}
-blockquote .src{display:block;margin-top:.5rem;font-style:normal;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
-  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
-.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
-.roots a:hover{border-bottom-style:solid}
-.roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
-.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
-  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
-.signoff strong{color:var(--gold-soft)}
-.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
-.signoff a:hover{border-bottom-style:solid}
-footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
-  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
-.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
-.foot-back:hover{text-decoration:underline}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
-  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
-:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;scroll-behavior:auto !important}
-}
-</style>
+<link rel="stylesheet" href="/assets/temple.css">
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Art</span> &middot; Chesley Bonestell &middot; 1888&ndash;1986</span>
 </nav>
 
 <main class="wrap" id="main">
-  <div class="eyebrow">The Roots &middot; The 37th Chamber</div>
+  <div class="eyebrow">The Roots &middot; <span translate="no">The 37th Chamber</span></div>
   <h1 class="title">Chesley Bonestell</h1>
   <p class="dek">He painted the cosmos before anyone could photograph it &mdash; and a generation of scientists grew up on those images, then went to look for themselves.</p>
 
   <hr class="rule">
 
-  <p>Chesley Bonestell was born on January 1, 1888, in San Francisco &mdash; two years before the Eiffel Tower was finished, fifteen years before the Wright Brothers flew. He died on June 11, 1986, two years before the Voyager probes reached the edge of the solar system. In the span of that one life, humanity went from <em>no one had ever seen what lay beyond the atmosphere</em> to <em>we have photographs from the surface of Mars.</em> Bonestell didn&rsquo;t just witness that arc. He helped pull it forward.</p>
+  <p>Chesley Bonestell was born on January 1, 1888, in San Francisco &mdash; one year before the Eiffel Tower was finished, fifteen years before the Wright Brothers flew. He died on June 11, 1986, as the Voyagers pushed on toward the edge of the solar system. In the span of that one life, humanity went from <em>no one had ever seen what lay beyond the atmosphere</em> to <em>we have photographs from the surface of Mars.</em> Bonestell didn&rsquo;t just witness that arc. He helped pull it forward.</p>
 
-  <p>He had three careers, and any one of them would be enough for a good life. The first was architecture: he studied at Columbia and spent nearly three decades as an architectural renderer, most famously contributing illustrations for the <strong>Golden Gate Bridge</strong> &mdash; paintings that helped convince a skeptical public the bridge could actually be built. The second career was Hollywood. From 1938 onward he became the most sought-after <strong>matte painter</strong> in the industry, his invented backgrounds slipping invisibly into <em>Citizen Kane</em> (1941), <em>The Hunchback of Notre Dame</em> (1939), and others. He built Xanadu for Orson Welles out of paint and light. He was already fifty years old. The third career was the one that changed everything.</p>
+  <p>He had three careers, and any one of them would be enough for a good life. The first was architecture: he studied at Columbia and spent more than two decades as an architectural renderer, most famously contributing illustrations for the <strong>Golden Gate Bridge</strong> &mdash; paintings that helped persuade the project&rsquo;s financiers and backers the bridge could actually be built. The second career was Hollywood. From 1938 onward he became the most sought-after <strong>matte painter</strong> in the industry, his invented backgrounds slipping invisibly into <em>Citizen Kane</em> (1941), <em>The Hunchback of Notre Dame</em> (1939), and others. He built Xanadu for Orson Welles out of paint and light. He was already fifty years old. The third career was the one that changed everything.</p>
 
   <h2>Saturn, seen from Titan</h2>
   <p>In May 1944, <em>Life</em> magazine published a Bonestell painting: <strong>Saturn as seen from its moon Titan.</strong> The image was meticulous. He had calculated the angle, size, and crescent phase of Saturn and its rings from Titan&rsquo;s vantage point with mathematical precision, then rendered it in gouache and oil against a sky he reasonably assumed would be blue and clear. The response was immediate. People had seen astronomical diagrams before &mdash; they had never <em>stood there.</em> His painting did not show Saturn from a distance. It put you on the ground.</p>
@@ -110,10 +61,10 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   <h2>Collier&rsquo;s and the space program</h2>
   <p>Between March 1952 and April 1954, <em>Collier&rsquo;s</em> magazine ran an eight-part series called <strong>&ldquo;Man Will Conquer Space Soon!&rdquo;</strong> The articles were written by Wernher von Braun, Willy Ley, Fred Whipple, and others. The paintings were Bonestell&rsquo;s. The series laid out a complete architecture for human spaceflight &mdash; orbital stations, lunar landers, Mars expeditions &mdash; and reached a readership of millions at a moment when NASA did not yet exist. The articles were so persuasive that Walt Disney hired von Braun directly afterward to produce the <em>Disneyland</em> television episodes that brought the same ideas to a larger audience still.</p>
 
-  <p>No one had commissioned a photograph from the surface of the Moon. No one could. Bonestell gave people a surface anyway &mdash; specific, credible, <em>there.</em> Engineers and physicists who later built the Saturn V and walked on the Moon have named Bonestell&rsquo;s paintings among the things that told them, as children, that this was possible. The National Air and Space Museum holds that the paintings helped create the political and cultural conditions for the space program. That is not a small thing to say about a man who worked in oils.</p>
+  <p>No one had commissioned a photograph from the surface of the Moon. No one could. Bonestell gave people a surface anyway &mdash; specific, credible, <em>there.</em> Engineers and physicists who later built the Saturn V and walked on the Moon have named Bonestell&rsquo;s paintings among the things that told them, as children, that this was possible. The paintings, by the account of those who were there, helped create the political and cultural conditions for the space program. That is not a small thing to say about a man who worked in oils.</p>
 
   <h2>Destination Moon, and the long career</h2>
-  <p>In 1950, producer George Pal made <em>Destination Moon</em>, a serious attempt at a realistic science-fiction film. Bonestell designed the lunar landscape backgrounds. One of his paintings &mdash; a panoramic moonscape thirteen feet long &mdash; was mounted on wheels and rolled past a stationary camera so the changing light would fake a 360-degree pan. <strong>534 holes</strong> were punched into the canvas and lit from behind to create a star field that actually looked like a star field. Robert Heinlein, who co-wrote the screenplay, said Bonestell knew more about the appearance of the Moon&rsquo;s surface than any other living person. The film won the Academy Award for Special Effects. The science held up well enough that NASA later used Bonestell images in its own public communications.</p>
+  <p>In 1950, producer George Pal made <em>Destination Moon</em>, a serious attempt at a realistic science-fiction film. Bonestell designed the lunar landscape backgrounds. One of his paintings &mdash; a panoramic moonscape thirteen feet long &mdash; was mounted on wheels and rolled past a stationary camera so the changing light would fake a 360-degree pan. <strong>534 holes</strong> were punched into the canvas and lit from behind to create a star field that actually looked like a star field. Robert Heinlein, one of the film&rsquo;s three co-writers, said Bonestell knew more about the appearance of the Moon&rsquo;s surface than any other living person. The film won the Academy Award for Special Effects. The science held up well enough that NASA later used Bonestell images in its own public communications.</p>
 
   <p>He kept working. His paintings appeared in books, magazines, and exhibitions into the 1970s. He received the <strong>International Astronomical Union&rsquo;s</strong> recognition in his name: Bonestell crater on Mars, named in 1997 &mdash; eleven years after he died, by an organization that understood what it owed him. He was ninety-eight years old when his heart stopped. The Voyagers were already past Uranus. He had lived to see photographs from the surfaces of the Moon and Mars, had watched the rings of Saturn rendered in real pixels by probes he had inspired people to build. The imagination he had lent to the cosmos had been, in some small recursive way, given back.</p>
 

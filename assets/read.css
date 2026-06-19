@@ -1,0 +1,547 @@
+/* ============================================================================
+   37th CHAMBER — LONG-FORM READING STYLESHEET (read.css)
+   Three treatments, one grammar. Inherits temple tokens from temple.css.
+   .read--pamphlet  (weekday long-read)   .read--magazine (Saturday feature)
+   .read--book      (Sunday deepest read)
+   Blue Law honored: --electric ladder = energy/light/signal/active ONLY,
+   never body-text color. Gold = structure/labels. Restrained, editorial.
+   ========================================================================= */
+
+/* ---- token bridge: extends temple.css, does NOT redefine the room -------- */
+/* These fall back to literals only if read.css loads without temple.css.    */
+:root{
+  --gold:        #FFD60A;   /* structure / labels / rules         */
+  --gold-soft:   #d9b400;   /* deks, sub-lines, soft structure    */
+  --bg:          #08080a;   /* the room                           */
+  --text:        #f3eede;   /* body prose — the ONLY body color   */
+  --dim:         #8f8a73;   /* captions, running heads, folios    */
+  --electric:    #0E44FF;   /* THE CHARGE — current / the beam    */
+  --electric-2:  #4d82ff;   /* light                              */
+  --electric-3:  #a0c0ff;   /* signal — faint active wash         */
+  --font: 'Bahnschrift', system-ui, sans-serif;
+
+  /* reading-specific scale (rem-based; respects user root font-size) */
+  --measure-pamphlet: 62ch;
+  --measure-magazine: 66ch;
+  --measure-book:     58ch;
+  --read-lh:    1.62;       /* body line-height — long-form comfort   */
+  --read-rhythm: 1.5rem;    /* vertical baseline rhythm unit          */
+  --rule-hair: 1px solid rgba(255,214,10,.22);   /* gold hairline     */
+}
+
+/* ===========================================================================
+   1. SHARED LONG-FORM SUBSTRATE  (.read is the base every treatment extends)
+   =========================================================================== */
+.read{
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1.0625rem;            /* ~17px base — long-form floor */
+  line-height: var(--read-lh);
+  font-weight: 350;
+  letter-spacing: .005em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* the measure — capped column, centered; treatments override the width var */
+.read > *{ max-width: var(--measure, 62ch); margin-inline: auto; }
+
+/* body paragraphs — generous spacing, justified-left (ragged right = honest) */
+.read p{
+  margin: 0 0 var(--read-rhythm);
+  text-align: left;
+}
+.read p + p{ margin-top: 0; }          /* spacing carried by margin-bottom */
+
+/* links inside prose — gold underline structure; electric on hover = active.
+   Blue used ONLY as the active/hover SIGNAL, never resting body text.       */
+.read a{
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-color: rgba(255,214,10,.4);
+  text-underline-offset: .18em;
+  text-decoration-thickness: 1px;
+  transition: color .15s ease, text-decoration-color .15s ease;
+}
+.read a:hover,
+.read a:focus-visible{
+  color: var(--electric-2);                       /* light = active link */
+  text-decoration-color: var(--electric-2);
+}
+
+/* emphasis */
+.read strong{ color: var(--gold-soft); font-weight: 600; }
+.read em{ font-style: italic; color: var(--text); }
+
+/* the charged word — temple canon: white + electric shadow, sparing */
+.read .charged{
+  color: #fff;
+  text-shadow:
+    0 0 5px rgba(14,68,255,1),
+    0 0 12px rgba(14,68,255,.75),
+    0 0 22px rgba(14,68,255,.45);
+}
+
+/* --- section headers (gold = structure) ---------------------------------- */
+.read h2{
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: var(--gold);
+  margin: 2.6rem 0 .9rem;
+  padding-top: 1.4rem;
+  border-top: var(--rule-hair);                   /* gold hairline divider */
+}
+.read h3{
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--gold-soft);
+  margin: 2rem 0 .6rem;
+}
+
+/* eyebrow / section-label — display token; symmetry-law clean (no trailing) */
+.read .eyebrow,
+.read .section-label{
+  display: block;
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 0 0 .55rem;
+}
+
+/* --- drop cap (::first-letter — the weekday opener) ----------------------- */
+/* Applied to the first body paragraph via .lede or [data-dropcap].          */
+.read .lede::first-letter,
+.read .dropcap::first-letter{
+  float: left;
+  font-size: 3.4em;
+  line-height: .82;
+  font-weight: 600;
+  color: var(--gold);
+  padding: .04em .12em 0 0;
+  margin: .02em .04em 0 0;
+}
+
+/* --- figure + caption ----------------------------------------------------- */
+.read figure{
+  margin: 2.2rem auto;
+  max-width: var(--measure, 62ch);
+}
+.read figure img,
+.read figure svg,
+.read figure video{
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(255,214,10,.14);
+  background: #050507;
+}
+.read figcaption{
+  margin-top: .6rem;
+  padding-left: .9rem;
+  border-left: 2px solid var(--electric);         /* the beam — energy mark */
+  font-size: .85rem;
+  line-height: 1.5;
+  color: var(--dim);
+}
+.read figcaption b,
+.read figcaption .fig-no{ color: var(--gold-soft); font-weight: 600; }
+
+/* --- pull-quote ----------------------------------------------------------- */
+.read .pullquote,
+.read blockquote.pull{
+  margin: 2.4rem auto;
+  padding: .2rem 0 .2rem 1.4rem;
+  border-left: 3px solid var(--gold);             /* structure = gold */
+  font-size: 1.45rem;
+  line-height: 1.35;
+  font-weight: 350;
+  font-style: italic;
+  color: var(--text);
+  max-width: var(--measure, 62ch);
+}
+.read .pullquote cite,
+.read blockquote.pull cite{
+  display: block;
+  margin-top: .7rem;
+  font-size: .8rem;
+  font-style: normal;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* --- standard blockquote (sourced) --------------------------------------- */
+.read blockquote{
+  margin: 1.8rem auto;
+  padding: .1rem 0 .1rem 1.2rem;
+  border-left: 2px solid var(--electric-3);       /* faint signal wash */
+  color: var(--text);
+  font-style: italic;
+}
+.read blockquote .src{
+  display: block; margin-top: .5rem;
+  font-style: normal; font-size: .8rem;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--dim);
+}
+
+/* --- lists, code, hr ----------------------------------------------------- */
+.read ul, .read ol{ margin: 0 auto var(--read-rhythm); padding-left: 1.4rem; }
+.read li{ margin: .35rem 0; }
+.read li::marker{ color: var(--gold-soft); }
+.read code{
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: .9em; color: var(--electric-3);      /* signal tint = inline code accent */
+  background: rgba(14,68,255,.08);
+  padding: .08em .35em; border-radius: 2px;
+}
+.read pre{
+  max-width: var(--measure, 62ch);
+  overflow-x: auto; padding: 1rem 1.1rem;
+  background: #050507; border: 1px solid rgba(255,214,10,.14);
+  border-left: 3px solid var(--electric);
+}
+.read pre code{ background: none; color: var(--text); padding: 0; }
+.read hr{
+  border: 0; height: 1px; margin: 2.6rem auto;
+  background: linear-gradient(90deg, transparent, rgba(255,214,10,.4), transparent);
+}
+
+/* --- article head (shared) ----------------------------------------------- */
+.read .article-head{ margin: 2.4rem auto 2rem; }
+.read .article-head h1{
+  font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: .005em;
+  color: var(--text);
+  margin: .3rem 0 .6rem;
+}
+.read .article-head .dek{
+  font-size: 1.15rem; line-height: 1.4;
+  color: var(--gold-soft); font-weight: 350;
+  max-width: 54ch;
+}
+.read .article-head .byline{
+  margin-top: 1rem; font-size: .78rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--dim);
+}
+.read .article-head .byline a{ color: var(--dim); text-decoration-color: rgba(143,138,115,.5); }
+
+/* ===========================================================================
+   2. .read--pamphlet  — WEEKDAY LONG-READ
+   drop cap · section headers · figure+caption · pull-quote · ~62ch measure
+   The everyday chamber: one column, one voice, deepening through the week.
+   =========================================================================== */
+.read--pamphlet{
+  --measure: var(--measure-pamphlet);             /* 62ch */
+  max-width: var(--measure-pamphlet);
+}
+.read--pamphlet .article-head{
+  border-bottom: var(--rule-hair);
+  padding-bottom: 1.4rem;
+}
+/* first paragraph after the head auto-gets the drop cap */
+.read--pamphlet .article-head + p::first-letter,
+.read--pamphlet > p:first-of-type::first-letter{
+  float: left; font-size: 3.4em; line-height: .82; font-weight: 600;
+  color: var(--gold); padding: .04em .12em 0 0; margin: .02em .04em 0 0;
+}
+/* pamphlet keeps figures inside the measure (no bleed) */
+.read--pamphlet figure{ max-width: var(--measure-pamphlet); }
+
+/* ===========================================================================
+   3. .read--magazine  — SATURDAY FEATURE
+   bigger hero · multi-section · sidebars. The graduation issue: widest canvas,
+   the week's argument laid out as a feature with marginal apparatus.
+   =========================================================================== */
+.read--magazine{
+  --measure: var(--measure-magazine);             /* 66ch prose column */
+  max-width: 78rem;                                /* wider frame for sidebars */
+  padding: 0 1.5rem;
+}
+/* big hero — full-frame, breaks the measure */
+.read--magazine .hero{
+  max-width: 100%;
+  margin: 0 auto 2.6rem;
+  position: relative;
+}
+.read--magazine .hero img,
+.read--magazine .hero svg{
+  width: 100%; height: auto; display: block;
+  border: 1px solid rgba(255,214,10,.16);
+  background: #050507;
+}
+.read--magazine .hero .hero-cap{
+  margin-top: .7rem; padding-left: .9rem;
+  border-left: 2px solid var(--electric);
+  font-size: .85rem; color: var(--dim); max-width: 60ch;
+}
+.read--magazine .article-head h1{
+  font-size: clamp(2.4rem, 6vw, 4rem);            /* bigger hero headline */
+  max-width: 18ch; margin-inline: auto;
+  text-align: center;
+}
+.read--magazine .article-head .dek{
+  margin-inline: auto; text-align: center; font-size: 1.3rem; max-width: 50ch;
+}
+.read--magazine .article-head .byline{ text-align: center; }
+
+/* the feature body: prose column + optional sidebar rail (desktop) */
+.read--magazine .feature-body{
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure-magazine)) 17rem;
+  gap: 2.4rem;
+  max-width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: start;
+}
+.read--magazine .feature-body > .col-main{ max-width: var(--measure-magazine); }
+.read--magazine .feature-body > .col-main > *{ max-width: 100%; }
+
+/* sidebar — gold-framed aside, the marginal apparatus */
+.read--magazine .sidebar{
+  position: sticky; top: 1.5rem;
+  border: 1px solid rgba(255,214,10,.26);
+  border-top: 3px solid var(--gold);
+  background: rgba(255,214,10,.015);
+  padding: 1.1rem 1.2rem 1.3rem;
+  font-size: .92rem; line-height: 1.5;
+}
+.read--magazine .sidebar h4{
+  margin: 0 0 .6rem; font-size: .74rem;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--gold);
+}
+.read--magazine .sidebar p{ margin-bottom: .7rem; color: var(--text); }
+.read--magazine .sidebar.signal{                  /* energetic sidebar variant */
+  border-top-color: var(--electric);
+  background: rgba(14,68,255,.04);
+}
+.read--magazine .sidebar.signal h4{ color: var(--electric-2); }
+
+/* magazine section breaks read heavier */
+.read--magazine .col-main h2{
+  font-size: 1.7rem; margin-top: 3rem;
+}
+
+/* ===========================================================================
+   4. .read--book  — SUNDAY (THE SUNDAY STACK)
+   chaptered · running heads · folios · deepest read. The week bound into one
+   issue. Narrowest measure (58ch) for sustained immersion; chapter machinery.
+   =========================================================================== */
+.read--book{
+  --measure: var(--measure-book);                 /* 58ch — immersive */
+  max-width: var(--measure-book);
+  font-size: 1.075rem;
+  line-height: 1.66;                              /* loosest leading — long sit */
+}
+
+/* the issue front (cover plate) */
+.read--book .issue-front{
+  text-align: center;
+  padding: 3rem 0 2.6rem;
+  border-bottom: var(--rule-hair);
+  margin-bottom: 2.6rem;
+}
+.read--book .issue-front .issue-no{
+  font-size: .8rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--electric-2);                        /* signal = the live issue */
+  margin-bottom: 1.1rem;
+}
+.read--book .issue-front h1{
+  font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.05;
+  font-weight: 600; color: var(--text); margin: 0 0 .8rem;
+}
+.read--book .issue-front .dek{
+  font-size: 1.2rem; color: var(--gold-soft); max-width: 46ch; margin: 0 auto;
+}
+
+/* chapter — semantic <section> per chapter, each with a running head */
+.read--book .chapter{ margin: 3.4rem auto 0; position: relative; }
+.read--book .chapter > *{ max-width: var(--measure-book); margin-inline: auto; }
+
+/* chapter opener: number + title, gold structure, symmetry-clean */
+.read--book .chapter-head{
+  text-align: center; margin: 0 auto 2rem; padding-top: 1rem;
+}
+.read--book .chapter-head .ch-no{
+  display: block; font-size: .74rem; letter-spacing: .28em;
+  text-transform: uppercase; color: var(--dim); margin-bottom: .5rem;
+}
+.read--book .chapter-head h2{
+  border: 0; padding: 0; margin: 0;
+  font-size: 1.8rem; color: var(--gold); line-height: 1.15;
+}
+/* hair rule under the chapter title (centered, symmetric) */
+.read--book .chapter-head::after{
+  content: ""; display: block; width: 3rem; height: 2px;
+  margin: 1rem auto 0; background: var(--gold);
+}
+
+/* book drop cap opens each chapter's first paragraph */
+.read--book .chapter > p:first-of-type::first-letter{
+  float: left; font-size: 3.1em; line-height: .84; font-weight: 600;
+  color: var(--gold); padding: .04em .12em 0 0; margin: .02em .05em 0 0;
+}
+
+/* SCREEN running heads — sticky chapter marker (the "running head" feel
+   without paper). Hidden until a chapter scrolls under it via position:sticky. */
+.read--book .running-head{
+  position: sticky; top: 0; z-index: 3;
+  display: flex; justify-content: space-between; align-items: baseline;
+  max-width: var(--measure-book); margin: 0 auto;
+  padding: .55rem 0; background: var(--bg);
+  border-bottom: var(--rule-hair);
+  font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--dim);
+}
+.read--book .running-head .rh-issue{ color: var(--gold-soft); }
+.read--book .running-head .rh-folio{ color: var(--dim); }   /* screen folio = section */
+
+/* end-of-chapter mark (centered dingbat, symmetry-clean) */
+.read--book .chapter-end{
+  text-align: center; color: var(--gold-soft); font-size: 1.2rem;
+  margin: 2.4rem auto 0; letter-spacing: .4em;
+}
+.read--book .chapter-end::before{ content: "\00A7"; }       /* § */
+
+/* ===========================================================================
+   5. RESPONSIVE  — collapse rails, hold the measure, scale type down
+   =========================================================================== */
+@media (max-width: 960px){
+  .read--magazine .feature-body{
+    grid-template-columns: minmax(0, 1fr);          /* drop the rail */
+  }
+  .read--magazine .feature-body > .col-main{ max-width: var(--measure-magazine); margin-inline: auto; }
+  .read--magazine .sidebar{
+    position: static;                                /* sidebars flow inline */
+    max-width: var(--measure-magazine);
+    margin: 1.8rem auto;
+  }
+}
+@media (max-width: 640px){
+  .read{ font-size: 1rem; padding: 0 1rem; }
+  .read .article-head h1{ font-size: clamp(1.6rem, 7vw, 2.1rem); }
+  .read--magazine{ padding: 0 1rem; }
+  .read--magazine .article-head h1{ font-size: clamp(1.9rem, 9vw, 2.6rem); }
+  .read .pullquote, .read blockquote.pull{ font-size: 1.2rem; }
+  /* tame the drop cap so it never crowds a narrow column */
+  .read .lede::first-letter,
+  .read .dropcap::first-letter,
+  .read--pamphlet .article-head + p::first-letter,
+  .read--pamphlet > p:first-of-type::first-letter,
+  .read--book .chapter > p:first-of-type::first-letter{ font-size: 2.8em; }
+  .read--book .running-head{ font-size: .62rem; }
+}
+
+/* ===========================================================================
+   6. ACCESSIBILITY  — focus, reduced-motion, semantic safety nets
+   =========================================================================== */
+/* visible focus ring — electric, the temple's :focus-visible charge */
+.read :where(a, button, summary, [tabindex]):focus-visible{
+  outline: 2px solid var(--electric-2);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* skip-link target lands cleanly */
+.read:target,
+.read [id]:target{ scroll-margin-top: 4rem; }
+
+/* respect reduced motion — kill the only transitions in this sheet */
+@media (prefers-reduced-motion: reduce){
+  .read *,
+  .read a,
+  .read--book .running-head{
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* high-contrast / forced-colors — let the OS palette win, keep structure */
+@media (forced-colors: active){
+  .read figcaption,
+  .read .pullquote,
+  .read blockquote,
+  .read--magazine .sidebar{ border-color: CanvasText; }
+  .read a{ color: LinkText; }
+}
+
+/* honor user font-size: everything is rem/em/ch — no px lock on type.
+   Body never falls below 1rem; measure is ch so it tracks the user's size. */
+
+/* ===========================================================================
+   7. PRINT  — paper running heads + folios, ink-saving, link URLs exposed
+   The book treatment becomes a real printed booklet; pamphlet/magazine print
+   clean single-column. Blue is accent-only, so it survives grayscale.
+   =========================================================================== */
+@media print{
+  .read{
+    color: #000; background: #fff;
+    font-size: 11pt; line-height: 1.5;
+    max-width: 100%; padding: 0;
+  }
+  .read > *,
+  .read--book .chapter > *,
+  .read--magazine .col-main{ max-width: 100%; }
+
+  /* structure marks darken to ink */
+  .read h2{ color: #000; border-top-color: #000; }
+  .read h3{ color: #222; }
+  .read .article-head h1,
+  .read--book .issue-front h1,
+  .read--book .chapter-head h2{ color: #000; }
+  .read .eyebrow, .read .section-label,
+  .read figcaption, .read .byline, .read--book .running-head{ color: #444; }
+
+  /* drop caps stay, in ink */
+  .read .lede::first-letter,
+  .read .dropcap::first-letter,
+  .read--pamphlet > p:first-of-type::first-letter,
+  .read--book .chapter > p:first-of-type::first-letter{ color: #000; }
+
+  /* accents → ink rules so structure reads without color */
+  .read figcaption,
+  .read .pullquote,
+  .read blockquote.pull,
+  .read blockquote,
+  .read--magazine .sidebar{ border-color: #000 !important; }
+
+  /* expose link destinations */
+  .read a{ color: #000; text-decoration: underline; }
+  .read a[href^="http"]::after{
+    content: " (" attr(href) ")";
+    font-size: .8em; color: #555; word-break: break-all;
+  }
+
+  /* PAGE BOX + running heads/folios — the book becomes a booklet */
+  @page{
+    margin: 2cm 2.2cm;
+    /* paper running head + page folio */
+    @top-center{ content: string(doc-title); font-size: 9pt; color: #444; letter-spacing: .12em; }
+    @bottom-center{ content: counter(page); font-size: 9pt; color: #444; }
+  }
+  /* chapter title flows into the running head via string-set */
+  .read--book .chapter-head h2{ string-set: doc-title content(text); }
+  .read .article-head h1{ string-set: doc-title content(text); }
+
+  /* pagination discipline */
+  .read h2, .read h3,
+  .read--book .chapter-head{ break-after: avoid; }
+  .read--book .chapter{ break-before: page; }      /* each chapter = new leaf */
+  .read figure, .read .pullquote, .read--magazine .sidebar{ break-inside: avoid; }
+  .read p{ orphans: 3; widows: 3; }
+
+  /* on-screen sticky running head is redundant on paper */
+  .read--book .running-head{ position: static; border: 0; }
+
+  /* drop heavy art backgrounds to save ink */
+  .read figure img, .read--magazine .hero img{ border: 1px solid #999; }
+}

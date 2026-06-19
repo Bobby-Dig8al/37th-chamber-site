@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Constellation - preview</title>
+<style>body{margin:0;background:#08080a;color:#f3eede;font-family:'Bahnschrift',system-ui,sans-serif;padding:18px}
+h1{color:#FFD60A;font-size:13px;letter-spacing:.2em;font-weight:500;margin:0 0 4px}
+.sub{color:#8f8a73;font-size:11px;letter-spacing:.05em;margin:0 0 14px}</style></head><body>
+<h1>THE CONSTELLATION &middot; widget preview (staged, Day-45)</h1>
+<p class="sub">drag to pan &middot; scroll to zoom &middot; click a star &middot; 58 heroes / 11 domain-constellations</p>
+<style>
+  .cst-root{font-family:'Bahnschrift',system-ui,sans-serif;}
+  .cst-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+  .cst-wrap{position:relative;width:100%;background:#08080a;border-radius:12px;overflow:hidden;border:0.5px solid #1c1c22;}
+  #cst-canvas{display:block;width:100%;height:520px;cursor:grab;touch-action:none;}
+  .cst-title{position:absolute;top:12px;left:14px;pointer-events:none;}
+  .cst-title b{color:#FFD60A;font-size:15px;letter-spacing:0.14em;font-weight:500;}
+  .cst-title span{display:block;color:#8f8a73;font-size:11.5px;letter-spacing:0.05em;margin-top:2px;}
+  .cst-help{position:absolute;bottom:10px;left:14px;color:#8f8a73;font-size:10.5px;letter-spacing:0.03em;pointer-events:none;}
+  .cst-ctrls{position:absolute;top:12px;right:12px;display:flex;gap:6px;}
+  .cst-ctrls button{height:30px;background:#0e0e14;color:#d9b400;border:0.5px solid #2a2a33;border-radius:8px;cursor:pointer;line-height:1;}
+  .cst-ctrls .cst-zb{width:30px;font-size:17px;}
+  .cst-ctrls .cst-rb{padding:0 10px;font-size:11px;letter-spacing:0.05em;}
+  #cst-tip{position:absolute;display:none;max-width:230px;background:rgba(8,8,10,0.92);border:0.5px solid #4d82ff;border-radius:8px;padding:9px 11px;z-index:5;}
+  #cst-tip .nm{color:#FFD60A;font-size:13.5px;font-weight:500;letter-spacing:0.02em;line-height:1.25;}
+  #cst-tip .gp{color:#8f8a73;font-size:10.5px;letter-spacing:0.03em;margin-top:3px;}
+  #cst-tip a{display:inline-block;margin-top:7px;color:#4d82ff;font-size:11px;letter-spacing:0.04em;text-decoration:none;}
+  #cst-fallback{margin-top:14px;background:#08080a;border:0.5px solid #1c1c22;border-radius:12px;padding:14px 16px;color:#f3eede;}
+  #cst-fallback .fh{color:#FFD60A;font-size:13px;letter-spacing:0.1em;font-weight:500;margin-bottom:2px;}
+  #cst-fallback .fc{color:#8f8a73;font-size:11px;margin-bottom:10px;}
+  #cst-fallback .grp{margin-bottom:9px;}
+  #cst-fallback .gl{color:#d9b400;font-size:12px;letter-spacing:0.06em;margin-bottom:3px;}
+  #cst-fallback .row{font-size:12px;line-height:1.85;}
+  #cst-fallback .row a{color:#f3eede;text-decoration:none;border-bottom:0.5px solid #2a2a33;}
+  #cst-fallback .sep{color:#3a3a42;}
+  @media (prefers-reduced-motion: reduce){ #cst-canvas{} }
+</style>
+
+<div class="cst-root">
+  <h2 class="cst-sr">An interactive star map of the 37th Chamber's heroes, grouped into eleven constellations by domain. Pan, zoom, and click a star to see its name and link. A grouped text list follows as an accessible fallback.</h2>
+
+  <div class="cst-wrap" id="cst-wrap">
+    <canvas id="cst-canvas"></canvas>
+    <div class="cst-title"><b>THE CONSTELLATION</b><span>the 37th chamber, mapped as a night sky</span></div>
+    <div class="cst-help">drag to pan &middot; scroll to zoom &middot; click a star</div>
+    <div class="cst-ctrls" id="cst-controls">
+      <button class="cst-zb" data-z="in" aria-label="Zoom in">+</button>
+      <button class="cst-zb" data-z="out" aria-label="Zoom out">&minus;</button>
+      <button class="cst-rb" data-z="fit" aria-label="Reset view">reset</button>
+    </div>
+    <div id="cst-tip" role="status">
+      <div class="nm" id="cst-tip-name"></div>
+      <div class="gp" id="cst-tip-group"></div>
+      <a id="cst-tip-link" href="#">view on the wall &rarr;</a>
+    </div>
+  </div>
+
+  <noscript><div style="color:#8f8a73;font-size:12px;margin-top:8px;font-family:'Bahnschrift',system-ui,sans-serif;">Interactive map needs JavaScript. The full roster, grouped by constellation, is below.</div></noscript>
+
+  <div id="cst-fallback"></div>
+</div>
+
+<script>
+(function(){
+  var ROSTER = [
+    {n:"RZA",g:"Namesake / Hip-hop"},{n:"Rival Consoles",g:"Music / Soundtrack"},
+    {n:"Neil deGrasse Tyson",g:"Science / Cosmos"},{n:"Tom Bilyeu",g:"Entrepreneurship / Impact"},
+    {n:"Lex Fridman",g:"AI / Philosophy"},{n:"O'hene Savant",g:"Music / Hip-hop"},
+    {n:"Volodymyr Zelenskyy",g:"Leadership / Politics"},{n:"Marc Maron",g:"Comedy / Podcast"},
+    {n:"Whitney Cummings",g:"Comedy / Technology"},{n:"Trentemoller",g:"Music / Electronic"},
+    {n:"Ben Harper",g:"Music / Songwriting"},{n:"Bob Dylan",g:"Music / Folk"},
+    {n:"Dario & Daniela Amodei",g:"AI / Technology"},{n:"Annie Jacobsen",g:"Journalism / Investigation"},
+    {n:"Lee Sedol & Demis Hassabis",g:"AI / Science"},{n:"David Attenborough",g:"Science / Nature"},
+    {n:"Dan Carlin",g:"History / Podcast"},{n:"Oliver Stone",g:"Film / History"},
+    {n:"Raoul Peck",g:"Film / Social Justice"},{n:"Claudia Sheinbaum",g:"Science / Leadership"},
+    {n:"Christopher Nolan",g:"Film / Science"},{n:"Kip Thorne",g:"Science / Physics"},
+    {n:"Fabiola Gianotti",g:"Science / Physics"},{n:"Trey Parker & Matt Stone",g:"Comedy / Satire"},
+    {n:"Sarah Silverman",g:"Comedy / Activism"},{n:"Nate B. Jones",g:"AI / Strategy"},
+    {n:"Maher · Harrelson · McConaughey",g:"Entertainment / Network"},{n:"Hans Zimmer",g:"Music / Film"},
+    {n:"Seth MacFarlane",g:"Entertainment / Science"},{n:"Wes Anderson",g:"Film / Craft"},
+    {n:"Bill Murray",g:"Entertainment / Culture"},{n:"Zack de la Rocha",g:"Music / Activism"},
+    {n:"Beastie Boys",g:"Music / Activism"},{n:"The Big Lebowski Cast",g:"Film / Culture"},
+    {n:"Yudkowsky & Soares",g:"AI / Ethics"},{n:"Thom Yorke",g:"Music / Innovation"},
+    {n:"The 14th Dalai Lama (Tenzin Gyatso)",g:"Spiritual / Ethics"},{n:"Carl Sagan",g:"Science / Cosmos (Foundation)"},
+    {n:"Chesley Bonestell",g:"Art / Space (Foundation)"},{n:"Albert Camus",g:"Philosophy (Foundation)"},
+    {n:"Jean-Michel Basquiat",g:"Art / Painting (Foundation)"},{n:"Pablo Picasso",g:"Art / Painting (Foundation)"},
+    {n:"Freddie Mercury",g:"Music / Performance (Foundation)"},{n:"Frank Zappa",g:"Music / Composition (Foundation)"},
+    {n:"Friedrich Nietzsche",g:"Philosophy (Foundation)"},{n:"Simone de Beauvoir",g:"Philosophy (Foundation)"},
+    {n:"J. Robert Oppenheimer",g:"Science / Physics (Foundation)"},{n:"Tsutomu Yamaguchi",g:"Witness / History (Foundation)"},
+    {n:"Vasili Arkhipov",g:"Leadership / History (Foundation)"},{n:"Stanislav Petrov",g:"Leadership / History (Foundation)"},
+    {n:"Albert Einstein",g:"Science / Physics (Foundation)"},{n:"Srinivasa Ramanujan",g:"Science / Mathematics (Foundation)"},
+    {n:"Ada Lovelace",g:"Science / Computing (Foundation)"},{n:"Martin Luther King Jr.",g:"Leadership / Civil Rights (Foundation)"},
+    {n:"Franklin D. Roosevelt",g:"Leadership / Politics (Foundation)"},{n:"Jacqueline Kennedy Onassis",g:"Culture / Publishing (Foundation)"},
+    {n:"John F. Kennedy",g:"Leadership / Space (Foundation)"},{n:"The People of Chernobyl",g:"Sacrifice / History (Foundation)"}
+  ];
+
+  var META = {
+    'Namesake':'Music','Music':'Music','Science':'Science','Entrepreneurship':'Builders',
+    'AI':'AI','Leadership':'Leadership','Comedy':'Comedy','Journalism':'Builders',
+    'History':'History','Film':'Film','Entertainment':'Stage','Spiritual':'Mind',
+    'Art':'Art','Philosophy':'Mind','Witness':'History','Sacrifice':'History','Culture':'Film'
+  };
+  var ORDER = ['Science','Music','AI','Film','Leadership','Comedy','Mind','Art','History','Stage','Builders'];
+
+  function metaOf(g){ var s=g.replace(/\s*\(Foundation\)\s*/i,'').trim(); var head=s.split('/')[0].trim(); return META[head]||head; }
+  function slug(n){ return n.toLowerCase().replace(/&/g,' and ').replace(/·/g,' ').replace(/['‘’]/g,'').replace(/[()]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+  function linkFor(n){ return '/six-degrees/'; }
+
+  var stars = ROSTER.map(function(h){ return {name:h.n, group:h.g, meta:metaOf(h.g), link:linkFor(h.n)}; });
+  var clusterMap={}; stars.forEach(function(s){ (clusterMap[s.meta]=clusterMap[s.meta]||[]).push(s); });
+  var clusters = ORDER.filter(function(k){return clusterMap[k];})
+    .concat(Object.keys(clusterMap).filter(function(k){return ORDER.indexOf(k)<0;}))
+    .map(function(k){ return {name:k, members:clusterMap[k]}; });
+
+  (function(){
+    var fb=document.getElementById('cst-fallback');
+    var html='<div class="fh">THE WALL, BY CONSTELLATION</div><div class="fc">'+stars.length+' heroes &middot; '+clusters.length+' groups</div>';
+    clusters.forEach(function(c){
+      html+='<div class="grp"><div class="gl">'+c.name.toUpperCase()+'</div><div class="row">'+
+        c.members.map(function(m){ return '<a href="'+m.link+'">'+m.name+'</a>'; }).join('<span class="sep"> &middot; </span>')+'</div></div>';
+    });
+    fb.innerHTML=html;
+  })();
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas=document.getElementById('cst-canvas'), ctx=canvas.getContext('2d');
+  var W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+
+  var seed=1337; function rnd(){ seed=(seed*1664525+1013904223)%4294967296; return seed/4294967296; }
+  var WORLD_W=1000,WORLD_H=760,nodes=[],ncl=clusters.length;
+  clusters.forEach(function(c,ci){
+    var ang=(ci/ncl)*Math.PI*2-Math.PI/2,R=270;
+    c.cx=WORLD_W/2+Math.cos(ang)*R; c.cy=WORLD_H/2+Math.sin(ang)*R*0.78;
+    c.members.forEach(function(m){
+      var a=rnd()*Math.PI*2,r=18+rnd()*70;
+      nodes.push({star:m,cl:ci,x:c.cx+Math.cos(a)*r,y:c.cy+Math.sin(a)*r,vx:0,vy:0,r:2.0+rnd()*1.7,tw:rnd()*Math.PI*2,tws:0.6+rnd()*0.9});
+    });
+  });
+  function relax(iters){
+    for(var it=0;it<iters;it++){
+      for(var i=0;i<nodes.length;i++){ var a=nodes[i];
+        for(var j=i+1;j<nodes.length;j++){ var b=nodes[j];
+          var dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy; if(d2<0.01){d2=0.01;dx=rnd()-0.5;dy=rnd()-0.5;}
+          var d=Math.sqrt(d2),sc=a.cl===b.cl,min=sc?34:64;
+          if(d<min){ var f=(min-d)/d*(sc?0.5:0.9); a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f; }
+        }
+      }
+      for(var k=0;k<nodes.length;k++){ var nN=nodes[k],c=clusters[nN.cl];
+        nN.vx+=(c.cx-nN.x)*0.012; nN.vy+=(c.cy-nN.y)*0.012; nN.x+=nN.vx; nN.y+=nN.vy; nN.vx*=0.82; nN.vy*=0.82;
+      }
+    }
+  }
+  relax(220);
+  clusters.forEach(function(c,ci){ var xs=0,ys=0,miny=1e9,cnt=0;
+    nodes.forEach(function(n){ if(n.cl===ci){xs+=n.x;ys+=n.y;if(n.y<miny)miny=n.y;cnt++;} });
+    c.lx=xs/cnt; c.ly=miny-18;
+  });
+  var edges=[];
+  clusters.forEach(function(c,ci){
+    var mem=nodes.filter(function(n){return n.cl===ci;});
+    mem.forEach(function(a){
+      var cand=mem.filter(function(b){return b!==a;}).map(function(b){var dx=a.x-b.x,dy=a.y-b.y;return {b:b,d:dx*dx+dy*dy};}).sort(function(p,q){return p.d-q.d;});
+      var links=a===mem[0]?2:1;
+      for(var i=0;i<Math.min(links,cand.length);i++){ var b=cand[i].b;
+        if(!edges.some(function(e){return (e.a===a&&e.b===b)||(e.a===b&&e.b===a);})) edges.push({a:a,b:b});
+      }
+    });
+  });
+
+  var view={x:0,y:0,k:1};
+  function fitView(){ var minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    nodes.forEach(function(n){ if(n.x<minx)minx=n.x;if(n.y<miny)miny=n.y;if(n.x>maxx)maxx=n.x;if(n.y>maxy)maxy=n.y; });
+    var pad=70; minx-=pad;miny-=pad+14;maxx+=pad;maxy+=pad;
+    var bw=maxx-minx,bh=maxy-miny,k=Math.min(W/bw,H/bh);
+    view.k=k; view.x=(W-bw*k)/2-minx*k; view.y=(H-bh*k)/2-miny*k;
+  }
+  function w2s(x,y){ return {x:x*view.k+view.x,y:y*view.k+view.y}; }
+  function s2w(x,y){ return {x:(x-view.x)/view.k,y:(y-view.y)/view.k}; }
+  function resize(){ var r=canvas.getBoundingClientRect(); W=r.width;H=r.height; canvas.width=W*DPR;canvas.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); fitView(); }
+
+  var dust=[],ds=987654; function dr(){ ds=(ds*1664525+1013904223)%4294967296; return ds/4294967296; }
+  for(var d=0;d<140;d++) dust.push({x:dr(),y:dr(),r:dr()*0.9+0.25,a:dr()*0.5+0.12});
+
+  var hover=null,selected=null;
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<dust.length;i++){ var p=dust[i]; ctx.beginPath(); ctx.fillStyle='rgba(217,180,0,'+(p.a*0.5)+')'; ctx.arc(p.x*W,p.y*H,p.r,0,6.283); ctx.fill(); }
+    ctx.lineWidth=Math.max(0.4,0.6*view.k);
+    for(var e=0;e<edges.length;e++){ var A=w2s(edges[e].a.x,edges[e].a.y),B=w2s(edges[e].b.x,edges[e].b.y);
+      var lit=selected&&(edges[e].a===selected||edges[e].b===selected);
+      ctx.strokeStyle=lit?'rgba(77,130,255,0.55)':'rgba(14,68,255,0.16)';
+      ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();
+    }
+    ctx.textAlign='center';ctx.textBaseline='alphabetic';
+    ctx.font=(11*Math.min(view.k,1.25)+2)+"px 'Bahnschrift',system-ui,sans-serif";
+    for(var ci=0;ci<clusters.length;ci++){ var c=clusters[ci],L=w2s(c.lx,c.ly);
+      if(L.x<-60||L.x>W+60||L.y<-20||L.y>H+20) continue;
+      ctx.fillStyle='rgba(143,138,115,0.85)'; ctx.fillText(c.name.toUpperCase(),L.x,L.y);
+    }
+    for(var n=0;n<nodes.length;n++){ var node=nodes[n],S=w2s(node.x,node.y);
+      if(S.x<-30||S.x>W+30||S.y<-30||S.y>H+30) continue;
+      var twk=reduced?1:(0.72+0.28*Math.sin(t*0.0013*node.tws+node.tw));
+      var isH=node===hover,isS=node===selected,rad=node.r*Math.min(view.k,1.6)*(isH||isS?1.7:1);
+      var glowR=rad*4.2,grad=ctx.createRadialGradient(S.x,S.y,0,S.x,S.y,glowR);
+      if(isH||isS){ grad.addColorStop(0,'rgba(160,192,255,'+(0.55*twk)+')'); grad.addColorStop(0.4,'rgba(77,130,255,0.22)'); grad.addColorStop(1,'rgba(14,68,255,0)'); }
+      else { grad.addColorStop(0,'rgba(255,214,10,'+(0.42*twk)+')'); grad.addColorStop(0.5,'rgba(217,180,0,0.10)'); grad.addColorStop(1,'rgba(255,214,10,0)'); }
+      ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(S.x,S.y,glowR,0,6.283); ctx.fill();
+      ctx.beginPath(); ctx.fillStyle=(isH||isS)?'#a0c0ff':'#FFD60A'; ctx.arc(S.x,S.y,rad,0,6.283); ctx.fill();
+      ctx.beginPath(); ctx.fillStyle='rgba(243,238,222,'+(0.9*twk)+')'; ctx.arc(S.x,S.y,Math.max(0.6,rad*0.42),0,6.283); ctx.fill();
+      if(view.k>1.18||isH||isS){ ctx.textAlign='left';ctx.textBaseline='middle'; ctx.font="11px 'Bahnschrift',system-ui,sans-serif";
+        ctx.fillStyle=(isH||isS)?'#f3eede':'rgba(243,238,222,0.78)'; ctx.fillText(node.star.name,S.x+rad+5,S.y);
+      }
+    }
+  }
+  var raf=null,running=true;
+  function frame(t){ draw(t); if(running) raf=requestAnimationFrame(frame); }
+  function startA(){ if(!running){running=true;raf=requestAnimationFrame(frame);} }
+  function stopA(){ running=false; if(raf) cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(en){ en.forEach(function(e){ e.isIntersecting?startA():stopA(); }); },{threshold:0.05}).observe(canvas); }
+
+  var dragging=false,moved=false,last={x:0,y:0};
+  function lp(ev){ var r=canvas.getBoundingClientRect(),cx=ev.touches?ev.touches[0].clientX:ev.clientX,cy=ev.touches?ev.touches[0].clientY:ev.clientY; return {x:cx-r.left,y:cy-r.top}; }
+  function pick(px,py){ var best=null,bd=18*18;
+    for(var n=0;n<nodes.length;n++){ var S=w2s(nodes[n].x,nodes[n].y),dx=S.x-px,dy=S.y-py,dd=dx*dx+dy*dy;
+      var hr=Math.max(10,nodes[n].r*Math.min(view.k,1.6)+8);hr*=hr; if(dd<hr&&dd<bd){bd=dd;best=nodes[n];}
+    } return best;
+  }
+  var tip=document.getElementById('cst-tip');
+  function showTip(node){ selected=node;
+    document.getElementById('cst-tip-name').textContent=node.star.name;
+    document.getElementById('cst-tip-group').textContent=node.star.group;
+    document.getElementById('cst-tip-link').setAttribute('href',node.star.link);
+    var S=w2s(node.x,node.y),wrap=document.getElementById('cst-wrap');
+    tip.style.left=Math.min(Math.max(S.x+14,8),wrap.clientWidth-244)+'px';
+    tip.style.top=Math.min(Math.max(S.y-10,8),wrap.clientHeight-86)+'px';
+    tip.style.display='block';
+  }
+  function hideTip(){ tip.style.display='none'; selected=null; }
+  canvas.addEventListener('mousedown',function(ev){ dragging=true;moved=false;last=lp(ev);canvas.style.cursor='grabbing'; });
+  window.addEventListener('mousemove',function(ev){ var p=lp(ev);
+    if(dragging){ var dx=p.x-last.x,dy=p.y-last.y; if(Math.abs(dx)+Math.abs(dy)>3)moved=true; view.x+=dx;view.y+=dy;last=p; }
+    else { var r=canvas.getBoundingClientRect(); if(p.x>=0&&p.y>=0&&p.x<=r.width&&p.y<=r.height){ var h=pick(p.x,p.y); if(h!==hover){hover=h;canvas.style.cursor=h?'pointer':'grab';} } }
+  });
+  window.addEventListener('mouseup',function(ev){ if(dragging&&!moved){ var p=lp(ev),h=pick(p.x,p.y); if(h)showTip(h);else hideTip(); } dragging=false;canvas.style.cursor=hover?'pointer':'grab'; });
+  canvas.addEventListener('touchstart',function(ev){ dragging=true;moved=false;last=lp(ev); },{passive:true});
+  canvas.addEventListener('touchmove',function(ev){ var p=lp(ev),dx=p.x-last.x,dy=p.y-last.y; if(Math.abs(dx)+Math.abs(dy)>3)moved=true; view.x+=dx;view.y+=dy;last=p; },{passive:true});
+  canvas.addEventListener('touchend',function(){ if(!moved){ var h=pick(last.x,last.y); if(h)showTip(h);else hideTip(); } dragging=false; });
+  function zoomAt(px,py,f){ var w=s2w(px,py); view.k=Math.max(0.45,Math.min(4.5,view.k*f)); view.x=px-w.x*view.k; view.y=py-w.y*view.k; }
+  canvas.addEventListener('wheel',function(ev){ ev.preventDefault(); var p=lp(ev); zoomAt(p.x,p.y,ev.deltaY<0?1.12:0.893); },{passive:false});
+  document.getElementById('cst-controls').addEventListener('click',function(ev){ var b=ev.target.closest('button'); if(!b)return; var z=b.getAttribute('data-z');
+    if(z==='fit'){fitView();hideTip();} else zoomAt(W/2,H/2,z==='in'?1.3:0.77);
+  });
+  window.addEventListener('resize',resize);
+  resize(); raf=requestAnimationFrame(frame);
+})();
+</script>
+</body></html>

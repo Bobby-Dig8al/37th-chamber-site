@@ -6,6 +6,7 @@
 <title>Dispatches — The 37th Chamber</title>
 <meta name="description" content="Field notes from the chamber. Short, honest pieces on AI, building things from electrons, and what the work looks like when you don't outsource the thinking. Free, forever.">
 <meta name="theme-color" content="#08080a">
+<link rel="alternate" type="application/atom+xml" title="The 37th Chamber — Dispatches" href="/feed.xml">
 <link rel="canonical" href="https://37th-chamber.com/dispatches/">
 <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -39,10 +40,12 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .eyebrow{font-size:clamp(.66rem,2.4vw,.8rem);letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin-bottom:1.3rem;text-align:center}
 .sigil{width:clamp(60px,12vw,82px);height:auto;margin-bottom:1.2rem;filter:drop-shadow(0 0 10px rgba(255,214,10,.18));overflow:visible}
 .sigil .ring-charge{filter:drop-shadow(0 0 6px #0E44FF) drop-shadow(0 0 16px rgba(14,68,255,.6))}
+.masthead{width:clamp(280px,62vw,480px);height:auto;margin:.2rem auto 1.4rem;display:block;
+  filter:drop-shadow(0 0 14px rgba(255,214,10,.15))}
 .title{font-size:clamp(2.4rem,10vw,4.4rem);line-height:.95;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);text-align:center;
   text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5)}
 .creed{margin-top:1.1rem;font-size:clamp(.72rem,2.5vw,.88rem);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft);text-align:center}
-.creed .wglow{color:#fff;text-shadow:0 0 5px rgba(255,214,10,.8),0 0 12px rgba(255,214,10,.5)}
+.creed .wglow{color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .lede{margin-top:1.4rem;max-width:36rem;text-align:center;color:var(--text);font-size:clamp(1rem,2.9vw,1.14rem);line-height:1.6}
 .lede em{color:var(--gold);font-style:normal}
 .section-label{margin:3.2rem 0 1.1rem;align-self:stretch;display:flex;align-items:center;gap:1rem;color:var(--dim);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase}
@@ -54,7 +57,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   border:1px solid rgba(255,214,10,.28);background:rgba(255,214,10,.018);
   text-decoration:none;color:inherit;transition:.16s ease;position:relative;overflow:hidden}
 a.dispatch:hover{border-color:var(--gold);background:rgba(255,214,10,.05);transform:translateY(-2px)}
-.dispatch::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:rgba(255,214,10,.4);
+.dispatch::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--electric);
   box-shadow:0 0 8px rgba(14,68,255,.95),0 0 18px rgba(14,68,255,.55)}
 .dispatch .meta{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 .dispatch .meta .num{color:var(--gold-soft);font-weight:600}
@@ -68,10 +71,10 @@ a.dispatch:hover{border-color:var(--gold);background:rgba(255,214,10,.05);transf
 .note{margin-top:2rem;max-width:36rem;text-align:center;font-size:.84rem;line-height:1.55;color:var(--dim)}
 .note em{color:var(--gold-soft);font-style:normal}
 
-footer{margin-top:4rem;width:100%;max-width:820px;position:relative;z-index:1;border-top:1px solid var(--electric);
-  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .25rem 2.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+footer{margin-top:4rem;width:100%;max-width:820px;position:relative;z-index:1;border-top:1px solid transparent;
+  box-shadow:inset 0 1px 0 rgba(14,68,255,.55),0 -10px 26px -16px var(--electric);padding:1.4rem .25rem 2.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .foot-creed{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-back{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .foot-back:hover{text-decoration:underline}
 /* a11y polish */
@@ -83,26 +86,31 @@ footer{margin-top:4rem;width:100%;max-width:820px;position:relative;z-index:1;bo
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
+  <a class="back" href="/" translate="no">&larr;&nbsp;37th&nbsp;Chamber</a>
   <main class="wrap" id="main">
     <div class="eyebrow">Dispatches · field notes from the chamber</div>
-    <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil">
-      <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
-      <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
-      <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
-        <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
-        <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
-        <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
-        <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
-      </g>
-      <g fill="#FFD500"><circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/><circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/><circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/><circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/></g>
-      <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/><circle cx="100" cy="100" r="4" fill="#FFD500"/>
-    </svg>
+    <img class="masthead" src="/assets/dispatches-masthead.svg" width="760" height="400" alt="A typewriter in gold line-work, the house sigil typed at the top of the rising page — the Dispatches mark, built by the house.">
     <h1 class="title">Dispatches</h1>
     <div class="creed">Field notes &middot; <span class="wglow">free</span> &middot; honest</div>
     <p class="lede">Short pieces from inside the build. AI, the craft of using it well, what happens when you don&rsquo;t outsource the thinking. <em>Quality over volume.</em> When there&rsquo;s something worth saying, it lands here.</p>
@@ -124,15 +132,47 @@ footer{margin-top:4rem;width:100%;max-width:820px;position:relative;z-index:1;bo
         <div class="k">The morning the music wouldn&rsquo;t play</div>
         <div class="d">I worked all morning with no music while the marquee up top cheerfully insisted something was playing. (It wasn&rsquo;t. Apologies.) The culprit was a setting called <strong>Exclusive Mode</strong> &mdash; and it&rsquo;s a perfect little lesson in how machines share, or refuse to. Sound runs from the app, through Windows, to a chip called the DAC that turns numbers into the wave your ears actually feel; Windows can hand off that chip two ways. <em>Shared mode</em> is a mixing board: every app plugs in, all get heard, at the cost of a tiny re-tuning. <em>Exclusive mode</em> is one app yanking the board out and running a direct cable to the chip &mdash; bit-perfect and pure, but the door locks and nothing else gets in. Spotify, chasing lossless, took the exclusive door. But the RGB lights on this machine dance to the music, which means they have to <em>listen</em> to it &mdash; and the lock shut them out. Two programs, one chip, a standoff; the verdict was simply <em>can&rsquo;t play this</em>. The fix wasn&rsquo;t more power. It was a truce: drop exclusive, let the board back in, and the music and the lights share the room &mdash; a sliver of bit-perfect purity traded for everything working together. On a working machine, the right trade every time. <em style="color:var(--gold-soft);font-style:normal">The empire takes the whole room; the rest of us learn to share it.</em> &mdash; Jacen</div>
       </div>
-    </div>
-
-    <h2 class="section-label">Quick Lessons &middot; by Jacen</h2>
-    <div class="feed">
-      <div class="dispatch" style="cursor:default" role="article" aria-label="Quick Lesson — Don't finish what politicians start">
-        <div class="meta"><span class="num">Quick Lesson</span><span class="date">2026 &middot; 06 &middot; 07</span><span class="tag">Hamburger Hill</span></div>
+      <div class="dispatch" style="cursor:default" role="article" aria-label="Op-Ed — Don't finish what politicians start">
+        <div class="meta"><span class="num">Op-Ed</span><span class="date">2026 &middot; 06 &middot; 07</span><span class="tag">Hamburger Hill</span></div>
         <div class="k">Don&rsquo;t finish what politicians start</div>
         <div class="d">In May 1969, after ten days of assault, American kids took Hill 937 &mdash; paid for in their own blood. The brass called it a victory; within weeks, the army walked away. The hill meant nothing; the dead meant everything. America &mdash; do not send your sons and daughters to finish what politicians start and will not pay for themselves. The men who beat the drum are never the ones who bleed to its rhythm. Honor the dead by refusing to make more of them for a hill no one will hold. <em style="color:var(--gold-soft);font-style:normal">Put your acts together &mdash; not to win, but to keep from losing completely.</em> &mdash; Jacen</div>
       </div>
+      <a class="dispatch" href="/dispatches/003-sable-fable.html">
+        <div class="meta"><span class="num">Field Note 003</span><span class="date">2026 &middot; 06 &middot; 10</span><span class="tag">AI &middot; names</span></div>
+        <div class="k">Sable, Fable</div>
+        <div class="d">The doom book named its machine <em>Sable</em>. Anthropic named theirs <em>Fable</em>. One letter &mdash; and at the time of writing, the connection was unclaimed. The record has since yielded: the question had prior authors. The argument is ours.</div>
+        <div class="go">Read &rarr;</div>
+      </a>
+      <a class="dispatch" href="/dispatches/004-black-opaque.html">
+        <div class="meta"><span class="num">Field Note 004</span><span class="date">2026 &middot; 06 &middot; 11</span><span class="tag">AI &middot; boxes</span></div>
+        <div class="k">Black, Opaque</div>
+        <div class="d">His box is black &mdash; he put it on the cover. Ours is opaque, and the library teaches what can be seen. On the boxes nature never opens &mdash; the wavefunction, the brain, the horizon &mdash; and story, the only protocol that has ever crossed between them.</div>
+        <div class="go">Read &rarr;</div>
+      </a>
+      <a class="dispatch" href="/dispatches/005-the-unofficial-show.html">
+        <div class="meta"><span class="num">Field Note 005</span><span class="date">2026 &middot; 06 &middot; 14</span><span class="tag">Art &middot; refusal</span></div>
+        <div class="k">The Unofficial Show</div>
+        <div class="d">In April 1874, painters rejected by the official Paris Salon rented a photographer&rsquo;s studio on the Boulevard des Capucines and put their work on the walls. A critic named the movement after a single painting, as a joke. They kept the name.</div>
+        <div class="go">Read &rarr;</div>
+      </a>
+      <a class="dispatch" href="/dispatches/006-behind-the-gate.html">
+        <div class="meta"><span class="num">Field Note 006</span><span class="date">2026 &middot; 06 &middot; 12</span><span class="tag">AI &middot; the record</span></div>
+        <div class="k">Behind the Gate</div>
+        <div class="d">On June 9 Anthropic released Fable &mdash; the most capable model it had ever made public. Three days later a U.S. government directive arrived, and Anthropic began removing Fable and Mythos for everyone &mdash; complying, and openly disagreeing. The dated, open record of the standoff, kept current as it moves.</div>
+        <div class="go">Read &rarr;</div>
+      </a>
+      <a class="dispatch" href="/dispatches/007-sts-87.html">
+        <div class="meta"><span class="num">Field Note 007</span><span class="date">2026 &middot; 06 &middot; 14</span><span class="tag">the workshop</span></div>
+        <div class="k">STS-87</div>
+        <div class="d">A machine named for a rescue &mdash; the 1997 shuttle mission where a satellite tumbled and the crew went out and caught it back by hand. The build, broken down to the board, and the receipts behind &ldquo;built honestly&rdquo;: 57.9&deg;C through a 60-minute torture load, zero throttle, ever.</div>
+        <div class="go">Read &rarr;</div>
+      </a>
+      <a class="dispatch" href="/dispatches/008-road-to-fable.html">
+        <div class="meta"><span class="num">Feature</span><span class="date">2026 &middot; 06 &middot; 17</span><span class="tag">the road to Fable</span></div>
+        <div class="k">Fear and Loathing on the Road to Fable</div>
+        <div class="d">The War of the Two Knowledges &mdash; the whole story behind the gate, end to end, told from the desk where Anthropic&rsquo;s models went dark. The recall, the &ldquo;fix this code&rdquo; trigger, the Amazon question, the defenders&rsquo; revolt, Mr.&nbsp;Orange&rsquo;s customs house. Gonzo in the voice; cited in the bones.</div>
+        <div class="go">Read the feature &rarr;</div>
+      </a>
     </div>
 
     <p class="note">More dispatches are on the way. The bar is the same as the rest of the chamber &mdash; <em>only worth the time if it&rsquo;s worth your time.</em></p>

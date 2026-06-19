@@ -1,0 +1,112 @@
+<svg viewBox="0 0 880 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="euvTitle euvDesc" font-family="'Bahnschrift', system-ui, sans-serif">
+  <title id="euvTitle">The EUV Light Source</title>
+  <desc id="euvDesc">A molten tin droplet, fired 50,000 times per second, is vaporized by a two-pulse CO2 laser into a 400,000-kelvin plasma that radiates 13.5-nanometer extreme-ultraviolet light. A collector mirror gathers the light to an intermediate focus, from which an all-reflective molybdenum-silicon multilayer path carries it onward. The entire chain runs in vacuum.</desc>
+
+  <defs>
+    <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="#FFD60A"/>
+    </marker>
+    <marker id="ab" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="#4d82ff"/>
+    </marker>
+    <radialGradient id="plasma" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#dfeaff"/>
+      <stop offset="28%" stop-color="#a0c0ff"/>
+      <stop offset="62%" stop-color="#4d82ff"/>
+      <stop offset="100%" stop-color="#0E44FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="880" height="520" fill="#08080a"/>
+
+  <text x="40" y="44" fill="#FFD60A" font-size="23" font-weight="600" letter-spacing="0.5">THE EUV LIGHT SOURCE</text>
+  <text x="40" y="68" fill="#8f8a73" font-size="13.5" letter-spacing="0.3">How a chip-printing machine makes 13.5&#8201;nm light &#8212; the hardest light to make on Earth</text>
+  <line x1="40" y1="82" x2="840" y2="82" stroke="#d9b400" stroke-width="0.5" opacity="0.55"/>
+
+  <rect x="40" y="104" width="800" height="318" rx="10" fill="none" stroke="#d9b400" stroke-width="0.5" stroke-dasharray="5 5" opacity="0.6"/>
+  <rect x="52" y="96" width="118" height="18" rx="3" fill="#08080a"/>
+  <text x="60" y="109" fill="#8f8a73" font-size="12" letter-spacing="1.5">VACUUM VESSEL</text>
+
+  <text x="86" y="138" fill="#FFD60A" font-size="13" font-weight="600" text-anchor="middle">1 &#183; DROPLETS</text>
+  <rect x="58" y="150" width="56" height="40" rx="4" fill="none" stroke="#d9b400" stroke-width="1"/>
+  <path d="M86,190 L78,206 L94,206 Z" fill="#d9b400" opacity="0.85"/>
+  <text x="86" y="167" fill="#f3eede" font-size="11.5" text-anchor="middle">molten</text>
+  <text x="86" y="182" fill="#f3eede" font-size="11.5" text-anchor="middle">tin</text>
+  <circle cx="100" cy="226" r="3.4" fill="#d9b400"/>
+  <circle cx="116" cy="244" r="3.4" fill="#d9b400"/>
+  <circle cx="132" cy="262" r="3.4" fill="#d9b400"/>
+  <circle cx="148" cy="280" r="3.4" fill="#FFD60A"/>
+  <circle cx="164" cy="298" r="3.6" fill="#FFD60A"/>
+  <text x="76" y="232" fill="#f3eede" font-size="11.5">tin drops</text>
+  <text x="76" y="248" fill="#8f8a73" font-size="11">~50,000 / sec</text>
+
+  <text x="300" y="138" fill="#FFD60A" font-size="13" font-weight="600" text-anchor="middle">2 &#183; CO&#8322; LASER &#8212; TWO PULSES</text>
+  <rect x="232" y="156" width="120" height="40" rx="4" fill="none" stroke="#FFD60A" stroke-width="1"/>
+  <text x="292" y="180" fill="#f3eede" font-size="12" text-anchor="middle">CO&#8322; laser</text>
+  <line x1="232" y1="172" x2="208" y2="296" stroke="#a0c0ff" stroke-width="2" marker-end="url(#ab)"/>
+  <text x="214" y="232" fill="#a0c0ff" font-size="11" transform="rotate(-79 214 232)">pre-pulse: flatten</text>
+  <line x1="252" y1="196" x2="216" y2="300" stroke="#4d82ff" stroke-width="3.4" marker-end="url(#ab)"/>
+  <text x="246" y="244" fill="#4d82ff" font-size="11" transform="rotate(-71 246 244)">main pulse: vaporize</text>
+
+  <circle cx="206" cy="306" r="46" fill="url(#plasma)"/>
+  <circle cx="206" cy="306" r="11" fill="#f3eede"/>
+  <g stroke="#0E44FF" stroke-width="1.4" opacity="0.85">
+    <line x1="206" y1="306" x2="206" y2="252"/>
+    <line x1="206" y1="306" x2="170" y2="270"/>
+    <line x1="206" y1="306" x2="158" y2="306"/>
+    <line x1="206" y1="306" x2="172" y2="346"/>
+    <line x1="206" y1="306" x2="206" y2="360"/>
+    <line x1="206" y1="306" x2="248" y2="350"/>
+    <line x1="206" y1="306" x2="262" y2="306"/>
+    <line x1="206" y1="306" x2="246" y2="266"/>
+  </g>
+  <text x="206" y="392" fill="#FFD60A" font-size="13" font-weight="600" text-anchor="middle">3 &#183; PLASMA</text>
+  <text x="206" y="410" fill="#a0c0ff" font-size="12" text-anchor="middle">~400,000 K &#183; emits 13.5&#8201;nm EUV</text>
+
+  <path d="M360,206 Q300,306 360,406" fill="none" stroke="#FFD60A" stroke-width="3.2"/>
+  <path d="M360,206 Q300,306 360,406" fill="none" stroke="#d9b400" stroke-width="7" opacity="0.18"/>
+  <text x="430" y="170" fill="#FFD60A" font-size="13" font-weight="600" text-anchor="middle">4 &#183; COLLECTOR MIRROR</text>
+  <text x="430" y="188" fill="#8f8a73" font-size="11" text-anchor="middle">Mo/Si multilayer, ellipsoidal</text>
+
+  <g stroke="#0E44FF" stroke-width="1.6" opacity="0.9" fill="none">
+    <line x1="252" y1="288" x2="330" y2="230" marker-end="url(#ab)"/>
+    <line x1="252" y1="306" x2="318" y2="306" marker-end="url(#ab)"/>
+    <line x1="252" y1="324" x2="330" y2="382" marker-end="url(#ab)"/>
+  </g>
+
+  <g stroke="#0E44FF" stroke-width="1.8" fill="none">
+    <line x1="360" y1="222" x2="556" y2="300"/>
+    <line x1="360" y1="306" x2="556" y2="306"/>
+    <line x1="360" y1="390" x2="556" y2="312"/>
+  </g>
+
+  <circle cx="560" cy="306" r="5.5" fill="#4d82ff"/>
+  <circle cx="560" cy="306" r="11" fill="none" stroke="#4d82ff" stroke-width="1" opacity="0.6"/>
+  <text x="560" y="338" fill="#a0c0ff" font-size="11.5" text-anchor="middle">intermediate</text>
+  <text x="560" y="352" fill="#a0c0ff" font-size="11.5" text-anchor="middle">focus</text>
+
+  <text x="700" y="138" fill="#FFD60A" font-size="13" font-weight="600" text-anchor="middle">5 &#183; ALL-REFLECTIVE PATH</text>
+  <line x1="600" y1="232" x2="648" y2="200" stroke="#FFD60A" stroke-width="3.2"/>
+  <text x="624" y="190" fill="#8f8a73" font-size="11" text-anchor="middle">mirror</text>
+  <line x1="724" y1="252" x2="772" y2="220" stroke="#FFD60A" stroke-width="3.2"/>
+  <text x="748" y="210" fill="#8f8a73" font-size="11" text-anchor="middle">mirror</text>
+  <g stroke="#0E44FF" stroke-width="2.2" fill="none">
+    <line x1="566" y1="302" x2="620" y2="218" marker-end="url(#ab)"/>
+    <line x1="626" y1="216" x2="742" y2="238" marker-end="url(#ab)"/>
+    <line x1="748" y1="236" x2="806" y2="300"/>
+  </g>
+  <text x="700" y="300" fill="#f3eede" font-size="11.5" text-anchor="middle">every surface a mirror</text>
+  <text x="700" y="316" fill="#8f8a73" font-size="11" text-anchor="middle">EUV cannot pass through lenses</text>
+
+  <line x1="806" y1="300" x2="806" y2="402" stroke="#4d82ff" stroke-width="2.6" marker-end="url(#ab)"/>
+  <text x="806" y="420" fill="#4d82ff" font-size="12" text-anchor="middle" font-weight="600">to mask &amp; wafer</text>
+
+  <line x1="40" y1="452" x2="840" y2="452" stroke="#d9b400" stroke-width="0.5" opacity="0.4"/>
+  <rect x="40" y="468" width="22" height="3.4" fill="#0E44FF"/>
+  <text x="70" y="475" fill="#f3eede" font-size="12">13.5&#8201;nm EUV light &#183; the energy</text>
+  <line x1="300" y1="470" x2="322" y2="470" stroke="#FFD60A" stroke-width="3.2"/>
+  <text x="332" y="475" fill="#f3eede" font-size="12">mirrors &amp; structure</text>
+  <circle cx="528" cy="470" r="4" fill="#d9b400"/>
+  <text x="540" y="475" fill="#f3eede" font-size="12">molten tin</text>
+  <text x="40" y="500" fill="#8f8a73" font-size="11.5">The whole chain &#8212; droplet, plasma, every mirror &#8212; lives in vacuum, because air absorbs 13.5&#8201;nm light before it travels a single millimeter.</text>
+</svg>

@@ -1,1 +1,3 @@
 REVIEW-AND-PUSH.md
+# local tooling — leaks OS username + local worktree paths; keep out of the public repo
+.claude/

@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Washington Square — The Chess Room · 37th Chamber</title>
-<meta name="description" content="The first live chamber. Chess, taught in the open air — an adaptive ladder that climbs until the student hits their ceiling, then teaches there. Free, forever.">
+<meta name="description" content="The first live chamber. Chess, taught in the open air — a ladder of real tactics that finds the rung where you slip, marks it as your edge, and teaches every move. Free, forever.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/chambers/washington-square/">
 <meta property="og:title" content="Washington Square — The Chess Room">
-<meta property="og:description" content="The first live chamber of the 37th Chamber. An adaptive chess ladder that finds your ceiling and teaches there. Free, forever.">
+<meta property="og:description" content="The first live chamber. A chess ladder that finds the rung where you slip — your edge — and teaches every move, move by move. Free, forever.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="37th Chamber">
 <meta property="og:url" content="https://37th-chamber.com/chambers/washington-square/">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
 <meta name="twitter:title" content="Washington Square — The Chess Room">
-<meta name="twitter:description" content="The first live chamber. An adaptive chess ladder that finds your ceiling and teaches there. Free, forever.">
+<meta name="twitter:description" content="The first live chamber. A chess ladder that finds your edge and teaches every move. Free, forever.">
 <!-- Favicon: THE SIGIL (gold on near-black) — its canonical Tier-1 job.
      PNG (rendered) is primary; the inline SVG data-URI stays as a zero-dep fallback. -->
 <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -125,6 +125,17 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   border-radius: 4px; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; margin-left: 10px;
 }
 .reset-btn:hover { color: var(--gold); border-color: var(--electric); }
+
+/* --- The doorway: the chamber's framing lede (the intro the rest of the site earned) --- */
+.chamber-intro { max-width: 760px; margin: 4px auto 30px; padding: 0 4px; }
+.ci-eyebrow { font-size: .7rem; letter-spacing: .24em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 14px; }
+.ci-head { font-family: var(--font-geo); font-size: clamp(1.5rem, 4.4vw, 2.15rem); font-weight: 700; color: var(--gold); letter-spacing: .5px; line-height: 1.08; margin: 0 0 16px;
+  text-shadow: 0 1px 0 #b88e00, 0 2px 4px rgba(0,0,0,.5); }
+.ci-lede { font-size: clamp(1rem, 2.6vw, 1.12rem); line-height: 1.72; color: var(--text); margin: 0 0 12px; }
+.ci-lede b { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,.9), 0 0 12px rgba(14,68,255,.55); }
+.ci-lede em { color: #e6c34a; font-style: normal; }
+.ci-foot { font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); margin: 16px 0 0; }
+.ci-foot .free { color: #fff; font-weight: 700; text-shadow: 0 0 5px rgba(14,68,255,.9), 0 0 12px rgba(14,68,255,.55); }
 
 /* --- Footer · electric blue as HIGHLIGHT (accent bar / underline), never as font color --- */
 .chamber-footer {
@@ -366,11 +377,27 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 .back-fixed{position:fixed;top:.6rem;left:.6rem;z-index:60;display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .72rem;font-family:'Bahnschrift','DIN Alternate','Century Gothic',system-ui,sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#FFD60A;text-decoration:none;background:rgba(8,8,10,.72);border:1px solid rgba(255,214,10,.32);border-radius:2px;backdrop-filter:blur(5px)}
 .back-fixed:hover,.back-fixed:focus-visible{border-color:#FFD60A;outline:2px solid var(--gold);outline-offset:2px}
 @media(max-width:400px){body{padding-left:8px;padding-right:8px}.board{grid-template-columns:16px repeat(8,1fr)}}
-</style>
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <a href="/" aria-label="Back to the 37th Chamber" class="back-fixed" id="back-home">&larr;&nbsp;37th&nbsp;Chamber</a>
 <main class="wrap" id="main">
 
@@ -445,7 +472,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
     <!-- THE SIGIL — mark of the whole 37th-Chamber Dojo · primary/big -->
     <svg class="dojo-mark" viewBox="0 0 200 200" aria-label="the 37th-Chamber Dojo — the Sigil"><use href="#sigil"/></svg>
     <div>
-      <h1>the 37th-Chamber&nbsp;Dojo</h1>
+      <h1 translate="no">the 37th-Chamber&nbsp;Dojo</h1>
       <div class="page-wordmark">
         <!-- THE QUEEN — Washington Square's own chamber sigil · subhead -->
         <svg class="wm-queen" viewBox="0 0 120 150" aria-label="Washington Square — the Yellow Queen">
@@ -478,6 +505,15 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
     <button class="reset-btn" id="topbtn" onclick="DOJO.reset()">Reset</button>
   </div>
 </header>
+
+<section class="chamber-intro">
+  <p class="ci-eyebrow">Room #1 &middot; domain: chess &middot; the first of thirty-six</p>
+  <h2 class="ci-head">Chess, in the open air.</h2>
+  <p class="ci-lede">For a century, in Washington Square Park, anyone could pull up to a stone table and take a lesson from a stranger &mdash; who would beat you, and then show you exactly why. No fee. No door. No permission asked. That is the room we built first.</p>
+  <p class="ci-lede">The grandmaster walks you up a ladder of real tactics &mdash; rung by rung, the simple to the brutal. The first rung you slip on, it marks: <b>your edge</b>, the exact place to start the next climb. And every rung teaches &mdash; clear it, or call for the answer, and it shows you the <em>why</em>. Most of the internet drowns the beginner and bores the master; this one finds where your understanding ends, and hands you the next move.</p>
+  <p class="ci-lede">Every rung is a real weapon &mdash; the pin, the fork, the forcing line that ends the game &mdash; handed to you the moment you can wield it. Not theory. The thing itself.</p>
+  <p class="ci-foot">The first of thirty-six rooms. <span class="free">Free</span>, forever &mdash; like all the rest.</p>
+</section>
 
 <div class="grid">
   <!-- LEFT: board -->
@@ -526,8 +562,10 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   </div>
 </div>
 
+<p class="note-source" style="text-align:center;margin:0 auto 1.2rem;max-width:680px"><a href="https://en.wikipedia.org/wiki/Chess_piece_relative_value">Piece values — Wikipedia: Chess piece relative value</a> &middot; <a href="https://en.wikipedia.org/wiki/King_and_pawn_versus_king_endgame">The rule of the square — Wikipedia: King and pawn versus king</a></p>
+
 <footer class="chamber-footer">
-  <span class="foot-mark"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#sigil"/></svg><span class="foot-tag">the 37th-Chamber Dojo</span></span>
+  <span class="foot-mark"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#sigil"/></svg><span class="foot-tag" translate="no">the 37th-Chamber Dojo</span></span>
   <span class="foot-right">knowledge is <b>free</b> · forever</span>
   <a class="foot-work" href="/work/">Work with me &rarr;</a>
 </footer>
@@ -4219,7 +4257,7 @@ const Chess = {
       coach: 'A fork is one piece attacking two at once. Knights are the great forkers — look for a square that hits both.',
       setup: { g1:'K', d5:'N', e8:'k', a8:'q' },
       solution: { from:'d5', to:'c7' },
-      success: 'Nc7+ — a family fork!',
+      success: 'Nc7+ — a royal fork!',
       why: '<b>The fork: one attacker, two targets.</b> Nc7 gives check to the king on e8 <i>and</i> '
         + 'attacks the queen on a8 at the same time. The king must escape the check — and then Nxa8 '
         + 'pockets the queen. Knights fork brutally because their targets can\'t defend each other or '
@@ -4311,7 +4349,7 @@ const Chess = {
       replies: [ { from:'h8', to:'g8' } ],
       success: 'Qb7 … Qg7# — fenced into the corner and mated. That\'s a combination.',
       why: '<b>A combination is a forced sequence — you see the whole thing before you start.</b> Qb7 doesn\'t check, '
-        + 'but it leaves the black king exactly one legal square (g8): h7 is covered by your king on f6, and the queen '
+        + 'but it leaves the black king exactly one legal square (g8): h7 is covered by the queen on b7, g7 is covered by your king on f6, and the queen '
         + 'now walls off the 7th rank. With only one reply, the position is on rails. Then Qg7# is mate because the '
         + 'king on f6 <i>protects</i> the queen — Black can\'t capture it and has nowhere to run. The power isn\'t in any '
         + 'single move; it\'s that every reply is forced, so you can calculate to the end. This is the leap from "spotting '
@@ -4331,7 +4369,7 @@ const Chess = {
       success: 'Ke5 — the opposition. Now Black must step aside and your king walks through.',
       why: '<b>The opposition</b> is the silent ruler of pawn endings. Kings on e5 and e7, two squares apart on the '
         + 'same file, with Black to move — that\'s the opposition, and you have it. Black\'s king cannot stay on e7 '
-        + '(your king would attack it) and cannot step toward you, so it must give way to d7 or f7. Then your king '
+        + '(White plays Ke6 next, seizing e6 and attacking e7) and cannot advance toward you (Ke6 would step into your king\'s attack), so it must give way to d7 or f7. Then your king '
         + 'outflanks: if Black plays Kd7, you play Kf6 (or vice versa) and your king has penetrated the front. '
         + 'In K+P vs K, this is exactly how the stronger side escorts the pawn forward to promotion. <b>Memorize the '
         + 'shape:</b> kings facing on the same file/rank, one square between, opponent to move = you control the '
@@ -4349,9 +4387,9 @@ const Chess = {
       solution: { from:'h5', to:'h6' },
       success: 'h6 — pawn races, king can\'t catch.',
       why: '<b>The square of the pawn</b> is the geometric shortcut for "can the king catch this passed pawn?" '
-        + 'Draw a square from the pawn to its promotion square: h5 → h8 is 3 ranks, so the box is 3×3 with corners '
+        + 'Draw a square from the pawn to its promotion square: h5 → h8 is 4 ranks, so the box is 4×4 with corners '
         + 'h5, h8, e8, e5. The black king sits right on the edge of that box (e5) — and <b>because it\'s your move, '
-        + 'you push first and stay one tempo ahead.</b> 1.h6 shrinks the square to 2×2 (h6, h8, f8, f6); the king '
+        + 'you push first and stay one tempo ahead.</b> 1.h6 shrinks the square to 3×3 (h6, h8, f8, f6); the king '
         + 'chases with Kf6, but after h7, Kg7, h8=Q it arrives one move too late. <b>The catch: waste a single tempo '
         + '(a king move instead of the push) and the black king steps into the square and catches the pawn — a draw.</b> '
         + 'On the boundary, the push is the ONLY move that wins. This single rule turns "I have no idea if my pawn '
@@ -4459,7 +4497,7 @@ const Chess = {
         if (piece) {
           const isWhite = piece === piece.toUpperCase();
           inner = '<span class="piece ' + (isWhite ? 'white' : 'black') + '" aria-hidden="true">'
-            + '<svg viewBox="0 0 45 45"><use href="#p-' + piece.toLowerCase() + '"/></svg></span>';
+            + '<svg viewBox="0 0 45 45" aria-hidden="true"><use href="#p-' + piece.toLowerCase() + '"/></svg></span>';
         }
         html += '<div'
           + ' role="gridcell"'

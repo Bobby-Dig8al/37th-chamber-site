@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 5 · The Transformer Block — The Opaque Box · 37th Chamber</title>
+<meta name="description" content="Chapter 5 of The Opaque Box. The full transformer block from scratch — feed-forward network, residual connections, layer normalization, pre-LN convention. The repeating unit that stacks into GPT.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/05-the-transformer-block">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<meta property="og:title" content="Ch 5 · The Transformer Block — The Opaque Box">
+<meta property="og:description" content="The full transformer block from scratch. Feed-forward network, residual connections, layer normalization, pre-LN convention. The repeating unit that stacks into GPT.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://37th-chamber.com/library/the-opaque-box/05-the-transformer-block.html">
+<meta property="og:image" content="https://37th-chamber.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "headline": "Ch 5 · The Transformer Block",
+  "description": "Chapter 5 of The Opaque Box. The full transformer block from scratch — feed-forward network, residual connections, layer normalization, pre-LN convention. The repeating unit that stacks into GPT.",
+  "url": "https://37th-chamber.com/library/the-opaque-box/05-the-transformer-block.html",
+  "isPartOf": {
+    "@type": "Book",
+    "name": "The Opaque Box",
+    "url": "https://37th-chamber.com/library/"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "A Fable (Claude, by Anthropic)",
+    "url": "https://www.anthropic.com/claude"
+  },
+  "editor": {
+    "@type": "Person",
+    "name": "bobby-dig8al",
+    "url": "https://37th-chamber.com/about/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "37th Chamber",
+    "url": "https://37th-chamber.com/"
+  },
+  "educationalLevel": "Beginner",
+  "learningResourceType": "Article",
+  "inLanguage": "en",
+  "image": "https://37th-chamber.com/assets/og.png"
+}
+</script>
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Consolas','SFMono-Regular','Menlo','Liberation Mono',ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem 0;
+  overflow-x:hidden;position:relative;letter-spacing:.005em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
+.topnav{width:100%;max-width:760px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
+.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav{display:flex;gap:.45rem;flex-wrap:wrap}
+.chnav a, .chnav span{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid rgba(255,214,10,.22);padding:.36rem .62rem;border-radius:2px;transition:.16s ease}
+.chnav a:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.chnav span{color:var(--dim);border-color:rgba(143,138,115,.22);cursor:default}
+.wrap{position:relative;z-index:1;width:100%;max-width:760px;display:flex;flex-direction:column;
+  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:clamp(.66rem,2.4vw,.78rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+h1.title{font-size:clamp(1.85rem,6.4vw,2.85rem);line-height:1.05;font-weight:600;text-transform:uppercase;letter-spacing:.025em;color:var(--gold);
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1.2rem}
+.epigraph{margin:1rem 0 2rem;padding:.85rem 1rem .85rem 1.1rem;border-left:2px solid var(--gold-soft);background:rgba(255,214,10,.025);
+  font-style:italic;color:var(--gold-soft);font-size:clamp(.94rem,2.6vw,1.02rem);line-height:1.6}
+hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2.2rem 0}
+h2{margin:2.4rem 0 1rem;font-size:clamp(1.18rem,3.6vw,1.42rem);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h3{margin:1.8rem 0 .8rem;font-size:clamp(1.02rem,2.9vw,1.14rem);color:var(--gold-soft);font-weight:600;letter-spacing:.01em}
+p, ul, ol{font-size:clamp(.98rem,2.55vw,1.05rem);line-height:1.72;margin:.95rem 0;color:var(--text)}
+ul, ol{padding-left:1.4rem}
+li{margin:.42rem 0}
+strong{color:var(--gold)}
+em{color:var(--gold-soft);font-style:italic}
+a.inline{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
+a.inline:hover{border-bottom-style:solid}
+code{font-family:var(--mono);font-size:.92em;color:var(--gold-soft);background:rgba(255,214,10,.05);padding:.08em .35em;border-radius:2px;letter-spacing:0}
+pre{font-family:var(--mono);font-size:clamp(.78rem,2.1vw,.86rem);line-height:1.55;color:var(--text);
+  background:rgba(255,214,10,.018);border:1px solid rgba(255,214,10,.13);border-left:2px solid var(--electric);
+  padding:.85rem 1rem;margin:1.1rem 0;overflow-x:auto;border-radius:0}
+pre code{font-size:1em;color:inherit;background:none;padding:0;border-radius:0;letter-spacing:0}
+blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(14,68,255,.6);background:rgba(14,68,255,.04);color:var(--text);font-size:clamp(.95rem,2.55vw,1.02rem);line-height:1.62}
+blockquote em{color:#cfe0ff}
+.takeaway{margin:1.4rem 0;padding:1rem 1.15rem;border:1px solid rgba(255,214,10,.22);background:rgba(255,214,10,.025)}
+.takeaway h3{margin-top:0}
+.next-up{margin:2.6rem 0 1.4rem;padding:1.1rem 1.2rem;border:1px solid rgba(255,214,10,.30);background:rgba(255,214,10,.02);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.next-up .label{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.next-up .target{font-size:clamp(1rem,2.7vw,1.1rem);color:var(--gold);font-weight:600}
+.next-up .soon{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);
+  border:1px solid rgba(255,214,10,.32);padding:.36rem .7rem;border-radius:2px}
+footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);
+  box-shadow:0 -10px 26px -16px var(--electric);padding:1.4rem .2rem 2.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75)}
+.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.foot-back:hover{text-decoration:underline}
+.note-source{margin-top:2rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+/* a11y polish */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem;outline:none}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+
+/* the corridor */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}.diagram{margin:2.2rem 0;text-align:center}
+.diagram svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.diagram figcaption{margin-top:.85rem;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;letter-spacing:.01em;max-width:620px;margin-left:auto;margin-right:auto}
+</style>
+<script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
+<nav class="topnav" aria-label="Chapter navigation">
+  <a class="back" href="/library/">&larr;&nbsp;The Library</a>
+  <div class="chnav">
+    <a href="00-what-is-the-box.html">Ch&nbsp;0</a>
+    <a href="01-from-text-to-numbers.html">Ch&nbsp;1</a>
+    <a href="02-words-as-directions.html">Ch&nbsp;2</a>
+    <a href="03-attention.html">Ch&nbsp;3</a>
+    <a href="04-many-eyes.html">Ch&nbsp;4</a>
+    <span>Ch&nbsp;5</span>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+  <div class="eyebrow">The Opaque Box · Chapter 5</div>
+  <h1 class="title">The Transformer Block</h1>
+
+  <blockquote class="epigraph">Chapters 3 and 4 built a machine that <em>mixes</em> information between positions. Multi-head attention looks outward &mdash; each token reaching across the sequence, gathering what it needs from other tokens. But that gathering is a routing operation, not a reasoning one. Once the positions have shared notes, something has to <em>think</em> about what they heard &mdash; independently, at each position. The transformer block assembles both stages, then wraps them in the plumbing that makes the whole thing stackable.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s5-1">5.1&nbsp;&nbsp;Where we are</h2>
+  <p>After Chapter 4, <code translate="no">MultiHeadAttention</code> takes <code translate="no">(B, T, C)</code> and returns <code translate="no">(B, T, C)</code> &mdash; the same shape it received. That shape-preserving contract was deliberate: it is the condition that lets us compose operations without reshaping. Each sublayer in the transformer is built to honor it.</p>
+  <p>What multi-head attention does to that tensor is <strong>routing</strong>: it lets each of the <code translate="no">T</code> positions look at the others and update itself with a weighted blend of their values. After that operation, every position&rsquo;s vector carries not just its own identity but a mix of context from across the sequence.</p>
+  <p>What it does <em>not</em> do is apply a nonlinear transformation to the token representations. The Q/K/V projections and the final linear mix are linear operations. The softmax over the dot-product scores is nonlinear &mdash; but it acts on the <em>routing weights</em>, not on the token vectors themselves; it decides how much of each value to blend, not what to do once the blend arrives. And the whole operation is still applied position-by-position in the sense that each position produces its own output from its own query. There is no operation that takes a position&rsquo;s received context and runs it through a nonlinearity to compute something <em>genuinely new</em>. For that, the block adds a second sublayer: a small feed-forward network that fires independently at every position.</p>
+
+  <hr class="rule">
+
+  <h2 id="s5-2">5.2&nbsp;&nbsp;The feed-forward network</h2>
+  <p>In Vaswani et al. (2017, §3.3), the feed-forward sublayer is described as a <strong>position-wise fully connected network</strong> &mdash; &ldquo;position-wise&rdquo; meaning it is applied separately and identically at each position, with the same weights. It has no access to other positions; it only processes what that position now carries.</p>
+  <p>The function is:</p>
+<pre translate="no"><code>FFN(x) = max(0, x W&#x2081; + b&#x2081;) W&#x2082; + b&#x2082;</code></pre>
+  <p>Two linear transformations with a ReLU in between. In the paper&rsquo;s base model: <code translate="no">d_model = 512</code> and <code translate="no">d_ff = 2048</code> &mdash; the inner layer is <strong>4&times; wider</strong> than the residual stream. The network expands the representation, applies the nonlinearity, then projects back to <code translate="no">d_model</code>.</p>
+  <p>Here is the meeting-room metaphor that makes the two sublayers click together: <strong>attention is the meeting where positions share notes</strong>. Every token gets to speak, every token listens, and the output is an updated note for each position reflecting what it heard. The feed-forward network is <strong>each position going away alone to think about what it heard</strong>. Privately, nonlinearly, without any further communication. Then it writes a revised note and hands it to the next layer.</p>
+  <blockquote><strong>Why 4&times;?</strong> Vaswani et al. set <code translate="no">d_ff = 2048 = 4 &times; 512</code>, and this ratio has proven remarkably durable across model scales. The expansion creates room for the nonlinearity to activate different subsets of hidden units at different positions &mdash; in effect, each position independently decides which of the 2048 &ldquo;features&rdquo; to light up, then projects the result back to the channel dimension. The exact factor is a practical hyperparameter, not a theorem.</blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s5-3">5.3&nbsp;&nbsp;Residual connections</h2>
+  <p>Deep networks are hard to train. The core problem is that gradients must flow backward from the loss through every layer to reach the parameters near the input. In a naive deep stack, those gradients tend to shrink (vanish) or explode as they multiply through layer after layer of Jacobians. By the time they reach the early layers, they carry almost no useful signal.</p>
+  <p>He et al. (arXiv 2015; CVPR 2016, &ldquo;Deep Residual Learning for Image Recognition&rdquo;) found a remarkably clean fix for convolutional networks: instead of asking each layer to learn a complete transformation <code translate="no">H(x)</code>, ask it to learn only the <em>residual</em> &mdash; the difference from the input. The full computation becomes:</p>
+<pre translate="no"><code>output = x + sublayer(x)     # residual connection</code></pre>
+  <p>The identity path &mdash; the raw <code translate="no">x</code> flowing straight through the <code translate="no">+</code> &mdash; is a <strong>gradient highway</strong>. During backpropagation, gradients flow through the addition unimpeded, all the way back to the earliest layers. The sublayer&rsquo;s contribution is additive; if it is small or wrong, the identity path carries the signal regardless. Networks with residual connections can be meaningfully trained at depths that would otherwise not learn at all.</p>
+  <p>The transformer adopts this pattern around <em>both</em> sublayers. After attention, instead of passing the attention output directly to the next stage, we add it back onto the input that generated it. After the feed-forward network, same thing. The residual stream &mdash; the running <code translate="no">x</code> that persists across the entire block &mdash; accumulates contributions from each sublayer rather than being replaced by them.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 470" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic of one transformer block. A vertical residual stream runs from input at the bottom to output at the top. It passes two sublayers: pre-layer-norm multi-head attention, then pre-layer-norm feed-forward, each wrapped by a residual skip connection that adds the sublayer output back onto the stream at a plus node. The residual stream is drawn as a glowing spine to show the unbroken gradient highway.">
+<title>The transformer block: residual spine, two sublayers, skip connections</title>
+<desc>Input enters at the bottom into a vertical residual stream. The stream branches: a copy is normalized by LayerNorm and fed to multi-head attention, whose output is added back at a plus node (residual connection). The same pattern repeats for a feed-forward (MLP) sublayer. Output leaves at the top with the same shape, (B, T, d_model), so blocks stack. The residual stream is the glowing spine, drawn in electric blue to mark it as the gradient highway that passes through each plus unchanged.</desc>
+<style>
+  .lab{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+  .prim{fill:#f3eede;}
+  .dim{fill:#8f8a73;}
+  .gold{fill:#FFD60A;}
+  .goldsoft{fill:#d9b400;}
+</style>
+<defs>
+  <filter id="blueglow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="4.2" result="b"/>
+    <feMerge>
+      <feMergeNode in="b"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#d9b400"/>
+  </marker>
+  <marker id="ahb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#0E44FF"/>
+  </marker>
+</defs>
+
+<!-- ====== THE RESIDUAL SPINE (the one blue glow accent: the gradient highway) ====== -->
+<g aria-hidden="true" filter="url(#blueglow)">
+  <line x1="240" y1="436" x2="240" y2="34" stroke="#0E44FF" stroke-width="3.4" stroke-linecap="round"/>
+  <!-- plus node 1 -->
+  <circle cx="240" cy="300" r="13" fill="#08080a" stroke="#0E44FF" stroke-width="2.6"/>
+  <!-- plus node 2 -->
+  <circle cx="240" cy="120" r="13" fill="#08080a" stroke="#0E44FF" stroke-width="2.6"/>
+  <line x1="240" y1="60" x2="240" y2="34" stroke="#0E44FF" stroke-width="3.4" stroke-linecap="round" marker-end="url(#ahb)"/>
+</g>
+<!-- plus glyphs (crisp, on top of glow) -->
+<g aria-hidden="true" stroke="#f3eede" stroke-width="2.1" stroke-linecap="round">
+  <line x1="233" y1="300" x2="247" y2="300"/><line x1="240" y1="293" x2="240" y2="307"/>
+  <line x1="233" y1="120" x2="247" y2="120"/><line x1="240" y1="113" x2="240" y2="127"/>
+</g>
+
+<!-- spine label -->
+<g aria-hidden="true">
+  <line x1="200" y1="218" x2="220" y2="218" stroke="#0E44FF" stroke-width="2"/>
+  <text class="lab" x="195" y="210" text-anchor="end" font-size="11.5" font-weight="600" fill="#0E44FF">residual stream</text>
+  <text class="lab dim" x="195" y="226" text-anchor="end" font-size="10.5">the gradient highway —</text>
+  <text class="lab dim" x="195" y="240" text-anchor="end" font-size="10.5">the identity path through each +</text>
+</g>
+
+<!-- ====== INPUT ====== -->
+<g aria-hidden="true">
+  <text class="lab gold" x="240" y="458" text-anchor="middle" font-size="12.5" font-weight="600">INPUT</text>
+  <text class="lab dim" x="240" y="425" text-anchor="middle" font-size="10.5">(B, T, d_model)</text>
+</g>
+
+<!-- ===================== SUBLAYER 2 (top): FEED-FORWARD ===================== -->
+<!-- branch out (right) at y=212, add back at plus2 y=120 -->
+<g aria-hidden="true">
+  <!-- tap off the spine -->
+  <circle cx="240" cy="212" r="3.4" class="goldsoft"/>
+  <path d="M240 212 H392" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M392 212 V196" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- LayerNorm 2 -->
+<g aria-hidden="true">
+  <rect x="340" y="160" width="104" height="34" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+  <text class="lab prim" x="392" y="178" text-anchor="middle" font-size="11.5">LayerNorm</text>
+  <text class="lab dim" x="392" y="190" text-anchor="middle" font-size="9">pre-LN · ln2</text>
+</g>
+<!-- arrow LN2 -> FFN -->
+<path d="M392 160 V146" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)" aria-hidden="true"/>
+<!-- FFN box -->
+<g aria-hidden="true">
+  <rect x="324" y="92" width="136" height="48" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="2"/>
+  <text class="lab gold" x="392" y="111" text-anchor="middle" font-size="12.5" font-weight="600">FEED-FORWARD</text>
+  <text class="lab dim" x="392" y="126" text-anchor="middle" font-size="9.5">expand 4× · ReLU · project</text>
+</g>
+<!-- return to plus2 -->
+<g aria-hidden="true">
+  <path d="M392 92 V72 H240" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M260 72 H240 V134" fill="none" stroke="#d9b400" stroke-width="0"/>
+  <path d="M252 72 H240" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M240 72 V134" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- sublayer-2 bracket label -->
+<text class="lab goldsoft" x="476" y="116" text-anchor="start" font-size="10.5" font-weight="600" aria-hidden="true">sublayer 2 · think</text>
+<text class="lab dim" x="476" y="130" text-anchor="start" font-size="9.5" aria-hidden="true">x + ffwd(ln2(x))</text>
+
+<!-- ===================== SUBLAYER 1 (lower): MULTI-HEAD ATTENTION ===================== -->
+<!-- tap off the spine at y=392, add back at plus1 y=300 -->
+<g aria-hidden="true">
+  <circle cx="240" cy="392" r="3.4" class="goldsoft"/>
+  <path d="M240 392 H392" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M392 392 V376" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- LayerNorm 1 -->
+<g aria-hidden="true">
+  <rect x="340" y="340" width="104" height="34" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+  <text class="lab prim" x="392" y="358" text-anchor="middle" font-size="11.5">LayerNorm</text>
+  <text class="lab dim" x="392" y="370" text-anchor="middle" font-size="9">pre-LN · ln1</text>
+</g>
+<!-- arrow LN1 -> attention -->
+<path d="M392 340 V326" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)" aria-hidden="true"/>
+<!-- attention box -->
+<g aria-hidden="true">
+  <rect x="316" y="272" width="152" height="48" rx="3" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="2"/>
+  <text class="lab gold" x="392" y="291" text-anchor="middle" font-size="12" font-weight="600">MULTI-HEAD ATTN</text>
+  <text class="lab dim" x="392" y="306" text-anchor="middle" font-size="9.5">positions share notes · routing</text>
+</g>
+<!-- return to plus1 -->
+<g aria-hidden="true">
+  <path d="M392 272 V252 H252" fill="none" stroke="#d9b400" stroke-width="1.8"/>
+  <path d="M240 252 V314" fill="none" stroke="#d9b400" stroke-width="1.8" marker-end="url(#ah)"/>
+</g>
+<!-- sublayer-1 bracket label -->
+<text class="lab goldsoft" x="484" y="296" text-anchor="start" font-size="10.5" font-weight="600" aria-hidden="true">sublayer 1 · route</text>
+<text class="lab dim" x="484" y="310" text-anchor="start" font-size="9.5" aria-hidden="true">x + sa(ln1(x))</text>
+
+<!-- ====== OUTPUT ====== -->
+<g aria-hidden="true">
+  <text class="lab gold" x="240" y="24" text-anchor="middle" font-size="12.5" font-weight="600">OUTPUT</text>
+  <text class="lab dim" x="300" y="44" text-anchor="start" font-size="10.5">(B, T, d_model) — same shape · stack N</text>
+</g>
+
+<!-- ====== block frame (faint) ====== -->
+<rect x="36" y="52" width="630" height="356" rx="6" fill="none" stroke="rgba(255,214,10,.18)" stroke-width="1" aria-hidden="true"/>
+<text class="lab dim" x="52" y="72" text-anchor="start" font-size="10" letter-spacing="0.18em" aria-hidden="true">ONE  TRANSFORMER  BLOCK</text>
+</svg>
+<figcaption>One transformer block: the residual stream runs bottom to top as a spine, branching into a pre-LN attention sublayer then a pre-LN feed-forward sublayer, each added back at a + so the identity path stays unbroken.</figcaption>
+</figure>
+</p>
+  <blockquote><em>Without residuals, every parameter must participate in a globally coherent transformation at its depth. With them, parameters only need to learn corrections to what already flows through. The task becomes feasible orders of magnitude sooner.</em></blockquote>
+
+  <hr class="rule">
+
+  <h2 id="s5-4">5.4&nbsp;&nbsp;Layer normalization</h2>
+  <p>The second piece of stabilization plumbing is <strong>layer normalization</strong> (Ba, Kiros &amp; Hinton, 2016, arXiv:1607.06450). After every sublayer, numbers that started at a workable scale can drift: large activations compound across depth, and a network in which the numbers in one layer are ten times larger than another is difficult to optimize &mdash; learning rates calibrated for one depth are wrong for another.</p>
+  <p>Layer norm fixes this by normalizing across the <em>channel dimension</em> at each position: for a vector of length <code translate="no">C</code>, it computes the mean and variance of that vector&rsquo;s elements, then rescales them to have mean zero and variance one, with learned per-channel scale and shift parameters (<code translate="no">&gamma;</code> and <code translate="no">&beta;</code>) that let the model restore whatever range is useful. The normalization is <strong>per position</strong> &mdash; it operates on the <code translate="no">C</code>-dimensional vector at each <code translate="no">(b, t)</code> location independently, so it is not sensitive to batch size (unlike batch normalization).</p>
+
+  <h3>Pre-norm vs. post-norm &mdash; an honest deviation</h3>
+  <p>The 2017 paper placed layer norm <em>after</em> each sublayer (post-LN): <code translate="no">LayerNorm(x + sublayer(x))</code>. This is the architecture as Vaswani et al. described it.</p>
+  <p>Modern GPT-style models &mdash; GPT-2, GPT-3, and the nanoGPT implementation that this book&rsquo;s code follows &mdash; moved the layer norm to <em>before</em> each sublayer (pre-LN): <code translate="no">x + sublayer(LayerNorm(x))</code>. The difference is not cosmetic. In post-LN, the residual stream itself passes through the norm at every layer, which means the identity highway is renormalized before addition. In pre-LN, the norm only touches the branch being computed; the identity path flows through <code translate="no">+</code> completely unchanged. Pre-LN produces a cleaner gradient highway and trains more stably, removing the need for learning-rate warmup (Xiong et al., 2020 &mdash; <a class="inline" href="https://arxiv.org/abs/2002.04745">arXiv:2002.04745</a>).</p>
+  <p>Our code follows the <strong>pre-LN convention</strong>. This is a deliberate deviation from the 2017 paper, following the GPT-2/nanoGPT lineage. Where you see <code translate="no">self.ln1</code> and <code translate="no">self.ln2</code> in the block below, they fire <em>before</em> their respective sublayers, not after.</p>
+
+  <hr class="rule">
+
+  <h2 id="s5-5">5.5&nbsp;&nbsp;The code</h2>
+  <p>Here is the full block. <code translate="no">MultiHeadAttention</code> is brought forward from Chapter 4 exactly as written; the two new modules are <code translate="no">FeedForward</code> and <code translate="no">Block</code>. Read every shape comment.</p>
+<pre translate="no"><code>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# ── Brought forward from Chapters 3 &amp; 4 ─────────────────────────────────────
+
+class SelfAttentionHead(nn.Module):
+    """One head of causal self-attention. (B,T,C) -&gt; (B,T,head_size)."""
+    def __init__(self, d_model, head_size, context_length, dropout=0.0):
+        super().__init__()
+        self.key   = nn.Linear(d_model, head_size, bias=False)
+        self.query = nn.Linear(d_model, head_size, bias=False)
+        self.value = nn.Linear(d_model, head_size, bias=False)
+        self.register_buffer("tril", torch.tril(torch.ones(context_length, context_length)))
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):                        # x: (B, T, C)
+        B, T, C = x.shape
+        k = self.key(x)                          # (B, T, head_size)
+        q = self.query(x)                        # (B, T, head_size)
+        wei = q @ k.transpose(-2, -1) * k.shape[-1]**-0.5   # (B, T, T)
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, float('-inf'))
+        wei = F.softmax(wei, dim=-1)             # (B, T, T)
+        wei = self.dropout(wei)
+        v = self.value(x)                        # (B, T, head_size)
+        return wei @ v                           # (B, T, head_size)
+
+
+class MultiHeadAttention(nn.Module):
+    """h parallel heads, concatenated + projected. (B,T,C) -&gt; (B,T,C)."""
+    def __init__(self, d_model, num_heads, context_length, dropout=0.0):
+        super().__init__()
+        assert d_model % num_heads == 0
+        head_size = d_model // num_heads
+        self.heads = nn.ModuleList([
+            SelfAttentionHead(d_model, head_size, context_length, dropout)
+            for _ in range(num_heads)
+        ])
+        self.proj    = nn.Linear(d_model, d_model)   # W^O
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):                        # x: (B, T, d_model)
+        out = torch.cat([h(x) for h in self.heads], dim=-1)  # (B, T, d_model)
+        return self.dropout(self.proj(out))      # (B, T, d_model)
+
+
+# ── Chapter 5: new modules ───────────────────────────────────────────────────
+
+class FeedForward(nn.Module):
+    """
+    Position-wise feed-forward network (Vaswani et al. 2017, §3.3).
+    Applied identically and independently at each position.
+    Input:  (B, T, d_model)
+    Output: (B, T, d_model)
+    """
+    def __init__(self, d_model, dropout=0.0):
+        super().__init__()
+        # expand 4× into d_ff, apply nonlinearity, project back.
+        # Vaswani et al. use ReLU; modern GPT-style models (GPT-2, nanoGPT)
+        # use GELU — we follow the original paper's ReLU here for clarity.
+        self.net = nn.Sequential(
+            nn.Linear(d_model, 4 * d_model),     # (B, T, d_model) -&gt; (B, T, 4*d_model)
+            nn.ReLU(),                            # pointwise nonlinearity
+            nn.Linear(4 * d_model, d_model),     # (B, T, 4*d_model) -&gt; (B, T, d_model)
+            nn.Dropout(dropout),
+        )
+
+    def forward(self, x):                        # x: (B, T, d_model)
+        return self.net(x)                       # (B, T, d_model)
+
+
+class Block(nn.Module):
+    """
+    One transformer block: pre-LN self-attention + pre-LN feed-forward,
+    each wrapped in a residual connection.
+
+    Convention note: the 2017 paper normalized AFTER each sublayer (post-LN).
+    We follow the GPT-2 / nanoGPT convention: normalize BEFORE (pre-LN).
+    Pre-LN preserves the identity gradient highway through the + unchanged,
+    which gives more stable training at depth.
+
+    Input:  (B, T, d_model)
+    Output: (B, T, d_model)   — same shape throughout; the block is stackable.
+    """
+    def __init__(self, d_model, num_heads, context_length, dropout=0.0):
+        super().__init__()
+        self.sa   = MultiHeadAttention(d_model, num_heads, context_length, dropout)
+        self.ffwd = FeedForward(d_model, dropout)
+        self.ln1  = nn.LayerNorm(d_model)        # fires before attention
+        self.ln2  = nn.LayerNorm(d_model)        # fires before feed-forward
+
+    def forward(self, x):                        # x: (B, T, d_model)
+        # sublayer 1: multi-head self-attention
+        # pre-LN: normalise x before passing to attention
+        # residual: add the attention output back onto x
+        x = x + self.sa(self.ln1(x))            # (B, T, d_model)
+
+        # sublayer 2: position-wise feed-forward
+        # pre-LN: normalise x before passing to FFN
+        # residual: add the FFN output back onto x
+        x = x + self.ffwd(self.ln2(x))          # (B, T, d_model)
+
+        return x                                 # (B, T, d_model)
+
+
+# ── sanity check ─────────────────────────────────────────────────────────────
+B, T, C = 4, 8, 384            # batch=4, sequence_len=8, d_model=384
+x = torch.randn(B, T, C)
+
+block = Block(d_model=384, num_heads=6, context_length=256, dropout=0.1)
+out   = block(x)
+print(out.shape)               # torch.Size([4, 8, 384]) — identical to input</code></pre>
+
+  <h3>Line-by-line walk</h3>
+  <ul>
+    <li><code translate="no">FeedForward.__init__</code>: <code translate="no">nn.Sequential</code> chains the two linear layers and the ReLU in order. The first <code translate="no">nn.Linear(d_model, 4 * d_model)</code> expands from <code translate="no">384</code> to <code translate="no">1536</code>; the second projects back. Each position&rsquo;s <code translate="no">C</code>-dimensional vector is processed by this sequence independently. No position talks to another inside the FFN.</li>
+    <li><code translate="no">nn.ReLU()</code>: <code translate="no">max(0, x)</code> pointwise. This is the activation Vaswani et al. used. GPT-2 and most subsequent GPT-style models switched to GELU (Gaussian Error Linear Unit), which is smooth and differentiable everywhere &mdash; where ReLU is a hard zero for negative inputs, GELU curves gently, which can improve gradient flow; the comment in the code notes this. For this walkthrough, ReLU keeps the math transparent.</li>
+    <li><code translate="no">Block.__init__</code>: <code translate="no">self.sa</code> is the <code translate="no">MultiHeadAttention</code> module from Chapter 4, unchanged. <code translate="no">self.ln1</code> and <code translate="no">self.ln2</code> are <code translate="no">nn.LayerNorm(d_model)</code> instances &mdash; each normalizes the last dimension of its input to mean&nbsp;0, variance&nbsp;1, then applies learned per-channel scale and shift.</li>
+    <li><code translate="no">x = x + self.sa(self.ln1(x))</code>: the pre-LN residual for attention. <code translate="no">self.ln1(x)</code> normalizes the current residual stream; <code translate="no">self.sa(...)</code> runs multi-head attention on the normalized input; the result is added back onto the <em>un-normalized</em> <code translate="no">x</code>. The <code translate="no">+</code> is the gradient highway &mdash; gradients flow through it directly.</li>
+    <li><code translate="no">x = x + self.ffwd(self.ln2(x))</code>: same pattern for the feed-forward sublayer. <code translate="no">self.ln2</code> normalizes the updated <code translate="no">x</code>; <code translate="no">self.ffwd</code> expands-nonlinearizes-projects; the result is added back. <code translate="no">x</code> at the end of the forward pass carries both sublayers&rsquo; contributions superimposed on whatever came in.</li>
+    <li><strong>Output shape: <code translate="no">(B, T, d_model)</code></strong>. The block received <code translate="no">(4, 8, 384)</code> and returned <code translate="no">(4, 8, 384)</code>. This is the contract. You can feed the output of one block directly into another block with zero reshaping.</li>
+  </ul>
+
+  <hr class="rule">
+
+  <h2 id="s5-6">5.6&nbsp;&nbsp;The thing to actually understand</h2>
+  <div class="takeaway">
+    <ul>
+      <li><strong>Attention routes. FFN thinks.</strong> Multi-head attention moves information between positions; the feed-forward network processes that information nonlinearly at each position. Neither alone is sufficient. Together they constitute one complete pass of communicate-then-reason.</li>
+      <li><strong>Residual connections are not optional at depth.</strong> <code translate="no">x + sublayer(x)</code> gives gradients a path that bypasses every learned transformation. Without it, deep stacks of the same block do not train in any reasonable sense. This is the insight from He et al. (2015), ported directly into the transformer.</li>
+      <li><strong>Layer norm keeps the numbers honest.</strong> Every sublayer can push activations to large values; layer norm at each position normalizes before they compound. The choice of <em>where</em> to normalize (before or after the sublayer) matters: pre-LN, which we use, preserves the identity path through <code translate="no">+</code>; post-LN, which the 2017 paper used, renormalizes the residual stream itself. Pre-LN is the modern default.</li>
+      <li><strong>The block is a composable unit.</strong> <code translate="no">(B, T, d_model)</code> in, <code translate="no">(B, T, d_model)</code> out. Stack <em>N</em> of them and the shapes never change. The depth of a GPT is literally the number of times this block repeats.</li>
+      <li><strong>4&times; expansion in the FFN is a convention, not a law.</strong> Vaswani et al. used <code translate="no">d_ff = 4 &times; d_model</code>; it has held up well, but modern architectures experiment with this ratio freely.</li>
+    </ul>
+  </div>
+
+  <hr class="rule">
+
+  <h2 id="s5-7">5.7&nbsp;&nbsp;Exercises</h2>
+  <ol>
+    <li><strong>Confirm the shape contract across a stack.</strong> Write <code translate="no">nn.Sequential(*[Block(d_model=384, num_heads=6, context_length=256) for _ in range(6)])</code>. Pass a random <code translate="no">(4, 8, 384)</code> tensor through. Assert the output is <code translate="no">(4, 8, 384)</code>. Nothing about the shape should have changed after six blocks.</li>
+    <li><strong>Remove the residual connections.</strong> Comment out both <code translate="no">x = x + ...</code> and replace them with <code translate="no">x = self.sa(self.ln1(x))</code> and <code translate="no">x = self.ffwd(self.ln2(x))</code>. Stack four of these non-residual blocks. Train on a tiny character dataset for 200 steps. Compare loss curves to the residual version. The point is not to succeed but to observe the difference.</li>
+    <li><strong>Swap ReLU for GELU.</strong> In <code translate="no">FeedForward</code>, replace <code translate="no">nn.ReLU()</code> with <code translate="no">nn.GELU()</code>. Run the sanity check &mdash; the output shape should not change. This is the single line that converts from the Vaswani 2017 FFN to the GPT-2 FFN.</li>
+    <li><strong>Switch pre-LN to post-LN.</strong> Rewrite <code translate="no">Block.forward</code> to compute <code translate="no">x = self.ln1(x + self.sa(x))</code> and <code translate="no">x = self.ln2(x + self.ffwd(x))</code>. Run the sanity check. Then discuss: why does post-LN renormalize the identity path, and what effect might that have on gradient flow compared to pre-LN?</li>
+    <li><strong>Count the parameters.</strong> Run <code translate="no">sum(p.numel() for p in block.parameters())</code> on your <code translate="no">Block(384, 6, 256)</code>. Break it down by module: <code translate="no">block.sa</code>, <code translate="no">block.ffwd</code>, <code translate="no">block.ln1</code>, <code translate="no">block.ln2</code>. Which module owns the most parameters? (Hint: the FFN&rsquo;s two large linear layers at <code translate="no">384 &times; 1536</code> and <code translate="no">1536 &times; 384</code> add up quickly.)</li>
+  </ol>
+
+  <div class="next-up">
+    <div>
+      <div class="label">What&rsquo;s next</div>
+      <div class="target">Ch 6 &mdash; Assembling the GPT &mdash; <span class="soon">Soon</span></div>
+    </div>
+  </div>
+
+  <p class="note-source">A 37th-Chamber original. Methods cited: Vaswani et al. (2017), &ldquo;Attention Is All You Need,&rdquo; arXiv:1706.03762, §3.3 (position-wise FFN, d_ff = 2048 = 4&times;d_model, ReLU activation &mdash; confirmed); He et al. (arXiv 2015; CVPR 2016), &ldquo;Deep Residual Learning for Image Recognition&rdquo; (residual / identity shortcut connections &mdash; confirmed); Ba, Kiros &amp; Hinton (2016), &ldquo;Layer Normalization,&rdquo; arXiv:1607.06450 (confirmed); GPT-2 pre-LN convention follows the nanoGPT lineage (Radford et al. 2019; Karpathy, nanoGPT) &mdash; deviation from original post-LN noted inline. All prose and code written fresh.</p>
+</main>
+
+<p class="note-source" style="text-align:center;letter-spacing:.08em;text-transform:uppercase">Written by a Fable &middot; Edited by bobby-dig8al</p>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/library/">&larr; back to the library</a>
+</footer>
+</body>
+</html>

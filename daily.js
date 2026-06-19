@@ -12,7 +12,7 @@ const ROLLOVER_HOUR = 4;              // the day flips at 04:00 local
 const DAILY = [
   {
     num: "001", theme: "Interstellar", date: "2026-06-08",
-    intro: "Today, one true thread — <em>Interstellar.</em> Carl Sagan introduced Kip Thorne to editor Lynda Obst (~1980 blind date); she later became a Hollywood producer, and together they conceived the film twenty-five years on. Thorne's real physics built its wormhole and its black hole.",
+    intro: "Today, one true thread — <em>Interstellar.</em> Carl Sagan introduced Kip Thorne to editor-turned-producer Lynda Obst (a ~1980 blind date); twenty-five years on, the two of them conceived the film together. Thorne's real physics built its wormhole and its black hole.",
     music:   { name:"Hans Zimmer",       work:"Interstellar (OST)",          why:"The organ that turns a docking scene into a prayer.", link:"https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" },
     film:    { name:"Christopher Nolan", work:"Interstellar",                why:"Love across spacetime, with the physics kept honest.", link:"/references/interstellar-film/" },
     science: { name:"Kip Thorne",        work:"The Science of Interstellar", why:"Co-originated the film with producer Lynda Obst; his black-hole math rendered Gargantua — and produced real papers.", link:"/references/kip-thorne/" },
@@ -47,7 +47,7 @@ const DAILY = [
     film:    { label:"The DNGR Render", name:"Double Negative & Thorne", work:"the black hole on screen",   why:"Built from Thorne's equations, the renderer earned the Guinness record for the most accurate black hole on film — with one honest, documented compromise: the Doppler beaming asymmetry softened, for clarity.", link:"https://www.guinnessworldrecords.com/world-records/418612-most-scientifically-accurate-black-hole-in-a-movie" },
     science: { label:"Gravitational Lensing", name:"the wrapped disk",  work:"why it's above and below",   why:"Gargantua bends the far side of the accretion disk up and over the shadow — so you see the same disk twice, around the equator and arching overhead.", link:"/references/gravitational-lensing/" },
     book:    { label:"The Singularity", name:"Kip Thorne",              work:"The Science of Interstellar", why:"At the center, relativity predicts infinite curvature and then breaks down — the one place the film's science is honestly speculation.", link:"/references/kip-thorne/" },
-    artist:  { label:"The Disk, Real", name:"Event Horizon Telescope", work:"M87*, 2019",                 why:"Five years after Gargantua, 200+ scientists photographed a real black hole — brighter on one side from Doppler beaming, the asymmetry the film left out.", link:"/references/gravitational-lensing/" },
+    artist:  { label:"The Disk, Real", name:"Event Horizon Telescope", work:"M87*, 2019",                 why:"Four and a half years after Gargantua, hundreds of scientists photographed a real black hole — brighter on one side from Doppler beaming, the asymmetry the film left out.", link:"/references/gravitational-lensing/" },
     show:    { label:"Near-Maximal Spin", name:"the Kerr limit",        work:"~99.8% of maximum",          why:"Gargantua must spin almost as fast as physics allows — only that extreme keeps Miller's planet in its close, time-warped orbit.", link:"/references/kerr-metric/" }
   },
   {

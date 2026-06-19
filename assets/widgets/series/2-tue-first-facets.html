@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tue — First Facets · day kaleidoscope 2/7</title>
+<style>
+  html,body{margin:0;padding:0;background:#08080a;}
+  body{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:#FFD60A;
+    gap:22px;
+    padding:40px 16px;
+    box-sizing:border-box;
+  }
+  h1{
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.42em;
+    margin:0;text-align:center;color:#FFD60A;opacity:0.92;
+  }
+  .stage{display:flex;align-items:center;justify-content:center;gap:46px;flex-wrap:wrap;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:9px;}
+  canvas{display:block;border-radius:6px;}
+  .cap{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#FFD60A;opacity:0.62;}
+  .note{
+    font-size:12px;line-height:1.6;max-width:560px;text-align:center;
+    color:#FFD60A;opacity:0.78;margin:2px 0 0;letter-spacing:0.02em;
+  }
+  .note b{font-weight:600;opacity:1;}
+</style>
+</head>
+<body>
+  <h1>Tue — First Facets · day kaleidoscope 2/7</h1>
+
+  <div class="stage">
+    <div class="cell">
+      <canvas id="ebig" width="440" height="300" aria-label="First Facets eye, large"></canvas>
+      <div class="cap">the evolving eye</div>
+    </div>
+    <div class="cell">
+      <canvas id="ehero" width="168" height="116" aria-label="First Facets eye, mast size"></canvas>
+      <div class="cap">at mast size</div>
+    </div>
+  </div>
+
+  <p class="note"><b>First Facets</b> — Tuesday, 8-fold. The kaleidoscope finds its edges: well-separated triangles and kites of glass, each cut clean and lit along its rim. A clear step up in structure from Monday's seed.</p>
+
+<script>
+function eye(canvas, opts){
+  var ctx=canvas.getContext('2d'); if(!ctx) return;
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function fit(){var r=canvas.getBoundingClientRect();var w=Math.max(1,Math.round((r.width||320)*DPR)),h=Math.max(1,Math.round((r.height||218)*DPR));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}}
+  fit(); window.addEventListener('resize',fit);
+  var N=opts.N||8, seg=Math.PI*2/N;
+  var COLS=opts.COLS||[[14,68,255],[34,108,255],[77,130,255],[120,170,255],[31,182,255],[160,200,255],[210,232,255]];
+  function rgba(c,a){return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')';}
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function mix(c1,c2,t){return [lerp(c1[0],c2[0],t)|0,lerp(c1[1],c2[1],t)|0,lerp(c1[2],c2[2],t)|0];}
+  function mb(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  var rnd=mb(opts.seed||20260616);
+
+  // Tuesday "First Facets": build a set of crisp, well-separated angular facets
+  // (triangles + kites) placed within one wedge. Each carries its own glassy
+  // edge-light and inner crystalline structure. Far cleaner / more structural
+  // than the Monday seed of soft blobs.
+  var WHITE=[226,240,255], EDGE=[200,224,255], HILITE=[244,250,255];
+  var facets=[];
+  var NF=11;
+  for(var i=0;i<NF;i++){
+    var kind = i%3; // 0=triangle, 1=kite, 2=slim sliver
+    var rr = 0.16 + (i/NF)*0.80 + (rnd()-0.5)*0.06;     // climb outward, well distributed
+    var aa = (rnd()*0.86) * seg;                          // angle within wedge
+    var sz = (kind===2 ? 0.10 : 0.15) + rnd()*0.16;       // facet scale (R-relative)
+    var aspect = 0.55 + rnd()*0.9;                         // elongation
+    var orient = rnd()*6.283;
+    var c1 = COLS[(rnd()*COLS.length)|0];
+    var c2 = mix(c1, WHITE, 0.35+rnd()*0.45);             // glassy gradient pair
+    facets.push({kind:kind, r:rr, a:aa, sz:sz, aspect:aspect, orient:orient,
+                 c1:c1, c2:c2, drift:0.4+rnd()*1.1, phase:rnd()*6.283,
+                 spin:(rnd()<0.5?-1:1)*(0.06+rnd()*0.16)});
+  }
+
+  function almond(cx,cy,aw,peak){ctx.beginPath();ctx.moveTo(cx-aw,cy);ctx.quadraticCurveTo(cx,cy-peak*2,cx+aw,cy);ctx.quadraticCurveTo(cx,cy+peak*2,cx-aw,cy);ctx.closePath();}
+
+  // Build the polygon point list for a facet, in its own local space.
+  function facetPoints(f){
+    var s=f.sz, w=s, ht=s*f.aspect;
+    if(f.kind===0){ // triangle
+      return [[0,-ht],[ w, ht*0.72],[ -w, ht*0.72]];
+    } else if(f.kind===1){ // kite (diamond, longer on one axis)
+      return [[0,-ht],[ w*0.62, 0],[0, ht*0.92],[ -w*0.62, 0]];
+    } else { // slim sliver shard
+      return [[0,-ht*1.15],[ w*0.32, 0],[0, ht*0.55],[ -w*0.32, 0]];
+    }
+  }
+
+  function drawFacet(ts, R, f){
+    var rr=(f.r + 0.022*Math.sin(ts*0.0004*f.drift + f.phase))*R;
+    var x=Math.cos(f.a)*rr, y=Math.sin(f.a)*rr;
+    var rot=f.orient + ts*0.00022*f.spin;
+    var breathe=0.92 + 0.12*Math.sin(ts*0.0006 + f.phase*1.3);
+    var pts=facetPoints(f);
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(rot);
+    ctx.scale(R*breathe, R*breathe);
+
+    // path
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0],pts[0][1]);
+    for(var k=1;k<pts.length;k++) ctx.lineTo(pts[k][0],pts[k][1]);
+    ctx.closePath();
+
+    // bounds for gradient
+    var minY=pts[0][1],maxY=pts[0][1],minX=pts[0][0],maxX=pts[0][0];
+    for(var k2=1;k2<pts.length;k2++){var px=pts[k2][0],py=pts[k2][1];if(py<minY)minY=py;if(py>maxY)maxY=py;if(px<minX)minX=px;if(px>maxX)maxX=px;}
+
+    // translucent glassy body — linear gradient across the facet (refraction feel)
+    var gx0=minX, gy0=minY, gx1=maxX, gy1=maxY;
+    var lg=ctx.createLinearGradient(gx0,gy0,gx1,gy1);
+    var bodyA=0.30 + 0.22*Math.sin(ts*0.0005 + f.phase*1.7);
+    bodyA=Math.max(0.14,bodyA);
+    lg.addColorStop(0, rgba(f.c2, bodyA*1.05));
+    lg.addColorStop(0.5, rgba(f.c1, bodyA*0.78));
+    lg.addColorStop(1, rgba(f.c2, bodyA*0.40));
+    ctx.fillStyle=lg;
+    ctx.fill();
+
+    // crisp bright glassy rim
+    var rimA=Math.max(0.18, 0.5 + 0.36*Math.sin(ts*0.0005 + f.phase*1.7));
+    ctx.lineWidth=Math.max(1.1, R*0.0075);
+    ctx.lineJoin='miter';
+    ctx.strokeStyle=rgba(EDGE, rimA);
+    ctx.stroke();
+
+    // inner crystalline strut — a line from apex toward base (the "cut")
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0],pts[0][1]);
+    var midI=(pts.length/2)|0;
+    ctx.lineTo(pts[midI][0]*0.5, pts[midI][1]*0.5);
+    ctx.lineWidth=Math.max(0.8, R*0.004);
+    ctx.strokeStyle=rgba(HILITE, rimA*0.55);
+    ctx.stroke();
+
+    // sharp apex glint
+    var glintA=Math.max(0, 0.55*Math.sin(ts*0.0009 + f.phase*2.1));
+    if(glintA>0.02){
+      ctx.beginPath();
+      ctx.arc(pts[0][0],pts[0][1], R*0.012*breathe + R*0.006, 0, 6.283);
+      ctx.fillStyle=rgba(HILITE, glintA);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawWedge(ts,R){
+    for(var i=0;i<facets.length;i++){ drawFacet(ts,R,facets[i]); }
+  }
+
+  function paint(ts){
+    var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2, aw=w*0.46, peak=h*0.40, R=Math.min(h*0.38,aw*0.66);
+    ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,w,h);
+    ctx.save(); almond(cx,cy,aw,peak); ctx.clip();
+    ctx.fillStyle='#0a0c12';ctx.fillRect(0,0,w,h);
+    var g=ctx.createRadialGradient(cx,cy,R*0.55,cx,cy,aw*1.02);
+    g.addColorStop(0,'rgba(170,195,255,0)');g.addColorStop(0.5,'rgba(200,220,255,0.12)');g.addColorStop(1,'rgba(236,243,255,0.46)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h); ctx.restore();
+    ctx.save(); ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+    ctx.fillStyle='#08080a';ctx.fillRect(cx-R,cy-R,R*2,R*2);
+    ctx.globalCompositeOperation='lighter'; var grot=ts*0.00004;
+    for(var i=0;i<N;i++){ctx.save();ctx.translate(cx,cy);ctx.rotate(grot+i*seg);if(i%2===1)ctx.scale(1,-1);
+      ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R*1.02,0,seg);ctx.closePath();ctx.clip();
+      drawWedge(ts,R);ctx.restore();}
+    ctx.restore(); ctx.globalCompositeOperation='source-over';
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.fillStyle='#08080a';ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,R*0.30,0,6.283);ctx.strokeStyle='rgba(14,68,255,.45)';ctx.lineWidth=DPR;ctx.stroke();
+    ctx.beginPath();ctx.arc(cx-R*0.10,cy-R*0.13,R*0.05,0,6.283);ctx.fillStyle='#eaf1ff';ctx.fill();
+    ctx.save(); almond(cx,cy,aw,peak); ctx.shadowColor='rgba(200,222,255,0.9)';ctx.shadowBlur=R*0.22;
+    ctx.strokeStyle='rgba(236,243,255,0.55)';ctx.lineWidth=Math.max(1.2,R*0.022);ctx.stroke(); ctx.restore();
+  }
+  function frame(ts){fit();paint(ts);if(!reduce)requestAnimationFrame(frame);}
+  fit();paint(0);if(!reduce){requestAnimationFrame(frame);document.addEventListener('visibilitychange',function(){if(!document.hidden)requestAnimationFrame(frame);});}
+}
+
+(function(){
+  var opts={
+    N:8,
+    seed:20260616,
+    COLS:[[14,68,255],[34,108,255],[60,150,235],[120,170,255],[31,182,255],[150,214,255],[214,236,255]]
+  };
+  var big=document.getElementById('ebig');
+  var hero=document.getElementById('ehero');
+  if(big) eye(big, opts);
+  if(hero) eye(hero, opts);
+})();
+</script>
+</body>
+</html>

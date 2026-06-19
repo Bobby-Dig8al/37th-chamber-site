@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GO: LeeDemis v1.0 · 37th Chamber</title>
+<title>Move 37 · 37th Chamber</title>
 <meta name="description" content="Train to play Go like a master. The AlphaGo parable: AI didn't end the game — it deepened it. One of the many ways AI can help humanity reach the stars — if we align it, and put our acts together.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/chambers/go/">
 <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
-<meta property="og:title" content="GO: LeeDemis v1.0 — the AlphaGo parable · 37th Chamber">
+<meta property="og:title" content="Move 37 — the AlphaGo parable · 37th Chamber">
 <meta property="og:description" content="The AlphaGo parable: AI didn't end Go — it deepened it. AI can help us reach the stars — if we align it and put our acts together.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://37th-chamber.com/chambers/go/">
@@ -19,11 +19,11 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The 37th Chamber — the Sigil. Knowledge is free, forever.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="GO: LeeDemis v1.0 — the AlphaGo parable · 37th Chamber">
+<meta name="twitter:title" content="Move 37 — the AlphaGo parable · 37th Chamber">
 <meta name="twitter:description" content="The AlphaGo parable: AI didn't end Go — it deepened it. Train to play like a master. Free, forever.">
 <meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
 <style>
-:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#ece7d6;--dim:#8f8a73;--electric:#0E44FF;
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
   --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -67,20 +67,42 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .record a{color:var(--gold-soft);text-decoration:none}.record a:hover{text-decoration:underline}
 footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;border-top:1px solid var(--electric);box-shadow:0 -10px 24px -16px var(--electric);padding:1.5rem .25rem 2.4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .foot-creed{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
+.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
 .foot-back{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
 .foot-back:hover{text-decoration:underline}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
 @media(max-width:400px){.names{letter-spacing:.12em;font-size:.68rem}.chip{font-size:.68rem}}
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
   <nav aria-label="Site navigation"><a class="back" href="/">&larr;&nbsp;37th&nbsp;Chamber</a></nav>
   <main class="wrap" id="main">
     <div class="eyebrow">Chamber · the games</div>
-    <h1 class="title">GO: LeeDemis v1.0</h1>
+    <!-- THE EGG, for whoever looks closely: this chamber was almost named LeeDemis — Lee Sedol + Demis Hassabis.
+     Read it again: lead amiss. Because Move 37 looked like a mistake, led every master amiss,
+     and was the truest move on the board. The name retired itself to this comment the night the
+     operator saw the number that was waiting all along: the move beyond the 36. -->
+    <h1 class="title">Move 37</h1>
     <div class="names">Go &middot; <span lang="zh">圍棋</span> &middot; <span lang="ko">바둑</span> &middot; <span lang="ja">囲碁</span> &mdash; named for Lee Sedol &amp; Demis Hassabis</div>
     <p class="hook">Train to play like a 9-dan master &mdash; <span class="glow">like Lee Sedol.</span></p>
     <div style="text-align:center"><span class="chip">&#9679; The parable</span></div>
@@ -106,9 +128,9 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
     <p class="xlink">Want to bring this kind of thinking to your org? <a href="/work/">Work with me &rarr;</a></p>
 
     <p class="record"><strong style="color:var(--gold-soft)">The record:</strong>
-      <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol" target="_blank" rel="noopener">AlphaGo vs. Lee Sedol</a> ·
-      <a href="https://deepmind.google/research/alphago/" target="_blank" rel="noopener">DeepMind: AlphaGo</a> ·
-      <a href="https://www.technologyreview.com/2026/02/27/1133624/ai-is-rewiring-how-the-worlds-best-go-players-think/" target="_blank" rel="noopener">How AI rewired the way the best play Go</a>.
+      <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol" target="_blank" rel="noopener">AlphaGo vs. Lee Sedol<span class="sr-only"> (opens in new tab)</span></a> ·
+      <a href="https://deepmind.google/research/alphago/" target="_blank" rel="noopener">DeepMind: AlphaGo<span class="sr-only"> (opens in new tab)</span></a> ·
+      <a href="https://www.technologyreview.com/2026/02/27/1133624/ai-is-rewiring-how-the-worlds-best-go-players-think/" target="_blank" rel="noopener">How AI rewired the way the best play Go<span class="sr-only"> (opens in new tab)</span></a>.
       We cite to honor the root.
     </p>
   </main>

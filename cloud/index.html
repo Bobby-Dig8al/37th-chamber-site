@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Constellation · A map of connected papers — 37th Chamber</title>
+<meta name="description" content="The research neighborhood of a single paper, drawn as a living map. Every node is real; every line is a real citation. Map what exists — the view is not ours alone.">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://37th-chamber.com/cloud/">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
+<meta property="og:title" content="The Constellation · A map of connected papers">
+<meta property="og:description" content="The research neighborhood of a single paper, drawn as a living map. Every node real, every line a real citation.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The 37th Chamber">
+<meta property="og:url" content="https://37th-chamber.com/cloud/">
+<link rel="stylesheet" href="/assets/temple.css">
+<style>
+  .cloud-wrap{max-width:none;width:100%;padding:0}
+  .cloud-head{max-width:46rem;margin:0 auto;padding:0 1.1rem}
+  /* the one blue streak — the site masthead's electric charge, left-anchored under the title */
+  .cloud-head .title{position:relative;display:inline-block}
+  .cloud-head .title::after{content:'';position:absolute;left:0;bottom:-.18em;width:46%;height:3px;
+    background:var(--electric);border-radius:2px;
+    box-shadow:0 0 6px rgba(14,68,255,1),0 0 16px rgba(14,68,255,.9),0 0 34px rgba(14,68,255,.6),0 0 64px rgba(14,68,255,.34)}
+  .stage-wrap{position:relative;margin:1.4rem 0 0}
+  .layout-toggle{position:absolute;top:14px;left:14px;z-index:2;display:flex;gap:0;
+    border:1px solid rgba(255,214,10,.28);border-radius:3px;overflow:hidden}
+  .layout-toggle button{background:rgba(8,8,10,.8);color:#8f8a73;border:none;cursor:pointer;
+    font:inherit;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;padding:.4rem .7rem;
+    transition:.15s ease}
+  .layout-toggle button+button{border-left:1px solid rgba(255,214,10,.18)}
+  .layout-toggle button:hover{color:#FFD60A}
+  .layout-toggle button.active{background:rgba(255,214,10,.12);color:#FFD60A}
+  /* the field */
+  #stage{display:block;width:100%;height:72vh;min-height:460px;
+    background:radial-gradient(120% 90% at 50% 38%,#0d0d12 0%,#08080a 62%,#060608 100%);
+    border-top:1px solid rgba(255,214,10,.10);border-bottom:1px solid rgba(255,214,10,.10);
+    touch-action:none;cursor:grab}
+  #stage.grabbing{cursor:grabbing}
+  #stage line{stroke:#FFD60A;stroke-opacity:.07;stroke-width:1;transition:stroke-opacity .12s}
+  #stage line.lit{stroke-opacity:.55;stroke-width:1.4}
+  #stage circle.node{cursor:pointer;stroke:#08080a;stroke-width:1.2;transition:stroke .12s,filter .12s}
+  #stage circle.node:hover,#stage circle.node.focus{stroke:#f3eede;stroke-width:2}
+  #stage circle.node.dim{opacity:.18}
+  #stage .nlabel{fill:#8f8a73;font-size:9.5px;letter-spacing:.02em;pointer-events:none;
+    text-anchor:middle;transition:fill .12s,opacity .12s;paint-order:stroke;
+    stroke:#08080a;stroke-width:2.4px;stroke-linejoin:round}
+  #stage .nlabel.lit{fill:#f3eede}
+  #stage .nlabel.dim{opacity:.12}
+  /* seed marker */
+  #stage .seed-ring{fill:none;stroke:#2b6cff;stroke-width:1.6;opacity:.9;
+    transform-box:fill-box;transform-origin:center;animation:seedpulse 3.4s ease-in-out infinite}
+  @keyframes seedpulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.5);opacity:.15}}
+  @media (prefers-reduced-motion:reduce){.seed-ring{animation:none}}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:1rem 1.6rem;align-items:center;justify-content:center;
+    max-width:46rem;margin:1rem auto 0;padding:0 1.1rem;font-size:.72rem;color:#8f8a73;letter-spacing:.04em}
+  .legend .k{display:flex;align-items:center;gap:.45rem}
+  .legend .swatch{display:inline-block;width:46px;height:9px;border-radius:5px;
+    background:linear-gradient(90deg,#6b5520,#a07e16,#FFD60A)}
+  .legend .dotbig,.legend .dotsm{display:inline-block;border-radius:50%;background:#c9a417;border:1px solid #08080a}
+  .legend .dotbig{width:15px;height:15px}.legend .dotsm{width:7px;height:7px}
+  .legend .seeddot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFD60A;
+    box-shadow:0 0 0 2px #2b6cff}
+
+  /* detail panel */
+  #panel{position:absolute;top:14px;right:14px;width:min(330px,82vw);
+    background:rgba(8,8,10,.55);border:1px solid rgba(255,214,10,.30);border-radius:4px;
+    padding:1rem 1.05rem 1.15rem;-webkit-backdrop-filter:blur(11px) saturate(1.15);backdrop-filter:blur(11px) saturate(1.15);
+    opacity:0;pointer-events:none;transform:scale(.97);transform-origin:center;
+    transition:opacity .18s ease,transform .18s ease,left .2s ease,top .2s ease;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+  #panel.open{opacity:1;transform:scale(1)}
+  /* clickthrough — the frosted card never blocks the cloud: clicks pass through to the
+     nodes behind it; only its own controls (the link, the close ✕) catch the pointer */
+  #panel .pread,#panel .pclose{pointer-events:auto}
+  #panel .ptag{font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:#8f8a73}
+  #panel h3{margin:.5rem 0 .2rem;font-size:1.02rem;line-height:1.28;color:#FFD60A;font-weight:600}
+  #panel .pmeta{font-size:.78rem;color:#d9b400;font-style:italic;margin:.35rem 0 .8rem}
+  #panel .pstats{display:flex;gap:1.3rem;margin:.2rem 0 .95rem;font-size:.72rem;color:#8f8a73;letter-spacing:.03em}
+  #panel .pstats b{display:block;color:#f3eede;font-size:1.15rem;font-style:normal;letter-spacing:0;font-weight:600}
+  #panel .pread{display:inline-block;color:#FFD60A;text-decoration:none;font-size:.8rem;font-weight:600;
+    letter-spacing:.04em;border-bottom:1px dotted rgba(255,214,10,.5)}
+  #panel .pclose{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:#8f8a73;
+    font-size:1.2rem;cursor:pointer;line-height:1;padding:.2rem}
+  #panel .pclose:hover{color:#FFD60A}
+  @media (max-width:640px){
+    #panel{top:auto !important;bottom:0 !important;right:0 !important;left:0 !important;width:auto;border-radius:8px 8px 0 0;
+      opacity:1;transform:translateY(calc(100% + 24px));transition:transform .22s ease}
+    #panel.open{transform:none;pointer-events:auto}
+  }
+  .listview{max-width:46rem;margin:1.4rem auto 0;padding:0 1.1rem}
+  .listview summary{cursor:pointer;color:#8f8a73;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
+  .listview ol{margin:.8rem 0 0;padding-left:1.2rem;color:#8f8a73;font-size:.82rem;line-height:1.7}
+  .listview a{color:#FFD60A;text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.4)}
+  .src-note{max-width:46rem;margin:1.2rem auto 0;padding:0 1.1rem;color:#8f8a73;font-size:.78rem;line-height:1.6}
+  .corridor a.c-here{color:#FFD60A}
+
+  /* grouped mobile list + gesture hint: built always, shown only on phones */
+  .paperlist-mobile{display:none}
+  .map-hint-m{display:none}
+
+  /* ───────── MOBILE (≤640px): portrait field · pinch-zoom · grouped list ───────── */
+  @media (max-width:640px){
+    /* corridor → one horizontal scroll-rail (reclaims vertical air) */
+    .corridor{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:1.05rem;
+      margin:0 -1.1rem .6rem;padding:0 1.1rem .35rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .corridor::-webkit-scrollbar{display:none}
+    .corridor a{white-space:nowrap;flex:0 0 auto}
+    /* topnav: keep the back-link, drop the descriptive pill */
+    .topnav{margin-bottom:.6rem}
+    .topnav .meta-pill{display:none}
+    /* header collapse: smaller title, dek clamped to 2 lines */
+    .cloud-head{padding:0 1.1rem}
+    .cloud-head .eyebrow{margin-bottom:.45rem}
+    .cloud-head h1.title{font-size:1.5rem;margin-bottom:.5rem}
+    .cloud-head .title::after{bottom:-.14em;height:2px}
+    .cloud-head .dek{font-size:.92rem;line-height:1.45;margin:.4rem 0 .6rem;
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    /* the field is the hero: tall portrait, near the top */
+    .stage-wrap{margin:.5rem 0 0}
+    #stage{height:78vh;min-height:0;
+      border-left:1px solid rgba(255,214,10,.10);border-right:1px solid rgba(255,214,10,.10)}
+    .layout-toggle{top:10px;left:10px}
+    .layout-toggle button{font-size:.66rem;padding:.5rem .8rem}
+    #stage .nlabel{font-size:14px;stroke-width:3px}
+    /* one-line discoverability hint under the field */
+    .map-hint-m{display:block;text-align:center;color:var(--dim);font-size:.72rem;
+      letter-spacing:.06em;margin:.65rem auto 0;padding:0 1.1rem}
+    /* legend: tighter */
+    .legend{gap:.5rem 1.1rem;font-size:.66rem;margin-top:.7rem}
+    /* the seed panel docks bottom (existing 640px rule) — cap it so it can't bury the map */
+    #panel{max-height:46dvh;overflow:auto;padding:.85rem 1rem 1.1rem}
+    #panel h3{font-size:.98rem}
+    /* the <details> list-view is redundant on mobile — the grouped list IS the tail */
+    .listview{display:none}
+    /* ── grouped paper list (origin / roots / branches) — the scroll-down path ── */
+    .paperlist-mobile{display:block;max-width:46rem;margin:1.5rem auto 0;padding:0 1.1rem;list-style:none}
+    .pl-group{margin:1.3rem 0 0}
+    .pl-group h2.pl-head{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--dim);margin:0 0 .15rem;font-weight:600}
+    .pl-group .pl-sub{font-size:.74rem;color:var(--dim);font-style:italic;margin:0 0 .6rem}
+    .pl-item{display:block;padding:.85rem 0;border-bottom:1px solid rgba(255,214,10,.10);
+      text-decoration:none;color:var(--text)}
+    .pl-item:active{background:rgba(255,214,10,.03)}
+    .pl-item .pl-title{display:block;font-size:.96rem;line-height:1.34;color:var(--text);font-weight:600}
+    .pl-item.is-seed .pl-title{color:var(--gold)}
+    .pl-item .pl-by{display:block;font-size:.8rem;color:var(--gold-soft);font-style:italic;margin:.2rem 0 .35rem}
+    .pl-item .pl-foot{display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:var(--dim);letter-spacing:.02em}
+    .pl-item .pl-cites b{color:var(--text);font-weight:600;font-style:normal}
+    .pl-item .pl-read{margin-left:auto;color:var(--gold);border-bottom:1px dotted rgba(255,214,10,.5)}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#stage">Skip to the map</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a class="c-here" href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
+<nav class="topnav" aria-label="Section navigation">
+  <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
+  <span class="meta-pill"><span class="num">Field map</span> &middot; the neighborhood of one paper</span>
+</nav>
+
+<main class="wrap cloud-wrap" id="main">
+  <div class="cloud-head">
+    <div class="eyebrow">The Constellation &middot; <span translate="no">The 37th Chamber</span></div>
+    <h1 class="title">A map of connected papers</h1>
+    <p class="dek">One paper is never alone. Here is the research neighborhood around the science behind <em>Interstellar</em>&rsquo;s black hole &mdash; the roots it grew from, the work that grew out of it. Every node is a real paper. Every line is a real citation.</p>
+  </div>
+
+  <div class="stage-wrap">
+    <div class="layout-toggle" role="group" aria-label="Layout mode">
+      <button type="button" data-mode="organic" class="active" aria-pressed="true">organic</button>
+      <button type="button" data-mode="lineage" aria-pressed="false">lineage</button>
+    </div>
+    <svg id="stage" role="img" aria-label="Force-directed map of papers connected to the DNGR gravitational-lensing paper. An accessible list of every paper follows below."></svg>
+    <aside id="panel" aria-live="polite">
+      <button class="pclose" aria-label="Close">&times;</button>
+      <div class="ptag" id="p-tag">The origin</div>
+      <h3 id="p-title">&mdash;</h3>
+      <div class="pmeta" id="p-meta">&mdash;</div>
+      <div class="pstats">
+        <span><b id="p-year">&mdash;</b>published</span>
+        <span><b id="p-cites">&mdash;</b>citations</span>
+      </div>
+      <a class="pread" id="p-read" href="#" target="_blank" rel="noopener noreferrer">read the paper &rarr;</a>
+    </aside>
+  </div>
+
+  <p class="map-hint-m">pinch to zoom &middot; drag to pan &middot; tap a node</p>
+
+  <div class="legend" aria-hidden="true">
+    <span class="k"><span class="dotsm"></span><span class="dotbig"></span>&nbsp;size = how often it&rsquo;s cited</span>
+    <span class="k"><span class="swatch"></span>&nbsp;old &rarr; new</span>
+    <span class="k"><span class="seeddot"></span>&nbsp;the origin paper</span>
+    <span class="k">drag a node &middot; tap to read</span>
+  </div>
+
+  <details class="listview">
+    <summary>Every paper on this map (list view)</summary>
+    <ol id="paperlist"></ol>
+  </details>
+
+  <p class="src-note">Data: <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer" style="color:#FFD60A">OpenAlex</a>, the open scholarly index &mdash; citation counts and links are real, pulled from the public record (snapshot: June 2026; numbers shift as the index updates). We map what exists; we point, we don&rsquo;t reproduce. This is a first map of one field. More will follow.</p>
+</main>
+
+<footer>
+  <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
+  <a class="foot-back" href="/references/">&larr; back to The Roots</a>
+</footer>
+
+<script>
+const SVGNS = "http://www.w3.org/2000/svg";
+const stage = document.getElementById("stage");
+const isMobile = window.matchMedia("(max-width:640px)").matches;
+// fixed internal coordinate space (viewBox). On phones use a PORTRAIT world so
+// `preserveAspectRatio: meet` stops letterboxing a landscape graph into a tall box.
+let VW = isMobile ? 620 : 1000, VH = isMobile ? 1180 : 600;
+
+let DATA = null, nodes = [], edges = [], byId = {};
+
+// ---- color/size scales ----
+function lerp(a,b,t){return a+(b-a)*t;}
+function yearColor(y, minY, maxY){
+  const t = maxY>minY ? (y-minY)/(maxY-minY) : 1;
+  // dim bronze -> bright gold (old embers -> fresh fire)
+  const c0=[107,85,32], c1=[255,214,10];
+  return `rgb(${Math.round(lerp(c0[0],c1[0],t))},${Math.round(lerp(c0[1],c1[1],t))},${Math.round(lerp(c0[2],c1[2],t))})`;
+}
+function radius(cites, minC, maxC){
+  const t = maxC>minC ? (Math.sqrt(cites)-Math.sqrt(minC))/(Math.sqrt(maxC)-Math.sqrt(minC)) : .5;
+  // mobile world (620 wide drawn at ~0.55 scale): bump the range so the smallest
+  // node still renders a real touch target and the biggest reads as a hub.
+  return isMobile ? lerp(16, 46, t) : lerp(7, 26, t);
+}
+
+function build(){
+  const minY = Math.min(...nodes.map(n=>n.year||2000));
+  const maxY = Math.max(...nodes.map(n=>n.year||2000));
+  const minC = Math.min(...nodes.map(n=>n.citations||0));
+  const maxC = Math.max(...nodes.map(n=>n.citations||0));
+  stage.setAttribute("viewBox", `0 0 ${VW} ${VH}`);
+  stage.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  const cx = VW/2, cy = VH/2;
+
+  // init positions in a ring, biased by generation (branches up, roots down)
+  nodes.forEach((n,i)=>{
+    const a = (i/nodes.length)*Math.PI*2;
+    n.x = n.id===DATA.seed ? cx : cx + Math.cos(a)*VW*0.30 + (Math.random()-.5)*40;
+    n.y = cy - n.gen*VH*0.16 + Math.sin(a)*VH*0.30 + (Math.random()-.5)*40;
+    n.vx = n.vy = 0;
+    n.r = n.id===DATA.seed ? (isMobile?28:15) : radius(n.citations||0, minC, maxC);
+    n.color = n.id===DATA.seed ? "#FFD60A" : yearColor(n.year||2000, minY, maxY);
+    n.deg = 0;
+  });
+  edges.forEach(e=>{ if(byId[e.s])byId[e.s].deg++; if(byId[e.t])byId[e.t].deg++; });
+
+  // render layers
+  stage.innerHTML = "";
+  const gEdges = document.createElementNS(SVGNS,"g");
+  const gNodes = document.createElementNS(SVGNS,"g");
+  const gLabels = document.createElementNS(SVGNS,"g");
+  stage.append(gEdges,gNodes,gLabels);
+
+  edges.forEach(e=>{
+    const l = document.createElementNS(SVGNS,"line");
+    e.el = l; gEdges.appendChild(l);
+  });
+
+  const showLabelDeg = nodes.map(n=>n.r).sort((a,b)=>b-a)[Math.min(isMobile?13:11,nodes.length-1)] || 0;
+  nodes.forEach(n=>{
+    const c = document.createElementNS(SVGNS,"circle");
+    c.setAttribute("class","node");
+    c.setAttribute("r", n.r);
+    c.setAttribute("fill", n.color);
+    c.dataset.id = n.id;
+    c.setAttribute("tabindex","0");
+    c.setAttribute("role","button");
+    c.setAttribute("aria-label", `${n.title}. ${n.author} ${n.year}, ${n.citations} citations.`);
+    n.cEl = c; gNodes.appendChild(c);
+
+    if(n.id===DATA.seed){
+      const ring = document.createElementNS(SVGNS,"circle");
+      ring.setAttribute("class","seed-ring");
+      ring.setAttribute("r", n.r+5);
+      n.ringEl = ring; gNodes.appendChild(ring);
+    }
+    const t = document.createElementNS(SVGNS,"text");
+    t.setAttribute("class","nlabel");
+    n.label = `${n.author} ${n.year||""}`.trim();
+    t.textContent = n.label;
+    n.showLabel = (n.r >= showLabelDeg) || n.id===DATA.seed;
+    if(!n.showLabel) t.style.opacity = "0";
+    n.tEl = t; gLabels.appendChild(t);
+  });
+
+  settle(isMobile?760:620, cx, cy);
+  if(isMobile) fitContent();
+  wireEvents();
+  wireGestures();
+  buildList();
+}
+
+// ---- hand-rolled force simulation (synchronous; no rAF dependence) ----
+// d3-style model: strong many-body repulsion + weak springs + a gentle lineage
+// (gen) bias on y. Containment is by CENTROID RECENTERING (translate the whole
+// graph so its centre sits at the middle) — NOT a per-node inward pull, which
+// collapses a dense graph onto the centre axis.
+const CHARGE=-5600, LINK=72, SPRING=.026, DAMP=.85, DMIN=28, GRAVITY=.0045;
+let genPull=isMobile?0.008:0, genSpread=VH*(isMobile?0.26:0.20);   // organic by default; lineage raises genPull. On mobile a gentle vertical lineage bias fills the tall portrait field.
+function step(alpha, cx, cy){
+  for(const n of nodes){
+    if(n.fixed) continue;
+    n.vx += (cx-n.x)*GRAVITY*alpha;          // gentle, alpha-faded containment — reels in strays
+    n.vy += (cy-n.y)*GRAVITY*alpha;          // (alpha-scaled so it can't slow-collapse once cooled)
+    if(genPull) n.vy += ((cy - n.gen*genSpread) - n.y)*genPull;   // lineage bias: roots low, branches high
+  }
+  for(let i=0;i<nodes.length;i++){                        // repulsion O(n^2), fine for ~40 nodes
+    for(let j=i+1;j<nodes.length;j++){
+      const a=nodes[i], b=nodes[j];
+      let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy);   // vector a -> b (d3 convention)
+      if(d<0.5){ dx=Math.cos(i*12.9898+j*4.1414); dy=Math.sin(i*12.9898+j*4.1414); d=1; } // split coincident pairs
+      const de=Math.max(d, DMIN);            // floor distance so close pairs don't explode
+      const f=CHARGE/(de*de)*alpha; dx/=d; dy/=d;            // CHARGE<0 => a,b pushed apart
+      if(!a.fixed){a.vx+=dx*f; a.vy+=dy*f;}
+      if(!b.fixed){b.vx-=dx*f; b.vy-=dy*f;}
+    }
+  }
+  for(const e of edges){                                  // springs along real citations
+    const a=byId[e.s], b=byId[e.t]; if(!a||!b) continue;
+    let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)||1;
+    const f=(d-LINK)*SPRING*alpha; dx/=d; dy/=d;
+    if(!a.fixed){a.vx+=dx*f; a.vy+=dy*f;}
+    if(!b.fixed){b.vx-=dx*f; b.vy-=dy*f;}
+  }
+  let mx=0,my=0;
+  for(const n of nodes){                                  // integrate + clamp to viewBox
+    if(n.fixed){ mx+=n.x; my+=n.y; continue; }
+    n.vx*=DAMP; n.vy*=DAMP; n.x+=n.vx; n.y+=n.vy;
+    n.x=Math.max(n.r+5,Math.min(VW-n.r-5,n.x));
+    n.y=Math.max(n.r+5,Math.min(VH-n.r-5,n.y));
+    mx+=n.x; my+=n.y;
+  }
+  const sx=cx-mx/nodes.length, sy=cy-my/nodes.length;     // recenter centroid (containment, no collapse)
+  for(const n of nodes){ if(n.fixed) continue; n.x+=sx; n.y+=sy; }
+}
+function settle(steps, cx, cy){
+  cx=cx||VW/2; cy=cy||VH/2;
+  let alpha=1;
+  for(let k=0;k<steps;k++){ step(alpha,cx,cy); alpha*=0.99; if(alpha<0.003) break; }
+  render();
+  declutter();
+}
+function reheat(){ settle(50); }
+// Greedy label declutter: place default-shown labels largest-first (seed wins),
+// hide any that would overlap one already placed. Keeps the field readable.
+function declutter(){
+  const placed=[];
+  for(const n of nodes) n._hideLabel=false;
+  const cand=nodes.filter(n=>n.showLabel).sort((a,b)=>
+    (b.id===DATA.seed?1e9:b.r) - (a.id===DATA.seed?1e9:a.r));
+  for(const n of cand){
+    const w=n.label.length*(n.id===DATA.seed?6.4:4.9), h=12;
+    const ly=(n.y>VH-34? n.y-n.r-14 : n.y+n.r+4);
+    const box={x1:n.x-w/2, y1:ly, x2:n.x+w/2, y2:ly+h};
+    if(placed.some(p=>!(box.x2<p.x1||box.x1>p.x2||box.y2<p.y1||box.y1>p.y2))) n._hideLabel=true;
+    else placed.push(box);
+  }
+  if(!focused) for(const n of nodes) n.tEl.style.opacity=(n.showLabel&&!n._hideLabel)?"1":"0";
+}
+function applyLayout(mode){
+  genPull = (mode==="lineage") ? (isMobile?0.020:0.016) : (isMobile?0.008:0);
+  nodes.forEach(n=>{ n.fixed=false; });   // release any pinned nodes so the shape can re-form
+  settle(560);
+  if(isMobile) fitContent();
+}
+
+function render(){
+  for(const e of edges){ const a=byId[e.s],b=byId[e.t]; if(!a||!b||!e.el)continue;
+    e.el.setAttribute("x1",a.x);e.el.setAttribute("y1",a.y);e.el.setAttribute("x2",b.x);e.el.setAttribute("y2",b.y);}
+  for(const n of nodes){
+    n.cEl.setAttribute("cx",n.x);n.cEl.setAttribute("cy",n.y);
+    if(n.ringEl){n.ringEl.setAttribute("cx",n.x);n.ringEl.setAttribute("cy",n.y);}
+    const above = n.y > VH-34;                       // flip label up near the bottom edge
+    n.tEl.setAttribute("x",n.x);
+    n.tEl.setAttribute("y", above ? n.y-n.r-5 : n.y+n.r+11);
+  }
+}
+
+// ---- interaction ----
+let focused=null;
+function focus(n){
+  focused=n;
+  const nb=new Set([n.id]);
+  for(const e of edges){ if(e.s===n.id)nb.add(e.t); if(e.t===n.id)nb.add(e.s); }
+  for(const m of nodes){
+    const on=nb.has(m.id);
+    m.cEl.classList.toggle("dim",!on);
+    m.cEl.classList.toggle("focus",m.id===n.id);
+    m.tEl.classList.toggle("lit",on);
+    m.tEl.classList.toggle("dim",!on && !m.showLabel);
+    m.tEl.style.opacity = (on||m.showLabel)?"1":"0";
+  }
+  for(const e of edges){ const on=(e.s===n.id||e.t===n.id); e.el && e.el.classList.toggle("lit",on); }
+  openPanel(n);
+}
+function clearFocus(){
+  focused=null;
+  for(const m of nodes){
+    m.cEl.classList.remove("dim","focus");
+    m.tEl.classList.remove("lit","dim");
+    m.tEl.style.opacity=(m.showLabel && !m._hideLabel)?"1":"0";
+  }
+  for(const e of edges){ e.el && e.el.classList.remove("lit"); }
+}
+const panel=document.getElementById("panel");
+// desktop: anchor the detail card beside the selected node, so the link to the
+// paper sits where the eye already is — not stranded in the far corner.
+function positionPanel(n){
+  if(isMobile) return;                          // phones use the bottom sheet
+  const wrap = stage.parentElement;             // .stage-wrap (position:relative)
+  const wr = wrap.getBoundingClientRect();
+  const nbx = n.cEl.getBoundingClientRect();
+  const ncx = nbx.left + nbx.width/2 - wr.left, ncy = nbx.top + nbx.height/2 - wr.top, nr = nbx.width/2;
+  const pw = panel.offsetWidth||330, ph = panel.offsetHeight||200, pad = 14, gap = 18;
+  let left = ncx + nr + gap;                     // prefer the right of the node
+  if(left + pw > wr.width - pad) left = ncx - nr - gap - pw;    // flip left if it would overflow
+  left = Math.max(pad, Math.min(left, wr.width - pw - pad));    // clamp into the field
+  const top = Math.max(pad, Math.min(ncy - ph/2, wr.height - ph - pad));
+  panel.style.left = left+"px"; panel.style.top = top+"px"; panel.style.right = "auto";
+}
+function openPanel(n){
+  document.getElementById("p-tag").textContent = n.id===DATA.seed?"The origin":(n.id==="W1916666649"?"A companion paper — same authors, same year":(n.gen<0?"A root — it came before":"A branch — it grew after"));
+  document.getElementById("p-title").textContent=n.title;
+  document.getElementById("p-meta").textContent=`${n.author} et al. · ${n.year||"—"}`;
+  document.getElementById("p-year").textContent=n.year||"—";
+  document.getElementById("p-cites").textContent=(n.citations||0).toLocaleString();
+  const r=document.getElementById("p-read"); r.href=n.url||"#";
+  positionPanel(n);
+  panel.classList.add("open");
+}
+panel.querySelector(".pclose").onclick=()=>{panel.classList.remove("open");clearFocus();};
+
+function wireEvents(){
+  let drag=null, moved=false;
+  function pt(ev){const e=ev.touches?ev.touches[0]:ev;const m=stage.getScreenCTM().inverse();const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m);return {x:p.x,y:p.y};}
+  if(!isMobile){                       // desktop pointer model; mobile is owned by wireGestures()
+    stage.addEventListener("pointerdown",ev=>{
+      const id=ev.target.dataset && ev.target.dataset.id; if(!id)return;
+      drag=byId[id]; moved=false; drag.fixed=true; stage.classList.add("grabbing");
+      stage.setPointerCapture(ev.pointerId);
+    });
+    stage.addEventListener("pointermove",ev=>{
+      if(!drag)return; moved=true; const p=pt(ev); drag.x=p.x; drag.y=p.y; drag.vx=drag.vy=0; settle(16);
+    });
+    stage.addEventListener("pointerup",ev=>{
+      stage.classList.remove("grabbing");
+      if(drag){ drag.fixed=false; if(!moved) focus(drag); drag=null; settle(70); }
+    });
+  }
+  // hover (desktop)
+  stage.addEventListener("mouseover",ev=>{ const id=ev.target.dataset&&ev.target.dataset.id; if(id&&!focused) focus(byId[id]); });
+  stage.addEventListener("mouseleave",()=>{ if(!panel.classList.contains("open")) clearFocus(); });
+  // keyboard
+  stage.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ const id=ev.target.dataset&&ev.target.dataset.id; if(id){ev.preventDefault();focus(byId[id]);} } });
+  document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"){panel.classList.remove("open");clearFocus();} });
+  document.querySelectorAll(".layout-toggle button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      document.querySelectorAll(".layout-toggle button").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-pressed","false");});
+      b.classList.add("active"); b.setAttribute("aria-pressed","true");
+      clearFocus(); applyLayout(b.dataset.mode);
+    });
+  });
+  // viewBox scales with the container — no relayout needed on resize
+}
+
+// ---- mobile gesture layer: pan + pinch-zoom over the viewBox (mobile only) ----
+// The force sim still runs in the fixed VWxVH model space; only the WINDOW (the
+// viewBox) moves. getScreenCTM() reflects the live viewBox, so node-drag + tap math
+// stay exact at every zoom level — no changes to settle()/step()/openPanel needed.
+let vb = {x:0, y:0, w:VW, h:VH};
+function applyVB(){ stage.setAttribute("viewBox", `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+function resetView(){ vb={x:0,y:0,w:VW,h:VH}; applyVB(); }
+// mobile: frame the settled graph so it fills the field (removes model-space void),
+// grown to the field aspect so `meet` never re-letterboxes.
+function fitContent(){
+  let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+  nodes.forEach(n=>{ if(n.x-n.r<minx)minx=n.x-n.r; if(n.y-n.r<miny)miny=n.y-n.r;
+    if(n.x+n.r>maxx)maxx=n.x+n.r; if(n.y+n.r>maxy)maxy=n.y+n.r; });
+  const cxm=(minx+maxx)/2, cym=(miny+maxy)/2, A=VW/VH;
+  let w=(maxx-minx)*1.12, h=(maxy-miny)*1.12;
+  if(w/h>A) h=w/A; else w=h*A;                          // grow the short side to the field aspect
+  vb={x:cxm-w/2, y:cym-h/2, w:w, h:h}; clampVB(); applyVB();
+}
+const VB_MINW = VW/3.6;                                  // most-zoomed-in (~3.6x)
+function clampVB(){
+  vb.w = Math.max(VB_MINW, Math.min(VW, vb.w)); vb.h = vb.w*(VH/VW);
+  const ox=vb.w*0.12, oy=vb.h*0.12;                      // small overscroll, bounded to content
+  vb.x = Math.max(Math.min(0,VW-vb.w)-ox, Math.min(Math.max(0,VW-vb.w)+ox, vb.x));
+  vb.y = Math.max(Math.min(0,VH-vb.h)-oy, Math.min(Math.max(0,VH-vb.h)+oy, vb.y));
+}
+// screen px -> viewBox coords (preserveAspectRatio=meet => scale is the min)
+function scr2vb(px,py){
+  const r = stage.getBoundingClientRect();
+  const scale = Math.min(r.width/vb.w, r.height/vb.h);
+  const offX = (r.width - vb.w*scale)/2, offY = (r.height - vb.h*scale)/2;
+  return { x: vb.x + (px - r.left - offX)/scale, y: vb.y + (py - r.top - offY)/scale };
+}
+function wireGestures(){
+  if(!isMobile) return;                                  // desktop untouched, full stop
+  const pts = new Map();
+  let mode=null, startDist=0, startVB=null, pinchAnchor=null, lastPan=null;
+  let dragNode=null, moved=false;
+  stage.addEventListener("pointerdown",ev=>{
+    pts.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+    stage.setPointerCapture(ev.pointerId);
+    if(pts.size===1){
+      const id = ev.target.dataset && ev.target.dataset.id;
+      if(id){ dragNode=byId[id]; dragNode.fixed=true; moved=false; mode="drag"; stage.classList.add("grabbing"); }
+      else { mode="pan"; lastPan={x:ev.clientX,y:ev.clientY}; }
+    } else if(pts.size===2){
+      if(dragNode){ dragNode.fixed=false; dragNode=null; }   // promote a 1-finger drag into a pinch
+      const [a,b]=[...pts.values()];
+      startDist = Math.hypot(a.x-b.x,a.y-b.y) || 1;
+      startVB = {...vb};
+      pinchAnchor = scr2vb((a.x+b.x)/2,(a.y+b.y)/2);
+      mode="pinch";
+    }
+  });
+  stage.addEventListener("pointermove",ev=>{
+    if(!pts.has(ev.pointerId)) return;
+    pts.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+    if(mode==="pinch" && pts.size>=2){
+      const [a,b]=[...pts.values()];
+      const dist = Math.hypot(a.x-b.x,a.y-b.y) || 1;
+      vb.w = startVB.w * (startDist/dist); vb.h = vb.w*(VH/VW);   // fingers apart => vb shrinks => zoom IN
+      const r = stage.getBoundingClientRect();
+      const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+      const scale = Math.min(r.width/vb.w, r.height/vb.h);
+      const offX=(r.width-vb.w*scale)/2, offY=(r.height-vb.h*scale)/2;
+      vb.x = pinchAnchor.x - (mx - r.left - offX)/scale;          // keep the anchor under the fingers
+      vb.y = pinchAnchor.y - (my - r.top - offY)/scale;
+      clampVB(); applyVB();
+    } else if(mode==="pan"){
+      const r=stage.getBoundingClientRect();
+      const scale=Math.min(r.width/vb.w,r.height/vb.h);
+      vb.x -= (ev.clientX-lastPan.x)/scale; vb.y -= (ev.clientY-lastPan.y)/scale;
+      lastPan={x:ev.clientX,y:ev.clientY};
+      clampVB(); applyVB();
+    } else if(mode==="drag" && dragNode){
+      const p=scr2vb(ev.clientX,ev.clientY);
+      dragNode.x=p.x; dragNode.y=p.y; dragNode.vx=dragNode.vy=0; moved=true; settle(16);
+    }
+  });
+  function endPtr(ev){
+    pts.delete(ev.pointerId);
+    if(mode==="drag" && dragNode){
+      stage.classList.remove("grabbing"); dragNode.fixed=false;
+      if(!moved) focus(dragNode); else settle(70);
+      dragNode=null;
+    }
+    if(pts.size===0){ mode=null; }
+    else if(pts.size===1 && mode==="pinch"){               // pinch -> one finger left: resume pan
+      const [only]=[...pts.values()]; lastPan={x:only.x,y:only.y}; mode="pan";
+    }
+  }
+  stage.addEventListener("pointerup",endPtr);
+  stage.addEventListener("pointercancel",endPtr);
+  // double-tap to zoom in on a point
+  let lastTap=0, lastXY=null;
+  stage.addEventListener("pointerup",ev=>{
+    const now=Date.now();
+    if(now-lastTap<300 && lastXY && Math.hypot(ev.clientX-lastXY.x,ev.clientY-lastXY.y)<24){
+      const anchor=scr2vb(ev.clientX,ev.clientY);
+      const tw=Math.max(VB_MINW, vb.w*0.55), ts=tw/vb.w;
+      vb.x=anchor.x-(anchor.x-vb.x)*ts; vb.y=anchor.y-(anchor.y-vb.y)*ts;
+      vb.w=tw; vb.h=tw*(VH/VW); clampVB(); applyVB();
+    }
+    lastTap=now; lastXY={x:ev.clientX,y:ev.clientY};
+  });
+}
+
+function buildList(){
+  // desktop list (unchanged)
+  const ol=document.getElementById("paperlist"); ol.innerHTML="";
+  [...nodes].sort((a,b)=>(b.citations||0)-(a.citations||0)).forEach(n=>{
+    const li=document.createElement("li");
+    li.innerHTML=`<a href="${n.url}" target="_blank" rel="noopener noreferrer">${n.title}</a> — ${n.author} et al., ${n.year} · ${(n.citations||0).toLocaleString()} citations`;
+    ol.appendChild(li);
+  });
+  // mobile grouped list (built always; CSS shows it only ≤640px). Real papers, real links.
+  let ul=document.getElementById("paperlist-mobile");
+  if(!ul){ ul=document.createElement("ul"); ul.id="paperlist-mobile"; ul.className="paperlist-mobile";
+    ul.setAttribute("aria-label","Every paper on this map, grouped"); document.querySelector(".listview").after(ul); }
+  ul.innerHTML="";
+  const groups=[
+    {head:"The origin", sub:"The paper this map is drawn around.", test:n=>n.id===DATA.seed},
+    {head:"Roots — the work it grew from", sub:"Papers it cites — older science underneath it.", test:n=>n.id!==DATA.seed && n.gen<0},
+    {head:"Branches — the work it grew into", sub:"Papers that cite it — built on top.", test:n=>n.id!==DATA.seed && !(n.gen<0)},
+  ];
+  for(const g of groups){
+    const items=nodes.filter(g.test).sort((a,b)=>(b.citations||0)-(a.citations||0));
+    if(!items.length) continue;
+    const sec=document.createElement("li"); sec.className="pl-group";
+    sec.innerHTML=`<h2 class="pl-head">${g.head} <span style="color:var(--gold-soft)">· ${items.length}</span></h2><p class="pl-sub">${g.sub}</p>`;
+    for(const n of items){
+      const a=document.createElement("a");
+      a.className="pl-item"+(n.id===DATA.seed?" is-seed":"");
+      a.href=n.url||"#"; a.target="_blank"; a.rel="noopener noreferrer";
+      a.innerHTML=
+        `<span class="pl-title">${n.title}</span>`+
+        `<span class="pl-by">${n.author} et al. · ${n.year||"—"}</span>`+
+        `<span class="pl-foot"><span class="pl-cites"><b>${(n.citations||0).toLocaleString()}</b> citations</span>`+
+        `<span class="pl-read">read →</span></span>`;
+      sec.appendChild(a);
+    }
+    ul.appendChild(sec);
+  }
+}
+
+fetch("./data.json").then(r=>r.json()).then(d=>{
+  DATA=d; nodes=d.nodes; edges=d.edges; byId={}; nodes.forEach(n=>byId[n.id]=n);
+  // auto-open the seed on load (desktop only — on mobile the field stays clean; tap a node to open)
+  build();
+  const seed=byId[d.seed]; if(seed && !isMobile) openPanel(seed);
+}).catch(e=>{
+  stage.insertAdjacentHTML("afterend",`<p style="text-align:center;color:#8f8a73">Could not load the map data. (${e})</p>`);
+});
+</script>
+</body>
+</html>

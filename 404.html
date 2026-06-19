@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · Not Found — 37th Chamber</title>
+<meta name="description" content="This room does not exist.">
+<meta name="theme-color" content="#08080a">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.png">
+<style>
+:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
+  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:clamp(2rem,6vw,4rem) 1.25rem clamp(1.2rem,4vw,2rem);overflow-x:hidden;position:relative;text-align:center;letter-spacing:.01em}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,214,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.03) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 42%,#000 22%,transparent 82%)}
+.back{position:absolute;top:clamp(1.1rem,4vw,1.8rem);left:clamp(1.1rem,4vw,1.8rem);z-index:2;
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid rgba(255,214,10,.3);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
+.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
+.wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:780px;
+  animation:rise 1s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.sigil{width:clamp(64px,13vw,92px);height:auto;margin-bottom:clamp(1.8rem,5vw,2.6rem);filter:drop-shadow(0 0 12px rgba(255,214,10,.2));overflow:visible}
+.sigil .ring-charge{filter:drop-shadow(0 0 6px #0E44FF) drop-shadow(0 0 18px rgba(14,68,255,.65))}
+.code{font-size:clamp(4rem,20vw,9rem);line-height:.9;font-weight:600;color:var(--gold);letter-spacing:.01em;
+  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 6px rgba(0,0,0,.55)}
+.label{margin-top:clamp(1rem,3vw,1.5rem);font-size:clamp(1rem,3.5vw,1.5rem);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.cta{margin-top:clamp(2.6rem,7vw,3.8rem);display:inline-flex;align-items:center;gap:.5rem;
+  font-size:clamp(.82rem,2.6vw,1rem);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;
+  border:1px solid var(--gold);padding:.85rem 1.5rem;border-radius:2px;transition:.18s ease;position:relative}
+.cta:hover{background:var(--gold);color:#0a0a0c;box-shadow:0 0 24px -4px rgba(255,214,10,.55)}
+footer{z-index:1;margin-top:auto;padding-top:2rem;
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+footer .free{color:#fff;font-weight:700;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 22px rgba(14,68,255,.45)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
+.skip-link:focus{left:1rem}
+:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}</style>
+<script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
+  <a class="back" href="/" translate="no">&larr;&nbsp;37th&nbsp;Chamber</a>
+  <main class="wrap" id="main">
+    <svg class="sigil" viewBox="0 0 200 200" role="img" aria-label="The Sigil">
+      <circle class="ring-charge" cx="100" cy="100" r="90" fill="none" stroke="#FFD500" stroke-width="2"/>
+      <rect x="36.35" y="36.35" width="127.3" height="127.3" fill="none" stroke="#FFD500" stroke-width="2"/>
+      <g stroke="#FFD500" stroke-width="3" stroke-linecap="round">
+        <line x1="100" y1="100" x2="36.35" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="36.35"/>
+        <line x1="100" y1="100" x2="163.65" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="163.65"/>
+        <line x1="100" y1="100" x2="100" y2="36.35"/><line x1="100" y1="100" x2="163.65" y2="100"/>
+        <line x1="100" y1="100" x2="100" y2="163.65"/><line x1="100" y1="100" x2="36.35" y2="100"/>
+      </g>
+      <g fill="#FFD500"><circle cx="36.35" cy="36.35" r="6"/><circle cx="163.65" cy="36.35" r="6"/><circle cx="163.65" cy="163.65" r="6"/><circle cx="36.35" cy="163.65" r="6"/><circle cx="100" cy="36.35" r="5"/><circle cx="163.65" cy="100" r="5"/><circle cx="100" cy="163.65" r="5"/><circle cx="36.35" cy="100" r="5"/></g>
+      <circle class="ring-charge" cx="100" cy="100" r="9" fill="none" stroke="#FFD500" stroke-width="2"/><circle cx="100" cy="100" r="4" fill="#FFD500"/>
+    </svg>
+    <div class="code" aria-label="Error 404">404</div>
+    <p class="label">This room does not exist</p>
+    <a class="cta" href="/">back to the chamber&nbsp;&rarr;</a>
+  </main>
+  <footer>knowledge is <span class="free">free</span> &middot; forever</footer>
+</body>
+</html>

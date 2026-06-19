@@ -22,83 +22,34 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Making of Interstellar · The Roots">
 <meta name="twitter:description" content="Eight years, two directors, one pact. The long road from a 1980 blind date to one of the most scientifically grounded films ever made.">
-<style>
-:root{--gold:#FFD60A;--gold-soft:#d9b400;--bg:#08080a;--text:#f3eede;--dim:#8f8a73;--electric:#0E44FF;
-  --font:'Bahnschrift','DIN Alternate','Century Gothic','Futura',system-ui,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;padding:clamp(1.4rem,5vw,3rem) 1.1rem env(safe-area-inset-bottom,0px);
-  overflow-x:hidden;position:relative;letter-spacing:.005em}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,214,10,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,10,.025) 1px,transparent 1px);
-  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 18%,#000 22%,transparent 86%)}
-.topnav{width:100%;max-width:740px;display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:1.6rem}
-.back{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;border:1px solid rgba(255,214,10,.32);padding:.4rem .7rem;border-radius:2px;transition:.16s ease}
-.back:hover{border-color:var(--gold);background:rgba(255,214,10,.05)}
-.meta-pill{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  border:1px solid rgba(143,138,115,.32);padding:.34rem .6rem;border-radius:2px}
-.meta-pill .num{color:var(--gold-soft);font-weight:600}
-.wrap{position:relative;z-index:1;width:100%;max-width:740px;display:flex;flex-direction:column;
-  animation:rise .8s cubic-bezier(.22,1,.36,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.eyebrow{font-size:clamp(.66rem,2.4vw,.76rem);letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
-h1.title{font-size:clamp(1.7rem,5.4vw,2.5rem);line-height:1.08;font-weight:600;letter-spacing:.012em;color:var(--gold);
-  text-shadow:0 1px 0 #d9a800,0 2px 0 #b88e00,0 3px 0 #8f6f00,0 4px 5px rgba(0,0,0,.5);margin-bottom:1rem}
-.dek{margin:.6rem 0 1.6rem;font-size:clamp(1rem,2.8vw,1.12rem);line-height:1.55;color:var(--gold-soft);font-style:italic;max-width:38rem}
-hr.rule{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(255,214,10,.22),transparent);margin:2rem 0}
-h2{margin:2.2rem 0 .9rem;font-size:clamp(1.14rem,3.4vw,1.34rem);letter-spacing:.04em;color:var(--gold);font-weight:600}
-p{font-size:clamp(1rem,2.65vw,1.08rem);line-height:1.72;margin:.85rem 0;color:var(--text)}
-p strong{color:var(--gold);font-weight:600}
-p em{color:var(--gold-soft);font-style:italic}
-blockquote{margin:1.4rem 0;padding:.85rem 1rem;border-left:2px solid rgba(255,214,10,.5);background:rgba(255,214,10,.02);
-  color:var(--text);font-size:clamp(.98rem,2.6vw,1.06rem);line-height:1.62;font-style:italic}
-blockquote .src{display:block;margin-top:.5rem;font-style:normal;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.roots{margin:2.4rem 0 0;padding:1.15rem 1.3rem;border:1px solid rgba(14,68,255,.3);background:rgba(14,68,255,.04);
-  box-shadow:inset 0 0 0 1px rgba(14,68,255,.05);display:flex;flex-direction:column;gap:.55rem}
-.roots .rlab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.roots a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5);font-weight:600}
-.roots a:hover{border-bottom-style:solid}
-.roots .note{font-size:.84rem;color:var(--dim);line-height:1.55}
-.signoff{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(143,138,115,.28);
-  font-size:.84rem;color:var(--dim);line-height:1.6;text-align:center}
-.signoff strong{color:var(--gold-soft)}
-.signoff a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(255,214,10,.5)}
-.signoff a:hover{border-bottom-style:solid}
-footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;border-top:1px solid rgba(255,214,10,.22);
-  box-shadow:0 -10px 26px -16px rgba(255,214,10,.08);padding:1.4rem .2rem 2.2rem;
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-.foot-creed{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.foot-creed .free{color:#fff;font-weight:700;text-shadow:0 0 6px rgba(255,214,10,.6),0 0 14px rgba(255,214,10,.35)}
-.foot-back{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none}
-.foot-back:hover{text-decoration:underline}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--bg);font-size:.78rem;letter-spacing:.14em;
-  text-transform:uppercase;padding:.6rem 1rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 4px;z-index:1000}
-.skip-link:focus{left:1rem;outline:3px solid var(--bg);outline-offset:0}
-:focus-visible{outline:2px solid var(--electric);outline-offset:2px;border-radius:2px}
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;scroll-behavior:auto !important}
-}
-</style>
+<link rel="stylesheet" href="/assets/temple.css">
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Reference navigation">
   <a class="back" href="/references/">&larr;&nbsp;The Roots</a>
   <span class="meta-pill"><span class="num">Film</span> &middot; the production &middot; 2006&ndash;2014</span>
 </nav>
 
 <main class="wrap" id="main">
-  <div class="eyebrow">The Roots &middot; The 37th Chamber</div>
+  <div class="eyebrow">The Roots &middot; <span translate="no">The 37th Chamber</span></div>
   <h1 class="title">The Making of Interstellar</h1>
   <p class="dek">Eight years, two directors, one pact. The long road from a 1980 blind date arranged by Carl Sagan to one of the most scientifically grounded films ever made.</p>
 
   <hr class="rule">
 
-  <p>It starts, as the best things sometimes do, with an introduction that didn&rsquo;t go where anyone planned. In <strong>September 1980</strong>, Carl Sagan called his friend <strong>Kip Thorne</strong> &mdash; then a theoretical physicist at Caltech &mdash; and proposed a blind date with <strong>Lynda Obst</strong>, a counterculture-and-science editor at the New York Times Magazine. They went to the premiere of Sagan&rsquo;s <em>Cosmos</em> at the Griffith Observatory. The romance didn&rsquo;t last. The friendship did, and it lasted long enough to change cinema.</p>
+  <p>It starts, as the best things sometimes do, with an introduction that didn&rsquo;t go where anyone planned. In <strong>September 1980</strong>, Carl Sagan called his friend <strong>Kip Thorne</strong> &mdash; then a theoretical physicist at Caltech &mdash; and proposed a blind date with <strong>Lynda Obst</strong>, an editor at the New York Times Magazine. They went to the premiere of Sagan&rsquo;s <em>Cosmos</em> at the Griffith Observatory. The romance didn&rsquo;t last. The friendship did, and it lasted long enough to change cinema.</p>
 
   <p>Twenty-five years later, in October 2005, Obst &mdash; by then a Hollywood producer whose credits included <em>Contact</em> (1997), itself born from the Sagan orbit &mdash; had dinner with Thorne and floated an idea: a science fiction film with real physics at its bones. Not approximations dressed as science. <em>Real science.</em> Thorne was in. The treatment they wrote together ran eight pages.</p>
 
@@ -113,11 +64,88 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
   <h2>The pact</h2>
   <p>Thorne had laid down two rules at his first meeting with Spielberg, and they held through every change of director, every draft, every argument about what the story needed. From <em>The Science of Interstellar</em>, in Thorne&rsquo;s own words: <strong>&ldquo;Nothing in the film will violate firmly established laws of physics, or our firmly established knowledge of the universe.&rdquo;</strong> And second: all speculations &mdash; the wormhole, the tesseract, the fifth dimension &mdash; would spring from real science, from ideas that at least some respectable scientists regard as possible.</p>
   <p>Nolan accepted both conditions, with one clause of his own: they could not get in the way of making the movie. That negotiation &mdash; between narrative necessity and physical law &mdash; ran through the entire production. Thorne spent two weeks trying to persuade Nolan out of a scene involving faster-than-light travel before Nolan finally relented. The pact held. The rule was the rule.</p>
-  <p>Thorne served as executive producer and scientific consultant throughout. He was in the edit. He reviewed the physics of every major sequence. The gravitational lensing around <em>Gargantua</em> &mdash; the film&rsquo;s central black hole, spinning at roughly 99.8% of the limit the <a href="/references/kerr-metric/">Kerr geometry</a> allows &mdash; was rendered using equations Thorne and his team worked out from first principles. The render code produced results no one had seen before, and the team published peer-reviewed papers on what they found.</p>
+  <p>Thorne served as executive producer and scientific consultant throughout. He was in the edit. He reviewed the physics of every major sequence. The gravitational lensing around <em>Gargantua</em> &mdash; the film&rsquo;s central black hole, spinning at very nearly the maximum the <a href="/references/kerr-metric/">Kerr geometry</a> allows &mdash; was rendered using equations Thorne and his team worked out from first principles. The render code produced results no one had seen before, and the team published peer-reviewed papers on what they found.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 360" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dngrTitle dngrDesc" font-family="'Bahnschrift','DIN Alternate',system-ui,sans-serif">
+  <title id="dngrTitle">The DNGR rendering pipeline</title>
+  <desc id="dngrDesc">A left-to-right flow: Kip Thorne's relativity equations for Kerr geometry feed a renderer called DNGR, which pushes whole bundles of light rays through curved spacetime; the renderer produces the first physically correct IMAX images of the spinning black hole Gargantua and, run as a scientific instrument, also yields a published peer-reviewed paper.</desc>
+  <defs>
+    <filter id="blueGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#0E44FF" flood-opacity="0.95"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="13" flood-color="#0E44FF" flood-opacity="0.55"/>
+    </filter>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#d9b400"/>
+    </marker>
+  </defs>
+
+  <!-- flow connectors -->
+  <g aria-hidden="true" fill="none" stroke="#d9b400" stroke-width="1.6">
+    <path d="M150 150 L182 150" marker-end="url(#ar)"/>
+    <path d="M392 150 L424 150" marker-end="url(#ar)"/>
+    <path d="M592 150 L624 150" marker-end="url(#ar)"/>
+    <!-- byproduct branch down to the paper -->
+    <path d="M287 234 L287 280" stroke-dasharray="4 5" marker-end="url(#ar)"/>
+  </g>
+
+  <!-- STAGE 1 : Thorne's equations / Kerr geometry -->
+  <g aria-hidden="true">
+    <rect x="20" y="98" width="130" height="104" rx="6" fill="none" stroke="rgba(255,214,10,.18)" stroke-width="1"/>
+    <text x="85" y="120" text-anchor="middle" font-size="11" fill="#8f8a73" letter-spacing="1.2">STAGE 1</text>
+    <text x="85" y="143" text-anchor="middle" font-size="14" fill="#f3eede">Thorne&#8217;s</text>
+    <text x="85" y="160" text-anchor="middle" font-size="14" fill="#f3eede">equations</text>
+    <text x="85" y="184" text-anchor="middle" font-size="12" fill="#FFD60A">Kerr geometry</text>
+  </g>
+
+  <!-- STAGE 2 : DNGR renderer  (the charged element — blue glow) -->
+  <g filter="url(#blueGlow)">
+    <rect x="184" y="92" width="208" height="116" rx="7" fill="none" stroke="#FFD60A" stroke-width="2"/>
+    <text x="288" y="116" text-anchor="middle" font-size="11" fill="#8f8a73" letter-spacing="1.2">THE RENDERER</text>
+    <text x="288" y="139" text-anchor="middle" font-size="17" fill="#FFD60A" font-weight="700" letter-spacing="2">DNGR</text>
+    <!-- ray-bundle motif: parallel rays bending through curved spacetime -->
+    <g fill="none" stroke="#FFD60A" stroke-width="1.3" opacity="0.92">
+      <path d="M206 178 Q258 150 300 182"/>
+      <path d="M206 186 Q262 156 304 190"/>
+      <path d="M206 194 Q266 162 308 198"/>
+    </g>
+    <circle cx="330" cy="186" r="9" fill="#08080a" stroke="#FFD60A" stroke-width="1.3"/>
+    <text x="288" y="200" text-anchor="middle" font-size="10.5" fill="#f3eede">ray-bundles &#183; curved spacetime</text>
+  </g>
+
+  <!-- STAGE 3 : IMAX frames of Gargantua -->
+  <g aria-hidden="true">
+    <rect x="426" y="98" width="166" height="104" rx="6" fill="none" stroke="rgba(255,214,10,.18)" stroke-width="1"/>
+    <text x="509" y="120" text-anchor="middle" font-size="11" fill="#8f8a73" letter-spacing="1.2">STAGE 3</text>
+    <!-- Gargantua: lensed disk around a black sphere -->
+    <g aria-hidden="true">
+      <ellipse cx="509" cy="152" rx="38" ry="9" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+      <path d="M471 152 A38 9 0 0 1 547 152" fill="none" stroke="#FFD60A" stroke-width="1.4" transform="rotate(0 509 152)"/>
+      <path d="M481 138 Q509 124 537 138" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+      <circle cx="509" cy="152" r="13" fill="#08080a" stroke="#d9b400" stroke-width="1"/>
+    </g>
+    <text x="509" y="190" text-anchor="middle" font-size="12" fill="#f3eede">IMAX frames &#183; Gargantua</text>
+  </g>
+
+  <!-- STAGE 4 : the published paper (byproduct) -->
+  <g aria-hidden="true">
+    <rect x="222" y="284" width="132" height="60" rx="6" fill="none" stroke="rgba(255,214,10,.18)" stroke-width="1"/>
+    <text x="288" y="305" text-anchor="middle" font-size="10.5" fill="#8f8a73" letter-spacing="1.2">BYPRODUCT</text>
+    <text x="288" y="324" text-anchor="middle" font-size="13" fill="#FFD60A">peer-reviewed</text>
+    <text x="288" y="339" text-anchor="middle" font-size="13" fill="#f3eede">paper</text>
+  </g>
+
+  <!-- caption -->
+  <text x="360" y="30" text-anchor="middle" font-size="14" fill="#f3eede" letter-spacing="0.5">The renderer ran as a scientific instrument</text>
+  <text x="360" y="50" text-anchor="middle" font-size="11" fill="#8f8a73">equations &#8594; renderer &#8594; the images &#8212; and a real paper falls out</text>
+</svg>
+<figcaption>The DNGR pipeline: Thorne's Kerr-geometry equations feed a renderer that pushes whole bundles of light rays through curved spacetime — producing the first physically-correct IMAX images of Gargantua, and a peer-reviewed paper as a byproduct.</figcaption>
+</figure>
+</p>
 
   <h2>What eight years built</h2>
   <p><em>Interstellar</em> opened in <strong>November 2014</strong>. The finished film carries the full weight of its production history: a blind date that became a friendship that became an eight-page treatment that survived three years without a director, crossed from one Nolan to another, and arrived on screen with the science intact. Thorne&rsquo;s book, <em>The Science of Interstellar</em>, is the making-of told from the inside &mdash; the physics explained, the compromises named, the places where the film got it exactly right and the places where story won over rigor.</p>
-  <p>What the project demonstrates, over and over, is that the constraint was generative. The rule &mdash; <em>nothing violates established physics</em> &mdash; didn&rsquo;t narrow the film. It forced the filmmakers to find drama inside what is actually true. Miller&rsquo;s planet, one hour to seven years, works because the physics of an extreme Kerr black hole permits it. The wormhole works because Thorne&rsquo;s own research into traversable wormholes, co-authored with <a href="/references/kip-thorne/">colleagues in the 1980s</a>, gives it a real scientific address. The machine of the film runs on real science. That was the deal, and they kept it.</p>
+  <p>What the project demonstrates, over and over, is that the constraint was generative. The rule &mdash; <em>nothing violates established physics</em> &mdash; forced the filmmakers to find drama inside what is actually true. Miller&rsquo;s planet, one hour to seven years, works because the physics of an extreme Kerr black hole permits it. The wormhole works because Thorne&rsquo;s own research into traversable wormholes, co-authored with <a href="/references/kip-thorne/">colleagues in the 1980s</a>, gives it a real scientific address. Story won too, on occasion: the tesseract sequence &mdash; Cooper navigating a five-dimensional library of time to reach his daughter &mdash; crossed from extrapolation into metaphor, and Thorne named it as the place where the film departed from anything he could defend scientifically. That admission is in the book. The point is that even the departures were disciplined: they had to be earned, argued for, and named. The machine of the film runs on real science. That was the deal, and they kept it as far as the physics of the universe, as we understand it, would allow.</p>
 
   <div class="roots">
     <span class="rlab">Take us to the root &rarr;</span>
@@ -125,6 +153,7 @@ footer{margin-top:3.4rem;width:100%;max-width:740px;position:relative;z-index:1;
     <a href="https://en.wikipedia.org/wiki/Interstellar_(film)" target="_blank" rel="noopener noreferrer">Wikipedia, production history &mdash; Interstellar (film)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://www.science.org/content/article/physicist-who-inspired-interstellar-spills-backstory-and-scene-makes-him-cringe" target="_blank" rel="noopener noreferrer">Thorne tells the backstory &mdash; Science (AAAS)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <a href="https://variety.com/2026/film/news/steven-spielberg-interstellar-dropped-out-nolan-1236712424/" target="_blank" rel="noopener noreferrer">Spielberg on stepping aside &mdash; Variety<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
+    <a href="https://iopscience.iop.org/article/10.1088/0264-9381/32/6/065001" target="_blank" rel="noopener noreferrer">The render&rsquo;s published science &mdash; James, von Tunzelmann, Franklin &amp; Thorne, Classical and Quantum Gravity 32 (2015)<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> (opens in new tab)</span></a>
     <p class="note">Start with Thorne&rsquo;s book. It is the authoritative account of this production from the inside, written by the physicist who was present for all of it. Wikipedia&rsquo;s production section is thorough on the sequence of events. The Science AAAS piece has Thorne in his own voice. We point; we don&rsquo;t reproduce.</p>
   </div>
 

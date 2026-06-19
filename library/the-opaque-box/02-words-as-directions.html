@@ -6,7 +6,7 @@
 <title>Ch 2 · Words as Directions — The Opaque Box · 37th Chamber</title>
 <meta name="description" content="Chapter 2 of The Opaque Box. Embeddings, position embeddings, and the input pipeline. How token IDs become directions in space, and how the model is fed batches of next-token predictions.">
 <meta name="theme-color" content="#08080a">
-<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/02-words-as-directions.html">
+<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/02-words-as-directions">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <meta property="og:title" content="Ch 2 · Words as Directions — The Opaque Box">
@@ -28,8 +28,13 @@
     "url": "https://37th-chamber.com/library/"
   },
   "author": {
+    "@type": "Organization",
+    "name": "A Fable (Claude, by Anthropic)",
+    "url": "https://www.anthropic.com/claude"
+  },
+  "editor": {
     "@type": "Person",
-    "name": "Kyle Sullivan",
+    "name": "bobby-dig8al",
     "url": "https://37th-chamber.com/about/"
   },
   "publisher": {
@@ -114,11 +119,30 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}.diagram{margin:2.2rem 0;text-align:center}
+.diagram svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.diagram figcaption{margin-top:.85rem;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;letter-spacing:.01em;max-width:620px;margin-left:auto;margin-right:auto}
 </style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Chapter navigation">
   <a class="back" href="/library/">&larr;&nbsp;The Library</a>
   <div class="chnav">
@@ -136,14 +160,22 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   <hr class="rule">
 
   <h2 id="s2-1">2.1&nbsp;&nbsp;Why an ID isn&rsquo;t enough</h2>
-  <p>After Chapter 1, <code>"the"</code> might be token <code>256</code>. But if we feed the raw integer <code>256</code> into the network, we&rsquo;ve told it a lie: that <code>256</code> is &ldquo;more&rdquo; than <code>255</code> and &ldquo;half of&rdquo; <code>512</code>. Integers carry an ordering and a magnitude that token IDs do not have. The IDs are <em>categorical</em> &mdash; arbitrary labels.</p>
-  <p>The fix: give every token its own <strong>vector</strong> &mdash; a list of <code>d_model</code> real numbers (we&rsquo;ll use 384). Now a token isn&rsquo;t a scalar with a fake magnitude; it&rsquo;s a <em>direction</em> in a 384-dimensional space, and the model is free to <em>learn</em> where each token should sit. Tokens used in similar ways drift to similar directions. This is the famous result where <em>&ldquo;king &minus; man + woman &asymp; queen&rdquo;</em> (Mikolov et&nbsp;al., 2013) &mdash; relationships become geometry. We don&rsquo;t hand-build that; we give each token a learnable vector and let training move it.</p>
+  <p>After Chapter 1, <code translate="no">"the"</code> might be token <code translate="no">256</code>. But if we feed the raw integer <code translate="no">256</code> into the network, we&rsquo;ve told it a lie: that <code translate="no">256</code> is &ldquo;more&rdquo; than <code translate="no">255</code> and &ldquo;half of&rdquo; <code translate="no">512</code>. Integers carry an ordering and a magnitude that token IDs do not have. The IDs are <em>categorical</em> &mdash; arbitrary labels.</p>
+  <p>The fix: give every token its own <strong>vector</strong> &mdash; a list of <code translate="no">d_model</code> real numbers (we&rsquo;ll use 384). Now a token isn&rsquo;t a scalar with a fake magnitude; it&rsquo;s a <em>direction</em> in a 384-dimensional space, and the model is free to <em>learn</em> where each token should sit. Tokens used in similar ways drift to similar directions. This is the famous result where <em>&ldquo;king &minus; man + woman &asymp; queen&rdquo;</em> (Mikolov et&nbsp;al., 2013) &mdash; relationships become geometry.
+
+<figure class="diagram">
+<svg viewBox="0 0 720 380" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A 2D embedding space on a dark blueprint grid. Word points cluster by meaning: cat and dog sit together, man and woman form a pair, king and queen form a pair higher up. A gold arrow from man to woman and a parallel gold arrow from king to queen show the same gender direction. The vector king minus man plus woman lands on a glowing point that coincides with queen."><title>Embeddings as directions: king minus man plus woman is approximately queen</title><desc>A two-dimensional map of word vectors. Related words sit near each other, and a consistent gender direction connects man to woman and king to queen as parallel arrows. Adding that same direction to king reaches a point that coincides with queen. The result point carries the single electric-blue glow.</desc><defs><filter id="blueGlow" x="-120%" y="-120%" width="340%" height="340%"><feDropShadow dx="0" dy="0" stdDeviation="5.5" flood-color="#0E44FF" flood-opacity="0.95"/><feDropShadow dx="0" dy="0" stdDeviation="11" flood-color="#0E44FF" flood-opacity="0.6"/></filter><marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FFD60A"/></marker><marker id="ahDim" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d9b400"/></marker></defs><style>.lbl{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}.word{fill:#f3eede;font-size:14px;font-weight:600;letter-spacing:.02em;}.dim{fill:#8f8a73;font-size:11.5px;letter-spacing:.04em;}.axis{fill:#8f8a73;font-size:11px;letter-spacing:.14em;}.eq{fill:#FFD60A;font-size:15px;font-weight:600;letter-spacing:.02em;}.res{fill:#dfe7ff;font-size:12.5px;font-weight:600;letter-spacing:.05em;}</style><g aria-hidden="true" stroke="#2a2a33" stroke-width="1"><line x1="58" y1="40" x2="58" y2="332"/><line x1="58" y1="332" x2="660" y2="332"/><g stroke="rgba(255,214,10,0.10)"><line x1="58" y1="282" x2="660" y2="282"/><line x1="58" y1="222" x2="660" y2="222"/><line x1="58" y1="162" x2="660" y2="162"/><line x1="58" y1="102" x2="660" y2="102"/><line x1="178" y1="40" x2="178" y2="332"/><line x1="298" y1="40" x2="298" y2="332"/><line x1="418" y1="40" x2="418" y2="332"/><line x1="538" y1="40" x2="538" y2="332"/></g></g><g aria-hidden="true"><path d="M58,332 L58,36" fill="none" stroke="#8f8a73" stroke-width="1.4" marker-end="url(#ahDim)"/><path d="M58,332 L664,332" fill="none" stroke="#8f8a73" stroke-width="1.4" marker-end="url(#ahDim)"/><text class="lbl axis" x="64" y="32">DIMENSION 2</text><text class="lbl axis" x="664" y="349" text-anchor="end">DIMENSION 1 (OF 384)</text></g><g aria-hidden="true"><ellipse cx="158" cy="276" rx="64" ry="40" fill="rgba(255,214,10,0.05)" stroke="rgba(255,214,10,0.18)" stroke-width="1" stroke-dasharray="3 4"/><text class="lbl dim" x="158" y="246" text-anchor="middle">near = similar</text><circle cx="132" cy="284" r="4.5" fill="#FFD60A"/><text class="lbl word" x="124" y="300" text-anchor="end">cat</text><circle cx="186" cy="270" r="4.5" fill="#FFD60A"/><text class="lbl word" x="194" y="266">dog</text></g><g><circle cx="332" cy="288" r="5" fill="#FFD60A" aria-hidden="true"/><text class="lbl word" x="332" y="308" text-anchor="middle">man</text><circle cx="452" cy="258" r="5" fill="#FFD60A" aria-hidden="true"/><text class="lbl word" x="466" y="250" text-anchor="start">woman</text><circle cx="362" cy="150" r="5" fill="#FFD60A" aria-hidden="true"/><text class="lbl word" x="356" y="142" text-anchor="end">king</text></g><g aria-hidden="true"><line x1="340" y1="285" x2="445" y2="261" stroke="#FFD60A" stroke-width="2" marker-end="url(#ah)"/><line x1="370" y1="147" x2="475" y2="123" stroke="#FFD60A" stroke-width="2" marker-end="url(#ah)"/><text class="lbl dim" x="388" y="284" transform="rotate(-13 388 284)">+ woman direction</text><text class="lbl dim" x="418" y="146" transform="rotate(-13 418 146)">same direction</text></g><g><circle cx="482" cy="120" r="6.5" fill="#0E44FF" filter="url(#blueGlow)" aria-hidden="true"/><circle cx="482" cy="120" r="3" fill="#dfe7ff" aria-hidden="true"/><text class="lbl word" x="492" y="116" fill="#dfe7ff">queen</text><text class="lbl res" x="492" y="134">&#x2248; king minus man plus woman</text></g><g aria-hidden="true"><line x1="58" y1="356" x2="660" y2="356" stroke="rgba(255,214,10,0.18)" stroke-width="1"/><text class="lbl eq" x="360" y="375" text-anchor="middle">relationships become geometry: meaning is a <tspan fill="#dfe7ff">direction</tspan>, learned not given</text></g></svg>
+<figcaption>
+Words become directions in a learned space: related tokens cluster, and a consistent relationship (man to woman, king to queen) becomes the same geometric move, so king minus man plus woman lands on queen.
+</figcaption>
+</figure>
+ We don&rsquo;t hand-build that; we give each token a learnable vector and let training move it.</p>
 
   <hr class="rule">
 
   <h2 id="s2-2">2.2&nbsp;&nbsp;The embedding table</h2>
-  <p>An embedding layer is just a lookup table: a matrix of shape <code>(vocab_size, d_model)</code>. Row <code>i</code> is the vector for token <code>i</code>. &ldquo;Embedding a token&rdquo; = &ldquo;select its row.&rdquo; In PyTorch:</p>
-<pre><code>import torch
+  <p>An embedding layer is just a lookup table: a matrix of shape <code translate="no">(vocab_size, d_model)</code>. Row <code translate="no">i</code> is the vector for token <code translate="no">i</code>. &ldquo;Embedding a token&rdquo; = &ldquo;select its row.&rdquo; In PyTorch:</p>
+<pre translate="no"><code>import torch
 import torch.nn as nn
 
 vocab_size = 512      # from our Ch1 tokenizer
@@ -155,26 +187,26 @@ token_embedding = nn.Embedding(vocab_size, d_model)
 ids = torch.tensor([[256, 257, 9, 14]])   # shape (1, 4): 1 sequence, 4 tokens
 vectors = token_embedding(ids)            # shape (1, 4, 384)
 print(vectors.shape)                      # torch.Size([1, 4, 384])</code></pre>
-  <p><code>nn.Embedding(vocab_size, d_model)</code> creates that <code>(512, 384)</code> matrix, initialized randomly. Those 512&times;384 = 196,608 numbers are <strong>parameters</strong> &mdash; they get <em>learned</em> during training. The embedding table is usually one of the largest single pieces of a small model.</p>
-  <blockquote>Mechanically, <code>nn.Embedding</code> is a <code>(vocab_size, d_model)</code> matrix indexed by token ID. It is equivalent to multiplying a one-hot vector by that matrix &mdash; but indexing is what actually happens, because it&rsquo;s vastly cheaper. Knowing the equivalence matters in Chapter 9, where the embedding and the output layer can <em>share</em> this matrix (weight tying).</blockquote>
+  <p><code translate="no">nn.Embedding(vocab_size, d_model)</code> creates that <code translate="no">(512, 384)</code> matrix, initialized randomly. Those 512&times;384 = 196,608 numbers are <strong>parameters</strong> &mdash; they get <em>learned</em> during training. The embedding table is usually one of the largest single pieces of a small model.</p>
+  <blockquote>Mechanically, <code translate="no">nn.Embedding</code> is a <code translate="no">(vocab_size, d_model)</code> matrix indexed by token ID. It is equivalent to multiplying a one-hot vector by that matrix &mdash; but indexing is what actually happens, because it&rsquo;s vastly cheaper. Knowing the equivalence matters in Chapter 9, where the embedding and the output layer can <em>share</em> this matrix (weight tying).</blockquote>
 
   <hr class="rule">
 
   <h2 id="s2-3">2.3&nbsp;&nbsp;The problem of order</h2>
-  <p>Here&rsquo;s something that trips everyone up the first time. The attention mechanism we build in Chapter 3 is, by itself, <strong>order-blind</strong>. Feed it <code>"dog bites man"</code> and <code>"man bites dog"</code> as bags of token-vectors and &mdash; astonishingly &mdash; it computes the same thing for each word regardless of where the word sits. There is no built-in notion of &ldquo;first&rdquo; or &ldquo;next.&rdquo; (This is a real property of self-attention, not a simplification; it&rsquo;s called permutation equivariance.)</p>
+  <p>Here&rsquo;s something that trips everyone up the first time. The attention mechanism we build in Chapter 3 is, by itself, <strong>order-blind</strong>. Feed it <code translate="no">"dog bites man"</code> and <code translate="no">"man bites dog"</code> as bags of token-vectors and &mdash; astonishingly &mdash; it computes the same thing for each word regardless of where the word sits. There is no built-in notion of &ldquo;first&rdquo; or &ldquo;next.&rdquo; (This is a real property of self-attention, not a simplification; it&rsquo;s called permutation equivariance.)</p>
   <p>But order is the entire game in language. <em>&ldquo;man bites dog&rdquo;</em> is news; <em>&ldquo;dog bites man&rdquo;</em> is Tuesday. So we have to <em>inject</em> position information ourselves.</p>
   <p>The simplest effective method (and what GPT-2 uses): a <strong>second learnable embedding table, indexed by position instead of by token.</strong></p>
-<pre><code>context_length = 256                  # the most tokens the model ever sees at once
+<pre translate="no"><code>context_length = 256                  # the most tokens the model ever sees at once
 position_embedding = nn.Embedding(context_length, d_model)
 
 T = ids.shape[1]                      # number of tokens in this sequence (4 above)
 positions = torch.arange(T)           # tensor([0, 1, 2, 3])
 pos_vectors = position_embedding(positions)   # shape (T, 384) -&gt; (4, 384)</code></pre>
-  <p>Position 0 has a learned vector, position 1 has another, and so on up to <code>context_length - 1</code>. The model learns what &ldquo;being third&rdquo; should mean.</p>
+  <p>Position 0 has a learned vector, position 1 has another, and so on up to <code translate="no">context_length - 1</code>. The model learns what &ldquo;being third&rdquo; should mean.</p>
 
   <h3 id="s2-3a">Combining token + position</h3>
   <p>We simply <strong>add</strong> the two:</p>
-<pre><code># token vectors:    (B, T, d_model)  -- B sequences, T tokens each, d_model-wide
+<pre translate="no"><code># token vectors:    (B, T, d_model)  -- B sequences, T tokens each, d_model-wide
 # position vectors: (   T, d_model)
 # they add by broadcasting over the batch dimension B:
 x = token_embedding(ids) + position_embedding(torch.arange(T))
@@ -186,25 +218,25 @@ print(x.shape)        # (1, 4, 384)</code></pre>
   <h2 id="s2-4">2.4&nbsp;&nbsp;The shape that runs through everything</h2>
   <p>Three letters will follow you for the rest of this book. Learn them now:</p>
   <ul>
-    <li><strong><code>B</code></strong> &mdash; batch size: how many independent sequences we process at once (e.g., 32).</li>
-    <li><strong><code>T</code></strong> &mdash; time / sequence length: how many tokens in each sequence (&le; <code>context_length</code>).</li>
-    <li><strong><code>C</code></strong> &mdash; channels: the vector width, our <code>d_model</code> (384). (PyTorch convention calls it <code>C</code>.)</li>
+    <li><strong><code translate="no">B</code></strong> &mdash; batch size: how many independent sequences we process at once (e.g., 32).</li>
+    <li><strong><code translate="no">T</code></strong> &mdash; time / sequence length: how many tokens in each sequence (&le; <code translate="no">context_length</code>).</li>
+    <li><strong><code translate="no">C</code></strong> &mdash; channels: the vector width, our <code translate="no">d_model</code> (384). (PyTorch convention calls it <code translate="no">C</code>.)</li>
   </ul>
-  <p>The input to the model is an integer tensor of shape <strong><code>(B, T)</code></strong>. The moment it hits the embeddings it becomes a float tensor of shape <strong><code>(B, T, C)</code></strong>, and it <em>stays</em> <code>(B, T, C)</code> through every transformer block until the very end. If you ever get lost in later chapters, print <code>.shape</code> &mdash; almost every bug is a shape bug.</p>
+  <p>The input to the model is an integer tensor of shape <strong><code translate="no">(B, T)</code></strong>. The moment it hits the embeddings it becomes a float tensor of shape <strong><code translate="no">(B, T, C)</code></strong>, and it <em>stays</em> <code translate="no">(B, T, C)</code> through every transformer block until the very end. If you ever get lost in later chapters, print <code translate="no">.shape</code> &mdash; almost every bug is a shape bug.</p>
 
   <hr class="rule">
 
   <h2 id="s2-5">2.5&nbsp;&nbsp;The input pipeline: making &ldquo;predict the next token&rdquo; concrete</h2>
   <p>How does a model <em>learn</em>? We give it a sequence and ask it to predict the next token at every position. The training signal is free &mdash; it&rsquo;s already in the text. We just slide a window across the token stream and pair each chunk with the same chunk shifted one token to the right.</p>
-<pre><code>tokens:  [ 256, 257,  9,  14,  88,  12, ... ]
+<pre translate="no"><code>tokens:  [ 256, 257,  9,  14,  88,  12, ... ]
                   context_length = 4
 
 x (input):   [256, 257,  9,  14]
 y (target):  [257,   9, 14,  88]   &lt;- x shifted left by one</code></pre>
-  <p>Read it as four predictions packed together: given <code>256</code> predict <code>257</code>; given <code>256,257</code> predict <code>9</code>; given <code>256,257,9</code> predict <code>14</code>; and so on. One window trains the model on <code>T</code> next-token predictions at once.</p>
+  <p>Read it as four predictions packed together: given <code translate="no">256</code> predict <code translate="no">257</code>; given <code translate="no">256,257</code> predict <code translate="no">9</code>; given <code translate="no">256,257,9</code> predict <code translate="no">14</code>; and so on. One window trains the model on <code translate="no">T</code> next-token predictions at once.</p>
 
   <h3 id="s2-5a">A Dataset and DataLoader</h3>
-<pre><code>import torch
+<pre translate="no"><code>import torch
 from torch.utils.data import Dataset, DataLoader
 
 class NextTokenDataset(Dataset):
@@ -230,13 +262,13 @@ loader = DataLoader(dataset, batch_size=32, shuffle=True, drop_last=True)
 
 xb, yb = next(iter(loader))
 print(xb.shape, yb.shape)    # (32, 256) (32, 256)  -&gt; this is (B, T)</code></pre>
-  <p><code>shuffle=True</code> means each batch is a random grab of windows from all over the corpus &mdash; the model shouldn&rsquo;t learn the order the windows happen to sit in memory. <code>drop_last=True</code> discards a final ragged batch so every batch is exactly <code>(B, T)</code>.</p>
+  <p><code translate="no">shuffle=True</code> means each batch is a random grab of windows from all over the corpus &mdash; the model shouldn&rsquo;t learn the order the windows happen to sit in memory. <code translate="no">drop_last=True</code> discards a final ragged batch so every batch is exactly <code translate="no">(B, T)</code>.</p>
 
   <hr class="rule">
 
   <h2 id="s2-6">2.6&nbsp;&nbsp;Putting the front end together</h2>
-  <p>Here&rsquo;s the complete &ldquo;front end&rdquo; of our model &mdash; everything from token IDs to the <code>(B, T, C)</code> tensor the transformer blocks will consume. We&rsquo;ll grow this class through the rest of the book.</p>
-<pre><code>import torch
+  <p>Here&rsquo;s the complete &ldquo;front end&rdquo; of our model &mdash; everything from token IDs to the <code translate="no">(B, T, C)</code> tensor the transformer blocks will consume. We&rsquo;ll grow this class through the rest of the book.</p>
+<pre translate="no"><code>import torch
 import torch.nn as nn
 
 class GPTFrontEnd(nn.Module):
@@ -256,7 +288,7 @@ model = GPTFrontEnd(vocab_size=512, context_length=256, d_model=384)
 xb, yb = next(iter(loader))
 out = model(xb)
 print(out.shape)        # (32, 256, 384)  == (B, T, C)</code></pre>
-  <p>Run it. If you get <code>(32, 256, 384)</code>, your tokens are now living in 384-dimensional space <em>with</em> a sense of position, batched and ready. The hard part &mdash; what the model <em>does</em> with these vectors to mix information between tokens &mdash; is Chapter 3.</p>
+  <p>Run it. If you get <code translate="no">(32, 256, 384)</code>, your tokens are now living in 384-dimensional space <em>with</em> a sense of position, batched and ready. The hard part &mdash; what the model <em>does</em> with these vectors to mix information between tokens &mdash; is Chapter 3.</p>
 
   <hr class="rule">
 
@@ -265,7 +297,7 @@ print(out.shape)        # (32, 256, 384)  == (B, T, C)</code></pre>
     <ul>
       <li><strong>Meaning is a location, learned not given.</strong> We don&rsquo;t tell the model what <em>&ldquo;Shaolin&rdquo;</em> means. We hand it a random vector and let next-token prediction <em>push</em> that vector somewhere useful. Embeddings are the model&rsquo;s first opinion about the world, and they start as noise.</li>
       <li><strong>Position is a separate, added signal</strong> because attention is natively order-blind. Token identity and token position are two answers (&ldquo;what&rdquo; and &ldquo;where&rdquo;) summed into one vector.</li>
-      <li><strong><code>(B, T, C)</code> is the river.</strong> Integers in (<code>B, T</code>), vectors out (<code>B, T, C</code>), and that shape is preserved by every block until the output head. Hold onto it.</li>
+      <li><strong><code translate="no">(B, T, C)</code> is the river.</strong> Integers in (<code translate="no">B, T</code>), vectors out (<code translate="no">B, T, C</code>), and that shape is preserved by every block until the output head. Hold onto it.</li>
     </ul>
   </div>
 
@@ -273,11 +305,11 @@ print(out.shape)        # (32, 256, 384)  == (B, T, C)</code></pre>
 
   <h2 id="s2-8">2.8&nbsp;&nbsp;Exercises</h2>
   <ol>
-    <li><strong>Untrained geometry.</strong> Before any training, take your <code>token_embedding</code>, grab the vectors for two tokens, and compute their cosine similarity (<code>torch.nn.functional.cosine_similarity</code>). Why is it meaningless right now? Write a note predicting what you expect <em>after</em> training (we&rsquo;ll check it in Ch7).</li>
-    <li><strong>Order-blindness, felt.</strong> Embed <code>[256, 257]</code> and <code>[257, 256]</code> <em>without</em> position embeddings, sum each sequence&rsquo;s vectors, and compare. Then redo it <em>with</em> position embeddings. Show numerically that position is what breaks the symmetry.</li>
-    <li><strong>Shape gauntlet.</strong> For <code>B=8, T=128, d_model=384</code>: what is the shape after <code>token_embedding</code>? After adding <code>position_embedding</code>? How many parameters are in each embedding table? (Answer in numbers, then verify with <code>sum(p.numel() for p in model.parameters())</code>.)</li>
-    <li><strong>Window arithmetic.</strong> A corpus of 1,000,000 tokens with <code>context_length=256</code>: how many training windows does <code>NextTokenDataset</code> expose? Why <code>len(ids) - context_length</code> and not <code>len(ids) // context_length</code>?</li>
-    <li><strong>Break it.</strong> Set <code>context_length=256</code> in the model but feed a batch with <code>T=300</code>. Predict the error before you run it, then run it. Which embedding blows up, and why does that tell you <code>context_length</code> is a hard ceiling baked into the architecture?</li>
+    <li><strong>Untrained geometry.</strong> Before any training, take your <code translate="no">token_embedding</code>, grab the vectors for two tokens, and compute their cosine similarity (<code translate="no">torch.nn.functional.cosine_similarity</code>). Why is it meaningless right now? Write a note predicting what you expect <em>after</em> training (we&rsquo;ll check it in Ch7).</li>
+    <li><strong>Order-blindness, felt.</strong> Embed <code translate="no">[256, 257]</code> and <code translate="no">[257, 256]</code> <em>without</em> position embeddings, sum each sequence&rsquo;s vectors, and compare. Then redo it <em>with</em> position embeddings. Show numerically that position is what breaks the symmetry.</li>
+    <li><strong>Shape gauntlet.</strong> For <code translate="no">B=8, T=128, d_model=384</code>: what is the shape after <code translate="no">token_embedding</code>? After adding <code translate="no">position_embedding</code>? How many parameters are in each embedding table? (Answer in numbers, then verify with <code translate="no">sum(p.numel() for p in model.parameters())</code>.)</li>
+    <li><strong>Window arithmetic.</strong> A corpus of 1,000,000 tokens with <code translate="no">context_length=256</code>: how many training windows does <code translate="no">NextTokenDataset</code> expose? Why <code translate="no">len(ids) - context_length</code> and not <code translate="no">len(ids) // context_length</code>?</li>
+    <li><strong>Break it.</strong> Set <code translate="no">context_length=256</code> in the model but feed a batch with <code translate="no">T=300</code>. Predict the error before you run it, then run it. Which embedding blows up, and why does that tell you <code translate="no">context_length</code> is a hard ceiling baked into the architecture?</li>
   </ol>
 
   <div class="next-up">
@@ -288,8 +320,10 @@ print(out.shape)        # (32, 256, 384)  == (B, T, C)</code></pre>
     <a href="/library/the-opaque-box/03-attention.html">Read Ch&nbsp;3 &rarr;</a>
   </div>
 
-  <p class="note-source">A 37th-Chamber original. Mechanism cited (Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017; Mikolov et al., <em>&ldquo;Linguistic Regularities in Continuous Space Word Representations,&rdquo;</em> 2013); all prose and code written fresh.</p>
+  <p class="note-source">A 37th-Chamber original. Mechanism cited (<a class="inline" href="https://arxiv.org/abs/1706.03762">Vaswani et al., <em>&ldquo;Attention Is All You Need,&rdquo;</em> 2017</a>; <a class="inline" href="https://aclanthology.org/N13-1090/">Mikolov et al., <em>&ldquo;Linguistic Regularities in Continuous Space Word Representations,&rdquo;</em> 2013</a>); all prose and code written fresh.</p>
 </main>
+
+<p class="note-source" style="text-align:center;letter-spacing:.08em;text-transform:uppercase">Written by a Fable &middot; Edited by bobby-dig8al</p>
 
 <footer>
   <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>

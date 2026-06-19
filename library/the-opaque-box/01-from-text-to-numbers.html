@@ -6,7 +6,7 @@
 <title>Ch 1 · From Text to Numbers — The Opaque Box · 37th Chamber</title>
 <meta name="description" content="Chapter 1 of The Opaque Box. How language becomes number — character tokenization, then byte-pair encoding from scratch. The first algorithm in a language model, built and round-trip-tested.">
 <meta name="theme-color" content="#08080a">
-<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/01-from-text-to-numbers.html">
+<link rel="canonical" href="https://37th-chamber.com/library/the-opaque-box/01-from-text-to-numbers">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <meta property="og:title" content="Ch 1 · From Text to Numbers — The Opaque Box">
@@ -28,8 +28,13 @@
     "url": "https://37th-chamber.com/library/"
   },
   "author": {
+    "@type": "Organization",
+    "name": "A Fable (Claude, by Anthropic)",
+    "url": "https://www.anthropic.com/claude/fable"
+  },
+  "editor": {
     "@type": "Person",
-    "name": "Kyle Sullivan",
+    "name": "bobby-dig8al",
     "url": "https://37th-chamber.com/about/"
   },
   "publisher": {
@@ -115,15 +120,34 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
+
+/* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
+.corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
+  position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
+.corridor .c-home{color:var(--gold-soft)}.diagram{margin:2.2rem 0;text-align:center}
+.diagram svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.diagram figcaption{margin-top:.85rem;font-size:.82rem;line-height:1.55;color:var(--gold-soft);font-style:italic;letter-spacing:.01em;max-width:620px;margin-left:auto;margin-right:auto}
 </style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<nav class="corridor" aria-label="The rooms">
+  <a class="c-home" href="/">&#x2B21; home</a>
+  <a href="/daily/">daily</a>
+  <a href="/references/">roots</a>
+  <a href="/dispatches/">dispatches</a>
+  <a href="/library/">library</a>
+  <a href="/six-degrees/">giants</a>
+  <a href="/cloud/">constellation</a>
+  <a href="/work/">work</a>
+</nav>
 <nav class="topnav" aria-label="Chapter navigation">
   <a class="back" href="/library/">&larr;&nbsp;The Library</a>
   <div class="chnav">
-    <span>&larr; Ch&nbsp;0</span>
+    <a href="/library/the-opaque-box/00-what-is-the-box.html">&larr; Ch&nbsp;0</a>
     <a href="/library/the-opaque-box/02-words-as-directions.html">Ch&nbsp;2 &rarr;</a>
   </div>
 </nav>
@@ -138,20 +162,118 @@ footer{margin-top:3.4rem;width:100%;max-width:760px;position:relative;z-index:1;
 
   <h2 id="s1-1">1.1&nbsp;&nbsp;The core problem</h2>
   <p>A neural network is a pile of multiplications and additions over numbers. It cannot multiply the word <em>&ldquo;Shaolin.&rdquo;</em> So step zero of building a language model is a translation layer that turns a string into a list of integers, and turns a list of integers back into a string:</p>
-<pre><code>"Shaolin"  --encode--&gt;  [31, 47, 12, 5, 31, 9, 14]  --model--&gt;  ...  --decode--&gt;  "..."</code></pre>
+<pre translate="no"><code>"Shaolin"  --encode--&gt;  [31, 47, 12, 5, 31, 9, 14]  --model--&gt;  ...  --decode--&gt;  "..."</code></pre>
   <p>That translation layer is the <strong>tokenizer</strong>. A <em>token</em> is the atomic unit the model sees &mdash; it might be a character, a word-piece, or a whole word. The set of all possible tokens is the <strong>vocabulary</strong>, and each token has a fixed integer <strong>ID</strong>.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 320" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tokenization pipeline (cl100k tokenizer): the raw text 'the cat sat' is split into three sub-word token chips — 'the', ' cat', ' sat' — and each chip maps to a fixed integer ID — 1820, 8415, 7731 — which glow blue as the numbers the model runs on.">
+<title>From text to numbers: tokenization</title>
+<desc>A left-to-right blueprint. Stage one is the raw string "the cat sat". An encode arrow leads to stage two, three gold token chips under the cl100k tokenizer: "the", " cat", " sat". A second arrow leads to stage three, the same three tokens shown as integer IDs 1820, 8415, 7731, which glow electric blue to mark them as the numeric form the model actually computes on.</desc>
+<defs>
+<filter id="blueGlow" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur in="SourceAlpha" stdDeviation="4.2" result="b"/>
+<feFlood flood-color="#0E44FF" flood-opacity="0.95" result="c"/>
+<feComposite in="c" in2="b" operator="in" result="g"/>
+<feMerge>
+<feMergeNode in="g"/>
+<feMergeNode in="g"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0 0 L10 5 L0 10 z" fill="#FFD60A"/>
+</marker>
+<style>
+.lbl{font-family:'Bahnschrift','DIN Alternate',system-ui,sans-serif;}
+.stage{font-size:12px;letter-spacing:.22em;fill:#8f8a73;text-transform:uppercase;}
+.op{font-size:11px;letter-spacing:.14em;fill:#8f8a73;}
+.tok{font-size:16px;fill:#f3eede;}
+.raw{font-size:19px;fill:#f3eede;}
+.idnum{font-size:15px;fill:#f3eede;}
+.cap{font-size:12.5px;fill:#8f8a73;}
+</style>
+</defs>
+
+<!-- stage labels -->
+<g class="lbl" aria-hidden="true">
+<text class="stage" x="98" y="44" text-anchor="middle">LANGUAGE</text>
+<text class="stage" x="360" y="44" text-anchor="middle">TOKENS</text>
+<text class="stage" x="628" y="44" text-anchor="middle">NUMBER</text>
+</g>
+
+<!-- guide rule under stage labels -->
+<line x1="36" y1="58" x2="684" y2="58" stroke="rgba(255,214,10,.18)" stroke-width="1" aria-hidden="true"/>
+
+<!-- STAGE 1 — raw text -->
+<g aria-hidden="true">
+<rect x="34" y="130" width="128" height="60" rx="3" fill="none" stroke="#2a2a33" stroke-width="1.4"/>
+<text class="lbl raw" x="98" y="167" text-anchor="middle">the cat sat</text>
+<text class="lbl cap" x="98" y="214" text-anchor="middle">a string</text>
+</g>
+
+<!-- arrow 1 : encode -->
+<g aria-hidden="true">
+<line x1="170" y1="160" x2="246" y2="160" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
+<text class="lbl op" x="208" y="151" text-anchor="middle">split</text>
+</g>
+
+<!-- STAGE 2 — token chips (cl100k: 3 tokens) -->
+<g class="lbl" aria-hidden="true">
+<g>
+<rect x="262" y="104" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="tok" x="322" y="126" text-anchor="middle">the</text>
+</g>
+<g>
+<rect x="262" y="146" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="tok" x="322" y="168" text-anchor="middle">&#8901;cat</text>
+</g>
+<g>
+<rect x="262" y="188" width="120" height="34" rx="17" fill="rgba(255,214,10,.05)" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="tok" x="322" y="210" text-anchor="middle">&#8901;sat</text>
+</g>
+<text class="cap" x="322" y="254" text-anchor="middle">sub-word pieces &#8901; cl100k vocabulary</text>
+</g>
+
+<!-- arrow 2 : look up ID -->
+<g aria-hidden="true">
+<line x1="392" y1="160" x2="468" y2="160" stroke="#FFD60A" stroke-width="1.6" marker-end="url(#ah)"/>
+<text class="lbl op" x="430" y="151" text-anchor="middle">look&#8202;up&#8202;ID</text>
+</g>
+
+<!-- STAGE 3 — integer IDs (the charged element: blue glow) -->
+<g class="lbl" filter="url(#blueGlow)" aria-hidden="true">
+<g>
+<rect x="488" y="104" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="idnum" x="546" y="126" text-anchor="middle">1820</text>
+</g>
+<g>
+<rect x="488" y="146" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="idnum" x="546" y="168" text-anchor="middle">8415</text>
+</g>
+<g>
+<rect x="488" y="188" width="116" height="34" rx="3" fill="none" stroke="#FFD60A" stroke-width="1.4"/>
+<text class="idnum" x="546" y="210" text-anchor="middle">7731</text>
+</g>
+</g>
+<text class="lbl cap" x="546" y="254" text-anchor="middle" aria-hidden="true">integers &#8212; the only thing it can compute</text>
+
+<!-- baseline note -->
+<text class="lbl cap" x="360" y="298" text-anchor="middle" aria-hidden="true" fill="#8f8a73">encode( text ) &#8594; [ ids ] &#8901; decode is its exact inverse</text>
+</svg>
+<figcaption>Tokenization is the hand-off from language to numbers: a string is split into sub-word tokens, and each token is looked up to a fixed integer ID — the only form the model can do arithmetic on. IDs shown are from the cl100k tokenizer (GPT-3.5 / GPT-4 family); &ldquo;the cat sat&rdquo; = 3 tokens, not 4.</figcaption>
+</figure>
   <p>Two operations, always paired and always inverse:</p>
   <ul>
-    <li><code>encode(text) -&gt; [ids]</code></li>
-    <li><code>decode([ids]) -&gt; text</code></li>
+    <li><code translate="no">encode(text) -&gt; [ids]</code></li>
+    <li><code translate="no">decode([ids]) -&gt; text</code></li>
   </ul>
-  <p>If <code>decode(encode(x)) != x</code>, your tokenizer is broken. That round-trip is the first test we&rsquo;ll write.</p>
+  <p>If <code translate="no">decode(encode(x)) != x</code>, your tokenizer is broken. That round-trip is the first test we&rsquo;ll write.</p>
 
   <hr class="rule">
 
   <h2 id="s1-2">1.2&nbsp;&nbsp;The simplest tokenizer that works: character-level</h2>
-  <p>Start with the most honest possible scheme: <strong>every distinct character is a token.</strong> Let&rsquo;s build it on a real corpus. Grab any plain-text file &mdash; say a chunk of text in <code>corpus.txt</code> &mdash; and:</p>
-<pre><code># char_tokenizer.py
+  <p>Start with the most honest possible scheme: <strong>every distinct character is a token.</strong> Let&rsquo;s build it on a real corpus. Grab any plain-text file &mdash; say a chunk of text in <code translate="no">corpus.txt</code> &mdash; and:</p>
+<pre translate="no"><code># char_tokenizer.py
 with open("corpus.txt", "r", encoding="utf-8") as f:
     text = f.read()
 
@@ -176,7 +298,7 @@ sample = "Shaolin"
 assert decode(encode(sample)) == sample, "round-trip failed"
 print(encode(sample))
 print(decode(encode(sample)))</code></pre>
-  <p>That&rsquo;s a complete, working tokenizer. Run it. You now have <code>encode</code>/<code>decode</code> and a <code>vocab_size</code> (probably 60&ndash;100 for English prose).</p>
+  <p>That&rsquo;s a complete, working tokenizer. Run it. You now have <code translate="no">encode</code>/<code translate="no">decode</code> and a <code translate="no">vocab_size</code> (probably 60&ndash;100 for English prose).</p>
 
   <h3 id="s1-2a">Why character-level is a real choice, not a toy</h3>
   <ul>
@@ -185,25 +307,25 @@ print(decode(encode(sample)))</code></pre>
   </ul>
 
   <h3 id="s1-2b">Why we don&rsquo;t stop here</h3>
-  <p>Look at what the model must learn. To &ldquo;understand&rdquo; the word <code>the</code>, a character model must learn the <em>sequence</em> <code>t &rarr; h &rarr; e</code> from scratch, across every context, using up positions in its limited attention window. A 256-character context is only ~50 English words. The model spends enormous capacity just re-discovering that letters clump into words. We&rsquo;re making it learn spelling before it can learn meaning.</p>
+  <p>Look at what the model must learn. To &ldquo;understand&rdquo; the word <code translate="no">the</code>, a character model must learn the <em>sequence</em> <code translate="no">t &rarr; h &rarr; e</code> from scratch, across every context, using up positions in its limited attention window. A 256-character context is only ~45 English words. The model spends enormous capacity just re-discovering that letters clump into words. We&rsquo;re making it learn spelling before it can learn meaning.</p>
   <p>We want a middle ground: units bigger than a character (so sequences are short and word-structure comes for free) but smaller than a word (so we never hit a word we can&rsquo;t represent). That middle ground is <strong>subword tokenization</strong>, and the workhorse algorithm is <strong>byte-pair encoding</strong>.</p>
 
   <hr class="rule">
 
   <h2 id="s1-3">1.3&nbsp;&nbsp;Byte-pair encoding (BPE), from scratch</h2>
-  <p>BPE (adapted to NLP by Sennrich, Haddow &amp; Birch, 2016; used by GPT-2, Radford et al. 2019) has one idea, applied repeatedly:</p>
+  <p>BPE (adapted to NLP by <a class="inline" href="https://aclanthology.org/P16-1162/">Sennrich, Haddow &amp; Birch, 2016</a>; used by GPT-2, Radford et al. 2019) has one idea, applied repeatedly:</p>
   <blockquote><strong>Find the most frequent adjacent pair of tokens in the data, and merge it into a single new token. Repeat until you have the vocabulary size you want.</strong></blockquote>
-  <p>You start with the smallest possible alphabet and <em>grow</em> the vocabulary by gluing together pairs that occur a lot. Common chunks like <code>th</code>, <code>the</code>, <code>&nbsp;and</code> become single tokens; rare stuff stays in small pieces. Nothing is ever unrepresentable, because the foundation is always there underneath.</p>
+  <p>You start with the smallest possible alphabet and <em>grow</em> the vocabulary by gluing together pairs that occur a lot. Common chunks like <code translate="no">th</code>, <code translate="no">the</code>, <code translate="no">&nbsp;and</code> become single tokens; rare stuff stays in small pieces. Nothing is ever unrepresentable, because the foundation is always there underneath.</p>
 
   <h3 id="s1-3a">Start from bytes, not characters</h3>
   <p>A subtle, important choice GPT-2 makes: start not from Unicode characters but from <strong>raw bytes</strong>. There are exactly 256 possible byte values (0&ndash;255), and <em>any</em> text in any language &mdash; emoji, Chinese, control characters &mdash; is just a sequence of bytes in UTF-8. So a byte-level base vocabulary of 256 can represent <em>literally anything</em> with zero unknown tokens, ever. We build on that.</p>
-<pre><code># step 1: text -&gt; raw byte ids (base vocabulary is 0..255)
+<pre translate="no"><code># step 1: text -&gt; raw byte ids (base vocabulary is 0..255)
 text = "the theme of the theatre"
 ids = list(text.encode("utf-8"))   # e.g. [116, 104, 101, 32, ...]
 print(ids)</code></pre>
 
   <h3 id="s1-3b">Counting pairs</h3>
-<pre><code>def get_pair_counts(ids: list[int]) -&gt; dict[tuple[int, int], int]:
+<pre translate="no"><code>def get_pair_counts(ids: list[int]) -&gt; dict[tuple[int, int], int]:
     """Count how often each adjacent pair appears."""
     counts = {}
     for pair in zip(ids, ids[1:]):       # (ids[0],ids[1]), (ids[1],ids[2]), ...
@@ -215,7 +337,7 @@ top_pair = max(counts, key=counts.get)
 print(top_pair, counts[top_pair])        # the most frequent adjacent pair</code></pre>
 
   <h3 id="s1-3c">Merging a pair into a new token</h3>
-<pre><code>def merge(ids: list[int], pair: tuple[int, int], new_id: int) -&gt; list[int]:
+<pre translate="no"><code>def merge(ids: list[int], pair: tuple[int, int], new_id: int) -&gt; list[int]:
     """Replace every occurrence of `pair` with the single token `new_id`."""
     out = []
     i = 0
@@ -229,8 +351,8 @@ print(top_pair, counts[top_pair])        # the most frequent adjacent pair</code
     return out</code></pre>
 
   <h3 id="s1-3d">Training the tokenizer</h3>
-  <p>Training a tokenizer just means: decide which merges to make, in order. We do <code>num_merges</code> rounds; each round finds the top pair and assigns it the next free ID (starting at 256, after the byte range).</p>
-<pre><code>def train_bpe(text: str, vocab_size: int):
+  <p>Training a tokenizer just means: decide which merges to make, in order. We do <code translate="no">num_merges</code> rounds; each round finds the top pair and assigns it the next free ID (starting at 256, after the byte range).</p>
+<pre translate="no"><code>def train_bpe(text: str, vocab_size: int):
     assert vocab_size &gt;= 256
     num_merges = vocab_size - 256
     ids = list(text.encode("utf-8"))
@@ -252,7 +374,7 @@ print(f"learned {len(merges)} merges")</code></pre>
 
   <h3 id="s1-3e">Encoding with the trained merges</h3>
   <p>To encode new text, apply the learned merges in the same order they were learned (earliest merges are the most general and must go first):</p>
-<pre><code>def encode_bpe(text: str, merges: dict[tuple[int, int], int]) -&gt; list[int]:
+<pre translate="no"><code>def encode_bpe(text: str, merges: dict[tuple[int, int], int]) -&gt; list[int]:
     ids = list(text.encode("utf-8"))
     # apply merges in learned order
     for pair, new_id in merges.items():
@@ -260,8 +382,8 @@ print(f"learned {len(merges)} merges")</code></pre>
     return ids</code></pre>
 
   <h3 id="s1-3f">Decoding &mdash; rebuild the byte strings</h3>
-  <p>To decode, we need to know what bytes each token ID expands to. Build a <code>vocab</code> table: IDs 0&ndash;255 are single bytes; each merged ID is the concatenation of its two parents.</p>
-<pre><code>def build_vocab(merges: dict[tuple[int, int], int]) -&gt; dict[int, bytes]:
+  <p>To decode, we need to know what bytes each token ID expands to. Build a <code translate="no">vocab</code> table: IDs 0&ndash;255 are single bytes; each merged ID is the concatenation of its two parents.</p>
+<pre translate="no"><code>def build_vocab(merges: dict[tuple[int, int], int]) -&gt; dict[int, bytes]:
     vocab = {i: bytes([i]) for i in range(256)}     # base: each byte
     for (a, b), new_id in merges.items():           # in insertion order
         vocab[new_id] = vocab[a] + vocab[b]
@@ -275,17 +397,17 @@ vocab = build_vocab(merges)
 sample = "the theatre theme"
 assert decode_bpe(encode_bpe(sample, merges), vocab) == sample
 print(encode_bpe(sample, merges))</code></pre>
-  <p>You just built &mdash; from raw bytes &mdash; the same family of tokenizer that GPT-2 and GPT-3 use. It compresses text (fewer tokens than characters), never chokes on unknown input, and round-trips perfectly. <strong>This is not a simplified stand-in. It is the real algorithm.</strong></p>
+  <p>You just built &mdash; from raw bytes &mdash; the same family of tokenizer that GPT-2 and GPT-3 use. It compresses text (fewer tokens than characters), never chokes on unknown input, and round-trips perfectly. <strong>The merge algorithm itself &mdash; the BPE loop &mdash; is the one production tokenizers use. Not a toy, not a metaphor.</strong></p>
 
   <hr class="rule">
 
   <h2 id="s1-4">1.4&nbsp;&nbsp;Special tokens</h2>
   <p>Real models need a few tokens that aren&rsquo;t text &mdash; control signals. The most important:</p>
   <ul>
-    <li><strong><code>&lt;|endoftext|&gt;</code></strong> &mdash; marks a boundary between documents. During training it tells the model &ldquo;a new, unrelated stream starts here,&rdquo; so it doesn&rsquo;t try to predict the start of one document from the end of another. At generation time it&rsquo;s the model&rsquo;s way of saying <em>&ldquo;I&rsquo;m done.&rdquo;</em></li>
+    <li><strong><code translate="no">&lt;|endoftext|&gt;</code></strong> &mdash; marks a boundary between documents. During training it tells the model &ldquo;a new, unrelated stream starts here,&rdquo; so it doesn&rsquo;t try to predict the start of one document from the end of another. At generation time it&rsquo;s the model&rsquo;s way of saying <em>&ldquo;I&rsquo;m done.&rdquo;</em></li>
   </ul>
   <p>Special tokens get IDs <em>above</em> the learned vocabulary and are inserted by hand, never produced by BPE merges:</p>
-<pre><code>END_OF_TEXT = len(vocab)          # next free ID after all merges
+<pre translate="no"><code>END_OF_TEXT = len(vocab)          # next free ID after all merges
 vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-decoded literally</code></pre>
   <p>We&rsquo;ll wire these in properly in Chapter 7 when we assemble training data from many documents.</p>
 
@@ -294,8 +416,8 @@ vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-d
   <h2 id="s1-5">1.5&nbsp;&nbsp;The thing to actually understand</h2>
   <div class="takeaway">
     <ol>
-      <li><strong>The model&rsquo;s &ldquo;atoms&rdquo; are tokens, not words or letters.</strong> When people are surprised a model can&rsquo;t spell or count letters in a word, this is why &mdash; it often never sees the letters; it sees a chunk like <code>&nbsp;theatre</code> as one indivisible symbol. The opaque box explains the magic <em>and</em> the limits in the same breath.</li>
-      <li><strong>Vocabulary size is a tradeoff.</strong> Bigger vocab &rarr; shorter sequences (good, more text per context window) but a larger embedding table and output layer (costly). GPT-2 chose ~50,257. We&rsquo;ll use a small vocab so our model trains fast.</li>
+      <li><strong>The model&rsquo;s &ldquo;atoms&rdquo; are tokens, not words or letters.</strong> When people are surprised a model can&rsquo;t spell or count letters in a word, this is why &mdash; it often never sees the letters; it sees a chunk like <code translate="no">&nbsp;theatre</code> as one indivisible symbol. The opaque box explains the magic <em>and</em> the limits in the same breath.</li>
+      <li><strong>Vocabulary size is a tradeoff.</strong> Bigger vocab &rarr; shorter sequences (good, more text per context window) but a larger embedding table and output layer (costly). GPT-2 chose exactly 50,257. We&rsquo;ll use a small vocab so our model trains fast.</li>
     </ol>
   </div>
 
@@ -303,11 +425,11 @@ vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-d
 
   <h2 id="s1-6">1.6&nbsp;&nbsp;Exercises</h2>
   <ol>
-    <li><strong>Round-trip stress test.</strong> Run <code>decode_bpe(encode_bpe(s, merges), vocab) == s</code> on text containing emoji and a non-English script. Does it hold? Why does starting from <em>bytes</em> (not characters) make this work?</li>
-    <li><strong>Compression ratio.</strong> For a held-out paragraph, compute <code>len(encode_bpe(text)) / len(text.encode("utf-8"))</code> at <code>vocab_size</code> = 300, 500, 1000. Plot tokens-vs-vocab. Where do the gains flatten?</li>
-    <li><strong>Watch the merges.</strong> Print the first 20 merged tokens (decode each <code>new_id</code> to bytes). Do they match your intuition about common English chunks?</li>
-    <li><strong>Break it.</strong> Remove the <code>errors="replace"</code> from <code>decode_bpe</code>, then decode a <em>truncated</em> token list that cuts a multi-byte character in half. What happens, and what does that teach you about why generation works at the token level but display happens at the character level?</li>
-    <li><strong>Efficiency (stretch).</strong> Our <code>encode_bpe</code> re-scans the whole list once per merge &mdash; O(vocab &times; length). Sketch a faster encoder that, for a given text, repeatedly applies only the <em>earliest-learned applicable</em> merge. Why does merge <em>order</em> matter for correctness?</li>
+    <li><strong>Round-trip stress test.</strong> Run <code translate="no">decode_bpe(encode_bpe(s, merges), vocab) == s</code> on text containing emoji and a non-English script. Does it hold? Why does starting from <em>bytes</em> (not characters) make this work?</li>
+    <li><strong>Compression ratio.</strong> For a held-out paragraph, compute <code translate="no">len(encode_bpe(text)) / len(text.encode("utf-8"))</code> at <code translate="no">vocab_size</code> = 300, 500, 1000. Plot tokens-vs-vocab. Where do the gains flatten?</li>
+    <li><strong>Watch the merges.</strong> Print the first 20 merged tokens (decode each <code translate="no">new_id</code> to bytes). Do they match your intuition about common English chunks?</li>
+    <li><strong>Break it.</strong> Remove the <code translate="no">errors="replace"</code> from <code translate="no">decode_bpe</code>, then decode a <em>truncated</em> token list that cuts a multi-byte character in half. What happens, and what does that teach you about why generation works at the token level but display happens at the character level?</li>
+    <li><strong>Efficiency (stretch).</strong> Our <code translate="no">encode_bpe</code> re-scans the whole list once per merge &mdash; O(vocab &times; length). Sketch a faster encoder that, for a given text, repeatedly applies only the <em>earliest-learned applicable</em> merge. Why does merge <em>order</em> matter for correctness?</li>
   </ol>
 
   <div class="next-up">
@@ -320,6 +442,8 @@ vocab[END_OF_TEXT] = b"&lt;|endoftext|&gt;"   # stored as a marker; never byte-d
 
   <p class="note-source">A 37th-Chamber original. Methods cited (Sennrich, Haddow &amp; Birch 2016; Radford et al. 2019); all prose and code written fresh.</p>
 </main>
+
+<p class="note-source" style="text-align:center;letter-spacing:.08em;text-transform:uppercase">Written by a Fable &middot; Edited by bobby-dig8al</p>
 
 <footer>
   <span class="foot-creed">knowledge is <span class="free">free</span> &middot; forever</span>
