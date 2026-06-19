@@ -252,11 +252,12 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <div class="mast-eye" role="img" aria-label="The 37th Chamber — an all-seeing eye whose iris is a turning kaleidoscope">
         <canvas class="mast-eye-canvas"></canvas>
       </div>
+      <!-- O'HENE SAVANT CREDIT — the eye's lineage. He uses 👁️ on his socials; ours is inspired by his (we made it blue). -->
+      <p class="ohene-credit" style="text-align:center;margin:-.3rem auto 1.4rem;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)">we see you, O&rsquo;hene.</p>
 
       <h1 class="title" translate="no">37th&nbsp;Chamber</h1>
       <div class="creed"><span class="wglow">Knowledge</span> is free · <span class="wglow">forever</span></div>
       <p class="lede">The 36 chambers were the training. The <em>37th</em> is the one you build to give the training away. This is that room.</p>
-      <p class="view-coda" style="text-align:center;color:var(--gold);font-style:italic;font-size:clamp(1.05rem,3vw,1.28rem);line-height:1.5;margin:1.8rem auto 0;max-width:42rem">the view is not ours alone.</p>
       <!-- THE GLOW HEADLINE — operator edit, Day-41 night: "leave freedom. as the glow headline."
            The one-word bell up top; the full declaration peals at the page's close. -->
       <!-- THE 12 JEWELZ — the door wears one jewel per day, turning at 04:00 with the Daily's breath.
@@ -274,17 +275,22 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         document.getElementById("jewel-num").textContent=(i+1)+" · ";
         document.getElementById("jewel-word").textContent=J[i];
       }catch(e){}})();</script>
+      <!-- JEWEL CONTEXT EPIGRAPH — the source quote anchored directly under the rotating 12-jewel,
+           so the seer immediately knows what the turning numeral is (no need to come back-and-recognize-the-change).
+           MOVED 2026-06-19 from the post-hearth slot to directly-under-jewel; comment + content travel together.
+           MANUAL ROTATION ONLY · NO CADENCE — swapped on operator request when the moment is right (distinct from #jewel-line, which auto-turns 1->12 daily).
+           Single attributed line only (epigraph scale, lyrics); add the trigger-warning <span> back only when a line is graphic.
+           Pool of candidates: Stack/canon/topic-head-epigraphs.md.
+           Rotation log: Wu "Intermission" -> Wu "7th Chamber" skit (Day-44) -> Gravediggaz "12 Jewelz" (Day-48, 2026-06-17). -->
+      <p style="text-align:center;margin:.55rem auto 2.8rem;max-width:38rem;font-size:.7rem;letter-spacing:.09em;line-height:1.75;color:var(--gold)">&ldquo;the first thing a man must obtain is 12 jewelz.&rdquo; <span style="display:block;margin-top:.4rem;color:var(--dim);letter-spacing:.05em">&mdash;&nbsp;Gravediggaz &middot; &ldquo;12 Jewelz&rdquo;</span></p>
     </header>
 
     <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
     <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
-    <!-- THE HEARTH EPIGRAPH / TOPIC HEAD — the operator-curated quotation that sets the front page's voice & tone. It is his.
-         MANUAL ROTATION ONLY · NO CADENCE — swapped on operator request when the moment is right (distinct from #jewel-line, which auto-turns 1->12 daily).
-         Single attributed line only (epigraph scale, lyrics); add the trigger-warning <span> back only when a line is graphic.
-         Pool of candidates: Stack/canon/topic-head-epigraphs.md.
-         Rotation log: Wu "Intermission" -> Wu "7th Chamber" skit (Day-44) -> Gravediggaz "12 Jewelz" (Day-48, 2026-06-17).
+    <!-- HEARTH TAGLINE — "the view is not ours alone." Moved 2026-06-19 from above-the-masthead to directly-under-the-hearth.
+         The hearth is the now-playing widget; the tagline sits under it as the chamber's voice over the music.
          Lives outside #now-playing so the widget JS never clobbers it. -->
-    <p style="text-align:center;margin:.55rem auto 0;max-width:38rem;font-size:.7rem;letter-spacing:.09em;line-height:1.75;color:var(--gold)">&ldquo;the first thing a man must obtain is 12 jewelz.&rdquo; <span style="display:block;margin-top:.4rem;color:var(--dim);letter-spacing:.05em">&mdash;&nbsp;Gravediggaz &middot; &ldquo;12 Jewelz&rdquo;</span></p>
+    <p class="view-coda" style="text-align:center;color:var(--gold);font-style:italic;font-size:clamp(1.05rem,3vw,1.28rem);line-height:1.5;margin:1.8rem auto 0;max-width:42rem">the view is not ours alone.</p>
 
     <!-- WEEKLY LINER SLOT — teaser + opening-night liner retired 2026-06-10 (launch-night artifacts; opening night was 2026-06-09 21:00, Lux Aeterna → Interstellar). The slot returns Sunday night → Monday with each new themed week. -->
 
