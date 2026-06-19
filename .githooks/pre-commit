@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# pre-commit hook — fail-fast site health checks
+#
+# Activate once per clone:
+#   git config core.hooksPath .githooks
+#
+# Bypass when intentional (rare):
+#   git commit --no-verify
+#
+# Runs from repo root regardless of where commit was invoked.
+
+set -e
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+# Skip checks if nothing committed touches HTML/XML — keeps tooling-only
+# and docs-only commits fast.
+STAGED="$(git diff --cached --name-only --diff-filter=ACMR)"
+if ! echo "$STAGED" | grep -qE '\.(html|xml)$'; then
+  exit 0
+fi
+
+echo "pre-commit: running site health checks…"
+
+# 1. Links resolve audit — fail if any internal <a href>/src points at nothing.
+if ! python tests/linkaudit.py; then
+  echo ""
+  echo "pre-commit: linkaudit failed. fix the broken hrefs or --no-verify if intentional."
+  exit 1
+fi
+
+# 2. Sitemap drift check — warn (don't block) if sitemap.xml is out of date.
+#    Operator can regen with: python tests/sitemap_regen.py && git add sitemap.xml
+if ! python tests/sitemap_regen.py --check >/dev/null 2>&1; then
+  echo ""
+  echo "pre-commit: WARNING - sitemap.xml has drifted from on-disk pages."
+  echo "  regen: python tests/sitemap_regen.py && git add sitemap.xml"
+  echo "  (this is a soft warning; commit proceeds. block-on-drift = uncomment exit 1 below.)"
+  # exit 1   # <-- uncomment if you want sitemap drift to be a hard block
+fi
+
+echo "pre-commit: OK"
