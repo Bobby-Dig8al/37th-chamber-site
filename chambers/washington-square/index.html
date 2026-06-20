@@ -4542,7 +4542,7 @@ const Chess = {
         + 'the king while you take whatever you like.'
     },
     {
-      id: 'r7', name: 'Two-move combination', tier: 'Dangerous', type: 'move', multi: true, belt: true,
+      id: 'r7', name: 'Two-move combination', tier: 'Dangerous', type: 'move', multi: true, belt: true, goal: 'mate',
       prompt: 'White to move. <b>Mate in two.</b> The king is already in the corner — fence it in with the queen, then deliver mate with your king\'s support. Play BOTH white moves.',
       coach: 'A combination is a forced sequence — calculate it to the end before you start. Bring the queen to the 7th rank so the king has exactly ONE square; then mate on g7, where your king on f6 protects the queen. No checks needed — the threat is unstoppable.',
       // ENGINE-PROVEN (chess.js@1.4.0) · K+Q box mate, forced mate-in-2 with ZERO mate-in-1:
@@ -4792,14 +4792,21 @@ const Chess = {
     const expected = this.line[this.ply];            // the player's next correct move
     let ok = expected && from === expected.from && to === expected.to;
 
-    // GOAL-PREDICATE acceptance (STEP 4): on a SINGLE-ply move-rung, if the move
-    // isn't the scripted one but it provably achieves the rung's goal (engine-
-    // validated, e.g. any checkmate), accept it too. Multi-move combos stay
-    // strictly scripted (this.line.length > 1) — too risky to generalize.
+    // GOAL-PREDICATE acceptance (STEP 4 → extended to combinations): if the move
+    // isn't the scripted one but the ENGINE PROVES it keeps the rung's goal on the
+    // rails, accept it. For goal:'mate' that means "this move preserves a forced
+    // checkmate within the player-moves still budgeted" — so a mate-in-2 rung accepts
+    // ANY first move that still forces mate (Qa7/Qc7/Qd7/Qe7 as well as the scripted
+    // Qb7), and ANY final move that IS checkmate. The solver is zero-false-positive
+    // (it only returns true when mate is proven against every defense), so opening
+    // combos up this way never green-lights a non-solution. Non-mate goals stay
+    // scripted (a wrong acceptance there would break the lesson — see moveAchievesGoal).
     let viaGoal = false;
-    if (!ok && this.line.length === 1 && this.current && this.current.goal
-        && this.moveAchievesGoal(from, to, this.current.goal)) {
-      ok = true; viaGoal = true;
+    if (!ok && this.current && this.current.goal === 'mate') {
+      const movesLeftAfter = this.line.length - this.ply - 1;   // player moves AFTER this one
+      if (this.playerMoveKeepsForcedMate(from, to, movesLeftAfter)) {
+        ok = true; viaGoal = true;
+      }
     }
 
     this.selected = null;
@@ -4814,21 +4821,9 @@ const Chess = {
       return;
     }
 
-    // If accepted via goal-predicate (not the scripted square), the player's move
-    // may differ from this.line — apply THEIR move so the board reflects reality.
-    if (viaGoal) {
-      this.applyMove(from, to);
-      this.ply = this.line.length;                   // single-ply rung is now complete
-      this.turn = (this.turn === 'white') ? 'black' : 'white';
-      this.render();
-      this.flash(to, 'good');
-      this.locked = true; this.solved = true;
-      this.updateTurnIndicator();
-      Engine.submit(true);
-      return;
-    }
-
-    // correct ply: play it, flip turn live
+    // Accepted (scripted OR engine-proven via goal). Play THE PLAYER'S actual move —
+    // when accepted via goal it may diverge from this.line, so we apply from→to (not
+    // the scripted square) and let the board reflect reality. Then advance + flip turn.
     this.applyMove(from, to);
     this.ply++;
     this.turn = (this.turn === 'white') ? 'black' : 'white';
@@ -4847,9 +4842,13 @@ const Chess = {
       return;
     }
 
-    // more player moves to come — auto-play the opponent's scripted reply (if any), then continue
+    // More player moves to come — auto-play the opponent's reply, then continue.
+    // Prefer the authored reply; but if the player's accepted move diverged from the
+    // script (viaGoal) the scripted reply can be illegal now — fall back to the
+    // engine's forced reply so the board stays legal and the combination still resolves.
     this.locked = true;                              // lock during the reply beat
-    const reply = this.replies[this.ply - 1];
+    let reply = this.replies[this.ply - 1];
+    if (viaGoal || !this._replyLegal(reply)) reply = this._engineReply();
     if (reply) {
       setTimeout(() => {
         this.applyMove(reply.from, reply.to);
@@ -4944,6 +4943,99 @@ const Chess = {
       if (goal === 'mate') return g.isCheckmate();
       return false;                          // unimplemented goals never auto-pass
     } catch (_) { return false; }
+  },
+
+  // --- Forced-mate validation (combinations) -------------------------------
+  // Engine-certified acceptance for goal:'mate' rungs — single- AND multi-move.
+  // Answers: after the player plays from→to, is a forced checkmate STILL guaranteed
+  // within `movesLeftAfter` further player moves?  movesLeftAfter === 0 ⇒ the move
+  // must BE checkmate; otherwise EVERY opponent reply must leave the player a forced
+  // mate in ≤ movesLeftAfter.  This is a standard minimax mate-solver over the real
+  // engine: it returns true ONLY when mate is proven against all defenses (zero
+  // false-positives), so a mate-in-2 rung accepts Qa7/Qc7/Qd7/Qe7 — every move that
+  // truly forces the mate — not just the one scripted square. Depth is bounded by
+  // movesLeftAfter (≤1 here) and branching is tiny in these endgames. Fails SAFE:
+  // any engine hiccup → false → the normal retry path, scripted flow undisturbed.
+  playerMoveKeepsForcedMate(from, to, movesLeftAfter) {
+    const Engine = window.ChessEngine;
+    if (!Engine) return false;
+    const code = this.position[from];
+    if (!code) return false;
+    const turn = (code === code.toUpperCase()) ? 'w' : 'b';
+    try {
+      const g = new Engine();
+      g.load(this._fenFrom(this.position, turn), { skipValidation: true });
+      if (!g.move({ from, to, promotion: 'q' })) return false;   // illegal → no
+      if (g.isCheckmate()) return true;                          // mated outright
+      if (movesLeftAfter <= 0) return false;                     // had to mate now, didn't
+      return this._everyReplyAllowsMate(g, movesLeftAfter);      // opponent to move in g
+    } catch (_) { return false; }
+  },
+
+  // Opponent (side to move in `g`) cannot escape: EVERY legal reply leaves the
+  // player a forced mate in ≤ n of the player's moves. No replies while not in
+  // checkmate ⇒ stalemate ⇒ false (a draw is not our win).
+  _everyReplyAllowsMate(g, n) {
+    let replies;
+    try { replies = g.moves({ verbose: true }); } catch (_) { return false; }
+    if (!replies.length) return false;
+    for (const r of replies) {
+      g.move(r);
+      const survives = this._sideToMoveForcesMate(g, n);
+      g.undo();
+      if (!survives) return false;
+    }
+    return true;
+  },
+
+  // Side to move in `g` can force checkmate in ≤ n of its OWN moves.
+  _sideToMoveForcesMate(g, n) {
+    if (n <= 0) return false;
+    let moves;
+    try { moves = g.moves({ verbose: true }); } catch (_) { return false; }
+    for (const m of moves) {
+      g.move(m);
+      let good;
+      if (g.isCheckmate()) good = true;                  // mate this move
+      else if (n === 1) good = false;                    // needed mate now, didn't
+      else good = this._everyReplyAllowsMate(g, n - 1);  // recurse a ply deeper
+      g.undo();
+      if (good) return true;
+    }
+    return false;
+  },
+
+  // Is the authored reply still a legal move in the CURRENT position? (After a
+  // goal-accepted player move that diverged from the script, it may not be.)
+  // Fail-safe: no engine ⇒ assume the authored reply is fine (scripted flow intact).
+  _replyLegal(reply) {
+    if (!reply) return false;
+    const Engine = window.ChessEngine;
+    if (!Engine) return true;
+    const code = this.position[reply.from];
+    if (!code) return false;
+    const turn = (code === code.toUpperCase()) ? 'w' : 'b';
+    try {
+      const g = new Engine();
+      g.load(this._fenFrom(this.position, turn), { skipValidation: true });
+      return !!g.move({ from: reply.from, to: reply.to, promotion: 'q' });
+    } catch (_) { return true; }
+  },
+
+  // The opponent's forced reply, chosen by the engine, for when the authored reply
+  // no longer applies. These combo rungs are white-to-solve, so black replies; any
+  // legal reply is safe because the accepted player move already PROVED a forced
+  // mate against every defense. Returns {from,to} or null.
+  _engineReply() {
+    const Engine = window.ChessEngine;
+    if (!Engine) return null;
+    try {
+      const g = new Engine();
+      g.load(this._fenFrom(this.position, 'b'), { skipValidation: true });
+      const moves = g.moves({ verbose: true });
+      if (!moves.length) return null;
+      return { from: moves[0].from, to: moves[0].to };
+    } catch (_) { return null; }
   },
 
   // Build a FEN for a {square:code} dict with an explicit side to move.
