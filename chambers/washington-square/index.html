@@ -381,9 +381,9 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 /* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
 .corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
-.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a{color:var(--text-dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
-.corridor .c-home{color:var(--gold-soft)}</style>
+.corridor .c-home{color:var(--gold)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -521,7 +521,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   <div>
     <div class="panel">
       <h2>The Board</h2>
-      <div id="prompt" aria-live="assertive" aria-atomic="true" class="prompt-line">Press <b>Begin the Climb</b> — the grandmaster will find your level.</div>
+      <div id="prompt" aria-live="assertive" aria-atomic="true" class="prompt-line">Press <b>Begin the Climb</b> — Grandmasta Killa will find your level.</div>
       <div id="turn" class="turn-indicator hidden" aria-live="polite" aria-atomic="true"><span class="turn-dot"></span><span id="turn-text">White to move</span></div>
       <div class="board-frame">
         <div class="board-stage">
@@ -536,7 +536,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   <!-- RIGHT: sensei + ladder + log -->
   <div>
     <div class="panel">
-      <h2>The Grandmaster</h2>
+      <h2>Grandmasta Killa</h2>
       <div class="sensei">
         <div id="resume-host" class="resume-host" style="display:none"></div>
         <div id="sensei-text" aria-live="polite">Washington Square doesn't ask what you know — it watches you climb and finds out.
@@ -3994,6 +3994,7 @@ const Engine = {
   basicsEntry: null,    // computed entry index into Ladder I after honest basics climb
   basicsPreseed: null,  // ids of Ladder-I rungs to mark already-owned at placement
   basicsMastery: null,  // snapshot of basics honesty (done + shownMe + counts + ts)
+  preseededCount: 0,    // # of preseeded rungs in `done` from placement (excluded from rank math)
   log: [],
 
   init(domain) {
@@ -4001,6 +4002,7 @@ const Engine = {
     this.i = 0; this.ceilingFound = false; this.ceiling = null;
     this.done = new Set(); this.shownMe = new Set(); this.log = [];
     this.basicsEntry = null; this.basicsPreseed = null; this.basicsMastery = null;
+    this.preseededCount = 0;
     this.renderLadder(); this.renderRank(); this.renderLog();
     const fn = document.getElementById('form-name');
     if (fn && domain.currentFormName) fn.textContent = domain.currentFormName();
@@ -4050,7 +4052,7 @@ const Engine = {
       Store.save();                          // persist: a rung was cleared
     } else {
       this.log.unshift({ t: 'warn', m: '✗ missed: ' + r.name });
-      setPrompt('Not quite — try again, or ask the grandmaster to show you.', 'bad');
+      setPrompt('Not quite — try again, or ask Grandmasta Killa to show you.', 'bad');
       if (!this.ceilingFound) { this.ceilingFound = true; this.ceiling = this.i; Store.save(); }  // persist first-edge
     }
     this.renderLadder(); this.renderRank(); this.renderLog();
@@ -4134,7 +4136,7 @@ const Engine = {
 
   startForm() {
     this.i = 0; this.ceilingFound = false; this.ceiling = null;
-    this.done = new Set(); this.shownMe = new Set();
+    this.done = new Set(); this.shownMe = new Set(); this.preseededCount = 0;
     document.getElementById('begin-btn').style.display = 'none';
     this.log.unshift({ t: 'ok', m: '▲ ' + this.domain.currentFormName() });
     this.renderRank(); this.renderLog();
@@ -4152,6 +4154,7 @@ const Engine = {
     this.ceilingFound = false; this.ceiling = null;
     this.done = new Set(preseedDoneIds || []);
     this.shownMe = new Set();
+    this.preseededCount = (preseedDoneIds || []).length;  // excluded from rank math; they've earned 0 HERE so far
     document.getElementById('begin-btn').style.display = 'none';
     const startLine = safeIdx === 0
       ? '▲ ' + this.domain.currentFormName()
@@ -4183,6 +4186,12 @@ const Engine = {
     if (['wsb5','wsb6'].some(id => shownMe.has(id))) {
       return { index: 0, preseed: [] };
     }
+    // belt-help = wsb7 (check escape) was shown — even after honest retake, they needed help
+    // on the law of check itself. Restart from r0 to rebuild the foundation; the belt is the
+    // gate, and needing help on it = floor-reset, not flawless placement.
+    if (shownMe.has('wsb7')) {
+      return { index: 0, preseed: [] };
+    }
     // only-mate stumble = wsb8 was shown but everything else was honest
     if (shownMe.has('wsb8')) {
       return { index: 1, preseed: ['r0'] };
@@ -4193,7 +4202,13 @@ const Engine = {
 
   // --- rendering ---
   renderRank() {
-    document.getElementById('rank').textContent = this.domain.rankFor(this.done.size, this.domain.rungs.length);
+    // Rank is computed on EARNED rungs only — preseeded rungs (from basics→tactics placement)
+    // shouldn't inflate the pill. The denominator shrinks correspondingly so rank progression
+    // stays smooth across the rungs they actually have to climb.
+    const preseed = this.preseededCount || 0;
+    const earned = Math.max(0, this.done.size - preseed);
+    const remaining = Math.max(1, this.domain.rungs.length - preseed);
+    document.getElementById('rank').textContent = this.domain.rankFor(earned, remaining);
   },
   renderLadder() {
     const el = document.getElementById('ladder');
@@ -4988,6 +5003,7 @@ const Store = {
       basicsEntry: Engine.basicsEntry,
       basicsPreseed: Engine.basicsPreseed,
       basicsMastery: Engine.basicsMastery,
+      preseededCount: Engine.preseededCount || 0,
       rank: Chess.rankFor(Engine.done.size, Chess.rungs.length),
       ts: Date.now()
     };
@@ -5021,6 +5037,7 @@ const Store = {
     Engine.ceilingFound = !!s.ceilingFound;
     Engine.ceiling = (s.ceiling == null) ? null : s.ceiling;
     Engine.basicsEntry = (s.basicsEntry == null) ? null : (s.basicsEntry | 0);
+    Engine.preseededCount = (typeof s.preseededCount === 'number') ? s.preseededCount : 0;
     Engine.basicsPreseed = Array.isArray(s.basicsPreseed) ? s.basicsPreseed.slice() : null;
     Engine.basicsMastery = s.basicsMastery || null;
     // Find first un-cleared rung in this form to resume the climb there.
@@ -5110,7 +5127,7 @@ const DOJO = {
     Chess.clearBoard();
     const tb = document.getElementById('topbtn');
     if (tb) { tb.textContent = 'Reset'; tb.onclick = () => DOJO.reset(); tb.classList.remove('next-form'); }
-    setPrompt('Press <b>Begin the Climb</b> — the grandmaster will find your level.', '');
+    setPrompt('Press <b>Begin the Climb</b> — Grandmasta Killa will find your level.', '');
     setSensei('Washington Square doesn\'t ask what you know — it watches you climb and finds out. '
       + 'We start easy and go up one rung at a time. The moment a rung gives you trouble, '
       + 'that\'s your edge — and that\'s where we train.');
