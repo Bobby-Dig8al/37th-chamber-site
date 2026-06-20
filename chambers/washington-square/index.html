@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Washington Square — The Chess Room · 37th Chamber</title>
-<meta name="description" content="The first live chamber. Chess, taught in the open air — a ladder of real tactics that finds the rung where you slip, marks it as your edge, and teaches every move. Free, forever.">
+<meta name="description" content="The first live chamber. Chess, in the open air — a two-stage climb: the basics (board, pieces, the law of check, the door of mate), then a ladder of real tactics. Every rung teaches; the first one you slip on becomes your edge. Free, forever.">
 <meta name="theme-color" content="#08080a">
 <link rel="canonical" href="https://37th-chamber.com/chambers/washington-square/">
 <meta property="og:title" content="Washington Square — The Chess Room">
-<meta property="og:description" content="The first live chamber. A chess ladder that finds the rung where you slip — your edge — and teaches every move, move by move. Free, forever.">
+<meta property="og:description" content="The first live chamber. A two-stage climb — the basics, then a ladder of real tactics — where the rung you slip on becomes your edge. Free, forever.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="37th Chamber">
 <meta property="og:url" content="https://37th-chamber.com/chambers/washington-square/">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://37th-chamber.com/assets/og.png">
 <meta name="twitter:title" content="Washington Square — The Chess Room">
-<meta name="twitter:description" content="The first live chamber. A chess ladder that finds your edge and teaches every move. Free, forever.">
+<meta name="twitter:description" content="Chess, in the open air. The basics climb, then the tactics ladder — every rung teaches. The rung you slip on is your edge. Free, forever.">
 <!-- Favicon: THE SIGIL (gold on near-black) — its canonical Tier-1 job.
      PNG (rendered) is primary; the inline SVG data-URI stays as a zero-dep fallback. -->
 <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -381,9 +381,9 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
 /* the corridor — one dim engraved line of doors; gold on hover (Day-41 wayfinding: chamber, not maze) */
 .corridor{width:100%;max-width:740px;display:flex;justify-content:center;gap:1.15rem;flex-wrap:wrap;
   position:relative;z-index:2;margin:0 auto 1.3rem;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
-.corridor a{color:var(--dim);text-decoration:none;transition:color .15s ease}
+.corridor a{color:var(--text-dim);text-decoration:none;transition:color .15s ease}
 .corridor a:hover,.corridor a:focus-visible{color:var(--gold)}
-.corridor .c-home{color:var(--gold-soft)}</style>
+.corridor .c-home{color:var(--gold)}</style>
 <script data-goatcounter="https://37th-chamber.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -510,7 +510,8 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   <p class="ci-eyebrow">Room #1 &middot; domain: chess &middot; the first of thirty-six</p>
   <h2 class="ci-head">Chess, in the open air.</h2>
   <p class="ci-lede">For a century, in Washington Square Park, anyone could pull up to a stone table and take a lesson from a stranger &mdash; who would beat you, and then show you exactly why. No fee. No door. No permission asked. That is the room we built first.</p>
-  <p class="ci-lede">The grandmaster walks you up a ladder of real tactics &mdash; rung by rung, the simple to the brutal. The first rung you slip on, it marks: <b>your edge</b>, the exact place to start the next climb. And every rung teaches &mdash; clear it, or call for the answer, and it shows you the <em>why</em>. Most of the internet drowns the beginner and bores the master; this one finds where your understanding ends, and hands you the next move.</p>
+  <p class="ci-lede"><b>First, the board.</b> If chess is new, the climb opens with the basics &mdash; the names of the squares, how each piece moves, what each one is worth, the law of check, the door of mate. Honest rungs, not a lecture. <b>Then, the fight</b> &mdash; a ladder of real tactics where the first rung you slip on becomes <b>your edge</b>: the exact place the next climb begins. Every rung teaches &mdash; clear it, or call for the answer, and it shows you the <em>why</em>.</p>
+  <p class="ci-lede">The chamber doesn&rsquo;t ask what you know &mdash; it watches you climb and finds out. The basics climb is the gauge: clean it honestly and you start the tactics climb deeper in; stumble on a piece&rsquo;s rule and you start at the first rung. The ladder is fully scrollable either way &mdash; nothing hidden, nothing locked.</p>
   <p class="ci-lede">Every rung is a real weapon &mdash; the pin, the fork, the forcing line that ends the game &mdash; handed to you the moment you can wield it. Not theory. The thing itself.</p>
   <p class="ci-foot">The first of thirty-six rooms. <span class="free">Free</span>, forever &mdash; like all the rest.</p>
 </section>
@@ -520,7 +521,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   <div>
     <div class="panel">
       <h2>The Board</h2>
-      <div id="prompt" aria-live="assertive" aria-atomic="true" class="prompt-line">Press <b>Begin the Climb</b> — the grandmaster will find your level.</div>
+      <div id="prompt" aria-live="assertive" aria-atomic="true" class="prompt-line">Press <b>Begin the Climb</b> — Grandmasta Killa will find your level.</div>
       <div id="turn" class="turn-indicator hidden" aria-live="polite" aria-atomic="true"><span class="turn-dot"></span><span id="turn-text">White to move</span></div>
       <div class="board-frame">
         <div class="board-stage">
@@ -535,7 +536,7 @@ header .sub .head-creed b { color: #fff; font-weight: 700; text-shadow: 0 0 5px 
   <!-- RIGHT: sensei + ladder + log -->
   <div>
     <div class="panel">
-      <h2>The Grandmaster</h2>
+      <h2>Grandmasta Killa</h2>
       <div class="sensei">
         <div id="resume-host" class="resume-host" style="display:none"></div>
         <div id="sensei-text" aria-live="polite">Washington Square doesn't ask what you know — it watches you climb and finds out.
@@ -3989,12 +3990,19 @@ const Engine = {
   ceilingFound: false,  // have we hit the first rung that gave trouble?
   ceiling: null,        // index of that rung
   done: new Set(),      // rung ids cleared
+  shownMe: new Set(),   // honesty marker — rung ids passed via "show me" never count as mastery
+  basicsEntry: null,    // computed entry index into Ladder I after honest basics climb
+  basicsPreseed: null,  // ids of Ladder-I rungs to mark already-owned at placement
+  basicsMastery: null,  // snapshot of basics honesty (done + shownMe + counts + ts)
+  preseededCount: 0,    // # of preseeded rungs in `done` from placement (excluded from rank math)
   log: [],
 
   init(domain) {
     this.domain = domain;
     this.i = 0; this.ceilingFound = false; this.ceiling = null;
-    this.done = new Set(); this.log = [];
+    this.done = new Set(); this.shownMe = new Set(); this.log = [];
+    this.basicsEntry = null; this.basicsPreseed = null; this.basicsMastery = null;
+    this.preseededCount = 0;
     this.renderLadder(); this.renderRank(); this.renderLog();
     const fn = document.getElementById('form-name');
     if (fn && domain.currentFormName) fn.textContent = domain.currentFormName();
@@ -4044,7 +4052,7 @@ const Engine = {
       Store.save();                          // persist: a rung was cleared
     } else {
       this.log.unshift({ t: 'warn', m: '✗ missed: ' + r.name });
-      setPrompt('Not quite — try again, or ask the grandmaster to show you.', 'bad');
+      setPrompt('Not quite — try again, or ask Grandmasta Killa to show you.', 'bad');
       if (!this.ceilingFound) { this.ceilingFound = true; this.ceiling = this.i; Store.save(); }  // persist first-edge
     }
     this.renderLadder(); this.renderRank(); this.renderLog();
@@ -4054,6 +4062,7 @@ const Engine = {
   // "I don't know — show me" : reveal teaching, mark this as the ceiling
   dontKnow() {
     const r = this.domain.rungs[this.i];
+    this.shownMe.add(r.id);                  // honesty marker — show-me never counts as mastery
     if (!this.ceilingFound) { this.ceilingFound = true; this.ceiling = this.i; }
     Store.save();                            // persist: edge/ceiling recorded
     setPrompt('No shame on the bench — here\'s the pattern.', 'bad');
@@ -4107,19 +4116,99 @@ const Engine = {
       msg += ' That\'s every ladder built so far — more chambers of the climb are coming.';
     }
     setSensei(msg);
+    // When basics (form 0) finished AND the belt was honestly cleared, compute
+    // Ladder I placement and persist. The placement is APPLIED in DOJO.nextForm
+    // (the belt-clamp lives there too — placement never crosses the next ladder's belt).
+    if (Chess.formIndex === 0 && this.beltCleared()) {
+      const placement = this.placementFor(this.done, this.shownMe, true);
+      this.basicsEntry = placement.index;
+      this.basicsPreseed = placement.preseed;
+      this.basicsMastery = {
+        done: [...this.done],
+        shownMe: [...this.shownMe],
+        cleared: this.done.size,
+        total: this.domain.rungs.length,
+        ts: Date.now()
+      };
+      Store.save();
+    }
   },
 
   startForm() {
-    this.i = 0; this.ceilingFound = false; this.ceiling = null; this.done = new Set();
+    this.i = 0; this.ceilingFound = false; this.ceiling = null;
+    this.done = new Set(); this.shownMe = new Set(); this.preseededCount = 0;
     document.getElementById('begin-btn').style.display = 'none';
     this.log.unshift({ t: 'ok', m: '▲ ' + this.domain.currentFormName() });
     this.renderRank(); this.renderLog();
     this.present();
   },
 
+  // Like startForm, but lands at a given rung index with a preseeded done-set.
+  // Used by the basics→tactics placement on the 0→1 transition. The rungs at
+  // positions < idx are rendered as already-owned (preseedDoneIds = their ids);
+  // shownMe stays empty for the new form (honesty resets per-form).
+  startFormAt(idx, preseedDoneIds) {
+    const total = (this.domain.rungs || []).length;
+    const safeIdx = Math.max(0, Math.min(idx | 0, Math.max(0, total - 1)));
+    this.i = safeIdx;
+    this.ceilingFound = false; this.ceiling = null;
+    this.done = new Set(preseedDoneIds || []);
+    this.shownMe = new Set();
+    this.preseededCount = (preseedDoneIds || []).length;  // excluded from rank math; they've earned 0 HERE so far
+    document.getElementById('begin-btn').style.display = 'none';
+    const startLine = safeIdx === 0
+      ? '▲ ' + this.domain.currentFormName()
+      : '▲ ' + this.domain.currentFormName() + ' · starting at rung ' + (safeIdx + 1)
+        + ' (everything below this you already own — '
+        + 'or <a href="#" onclick="event.preventDefault();Engine.i=0;Engine.present();return false;">start from rung one instead</a>)';
+    this.log.unshift({ t: 'ok', m: '▲ ' + this.domain.currentFormName() + ' · placed at rung ' + (safeIdx + 1) });
+    this.renderRank(); this.renderLog();
+    this.present();
+    if (safeIdx > 0) {
+      // Transparent handoff: sensei names the placement + offers the override.
+      setSensei('Your basics climb placed you here. <b>Everything below this you already own.</b><br><br>'
+        + 'Prefer to climb from the first rung? <a href="#" onclick="event.preventDefault();Engine.i=0;Engine.present();return false;">Start from rung one instead.</a>');
+    }
+  },
+
+  // Pure function. Returns {index, preseed} for Ladder I placement based on
+  // basics-honesty. Bucket constants encode the CURRENT Ladder I rung order:
+  //   index 0 = r0 "Know the knight" · index 1 = r1 "See the free piece"
+  //   index 4 = r2 "The fork" (after r0/r1/r8/r9). The caller applies the
+  //   belt-clamp (placement index never crosses the destination ladder's belt).
+  placementFor(done, shownMe, beltOk) {
+    if (!beltOk) return { index: 0, preseed: [] };
+    // movement gap = any of wsb0..wsb4 (square names / piece movement) was shown
+    if (['wsb0','wsb1','wsb2','wsb3','wsb4'].some(id => shownMe.has(id))) {
+      return { index: 0, preseed: [] };
+    }
+    // capture/value gap = wsb5 (pawn capture) or wsb6 (piece values) was shown
+    if (['wsb5','wsb6'].some(id => shownMe.has(id))) {
+      return { index: 0, preseed: [] };
+    }
+    // belt-help = wsb7 (check escape) was shown — even after honest retake, they needed help
+    // on the law of check itself. Restart from r0 to rebuild the foundation; the belt is the
+    // gate, and needing help on it = floor-reset, not flawless placement.
+    if (shownMe.has('wsb7')) {
+      return { index: 0, preseed: [] };
+    }
+    // only-mate stumble = wsb8 was shown but everything else was honest
+    if (shownMe.has('wsb8')) {
+      return { index: 1, preseed: ['r0'] };
+    }
+    // flawless basics → start at r2 "The fork"
+    return { index: 4, preseed: ['r0', 'r1', 'r8', 'r9'] };
+  },
+
   // --- rendering ---
   renderRank() {
-    document.getElementById('rank').textContent = this.domain.rankFor(this.done.size, this.domain.rungs.length);
+    // Rank is computed on EARNED rungs only — preseeded rungs (from basics→tactics placement)
+    // shouldn't inflate the pill. The denominator shrinks correspondingly so rank progression
+    // stays smooth across the rungs they actually have to climb.
+    const preseed = this.preseededCount || 0;
+    const earned = Math.max(0, this.done.size - preseed);
+    const remaining = Math.max(1, this.domain.rungs.length - preseed);
+    document.getElementById('rank').textContent = this.domain.rankFor(earned, remaining);
   },
   renderLadder() {
     const el = document.getElementById('ladder');
@@ -4196,6 +4285,122 @@ const Chess = {
 
   formIndex: 0,
   forms: [
+   // ═══════════════════════════════════════════════════════════════════════════
+   // Ladder 0 · The Board  —  the basics on-ramp. Nine rungs of recognition-
+   // before-production: square names, piece movement, values, the law of check,
+   // the door of mate. Honest climb here gauges placement into Ladder I (see
+   // Engine.placementFor + Engine.startFormAt + DOJO.nextForm's 0→1 wiring).
+   // Kings placed off the demonstrated piece's rays so click-rung targets
+   // remain a clean recitation of that piece's mobility on an open board.
+   // ═══════════════════════════════════════════════════════════════════════════
+   { name: 'Ladder 0 · The Board', rungs: [
+    {
+      id: 'wsb0', name: 'Name the square', tier: 'Greenhorn', type: 'click',
+      prompt: 'Algebraic notation reads <b>file then rank</b>. The files are a–h (left to right from white\'s view); the ranks are 1–8 (bottom to top from white\'s view). Click <b>e4</b>.',
+      coach: 'Files are columns (a–h); ranks are rows (1–8). Always read from white\'s side of the board. e4 = the e-file, rank 4 — the famous king-pawn opening square.',
+      setup: { a1:'K', h8:'k' },
+      targets: ['e4'],
+      success: 'e4 — found it.',
+      why: '<b>Every square has a name.</b> Files a–h (left to right from white\'s view); ranks 1–8 (bottom to top). Files and ranks are always named from white\'s side, no matter who\'s moving. <i>e4</i> is the most famous square in chess — the king-pawn opening lives there. Knowing the names cold is the whole vocabulary of chess; every move you\'ll ever read, hear, or write is built on top of this.'
+    },
+    {
+      id: 'wsb1', name: 'Walk the rook', tier: 'Greenhorn', type: 'click',
+      prompt: 'A rook sits on <b>d4</b>. Click <b>one square it can legally move to</b>.',
+      coach: 'Rooks slide in straight lines — files (up/down) and ranks (left/right). They can\'t jump. The slide ends at a piece or the board edge.',
+      // Kings on a1/h8 — neither sits on the d-file or 4th rank, so the rook\'s 14
+      // open-board destinations from d4 stand uneclipsed.
+      setup: { a1:'K', h8:'k', d4:'R' },
+      targets: ['a4','b4','c4','e4','f4','g4','h4','d1','d2','d3','d5','d6','d7','d8'],
+      success: 'A legal rook slide.',
+      why: '<b>The rook moves in straight lines</b>, any distance, along files or ranks. From d4 on an open board, the rook reaches 14 squares — the entire d-file plus the entire 4th rank (minus the square it sits on). The rook never leaves the line.'
+    },
+    {
+      id: 'wsb2', name: 'Walk the bishop', tier: 'Greenhorn', type: 'click',
+      prompt: 'A bishop sits on <b>d4</b>. Click <b>one square it can legally move to</b>.',
+      coach: 'Bishops slide on diagonals — and only diagonals. They never change color. A light-squared bishop stays on light squares its whole life.',
+      // Kings on a8 (dark) and h1 (dark) — neither sits on either of d4\'s diagonals
+      // (a1–h8 and a7–g1 are both light-square diagonals here), so all 13 bishop
+      // destinations stand. Kings on dark corners; bishop on a light square.
+      setup: { a8:'k', h1:'K', d4:'B' },
+      targets: ['a1','b2','c3','e5','f6','g7','h8','a7','b6','c5','e3','f2','g1'],
+      success: 'A legal bishop slide.',
+      why: '<b>The bishop moves diagonally</b>, any distance. The deepest truth about a bishop is that it lives on one color forever — a dark-squared bishop never sees a light square. From d4 (a dark square), this bishop reaches 13 other dark squares along the two diagonals through d4. That color-bound life is why bishops come in pairs in the starting position: one for each color.'
+    },
+    {
+      id: 'wsb3', name: 'Walk the queen', tier: 'Greenhorn', type: 'click',
+      prompt: 'A queen sits on <b>d4</b>. Click <b>one square she can legally move to</b>. She moves like a rook <em>or</em> a bishop, from any square.',
+      coach: 'The queen = rook + bishop. Everything the rook can do AND everything the bishop can do, fused. Straight lines AND diagonals, any distance.',
+      // Kings on a8/h1 — neither sits on the d-file, 4th rank, or either of d4\'s
+      // diagonals. All 27 open-board queen destinations stand: 14 rook + 13 bishop.
+      setup: { a8:'k', h1:'K', d4:'Q' },
+      targets: ['a4','b4','c4','e4','f4','g4','h4','d1','d2','d3','d5','d6','d7','d8',
+                'a1','b2','c3','e5','f6','g7','h8','a7','b6','c5','e3','f2','g1'],
+      success: 'A legal queen move — straight line or diagonal.',
+      why: '<b>The queen is the rook and the bishop unioned</b> — she moves in straight lines (like a rook) <em>or</em> on diagonals (like a bishop), any distance. From d4 on an open board, she reaches 27 squares: the entire d-file + the entire 4th rank + both diagonals through d4. This is why she\'s worth nine points: she\'s literally two pieces in one body. The queen is also why castling matters — you want your king tucked away before she comes out hunting.'
+    },
+    {
+      id: 'wsb4', name: 'The knight\'s L', tier: 'Greenhorn', type: 'click',
+      prompt: 'A knight sits on <b>d4</b>. Click <b>one square it can legally move to</b>.',
+      coach: 'The knight — the only piece that jumps over others. Two squares one way, then one square at a right angle. The L-leap.',
+      setup: { a1:'K', h8:'k', d4:'N' },
+      targets: ['b3','b5','c2','c6','e2','e6','f3','f5'],
+      success: 'A legal knight jump.',
+      why: '<b>The knight\'s L:</b> two squares in a line (file or rank), then one square at a right angle. The knight is the only piece that jumps over others — that\'s why knights and rooks are the only pieces that can move on move one of the game. From d4 it reaches eight squares: b3, b5, c2, c6, e2, e6, f3, f5. The knight always changes color when it moves; if it starts on a light square, it lands on dark, and vice versa.'
+    },
+    {
+      id: 'wsb5', name: 'The pawn\'s two faces', tier: 'Greenhorn', type: 'move',
+      prompt: 'White pawn on <b>e4</b>, black pawn on <b>f5</b>. Pawns push straight, but they <b>capture diagonally</b>. <b>Take the black pawn.</b>',
+      coach: 'The pawn is the only piece whose move and attack are different. Push straight. Capture on the diagonal.',
+      // Kings on a1/h8 — far from the pawn skirmish, no check fallout post-capture.
+      setup: { a1:'K', h8:'k', e4:'P', f5:'p' },
+      solution: { from:'e4', to:'f5' },
+      success: 'exf5 — the diagonal capture. The pawn shows its two faces.',
+      why: '<b>Pawns are the strange piece.</b> They advance one square straight forward (or two from their starting rank), but they capture only on the diagonals — one square forward-and-to-the-side. The pawn is the only piece whose movement and attack differ, which is why pawn structures are the skeleton of chess strategy: where your pawns can move tells you where they\'ll be in the future, but where your pawns <i>attack</i> tells you which squares your opponent can\'t safely sit on now.'
+    },
+    {
+      id: 'wsb6', name: 'What it\'s worth', tier: 'Greenhorn', type: 'move',
+      prompt: 'Two captures available. <b>Take the more valuable piece.</b> Values: pawn=1, knight=3, bishop=3, rook=5, queen=9.',
+      coach: 'Always count points before you trade. Knight (3) beats pawn (1) by a factor of three. Take the bigger prize.',
+      // Both captures are SAFE (undefended, no recapture). The puzzle isolates VALUE.
+      // BK on a8 is unaffected by either Qxd7 or Qxh4 (not on any post-capture
+      // attack line). WK on h1, far from the action.
+      setup: { h1:'K', d4:'Q', d7:'n', h4:'p', a8:'k' },
+      solution: { from:'d4', to:'d7' },
+      success: 'Qxd7 — knight (3) captured. Qxh4 would have won only a pawn (1).',
+      why: '<b>Piece values</b> (the canonical scale): pawn = 1, knight = 3, bishop = 3, rook = 5, queen = 9, king = ∞. These aren\'t laws — they\'re a 500-year-old language for talking about trades. If you\'re trading equal value, you\'re not winning material; if you\'re trading lesser for greater, you\'re winning; if you\'re trading greater for lesser, you\'re losing — even when the move "feels" active. The knight at three points is three times the pawn at one. The queen at nine is the most valuable thing on the board besides the king, and that asymmetry is why she\'s the most dangerous attacker and the most painful piece to lose. Count first, capture second.'
+    },
+    {
+      id: 'wsb7', name: 'Get out of check', tier: 'Greenhorn', type: 'move', belt: true,
+      prompt: 'White to move. You\'re in check from the black rook on <b>a1</b>. <b>There\'s exactly one legal response.</b> Find it.',
+      coach: 'Three ways out of check: move the king, block the attacker, or capture the attacker. Here, only one works.',
+      // ENGINE-PROVEN target: setup yields EXACTLY ONE legal white move.
+      //   King moves: Kg1 (attacked by Ra1 along rank 1) illegal; Kg2/Kh2 blocked
+      //   by own pawns. No king escape.
+      //   Block: no white piece can reach b1..g1 in one move (Ra4 only sees a-file
+      //   + 4th rank; pawns advance, can\'t lateral). No block possible.
+      //   Capture: Rxa1 (Ra4 captures the checker). The only legal move.
+      setup: { h1:'K', g2:'P', h2:'P', a4:'R', a1:'r', h8:'k' },
+      solution: { from:'a4', to:'a1' },
+      success: 'Rxa1 — capture-escape. The check-giver is gone.',
+      why: '<b>The three escapes from check</b> — and you must do one of them or you lose: <b>(1) Move the king</b> to a square it isn\'t attacked on. <b>(2) Block</b> the attack with a piece between attacker and king (works only against sliding pieces — rooks, bishops, queens). <b>(3) Capture</b> the attacking piece. In this position the king has no safe square (the rook controls rank 1, your own pawns block rank 2), and no piece can interpose on rank 1 between a1 and h1. Only Rxa1 works — the rook captures the rook. <b>The belt is this:</b> get out of check, every time, the moment you\'re in it. No exceptions. No "I\'ll get to it." A king in check on his turn that doesn\'t move out of check is illegal — and a king in check at the END of his turn with no legal escape is mate.'
+    },
+    {
+      id: 'wsb8', name: 'Checkmate has no door', tier: 'Greenhorn', type: 'move',
+      prompt: 'White to move. <b>Mate in one.</b> The two rooks coordinate — the 7th rank is yours, the 8th ends it.',
+      coach: 'Checkmate = check + no legal escape. No move, no block, no capture saves the king. The game ends.',
+      // ENGINE-PROVEN mate: classic two-rook ladder mate finishing move.
+      //   Ra7 seals rank 7 (BK can\'t come to d7/e7/f7). Rh1→h8 checks BK on e8
+      //   along rank 8. King escapes: d8 (attacked by Rh8 on rank 8); d7/e7/f7
+      //   (attacked by Ra7 on rank 7); cannot capture Rh8 (out of reach).
+      //   `goal:'mate'` makes the win engine-certified (isCheckmate), not a
+      //   hand-typed string match — so any legal mate is accepted.
+      setup: { a7:'R', h1:'R', e1:'K', e8:'k' },
+      solution: { from:'h1', to:'h8' },
+      goal: 'mate',
+      success: 'Rh8# — checkmate. The 7th rank cuts the king off from coming forward; the 8th rank ends the game.',
+      why: '<b>Checkmate is check + no legal escape.</b> The king is attacked, and every response — every king move, every block, every capture — fails or is unavailable. Here, the two rooks deliver the classic <i>ladder mate</i>: one rook seals the 7th rank (the king can\'t come forward to d7/e7/f7), the other delivers check on the 8th (the king can\'t stay, and d8/f8 are also covered by the new rook on h8). The king is trapped on its own back rank with no door. <b>Mate ends the game</b> — there is no "I\'ll trade material next move," no "I\'ll defend better next time." The clock stops. Knowing what mate looks like — and what distinguishes it from check (escapable) and stalemate (no legal move but NOT in check, which is a draw) — is the line between the door and the wall.'
+    }
+   ] },
    { name: 'Ladder I · Street Fundamentals', rungs: [
     {
       id: 'r0', name: 'Know the knight', tier: 'Tourist', type: 'click',
@@ -4778,7 +4983,10 @@ const Chess = {
    works perfectly with no persistence. Keep it zero-deps.
    ============================================================================ */
 const Store = {
-  KEY: 'washington-square:progress:v1',
+  // KEY bumped v1→v2 with the basics on-ramp: schema now carries shownMe + basicsEntry
+  // + basicsPreseed + basicsMastery. A stale v1 save would point formIndex at the
+  // wrong post-shift ladder, so v1 saves auto-discard on load (defensive).
+  KEY: 'washington-square:progress:v2',
   available() {
     try { const k = '__mp_test__'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return true; }
     catch (_) { return false; }
@@ -4786,11 +4994,16 @@ const Store = {
   // Capture the live state of Engine + Chess into a plain object.
   snapshot() {
     return {
-      v: 1,
+      v: 2,
       done: [...Engine.done],
+      shownMe: [...Engine.shownMe],
       formIndex: Chess.formIndex,
       ceilingFound: Engine.ceilingFound,
       ceiling: Engine.ceiling,
+      basicsEntry: Engine.basicsEntry,
+      basicsPreseed: Engine.basicsPreseed,
+      basicsMastery: Engine.basicsMastery,
+      preseededCount: Engine.preseededCount || 0,
       rank: Chess.rankFor(Engine.done.size, Chess.rungs.length),
       ts: Date.now()
     };
@@ -4805,7 +5018,7 @@ const Store = {
       const raw = localStorage.getItem(this.KEY);
       if (!raw) return null;
       const s = JSON.parse(raw);
-      if (!s || s.v !== 1 || !Array.isArray(s.done)) return null;
+      if (!s || s.v !== 2 || !Array.isArray(s.done)) return null;
       return s;
     } catch (_) { return null; }
   },
@@ -4820,8 +5033,13 @@ const Store = {
     if (!s) return false;
     Chess.formIndex = Math.min(s.formIndex || 0, Chess.forms.length - 1);
     Engine.done = new Set(s.done);
+    Engine.shownMe = new Set(Array.isArray(s.shownMe) ? s.shownMe : []);
     Engine.ceilingFound = !!s.ceilingFound;
     Engine.ceiling = (s.ceiling == null) ? null : s.ceiling;
+    Engine.basicsEntry = (s.basicsEntry == null) ? null : (s.basicsEntry | 0);
+    Engine.preseededCount = (typeof s.preseededCount === 'number') ? s.preseededCount : 0;
+    Engine.basicsPreseed = Array.isArray(s.basicsPreseed) ? s.basicsPreseed.slice() : null;
+    Engine.basicsMastery = s.basicsMastery || null;
     // Find first un-cleared rung in this form to resume the climb there.
     const rungs = Chess.rungs;
     let idx = rungs.findIndex(r => !Engine.done.has(r.id));
@@ -4877,10 +5095,23 @@ const DOJO = {
   dontKnow() { Engine.dontKnow(); },
   nextForm() {
     if (!Engine.beltCleared()) return;        // belt-gate: never advance on an uncleared belt
+    const prevIdx = Chess.formIndex;
     Chess.advanceForm();
     const tb = document.getElementById('topbtn');
     if (tb) { tb.textContent = 'Reset'; tb.onclick = () => DOJO.reset(); tb.classList.remove('next-form'); }
-    Engine.startForm();
+    // Basics → tactics (0→1) transition: apply placement with a belt-clamp so
+    // a strong basics climb skips the warm-up rungs of Ladder I, but never
+    // skips PAST Ladder I's belt rung (the belt always gates ladder exit).
+    if (prevIdx === 0 && Engine.basicsEntry != null) {
+      const rungs = Chess.rungs;
+      const beltIdx = rungs.findIndex(r => r.belt);
+      const proposed = Engine.basicsEntry | 0;
+      const safeIdx = (beltIdx >= 0) ? Math.min(proposed, beltIdx) : proposed;
+      const preseedIds = rungs.slice(0, safeIdx).map(r => r.id);
+      Engine.startFormAt(safeIdx, preseedIds);
+    } else {
+      Engine.startForm();
+    }
     Store.save();                            // persist: advanced to the next form
   },
   retakeBelt() {
@@ -4896,7 +5127,7 @@ const DOJO = {
     Chess.clearBoard();
     const tb = document.getElementById('topbtn');
     if (tb) { tb.textContent = 'Reset'; tb.onclick = () => DOJO.reset(); tb.classList.remove('next-form'); }
-    setPrompt('Press <b>Begin the Climb</b> — the grandmaster will find your level.', '');
+    setPrompt('Press <b>Begin the Climb</b> — Grandmasta Killa will find your level.', '');
     setSensei('Washington Square doesn\'t ask what you know — it watches you climb and finds out. '
       + 'We start easy and go up one rung at a time. The moment a rung gives you trouble, '
       + 'that\'s your edge — and that\'s where we train.');

@@ -7,10 +7,12 @@
     "test": "playwright test",
     "test:desktop": "playwright test --project=desktop",
     "test:mobile": "playwright test --project=mobile",
-    "install:browser": "playwright install chromium"
+    "install:browser": "playwright install chromium",
+    "validate:rungs": "node ws-rung-validate.mjs"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.9.0",
     "@playwright/test": "^1.40.0",
-    "@axe-core/playwright": "^4.9.0"
+    "chess.js": "^1.4.0"
   }
 }
