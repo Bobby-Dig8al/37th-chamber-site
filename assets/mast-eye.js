@@ -1894,15 +1894,19 @@ function eye_teal_fill(canvas, opts){
     return slug;
   }
   function mountIndex(canvas, i){ return mountSlug(canvas, ROTATION[((i%7)+7)%7]); }
+  // Effective day-of-week, rolled at 04:00 to match the Daily (daily-v2.js ROLLOVER_HOUR=4) and the
+  // Sunday dedication. Keeps the eye, the line, and the Daily flipping together at 04:00 — not the eye
+  // at midnight and the rest four hours later.
+  function effDay(){ return new Date(Date.now() - 4 * 36e5).getDay(); }
   function autoMount(canvas){
     try{
       var p = new URLSearchParams(location.search);
       var eq = p.get('eye');
       if(eq && REND[eq]) return mountSlug(canvas, eq);
       var dq = p.get('day');
-      var idx = (dq!==null && /^[0-6]$/.test(dq)) ? +dq : (new Date()).getDay();
+      var idx = (dq!==null && /^[0-6]$/.test(dq)) ? +dq : effDay();
       return mountIndex(canvas, idx);
-    }catch(e){ return mountIndex(canvas, (new Date()).getDay()); }
+    }catch(e){ return mountIndex(canvas, effDay()); }
   }
 
   if(typeof window!=='undefined'){
