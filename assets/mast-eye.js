@@ -1884,7 +1884,7 @@ function eye_teal_fill(canvas, opts){
   /* the 7-day rotation, indexed by Date.getDay(): 0=Sun .. 6=Sat
      Thu/Fri now route to the FILL variants (kaleidoscope-true, no black wedges).
      Sat stays on sapphire-jewel until its bed-fill pass lands. */
-  var ROTATION = ['sapphire-fill', 'ice-seed', 'summit', 'crystal-bloom', 'teal-fill', 'shattered-fill', 'sapphire-jewel'];
+  var ROTATION = ['summit', 'ice-seed', 'first-facets', 'crystal-bloom', 'teal-fill', 'shattered-fill', 'sapphire-jewel'];
 
   function mountSlug(canvas, slug){
     var d = REND[slug];
