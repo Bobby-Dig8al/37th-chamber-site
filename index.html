@@ -254,6 +254,17 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       </div>
       <!-- O'HENE SAVANT CREDIT — the eye's lineage. He uses 👁️ on his socials; ours is inspired by his (we made it blue). -->
       <p class="ohene-credit" style="text-align:center;margin:-.3rem auto 1.4rem;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)">we see you, O&rsquo;hene.</p>
+      <!-- THE DEDICATION — sits beneath the O'Hene credit, revealed only on Sunday (her day), at the
+           04:00 rollover matched to the Daily. Salinger-masked: initials only, no name, no date, the woods
+           only. Recurs every Sunday alongside the summit kaleidoscope. Preview any day with ?day=0..6. -->
+      <p class="ajs-dedication" hidden style="text-align:center;margin:-.5rem auto 1.6rem;max-width:34rem;font-size:.7rem;letter-spacing:.15em;line-height:1.95;text-transform:uppercase;color:var(--dim)">For AJS &mdash; she gave me the fire. None of this is without her. A white ibis in the woods now.</p>
+      <script>(function(){try{
+        var el=document.querySelector('.ajs-dedication'); if(!el) return;
+        var p=new URLSearchParams(location.search), dq=p.get('day'), isSun;
+        if(dq!==null && /^[0-6]$/.test(dq)){ isSun=(+dq===0); }
+        else { var eff=new Date(Date.now()-4*36e5); isSun=(eff.getDay()===0); } /* 04:00 rollover, matched to the Daily */
+        if(isSun){ el.hidden=false; }
+      }catch(e){}})();</script>
 
       <h1 class="title" translate="no">37th&nbsp;Chamber</h1>
       <div class="creed"><span class="wglow">Knowledge</span> is free · <span class="wglow">forever</span></div>
