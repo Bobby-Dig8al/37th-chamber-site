@@ -13,6 +13,11 @@
 
 const DAILY_START   = "2026-06-08";   // DAILY[0] is this date — Daily 001 · Interstellar
 const ROLLOVER_HOUR = 4;              // day flips at 04:00 local
+// ONE-NIGHT OVERRIDE — her day opens at 20:45 tonight (Sat 06-20). Inside the window 06-20 20:45 → 06-21
+// 04:00 CDT the Daily resolves AS Sunday (06-21 noon) so it rolls with the eye, the line and the jewel;
+// outside that window — and under every mocked test clock — it uses real time. Self-reverts after 04:00 Sun.
+const NOW_EFFECTIVE = (Date.now() >= Date.parse("2026-06-20T20:45:00-05:00") && Date.now() < Date.parse("2026-06-21T04:00:00-05:00"))
+  ? Date.parse("2026-06-21T12:00:00-05:00") : Date.now();
 
 /* ─────────────────────────────────────────────────────────────────────────────
    WEEK ARCS — one object per week, keyed by weekStart (Monday date).
@@ -685,7 +690,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
   /* ── Date resolution (identical to v1) ─────────────────────────────────── */
   const MS   = 86400000;
   const startMs = new Date(DAILY_START + "T00:00:00").getTime() + ROLLOVER_HOUR * 3600000;
-  let idx = Math.floor((Date.now() - startMs) / MS);
+  let idx = Math.floor((NOW_EFFECTIVE - startMs) / MS);
   if (idx < 0) idx = 0;
   if (idx >= DAILY.length) idx = DAILY.length - 1;
   // HOLD on the last real-dated day — don't auto-roll into un-dated future weeks.
