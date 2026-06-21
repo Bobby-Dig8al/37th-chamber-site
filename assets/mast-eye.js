@@ -1895,9 +1895,12 @@ function eye_teal_fill(canvas, opts){
   }
   function mountIndex(canvas, i){ return mountSlug(canvas, ROTATION[((i%7)+7)%7]); }
   // Effective day-of-week, rolled at 04:00 to match the Daily (daily-v2.js ROLLOVER_HOUR=4) and the
-  // Sunday dedication. Keeps the eye, the line, and the Daily flipping together at 04:00 — not the eye
-  // at midnight and the rest four hours later.
-  function effDay(){ return new Date(Date.now() - 4 * 36e5).getDay(); }
+  // Sunday dedication. Keeps the eye, the line, and the Daily flipping together — not the eye at
+  // midnight and the rest four hours later.
+  // ONE-NIGHT OVERRIDE — her day opens at 20:45 tonight (Sat 06-20). Inside the window 06-20 20:45 → 06-21
+  // 04:00 CDT the eye reads Sunday (return 0) so it turns with the line, the Daily and the jewel; outside
+  // that window (incl. every mocked test clock) it's the usual 4h offset. Self-reverts after 04:00 Sunday.
+  function effDay(){ var n=Date.now(); if(n>=Date.parse("2026-06-20T20:45:00-05:00") && n<Date.parse("2026-06-21T04:00:00-05:00")) return 0; return new Date(n - 4*36e5).getDay(); }
   function autoMount(canvas){
     try{
       var p = new URLSearchParams(location.search);
