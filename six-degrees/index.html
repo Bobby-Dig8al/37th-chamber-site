@@ -287,7 +287,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
 
       <h1 class="title"><span class="six">6 Degrees</span> of Giants</h1>
       <p class="subtitle">Help us reach the shoulders of our giants.</p>
-      <p class="lede">If I have seen further, it&rsquo;s by standing on the shoulders of giants. Six degrees of separation says <em>everyone</em> is reachable through a handful of warm hands. So let&rsquo;s find out &mdash; together. Pick a giant, start a chain, and pass it to <em>someone you actually know.</em> Each tag is one jump closer. <span class="wglow">The view is not ours alone.</span></p>
+      <p class="lede">If I have seen further, it&rsquo;s by standing on the shoulders of giants. Six degrees of separation says <em>everyone</em> is reachable through a handful of warm hands. So let&rsquo;s find out &mdash; together. Pick a giant, start a chain, and pass it to <em>someone you actually know.</em> Each hand is one jump closer. <span class="wglow">The view is not ours alone.</span></p>
     </header>
 
     <!-- THE FIRST RULE — the soul of the game -->
@@ -306,7 +306,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         </div>
         <div class="beat">
           <span class="h">A real hand</span>
-          <span class="b">You only tag someone you <em>actually</em> know. The public tag is the verifiable jump &mdash; a real relationship, not a cold blast.</span>
+          <span class="b">You only add someone you <em>actually</em> know. Each comment on the chain is the verifiable jump &mdash; a real relationship, not a cold blast.</span>
         </div>
         <div class="beat">
           <span class="h">A warm intro</span>
@@ -326,11 +326,11 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         </div>
         <div class="step">
           <span class="num">2</span>
-          <span class="txt"><b>Start a chain.</b> Post publicly that you&rsquo;re on Team [Giant], and tag <b>the next person you actually know</b> who&rsquo;s a step closer to them.</span>
+          <span class="txt"><b>Start a chain.</b> Open a chain on <b>GitHub</b> for your giant &mdash; one public issue, the open record, no private database. Any GitHub account works, and it shows up live on the tracker.</span>
         </div>
         <div class="step">
           <span class="num">3</span>
-          <span class="txt"><b>Each tag is a jump.</b> They tag the next real hand. The relay continues &mdash; one gracious link at a time &mdash; until the chain reaches the giant.</span>
+          <span class="txt"><b>Each hand is a jump.</b> Add the next real person you actually know as a comment on the chain &mdash; one gracious link at a time &mdash; until it reaches the giant.</span>
         </div>
       </div>
       <div class="cta-row">
@@ -352,22 +352,8 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p style="margin:0;color:var(--gold)">no hero is mine alone.</p>
     </div>
 
-    <!-- v1: chain-starter (revealed on team-card click; JS-enhanced, falls back gracefully) -->
-    <aside class="chainstarter" id="chainstarter" hidden>
-      <button class="cs-close" type="button" aria-label="Close">&times;</button>
-      <div class="cs-head">
-        <span class="cs-eyebrow">Start your chain</span>
-        <span class="cs-team">for <strong></strong></span>
-      </div>
-      <label class="cs-label" for="cs-text">Your post (edit freely):</label>
-      <textarea class="cs-text" id="cs-text" rows="6" spellcheck="true"></textarea>
-      <div class="cs-actions">
-        <a class="cs-share" target="_blank" rel="noopener noreferrer" data-platform="x">Share to X &rarr;</a>
-        <a class="cs-share" target="_blank" rel="noopener noreferrer" data-platform="linkedin">Share to LinkedIn &rarr;</a>
-        <button class="cs-copy" type="button">Copy to clipboard</button>
-      </div>
-      <div class="cs-note">Relay, <em>not</em> swarm. Tag the next real hand you know &mdash; one gracious link at a time. The chain belongs to everyone who passes it on.</div>
-    </aside>
+    <!-- The X / LinkedIn share aside is retired (operator call, Day-53): chains now open directly
+         on GitHub — one labelled issue per giant, the open public record. See the chain-starter script. -->
 
     <div class="grid" id="reach-grid">
 
@@ -831,37 +817,19 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
   -->
   <script>
   (function () {
-    var STORAGE_KEY = '37chain.v2'; // v2 GAME RESET — v1 key '37chain.started' orphaned, never read
-    var SITE_URL = 'https://37th-chamber.com/six-degrees/';
-    var PROGRESS_URL = 'https://37th-chamber.com/six-degrees/progress/';
-    // LEDGERS — one line per REAL chain (mesa rule: a ledger is born when a hand
-    // actually moves; never pre-stocked). A chain's public ledger = its GitHub issue.
-    // v2 reset: born empty. Season-1's sole ledger (Maron, #15) was the house's own hand.
-    var LEDGERS = {};
-    // Current selection (set by openFor) — slug is stable, name is display-only.
-    var currentSlug = '';
-    // Analytics: tag the URL that travels in shares so inbound chain clicks surface
-    // in GoatCounter Campaigns — ?ref=chain-<slug>. data-slug wins; name-derivation is
-    // the fallback for cards without one. NEVER change a slug once a chain exists.
+    var STORAGE_KEY = '37chain.v2'; // which giants this visitor has opened a chain for (local only)
+    var REPO = 'Bobby-Dig8al/37th-chamber-site';
+    // The relay lives on GitHub Issues now — the open public record, no social middle-man
+    // (operator call, Day-53). One issue = one chain toward a giant; each comment is a hand.
     function chainSlug(name) {
       return String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     }
-    function chainUrl() {
-      return SITE_URL + '?ref=chain' + (currentSlug ? '-' + currentSlug : '');
+    function ghUrl(name) {
+      // The six-degrees Issue Form: auto-applies the "six-degrees" label server-side for any
+      // signed-in visitor, with the giant pre-filled in the title (?title= is permission-free).
+      return 'https://github.com/' + REPO + '/issues/new?template=six-degrees-chain.yml&title='
+        + encodeURIComponent('Reach: ' + name);
     }
-    function template(giant) {
-      var ledger = LEDGERS[currentSlug] || PROGRESS_URL;
-      return "I'm starting a chain to reach " + giant + " for The 37th Chamber — knowledge given away free, forever. If you actually know someone closer to " + giant + ", tag the next real hand. One gracious link at a time.\n\nFollow this chain in the open: " + ledger + "\n" + chainUrl();
-    }
-
-    var cs = document.getElementById('chainstarter');
-    if (!cs) return;
-    var teamSpan = cs.querySelector('.cs-team strong');
-    var textArea = cs.querySelector('.cs-text');
-    var shareX = cs.querySelector('[data-platform="x"]');
-    var shareLi = cs.querySelector('[data-platform="linkedin"]');
-    var copyBtn = cs.querySelector('.cs-copy');
-    var closeBtn = cs.querySelector('.cs-close');
 
     function readStarted() {
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
@@ -878,59 +846,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
         list.push(name);
         writeStarted(list);
         renderCounter();
-        // re-apply the "Chain started" mark to that card if visible
         decorateCards();
       }
     }
-
-    function refreshShareUrls() {
-      var text = textArea.value;
-      shareX.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
-      shareLi.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(chainUrl()) + '&summary=' + encodeURIComponent(text);
-    }
-
-    function openFor(name, slug) {
-      currentSlug = slug || chainSlug(name);
-      teamSpan.textContent = name;
-      textArea.value = template(name);
-      refreshShareUrls();
-      cs.hidden = false;
-      try { cs.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-      catch (e) { cs.scrollIntoView(); }
-      // focus the textarea so editing is one keystroke away (after the scroll)
-      setTimeout(function () { try { textArea.focus(); } catch (e) {} }, 320);
-    }
-
-    textArea.addEventListener('input', refreshShareUrls);
-
-    closeBtn.addEventListener('click', function () { cs.hidden = true; });
-
-    copyBtn.addEventListener('click', function () {
-      var ok = false;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(textArea.value).then(function () { signalCopied(); }, function () { execFallback(); });
-        ok = true;
-      } else {
-        execFallback();
-        ok = true;
-      }
-      if (ok) markStarted(teamSpan.textContent);
-    });
-    function execFallback() {
-      try { textArea.select(); document.execCommand('copy'); signalCopied(); }
-      catch (e) { copyBtn.textContent = 'Select & copy'; }
-    }
-    function signalCopied() {
-      copyBtn.textContent = 'Copied ✓';
-      copyBtn.classList.add('is-copied');
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy to clipboard';
-        copyBtn.classList.remove('is-copied');
-      }, 1700);
-    }
-
-    shareX.addEventListener('click', function () { markStarted(teamSpan.textContent); });
-    shareLi.addEventListener('click', function () { markStarted(teamSpan.textContent); });
 
     // Inject a button into every team card + decorate previously-started cards
     function decorateCards() {
@@ -948,9 +866,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
           var btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'team-chain-btn';
-          btn.textContent = 'Start your chain →';
-          btn.setAttribute('aria-label', 'Start a chain for ' + name);
-          btn.addEventListener('click', function () { openFor(name, slug); });
+          btn.textContent = 'Start a chain on GitHub →';
+          btn.setAttribute('aria-label', 'Start a chain for ' + name + ' on GitHub (opens in new tab)');
+          btn.addEventListener('click', function () { markStarted(name); window.open(ghUrl(name), '_blank', 'noopener'); });
           card.appendChild(btn);
         }
         // started mark (idempotent — remove + re-add if status changes)
