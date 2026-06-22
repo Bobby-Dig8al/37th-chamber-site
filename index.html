@@ -288,11 +288,9 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p class="freedom-line" id="jewel-line" style="text-align:center;margin:2.8rem auto 3.2rem;font-size:clamp(.98rem,3vw,1.2rem);letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:#fff;text-shadow:0 0 5px rgba(14,68,255,1),0 0 12px rgba(14,68,255,.75),0 0 24px rgba(14,68,255,.45)"><span id="jewel-num" style="color:var(--gold-soft);text-shadow:none;font-weight:600">4 &middot; </span><span id="jewel-word">freedom</span></p>
       <script>(function(){try{
         var J=["knowledge","wisdom","understanding","freedom","justice","equality","food","clothing","shelter","love","peace","happiness"];
-        /* ONE-NIGHT OVERRIDE — the jewel turns with the rollover, so it advances at 20:45 tonight too. Inside the
-           window 06-20 20:45 → 06-21 04:00 CDT we count days as of Sunday noon; otherwise real now. Self-reverts. */
-        var _n=Date.now(), _w=(_n>=Date.parse("2026-06-20T20:45:00-05:00") && _n<Date.parse("2026-06-21T04:00:00-05:00"));
+        /* The door wears one jewel per day, advancing at the 04:00 rollover. Anchored 2026-06-10 = freedom (#4). */
         var a=Date.parse("2026-06-10T04:00:00-05:00");
-        var d=Math.floor(((_w?Date.parse("2026-06-21T12:00:00-05:00"):Date.now())-a)/864e5);
+        var d=Math.floor((Date.now()-a)/864e5);
         var i=((3+d)%12+12)%12;
         document.getElementById("jewel-num").textContent=(i+1)+" · ";
         document.getElementById("jewel-word").textContent=J[i];
@@ -307,7 +305,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <p style="text-align:center;margin:.55rem auto 2.8rem;max-width:38rem;font-size:.7rem;letter-spacing:.09em;line-height:1.75;color:var(--gold)">&ldquo;the first thing a man must obtain is 12 jewelz.&rdquo; <span style="display:block;margin-top:.4rem;color:var(--dim);letter-spacing:.05em">&mdash;&nbsp;Gravediggaz &middot; &ldquo;12 Jewelz&rdquo;</span></p>
     </header>
 
-    <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
+    <!-- NOW PLAYING — the live widget. Lives OUTSIDE #the-daily so daily-v2.js (which overwrites #the-daily's innerHTML) can never clobber it — same rule as the note above. Empty data-worker-url = graceful idle until the Spotify Worker URL is pasted in; then it shows the live track. -->
     <div id="now-playing" data-worker-url="" data-lastfm-user="bobby-dig8al" data-lastfm-key="05b056db104bb8e59c2fa0cceebcb558"></div>
     <!-- HEARTH TAGLINE — "the view is not ours alone." Moved 2026-06-19 from above-the-masthead to directly-under-the-hearth.
          The hearth is the now-playing widget; the tagline sits under it as the chamber's voice over the music.
@@ -540,7 +538,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       <span class="sr-only"> (opens in new tab)</span></a>
     </div>
 
-    <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
+    <!-- THE NOTE — the daily note. Lives OUTSIDE #the-daily so daily-v2.js (which overwrites #the-daily's innerHTML) can never clobber it. Edit this freely each day. -->
     <div class="marc-note" style="max-width:32rem;margin:2.2rem auto 2.4rem;text-align:center;line-height:1.75;font-size:clamp(1.02rem,2.9vw,1.2rem)">
       <p style="margin:0;color:var(--dim)">marc.</p>
       <p style="margin:0;color:var(--dim)">hey, marc.</p>
@@ -596,7 +594,7 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
     </nav>
     <span class="foot-loc">© 2026 · <span translate="no">The 37th Chamber</span> · The Woodlands, TX</span>
   </footer>
-  <script src="/daily-v2.js?v=9" defer></script>
+  <script src="/daily-v2.js?v=10" defer></script>
   <script type="module" src="/nowplaying.js"></script>
 <script>(function(){try{var s=Date.parse("2026-05-01T00:00:00-05:00");var d=Math.floor((Date.now()-s)/864e5)+1;var el=document.getElementById("day-count");if(el&&d>0)el.textContent=d;}catch(e){}})();</script>
 <script src="/assets/mast-eye.js?v=2" defer></script>
