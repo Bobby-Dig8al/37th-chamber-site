@@ -49,6 +49,7 @@
   .chain.reached{border-left:3px solid var(--gold)}
   .chain.forming{border-left:3px solid rgba(143,138,115,.5)}
   .chain.retired{border-left:3px solid rgba(143,138,115,.3);opacity:.6}
+  .archive-sep{margin:1.8rem 0 .3rem;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);border-top:1px solid rgba(143,138,115,.18);padding-top:1.1rem}
   .cstat{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
   .chain.reached .cstat{color:var(--gold)}
   .ctitle{display:block;font-size:1.08rem;margin:.25rem 0;color:var(--text);overflow-wrap:break-word}
@@ -118,7 +119,7 @@
   <div class="how">
     <p>It runs on <b>GitHub Issues</b> — out in the open, no private database, nothing to trust but the public record. <b>One issue = one chain</b> toward a giant. Each comment is a hand added to the relay (admin housekeeping comments are not counted); an <b>open</b> chain is still <em>forming</em>, one closed as completed has <em>reached</em>, and one closed as not-planned is <em>retired</em> — archived honestly, never counted as a win. Anyone with a GitHub account can start a chain or add a link to one. Watching needs nothing at all.</p>
     <div class="cta-row">
-      <a class="cta go" href="https://github.com/Bobby-Dig8al/37th-chamber-site/issues/new?labels=six-degrees&amp;title=Reach%3A%20" target="_blank" rel="noopener noreferrer">Start a chain &rarr;<span class="sr-only"> (opens in new tab)</span></a>
+      <a class="cta go" href="https://github.com/Bobby-Dig8al/37th-chamber-site/issues/new?template=six-degrees-chain.yml" target="_blank" rel="noopener noreferrer">Start a chain &rarr;<span class="sr-only"> (opens in new tab)</span></a>
       <a class="cta ghost" href="/six-degrees/">See the giants</a>
     </div>
   </div>
@@ -136,8 +137,13 @@
     function safeUrl(u){var s=String(u==null?'':u);return s.startsWith('https://')?s:'#';}
     function clean(t){return esc(String(t||'').replace(/^\s*reach\s*:\s*/i,''));}
     function empty(){
-      return '<div class="state">No chains started yet &mdash; <strong style="color:var(--gold)">be the first</strong>.'
-        +' Open an issue to begin a chain toward a giant, and it shows up here, live.</div>';
+      return '<div class="state">No chains started yet &mdash; '
+        +'<a href="https://github.com/'+REPO+'/issues/new?template=six-degrees-chain.yml" target="_blank" rel="noopener noreferrer"><strong style="color:var(--gold)">be the first</strong><span class="sr-only"> (opens in new tab)</span></a>. '
+        +'Open a chain toward a giant and it shows up here, live.</div>';
+    }
+    function restartBanner(){
+      return '<div class="state">No chain is forming right now &mdash; the road to the new wall is open. '
+        +'<a href="https://github.com/'+REPO+'/issues/new?template=six-degrees-chain.yml" target="_blank" rel="noopener noreferrer"><strong style="color:var(--gold)">Be the first to start one</strong><span class="sr-only"> (opens in new tab)</span> &rarr;</a></div>';
     }
     function err(){
       return '<div class="state">Couldn\'t reach the live tracker just now &mdash; GitHub limits anonymous'
@@ -162,7 +168,17 @@
       .then(function(r){if(!r.ok)throw r.status;return r.json();})
       .then(function(list){
         var chains=list.filter(function(i){return !i.pull_request;});
-        box.innerHTML=chains.length?chains.map(card).join(''):empty();
+        if(!chains.length){box.innerHTML=empty();return;}
+        function kind(i){var ret=i.state==='closed'&&i.state_reason==='not_planned';return i.state==='open'?'forming':(ret?'retired':'reached');}
+        var forming=chains.filter(function(i){return kind(i)==='forming';});
+        var reached=chains.filter(function(i){return kind(i)==='reached';});
+        var retired=chains.filter(function(i){return kind(i)==='retired';});
+        // Lead with living chains; if none are forming, lead with the invitation so the page never reads as a dead end.
+        var html=forming.length?forming.map(card).join(''):restartBanner();
+        if(reached.length){html+=reached.map(card).join('');}
+        // Retired chains stay visible as an honest archive — demoted below, never the headline, never a false win.
+        if(retired.length){html+='<div class="archive-sep">Retired &mdash; honest archive (a reset, never a loss)</div>'+retired.map(card).join('');}
+        box.innerHTML=html;
       })
       .catch(function(){box.innerHTML=err();});
   })();
