@@ -11,7 +11,7 @@
    The day rolls at ROLLOVER_HOUR (04:00) local.
    Bump the ?v= on <script src="/daily-v2.js?v=N"> on each edit. */
 
-const DAILY_START   = "2026-06-08";   // DAILY[0] is this date — Daily 001 · Interstellar
+const DAILY_START   = "2026-06-15";   // anchor for idx 0. The Daily PAUSED the week of 06-15 (no issues dated), so this anchor lands idx 7 = Dune on 2026-06-22; Interstellar (idx 0-6, dated 06-08..06-14) stays reachable via the ?date= archive. (A date-match selection would remove this calendar offset — see PR.)
 const ROLLOVER_HOUR = 4;              // day flips at 04:00 local
 const NOW_EFFECTIVE = Date.now();   // real time; the day rolls at ROLLOVER_HOUR (04:00) local
 
@@ -104,18 +104,18 @@ real result, published free, given away.`,
     }
   },
   {
-    weekStart:  "TBD",
+    weekStart:  "2026-06-22",
     weekNum:    2,
     theme:      "Dune",
-    synthesis:  `Frank Herbert spent five years on the ecology, the religion, the language, and \
-the politics before he wrote the plot. A 1957 trip to watch the US government attempt to stabilize \
+    synthesis:  `Frank Herbert spent years on the ecology, the religion, the language, and \
+the politics, building them as he wrote. A 1957 trip to watch the US government attempt to stabilize \
 Oregon's coastal sands with poverty grass handed him the engine: an ecosystem that fights back. \
 Twenty-three publishers said no; Chilton Books — better known for auto-repair manuals — said yes \
 in 1965. This week moved through Hans Zimmer's invented instruments and borrowed desert silence, \
 the thermodynamics of a stillsuit, the closed biological loop of sandworm and spice, Herbert's own \
 stated warning that charismatic leaders should carry a label on their foreheads, and the Arabic and \
-Islamic scholarship that gave the Fremen their bones. It ended where Herbert always meant it to end: \
-not with a hero's triumph, but with a sentence. "No more terrible disaster could befall your people \
+Islamic scholarship that gave the Fremen their bones. It comes back to the warning Herbert built the \
+whole book to deliver — not a hero's triumph but the planetologist Kynes's line: "No more terrible disaster could befall your people \
 than for them to fall into the hands of a Hero."`,
     thread:     `The world-building was the argument — Herbert built Arrakis so that the ecology \
 would force the politics, and the politics would prove the warning.`
@@ -288,18 +288,18 @@ is the quiet foundation under everything the week built.`,
   },
   /* ── WEEK 2: DUNE ────────────────────────────────────────────────────── */
   {
-    num: "008", theme: "Dune", date: "TBD",
+    num: "008", theme: "Dune", date: "2026-06-22",
     // Monday → MAP render. spotlight/deepWhy are irrelevant on Mondays.
     intro: "A new week, a new masterwork — <em>Dune.</em> Frank Herbert spent five years researching it after a 1957 trip over the shifting sands of the Oregon coast convinced him that an ecosystem could be the protagonist of a story. Twenty-three publishers rejected the manuscript before Chilton Books — better known for auto-repair manuals — said yes in 1965.",
-    music:   { name:"Hans Zimmer",         work:"Dune (OST, 2021)",              why:"He spent months in Monument Valley to feel what Arrakis would sound like — then invented new instruments to say it.", link:"https://variety.com/2021/artisans/awards/hans-zimmer-dune-score-1235094486/" },
-    film:    { name:"Denis Villeneuve",    work:"Dune: Part One (2021)",         why:"Before a single set was built, he and production designer Patrice Vermette flew over Jordan's Wadi Rum to build a visual bible — no greenscreen, no sci-fi chrome.", link:"https://en.wikipedia.org/wiki/Dune_(2021_film)" },
+    music:   { name:"Hans Zimmer",         work:"Dune (OST, 2021)",              why:"He went into Monument Valley to feel what Arrakis would sound like — then spent months inventing new instruments to say it.", link:"https://variety.com/2021/artisans/awards/hans-zimmer-dune-score-1235094486/" },
+    film:    { name:"Denis Villeneuve",    work:"Dune: Part One (2021)",         why:"Before a single set was built, he and production designer Patrice Vermette flew over Jordan's Wadi Rum to build a visual bible — practical deserts over greenscreen, no sci-fi chrome.", link:"https://en.wikipedia.org/wiki/Dune_(2021_film)" },
     science: { name:"Frank Herbert",       work:"the Oregon Dunes, 1957",        why:"A US government attempt to stabilize shifting coastal sands with poverty grass sparked five years of ecological research — and Arrakis.", link:"https://www.opb.org/article/2021/10/23/florence-oregon-movies-dune-frank-herbert-science-fiction-novels/" },
     book:    { name:"Frank Herbert",       work:"Dune (1965)",                   why:"Rejected by 23 publishers. Won the inaugural Nebula and tied for the Hugo. The first science-fiction novel built around an ecosystem.", link:"https://en.wikipedia.org/wiki/Dune_(novel)" },
     artist:  { name:"H. R. Giger",        work:"Jodorowsky's Dune (unbuilt)",   why:"Before Alien, Giger was designing for a 14-hour Dune film that never got made — and his visual DNA seeded a generation of sci-fi cinema.", link:"https://en.wikipedia.org/wiki/Jodorowsky%27s_Dune" },
-    show:    { name:"Jodorowsky's Dune",  work:"documentary (2013)",            why:"The greatest film never made: a 2013 doc about how an unmade adaptation influenced Star Wars, Alien, and The Terminator.", link:"https://en.wikipedia.org/wiki/Jodorowsky%27s_Dune" }
+    show:    { name:"Jodorowsky's Dune",  work:"documentary (2013)",            why:"The greatest film never made: a 2013 doc about how an unmade adaptation influenced Star Wars, Alien, and the look of modern sci-fi cinema.", link:"https://en.wikipedia.org/wiki/Jodorowsky%27s_Dune" }
   },
   {
-    num: "009", theme: "Dune", date: "TBD",
+    num: "009", theme: "Dune", date: "2026-06-23",
     // Tuesday → DEEP DIVE. Spotlight: music (Zimmer's invented instruments + Monument Valley).
     spotlight: "music",
     deepWhy: `Hans Zimmer turned down Tenet to make Dune — Christopher Nolan's reaction was, \
@@ -319,28 +319,28 @@ COVID lockdown; the sound meant to echo off desert mountains was captured in coa
     show:    { label:"The Armenian Duduk",     name:"the duduk",                work:"a real instrument",               why:"Among the real-world instruments woven into the score, the Armenian duduk surfaces — its reed sound predating Western orchestras by millennia, making the future sound ancient.", link:"https://en.wikipedia.org/wiki/Duduk" }
   },
   {
-    num: "010", theme: "Dune", date: "TBD",
+    num: "010", theme: "Dune", date: "2026-06-24",
     // Wednesday → DEEP DIVE. Spotlight: science (Herbert's desert ecology — stillsuit engineering).
     spotlight: "science",
     deepWhy: `Arrakis was not invented at a desk. Herbert built its ecology from real desert \
 science: aeolian physics, sand-dune stabilization research, and the thermodynamics of water \
-conservation. The stillsuit is a genuine engineering problem — with surface temperatures near \
-350 K, water loss by evaporation is catastrophic, and Herbert worked out the numbers: capture \
+conservation. The stillsuit is a genuine engineering problem — with peak sand-surface temperatures near \
+350 K (~77°C), water loss by evaporation is catastrophic, and Herbert worked out the numbers: capture \
 every drop of sweat and breath through heat-exchange filtration. Barchan dunes — crescent-shaped, \
 formed by unidirectional wind — can migrate more than 100 metres a year; Arrakis's great ergs \
-follow the same physics. Herbert published Dune six years before the first Earth Day, treating \
+follow the same physics. Herbert published Dune five years before the first Earth Day, treating \
 a planet's ecology as the load-bearing structure of civilization. The planet is not the setting. \
 It is the argument.`,
     intro: "Dune week, Wednesday — <em>the planet.</em> Arrakis was not invented at a desk. Herbert built its ecology from real desert science: aeolian physics, sand-dune stabilization research, and the thermodynamics of water conservation. The planet is the argument.",
     music:   { label:"The Moving Sands",       name:"barchan dunes",            work:"aeolian science",                 why:"Crescent-shaped barchan dunes — formed by wind blowing from one direction — can migrate more than 100 metres a year. Arrakis's great ergs follow the same physics.", link:"https://en.wikipedia.org/wiki/Dune" },
     film:    { label:"Wadi Rum as Arrakis",    name:"Denis Villeneuve",         work:"Jordan location shoot",           why:"He and Vermette flew over Wadi Rum in 2018; the deep ochres and scale of Jordan's valley became the template — practical plates that VFX extended, not replaced.", link:"https://www.moviemaker.com/dune-production-designer-patrice-vermette-denis-villeneuve/" },
-    science: { label:"The Stillsuit",          name:"Herbert's water engineering", work:"evaporation thermodynamics",  why:"With Arrakis surface temperatures reaching ~350 K, water loss by evaporation is catastrophic. The stillsuit is a real engineering problem: capture every drop of sweat and breath through heat-exchange filtration. Herbert knew the numbers.", link:"https://www.cornellsun.com/article/2024/04/the-science-behind-arrakis-understanding-the-climate-and-ecosystem-of-dune" },
-    book:    { label:"The First Eco-Novel",    name:"Frank Herbert",            work:"Dune (1965)",                    why:"Published six years before the first Earth Day, Dune treated a planet's ecology as the load-bearing structure of civilization — the first major SF novel to do so.", link:"https://daily.jstor.org/the-ecological-prescience-of-dune/" },
+    science: { label:"The Stillsuit",          name:"Herbert's water engineering", work:"evaporation thermodynamics",  why:"With Arrakis peak sand-surface temperatures reaching ~350 K (~77°C), water loss by evaporation is catastrophic. The stillsuit is a real engineering problem: capture every drop of sweat and breath through heat-exchange filtration. Herbert knew the numbers.", link:"https://www.cornellsun.com/article/2024/04/the-science-behind-arrakis-understanding-the-climate-and-ecosystem-of-dune" },
+    book:    { label:"The First Eco-Novel",    name:"Frank Herbert",            work:"Dune (1965)",                    why:"Published five years before the first Earth Day, Dune treated a planet's ecology as the load-bearing structure of civilization — the first major SF novel to do so.", link:"https://daily.jstor.org/the-ecological-prescience-of-dune/" },
     artist:  { label:"The Stabilizers",        name:"US Soil Conservation Service", work:"Oregon Dunes, 1950s",       why:"Government researchers planting European beach grass to anchor shifting coastal dunes handed Herbert his central metaphor: humans engineering a landscape that fights back.", link:"https://www.opb.org/article/2021/10/23/florence-oregon-movies-dune-frank-herbert-science-fiction-novels/" },
     show:    { label:"Terraforming as Science", name:"NASA study, 1976",        work:"On the Habitability of Mars",    why:"The year Herbert published Children of Dune, NASA formally studied planetary ecosynthesis — the same problem Kynes and Leto II grapple with. Frontier science then, frontier science now. (Note: Mars terraforming remains theoretical.)", link:"https://en.wikipedia.org/wiki/Terraforming" }
   },
   {
-    num: "011", theme: "Dune", date: "TBD",
+    num: "011", theme: "Dune", date: "2026-06-25",
     // Thursday → DEEP DIVE. Spotlight: science (the sandworm lifecycle — closed ecological loop).
     spotlight: "science",
     deepWhy: `Shai-Hulud is not a monster. It is a closed ecological loop: sandtrout surround \
@@ -356,12 +356,12 @@ logic to give Shai-Hulud its mythic weight.`,
     music:   { label:"The Sound of the Worm",  name:"Hans Zimmer",              work:"\"Ripple in the Sand\" (OST)",   why:"Low-frequency drones built from new synthesizer modules — you feel the worm before you see it. Physics as score: infrasound that moves through bodies the way a sandworm moves through dune.", link:"https://en.wikipedia.org/wiki/Music_of_Dune_(2021_film)" },
     film:    { label:"The Ring Segments",      name:"Patrice Vermette / VFX",   work:"sandworm design",               why:"The worm's body is arranged in ring segments — a nod to annelid biology — but its forward motion uses rectilinear locomotion closer to a legless lizard hunting by sand vibration.", link:"https://www.uc.edu/news/articles/2024/03/uc-biologist-sheds-light-on-biology-of-dunes-sandworms.html" },
     science: { label:"The Lifecycle",         name:"Frank Herbert",             work:"sandtrout → sandworm ecology", why:"Sandtrout surround underground water, keeping the desert arid. They metamorphose into sandworms that produce spice as a metabolic byproduct. A fictional closed loop that mirrors real nutrient cycles — mole crickets and cyanobacteria have been offered as a loose real-world analog.", link:"https://zenodo.org/records/10521778" },
-    book:    { label:"The Oil Read",           name:"critics vs. Herbert",      work:"melange as resource metaphor", why:"Many readers see spice-as-oil — a scarce colonial resource extracted from a desert people. Herbert stated in Dune Genesis (1980) that water scarcity was his primary analog; the oil reading was layered on by history. Both sit in the text.", link:"https://daily.jstor.org/the-ecological-prescience-of-dune/" },
-    artist:  { label:"The Dragon Lineage",    name:"Frank Herbert / Beowulf",   work:"the fire-drake archetype",     why:"Herbert drew on European dragon mythology — armored, territorial, hoarding the planet's treasure — to give Shai-Hulud its mythic weight beneath the ecological logic.", link:"https://en.wikipedia.org/wiki/Sandworm_(Dune)" },
+    book:    { label:"The Oil Read",           name:"critics vs. Herbert",      work:"melange as resource metaphor", why:"Many readers see spice-as-oil — a scarce colonial resource extracted from a desert people. Herbert made the parallel explicit in Dune Genesis (1980): \"The scarce water of Dune is an exact analog of oil scarcity. CHOAM is OPEC.\" He built it in deliberately, from the start.", link:"https://daily.jstor.org/the-ecological-prescience-of-dune/" },
+    artist:  { label:"The Dragon Lineage",    name:"Frank Herbert / Beowulf",   work:"the fire-drake archetype",     why:"European dragon mythology — armored, territorial, hoarding the planet's treasure — echoes beneath Shai-Hulud's ecological logic, giving the worm its mythic weight. (A reading critics draw; Herbert never spelled it out.)", link:"https://en.wikipedia.org/wiki/Sandworm_(Dune)" },
     show:    { label:"Riding the Worm",        name:"the Fremen technique",     work:"thumper and maker hooks",      why:"Hooking a ring segment open to expose flesh to abrasive sand, then surfing the turn: a fictional survival technique built on actual knowledge of how large animals respond to irritant pressure.", link:"https://dune.fandom.com/wiki/Sandworm" }
   },
   {
-    num: "012", theme: "Dune", date: "TBD",
+    num: "012", theme: "Dune", date: "2026-06-26",
     // Friday → DEEP DIVE. Spotlight: book (Herbert's stated warning — Paul as cautionary tale).
     spotlight: "book",
     deepWhy: `Herbert didn't write Paul Atreides as a hero. He wrote him as a cautionary tale — \
@@ -382,7 +382,7 @@ thesis.`,
     show:    { label:"Cannot Transcend Transcendence", name:"Norman Spinrad",   work:"critical reading of Paul",      why:"Spinrad's formulation: Paul is trapped in his own myth and \"cannot achieve the grace of the Bodhisattva.\" He wants to stop the jihad. He cannot. That is the tragedy — not the loss.", link:"https://xenoswarm.wordpress.com/2015/12/22/dune-messiah-as-anti-hero/" }
   },
   {
-    num: "013", theme: "Dune", date: "TBD",
+    num: "013", theme: "Dune", date: "2026-06-27",
     // Saturday → DEEP DIVE. Spotlight: science (Arabic/Islamic sources — Muad'Dib etymology).
     spotlight: "science",
     deepWhy: `Herbert spent years reading the Qur'an, Arab history, and Ibn Khaldun before he \
@@ -392,22 +392,22 @@ call "instructor-of-boys." The ZenSunni faith is a reasoned projection: what mig
 and Sunni Islam produce after ten thousand years of diaspora? David Peterson (who built Dothraki \
 and High Valyrian for Game of Thrones) rendered the Fremen's Chakobsa as a fully-fledged \
 constructed language rooted in Herbert's Arabic-influenced vocabulary. Greig Fraser won the 2022 \
-Oscar for Best Cinematography on Part One and shot Part Two entirely in IMAX — giving the \
+Oscar for Best Cinematography on Part One and shot Part Two entirely for IMAX, on IMAX-certified digital cameras — giving the \
 scholarship a visual scale to match.`,
     intro: "Dune week, Saturday — <em>the foundations.</em> Herbert spent years reading the Qur'an and studying Arab history. The Fremen are not a single culture pasted on a desert — they are a structural synthesis of Bedouin, Sufi, and Zendiq traditions, built into the novel's bones.",
     music:   { label:"The Fremen Tongue",     name:"David Peterson",            work:"Chakobsa language (2021 film)", why:"The linguist who built Dothraki and High Valyrian for Game of Thrones rendered the Fremen's Chakobsa as a fully-fledged constructed language rooted in Herbert's Arabic-influenced vocabulary.", link:"https://winteriscoming.net/posts/the-guy-who-made-dothraki-for-game-of-thrones-crafted-the-fremen-language-for-dune-01hqrjezfkxf" },
-    film:    { label:"The Photograph Never Taken", name:"Greig Fraser ASC ACS", work:"Dune: Part One (2021)",        why:"Fraser won the 2022 Oscar for Best Cinematography on Part One; Part Two was shot entirely in IMAX, adopting large-format spherical lensing throughout.", link:"https://britishcinematographer.co.uk/greig-fraser-asc-acs-dune-part-two/" },
+    film:    { label:"The Photograph Never Taken", name:"Greig Fraser ASC ACS", work:"Dune: Part One (2021)",        why:"Fraser won the 2022 Oscar for Best Cinematography on Part One; Part Two was shot entirely FOR IMAX (1.43:1) on IMAX-certified ARRI ALEXA 65 digital cameras — large-format and spherical, not IMAX film.", link:"https://britishcinematographer.co.uk/greig-fraser-asc-acs-dune-part-two/" },
     science: { label:"Muad'Dib, the Teacher", name:"Arabic etymology",          work:"the name Herbert chose",       why:"Paul's Fremen name is nearly identical to the Arabic mu'addib — 'educator,' 'he who teaches good manners.' Herbert, who studied Arabic and Islamic philosophy, chose it deliberately.", link:"https://baheyeldin.com/literature/arabic-and-islamic-themes-in-frank-herberts-dune.html" },
     book:    { label:"The ZenSunni Faith",    name:"Frank Herbert",             work:"the Fremen religion",          why:"Herbert built the Fremen's ZenSunni faith as a synthesis of Zen Buddhism and Sunni Islam — not caricature, but a reasoned projection of what a people carrying those traditions across ten thousand years of diaspora might practice.", link:"https://en.wikipedia.org/wiki/Dune_(novel)" },
-    artist:  { label:"Lawrence of Arabia",    name:"David Lean (1962)",          work:"cinematic source",            why:"Herbert cited the 1962 film as an influence — a Western outsider among desert people, adopted, mythologized, and ultimately an engine of violence he could not fully control. Paul's arc rhymes.", link:"https://en.wikipedia.org/wiki/Lawrence_of_Arabia_(film)" },
+    artist:  { label:"Lawrence of Arabia",    name:"David Lean (1962)",          work:"cinematic source",            why:"David Lean's 1962 film has been widely identified as a likely influence — a Western outsider among desert people, adopted, mythologized, and ultimately an engine of violence he could not fully control. (Herbert cited T. E. Lawrence the man; critics drew the film parallel.) Paul's arc rhymes.", link:"https://en.wikipedia.org/wiki/Lawrence_of_Arabia_(film)" },
     show:    { label:"The Jihad as Anti-Gift", name:"Herbert on colonialism",    work:"the Fremen's stolen narrative", why:"The Fremen are the people with ancient knowledge of their planet. The outsider arrives, is adopted, becomes their messiah, and leads them into a war that serves his purposes. Herbert wanted you to notice that structure — and to be uncomfortable.", link:"https://www.slashfilm.com/638538/the-oil-must-flow-how-does-denis-villeneuves-dune-deal-with-the-books-middle-east-inspirations/" }
   },
   {
-    num: "014", theme: "Dune", date: "TBD",
+    num: "014", theme: "Dune", date: "2026-06-28",
     // Sunday → DISPATCH render (reads WEEK_ARCS for the Dune weekStart).
     // The per-day fields are still used for chapter rows inside the dispatch.
     spotlight: "book",   // used in the chapter row compact display
-    intro: "Dune week, Sunday — <em>the synthesis.</em> A week built around one question: how do you build a world with real weight? Herbert's answer: spend five years on the ecology, the religion, the language, and the politics before you write the plot. Let the system generate the story.",
+    intro: "Dune week, Sunday — <em>the synthesis.</em> A week built around one question: how do you build a world with real weight? Herbert's answer: spend years on the ecology, the religion, the language, and the politics, and let the system generate the story.",
     music:   { label:"The Score as System", name:"Hans Zimmer",                 work:"the whole OST as an ecology",   why:"Like the novel, the score is designed as a closed system — vocal languages, invented instruments, real desert acoustics. Remove one element and the whole thing shifts. Same principle Herbert used on Arrakis.", link:"https://en.wikipedia.org/wiki/Music_of_Dune_(2021_film)" },
     film:    { label:"The Adaptation Problem", name:"Denis Villeneuve",          work:"Part One + Part Two, together",  why:"It took two films — five hours — to carry the first novel. That is the measure of how much Herbert actually built. Villeneuve earned the assignment by treating the book as an architecture problem, not a plot problem.", link:"https://en.wikipedia.org/wiki/Dune:_Part_Two" },
     science: { label:"Ecology as Ethics",    name:"Frank Herbert",               work:"Dune as ecocritical text",      why:"Published before the environmental movement had a name, Dune argued that you cannot separate politics, religion, and ecology — that resource control is always also moral control. The ecology is the ethics.", link:"https://daily.jstor.org/the-ecological-prescience-of-dune/" },
