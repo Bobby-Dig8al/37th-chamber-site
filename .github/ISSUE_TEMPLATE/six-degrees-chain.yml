@@ -1,0 +1,29 @@
+name: Start a Six-Degrees chain
+description: Open a public chain toward one of the giants on the wall — one issue = one chain.
+title: "Reach: "
+labels:
+  - six-degrees
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **One issue = one chain** toward a giant — out in the open, no private database, nothing to trust but the public record.
+
+        Every comment here is a **hand** added to the relay. Anyone with a GitHub account can add a link. Be gracious — one warm hand at a time. The moment you open this, it shows up live on the [State of the Chains](https://37th-chamber.com/six-degrees/progress/) tracker.
+  - type: input
+    id: giant
+    attributes:
+      label: The giant at the end of the chain
+      description: Who are you reaching for? Add their name to the title above, right after "Reach:".
+      placeholder: e.g. Marc Maron
+    validations:
+      required: true
+  - type: textarea
+    id: first-hand
+    attributes:
+      label: Your first hand
+      description: How does the chain begin? Name the closest person you actually know who is one real step nearer — and how you know them.
+      placeholder: |
+        I'm on Team [Giant]. The closest person I actually know is ___, because ___.
+    validations:
+      required: true
