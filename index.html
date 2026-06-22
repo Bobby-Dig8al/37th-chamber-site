@@ -254,21 +254,22 @@ footer{margin-top:4.5rem;width:100%;max-width:980px;position:relative;z-index:1;
       </div>
       <!-- O'HENE SAVANT CREDIT — the eye's lineage. He uses 👁️ on his socials; ours is inspired by his (we made it blue). -->
       <p class="ohene-credit" style="text-align:center;margin:-.3rem auto 1.4rem;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)">we see you, O&rsquo;hene.</p>
-      <!-- THE DEDICATION — sits beneath the O'Hene credit, revealed only on Sunday (her day), at the
-           04:00 rollover matched to the Daily. Salinger-masked: initials only, no name, no date, the woods
-           only. Recurs every Sunday alongside the summit kaleidoscope. Preview any day with ?day=0..6. -->
+      <!-- THE DEDICATION — sits beneath the O'Hene credit. Normally revealed only on Sunday (her day), at the
+           04:00 rollover matched to the Daily, recurring every Sunday alongside the summit kaleidoscope.
+           HELD OPEN 2026-06-22 (operator: "i was not ready for it to come down — up at least until next sunday"):
+           shown EVERY day now through Sunday 2026-06-28, closing at the Mon 2026-06-29 04:00 CDT rollover, after
+           which it self-reverts to the Sunday-only cadence. Preview the normal behavior with ?day=0..6. -->
       <p class="ajs-dedication" hidden style="text-align:center;margin:-.5rem auto 1.6rem;max-width:34rem;font-size:.7rem;letter-spacing:.15em;line-height:1.95;text-transform:uppercase;color:var(--dim)"><span style="display:block">For AJS &mdash; she gave me the fire. None of this is without her. A white ibis in the woods now.</span><span style="display:block;margin-top:1.15rem">And for Maria &amp; Annie Farmer &mdash; the sisters who spoke first and stood the longest, who would not let the truth be buried, whatever it cost them.</span><span style="display:block;margin-top:1.15rem;color:var(--gold-soft)">Three of the most beautiful and strong women the world will ever know.</span></p>
       <script>(function(){try{
         var el=document.querySelector('.ajs-dedication'); if(!el) return;
         var p=new URLSearchParams(location.search), dq=p.get('day'), isSun;
         if(dq!==null && /^[0-6]$/.test(dq)){ isSun=(+dq===0); }
         else {
-          /* ONE-NIGHT OVERRIDE — her day opens at 20:45 tonight (Sat 06-20), not the usual 04:00 Sunday. Inside the
-             window 06-20 20:45 → 06-21 04:00 CDT we resolve the moment AS Sunday so the dedication, the eye, the Daily
-             and the jewel all turn together at 20:45; once real 04:00 Sunday arrives the normal 4h offset carries the
-             rest of her day. Self-reverts (no Monday action); every other day — and every mocked test clock — stays 04:00. */
-          var _n=Date.now(), _w=(_n>=Date.parse("2026-06-20T20:45:00-05:00") && _n<Date.parse("2026-06-21T04:00:00-05:00"));
-          var eff=new Date(_w ? Date.parse("2026-06-21T12:00:00-05:00") : _n - 4*36e5); isSun=(eff.getDay()===0);
+          /* HOLD-OPEN (2026-06-22) — keep the dedication up EVERY day from now through Sunday 2026-06-28; the
+             window closes at the Mon 2026-06-29 04:00 CDT rollover, after which it reverts to its normal
+             Sunday-only cadence. Self-reverts — no Monday action. The 4h offset matches the Daily's rollover. */
+          var _n=Date.now(), _hold=(_n < Date.parse("2026-06-29T04:00:00-05:00"));
+          var eff=new Date(_n - 4*36e5); isSun = _hold || (eff.getDay()===0);
         }
         if(isSun){ el.hidden=false; }
       }catch(e){}})();</script>
