@@ -293,8 +293,8 @@ is the quiet foundation under everything the week built.`,
     intro: "A new week, a new masterwork — <em>Dune.</em> Frank Herbert spent five years researching it after a 1957 trip over the shifting sands of the Oregon coast convinced him that an ecosystem could be the protagonist of a story. Twenty-three publishers rejected the manuscript before Chilton Books — better known for auto-repair manuals — said yes in 1965.",
     music:   { name:"Hans Zimmer",         work:"Dune (OST, 2021)",              why:"He went into Monument Valley to feel what Arrakis would sound like — then spent months inventing new instruments to say it.", link:"https://variety.com/2021/artisans/awards/hans-zimmer-dune-score-1235094486/" },
     film:    { name:"Denis Villeneuve",    work:"Dune: Part One (2021)",         why:"Before a single set was built, he and production designer Patrice Vermette flew over Jordan's Wadi Rum to build a visual bible — practical deserts over greenscreen, no sci-fi chrome.", link:"https://en.wikipedia.org/wiki/Dune_(2021_film)" },
-    science: { name:"Frank Herbert",       work:"the Oregon Dunes, 1957",        why:"A US government attempt to stabilize shifting coastal sands with poverty grass sparked five years of ecological research — and Arrakis.", link:"https://www.opb.org/article/2021/10/23/florence-oregon-movies-dune-frank-herbert-science-fiction-novels/" },
-    book:    { name:"Frank Herbert",       work:"Dune (1965)",                   why:"Rejected by 23 publishers. Won the inaugural Nebula and tied for the Hugo. The first science-fiction novel built around an ecosystem.", link:"https://en.wikipedia.org/wiki/Dune_(novel)" },
+    science: { label:"The Origin", name:"the Oregon Dunes, 1957", work:"the article he never finished", why:"A US government attempt to stabilize shifting coastal sands with poverty grass sparked five years of ecological research — and Arrakis. The whole week starts here.", link:"/references/oregon-dunes/" },
+    book:    { name:"Frank Herbert",       work:"Dune (1965)",                   why:"Rejected by 23 publishers. Won the inaugural Nebula and tied for the Hugo. The first science-fiction novel built around an ecosystem.", link:"/references/oregon-dunes/" },
     artist:  { name:"H. R. Giger",        work:"Jodorowsky's Dune (unbuilt)",   why:"Before Alien, Giger was designing for a 14-hour Dune film that never got made — and his visual DNA seeded a generation of sci-fi cinema.", link:"https://en.wikipedia.org/wiki/Jodorowsky%27s_Dune" },
     show:    { name:"Jodorowsky's Dune",  work:"documentary (2013)",            why:"The greatest film never made: a 2013 doc about how an unmade adaptation influenced Star Wars, Alien, and the look of modern sci-fi cinema.", link:"https://en.wikipedia.org/wiki/Jodorowsky%27s_Dune" }
   },
@@ -727,6 +727,12 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
   const SLOT_DISPLAY = { music:"Music", film:"Film", science:"Science",
                          book:"Book", artist:"Artist", show:"Show" };
 
+  /* Internal links (in-house Roots pages, "/…") open in the same tab so the
+     reader stays inside the journey; external works open in a new tab. */
+  const linkAttrs = href => /^\//.test(String(href || ""))
+    ? ``
+    : ` target="_blank" rel="noopener noreferrer"`;
+
   /* ── Shared: optional media slot (v2.1) ──────────────────────────────────
      Additive + backward-compatible: entries MAY carry img / imgAlt / imgCredit.
      Absent img → empty string → zero rendering change (degrade-gracefully contract).
@@ -745,7 +751,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
     const lbl  = e.label  || SLOT_DISPLAY[slot];
     const verb = SLOT_VERBS[slot] || "explore";
     const work = e.work ? ` — ${esc(e.work)}` : "";
-    return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">
+    return `<a class="card" href="${esc(e.link)}"${linkAttrs(e.link)}>
       <span class="chip">${esc(lbl)}</span>
       ${renderMedia(e)}
       <span class="k">${esc(e.name)}${work}</span>
@@ -783,7 +789,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
       .map(s => {
         const e = day[s];
         const n = e.label || SLOT_DISPLAY[s];
-        return `<a class="dly-also-chip" href="${esc(e.link)}" target="_blank" rel="noopener" title="${esc(e.why)}">${esc(n)}: ${esc(e.name)}</a>`;
+        return `<a class="dly-also-chip" href="${esc(e.link)}"${linkAttrs(e.link)} title="${esc(e.why)}">${esc(n)}: ${esc(e.name)}</a>`;
       }).join("");
 
     return `
@@ -792,7 +798,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
         <span class="dly-date">${esc(day.date)}</span>
       </div>
       ${day.intro ? `<p class="dly-intro">${day.intro}</p>` : ""}
-      <a class="dly-deepdive" href="${esc(spotSlot.link)}" target="_blank" rel="noopener noreferrer">
+      <a class="dly-deepdive" href="${esc(spotSlot.link)}"${linkAttrs(spotSlot.link)}>
         <span class="chip">${esc(lbl)}</span>
         ${renderMedia(spotSlot)}
         <span class="dly-dd-name">${esc(spotSlot.name)}${work}</span>
