@@ -118,7 +118,76 @@ Islamic scholarship that gave the Fremen their bones. It comes back to the warni
 whole book to deliver — not a hero's triumph but the planetologist Kynes's line: "No more terrible disaster could befall your people \
 than for them to fall into the hands of a Hero."`,
     thread:     `The world-building was the argument — Herbert built Arrakis so that the ecology \
-would force the politics, and the politics would prove the warning.`
+would force the politics, and the politics would prove the warning.`,
+    // ── THE SUNDAY STACK · Issue 002 — the Dune magazine layer. Synthesizes the
+    //    week's verified Daily content; the four features point into the in-house
+    //    Roots pages built for this week. Authored + reviewed 2026-06-22. ────────
+    magazine: {
+      name:    "The Sunday Stack",
+      issue:   "002",
+      tagline: "the week a desert planet became an argument",
+      letter: {
+        kicker: "The Editor's Letter",
+        dek:    "Twenty-three publishers passed. The auto-manual house said yes. And science fiction got its first ecosystem.",
+        paragraphs: [
+          `Here is what should stop you about <em>Dune</em>: the most radical thing in it is not the giant worm, or the psychic navigators, or the desert messiah. It is the dirt. In 1957 a working reporter named Frank Herbert went to the Oregon coast to write a small magazine piece about the government planting grass to stop walking sand dunes. He never finished the article — the subject kept getting bigger than the page — and what grew in its place, over five years and more of reading, was an entire planet. Twenty-three publishers turned the manuscript down. The house that finally said yes, Chilton Books, was best known for printing automobile repair manuals. In 1965 it published a novel that won the inaugural Nebula and tied for the Hugo, and invented, more or less single-handedly, the idea that an ecosystem could be the engine of a story.`,
+          `The discipline underneath it is the thing this house keeps. Herbert did not decorate a desert; he reverse-engineered one. The stillsuit is built backward from a real constraint — a sand surface near 350 kelvin, a body that bleeds water through skin and breath — so it reads less like a costume and more like a specification. The great dunes move by the same aeolian physics our own deserts obey. And the spice the whole galaxy runs on is the byproduct of a closed biological loop so tight that freeing the planet's water would end interstellar civilization. Nothing on Arrakis is arbitrary, because Herbert did not allow it to be. The ecology forces the politics: whoever controls the spice controls the universe, and the spice is downstream of the water, and the water is downstream of the worm.`,
+          `And then the turn most readers missed. Herbert did not write Paul Atreides as a hero. He wrote him as a warning — and was disturbed enough by the cheering that he wrote <em>Dune Messiah</em> to spell out the bill: the messiah wins, and a galaxy-spanning holy war is carried out in his name, with billions dead. "I had this idea," Herbert said, "that charismatic leaders ought to come with a warning label on their foreheads: 'May be dangerous to your health.'" He built the warning on a wheel he borrowed from the fourteenth-century historian Ibn Khaldun — the hardy desert people whose fierce cohesion topples a decadent empire and then hardens into the next one. The messiah who succeeds does not step off the wheel. He becomes its center.`,
+          `This is the creed stated in someone else's universe: the irresistible exists to deliver the good. The irresistible here is overwhelming — Denis Villeneuve's deserts shot practical in Jordan's Wadi Rum, Hans Zimmer's invented instruments and a vocal language built over more than a year, a spectacle that took two films and five hours to carry a single book. The good is an ecological argument made decades before the culture had the words for it, and a warning about the leaders we would follow gladly that has not aged a day. We ran the whole thing through seven days of the Daily. We do not improve on it. We carry it forward.`
+        ]
+      },
+      pullQuote: {
+        text: `No more terrible disaster could befall your people than for them to fall into the hands of a Hero.`,
+        cite: "— Pardot Kynes, in Frank Herbert's Dune"
+      },
+      features: [{
+        kicker: "The Origin",
+        title:  "Poverty Grass",
+        href:   "/references/oregon-dunes/",
+        cta:    "Walk the moving sands →",
+        blurb: [
+          `It began as an article that was never written. Herbert went to the Oregon dunes near Florence in 1957 to report on a government project planting beachgrass to pin down sand that was burying roads. The sand was a system, and the system was too big for a magazine.`,
+          `What survived was the question underneath: what does a living landscape do when you try to engineer it? Twenty-three publishers passed. A car-manual house took the chance. The article died so the planet could live.`
+        ]
+      },
+      {
+        kicker: "The Planet",
+        title:  "The Stillsuit",
+        href:   "/references/stillsuit/",
+        cta:    "Into the thermodynamics →",
+        blurb: [
+          `Arrakis was reverse-engineered from a constraint. With a sand surface near 350 kelvin and a body losing water through sweat and breath, the stillsuit is the device that answers the arithmetic — capture nearly every drop, condense it, return it.`,
+          `It is fictional engineering held to an engineer's standard, and that is exactly why the planet convinces. Nothing on Arrakis is allowed to be arbitrary. The desert is not the setting. It is the argument.`
+        ]
+      },
+      {
+        kicker: "The Loop",
+        title:  "Shai-Hulud",
+        href:   "/references/shai-hulud/",
+        cta:    "Follow the closed loop →",
+        blurb: [
+          `The sandtrout seal the planet's water underground; the dry desert grows the sandworms; the worms make the spice; the spice makes the empire — which survives only as long as the worms do. A closed ring where pulling any thread unravels the whole.`,
+          `Readers have always read spice as oil, and the reading is not laid on from outside. In <em>Dune Genesis</em> (1980), Herbert set the water scarcity of Arrakis as an analog of oil and likened the empire's great trading combine to OPEC. The worm is fiction; the grammar is real ecology, and real economics.`
+        ]
+      },
+      {
+        kicker: "The Warning",
+        title:  "May Be Dangerous to Your Health",
+        href:   "/references/the-warning/",
+        cta:    "Read the warning label →",
+        blurb: [
+          `Paul was never meant to be admired without a shudder. Herbert wrote him as a cautionary tale, and wrote a sequel to argue with the readers who cheered. The whole apparatus — worm, spice, prophecy — exists to make one warning land.`,
+          `Even the name carries it: Muad'Dib sits close to the Arabic for "teacher." The man the desert crowns is, by his very title, an educator — and what he finally teaches a people is how to wage a holy war across the stars.`
+        ]
+      }],
+      coda: {
+        title: "The world-building was the argument",
+        paragraphs: [
+          `That is the whole of it. Herbert built Arrakis so the ecology would force the politics, and the politics would prove the warning. The worm is not a monster and the desert is not a backdrop; they are load-bearing, and what they hold up is a single sentence — that no more terrible disaster could befall a people than to fall into the hands of a Hero.`,
+          `The best stories smuggle the good inside the irresistible. <em>Dune</em> is a desert adventure that is also an ecological treatise and a warning about power we have still not learned to heed — and none of that was diminished by being wrapped in spectacle. That was the whole point. Knowledge is free, forever. See you next Sunday.`
+        ]
+      }
+    }
   },
   {
     weekStart:  "TBD",
@@ -293,8 +362,8 @@ is the quiet foundation under everything the week built.`,
     intro: "A new week, a new masterwork — <em>Dune.</em> Frank Herbert spent five years researching it after a 1957 trip over the shifting sands of the Oregon coast convinced him that an ecosystem could be the protagonist of a story. Twenty-three publishers rejected the manuscript before Chilton Books — better known for auto-repair manuals — said yes in 1965.",
     music:   { name:"Hans Zimmer",         work:"Dune (OST, 2021)",              why:"He went into Monument Valley to feel what Arrakis would sound like — then spent months inventing new instruments to say it.", link:"https://variety.com/2021/artisans/awards/hans-zimmer-dune-score-1235094486/" },
     film:    { name:"Denis Villeneuve",    work:"Dune: Part One (2021)",         why:"Before a single set was built, he and production designer Patrice Vermette flew over Jordan's Wadi Rum to build a visual bible — practical deserts over greenscreen, no sci-fi chrome.", link:"https://en.wikipedia.org/wiki/Dune_(2021_film)" },
-    science: { name:"Frank Herbert",       work:"the Oregon Dunes, 1957",        why:"A US government attempt to stabilize shifting coastal sands with poverty grass sparked five years of ecological research — and Arrakis.", link:"https://www.opb.org/article/2021/10/23/florence-oregon-movies-dune-frank-herbert-science-fiction-novels/" },
-    book:    { name:"Frank Herbert",       work:"Dune (1965)",                   why:"Rejected by 23 publishers. Won the inaugural Nebula and tied for the Hugo. The first science-fiction novel built around an ecosystem.", link:"https://en.wikipedia.org/wiki/Dune_(novel)" },
+    science: { label:"The Origin", name:"the Oregon Dunes, 1957", work:"the article he never finished", why:"A US government attempt to stabilize shifting coastal sands with poverty grass sparked five years of ecological research — and Arrakis. The whole week starts here.", link:"/references/oregon-dunes/" },
+    book:    { name:"Frank Herbert",       work:"Dune (1965)",                   why:"Rejected by 23 publishers. Won the inaugural Nebula and tied for the Hugo. The first science-fiction novel built around an ecosystem.", link:"/references/oregon-dunes/" },
     artist:  { name:"H. R. Giger",        work:"Jodorowsky's Dune (unbuilt)",   why:"Before Alien, Giger was designing for a 14-hour Dune film that never got made — and his visual DNA seeded a generation of sci-fi cinema.", link:"https://en.wikipedia.org/wiki/Jodorowsky%27s_Dune" },
     show:    { name:"Jodorowsky's Dune",  work:"documentary (2013)",            why:"The greatest film never made: a 2013 doc about how an unmade adaptation influenced Star Wars, Alien, and the look of modern sci-fi cinema.", link:"https://en.wikipedia.org/wiki/Jodorowsky%27s_Dune" }
   },
@@ -334,9 +403,9 @@ It is the argument.`,
     intro: "Dune week, Wednesday — <em>the planet.</em> Arrakis was not invented at a desk. Herbert built its ecology from real desert science: aeolian physics, sand-dune stabilization research, and the thermodynamics of water conservation. The planet is the argument.",
     music:   { label:"The Moving Sands",       name:"barchan dunes",            work:"aeolian science",                 why:"Crescent-shaped barchan dunes — formed by wind blowing from one direction — can migrate more than 100 metres a year. Arrakis's great ergs follow the same physics.", link:"https://en.wikipedia.org/wiki/Dune" },
     film:    { label:"Wadi Rum as Arrakis",    name:"Denis Villeneuve",         work:"Jordan location shoot",           why:"He and Vermette flew over Wadi Rum in 2018; the deep ochres and scale of Jordan's valley became the template — practical plates that VFX extended, not replaced.", link:"https://www.moviemaker.com/dune-production-designer-patrice-vermette-denis-villeneuve/" },
-    science: { label:"The Stillsuit",          name:"Herbert's water engineering", work:"evaporation thermodynamics",  why:"With Arrakis peak sand-surface temperatures reaching ~350 K (~77°C), water loss by evaporation is catastrophic. The stillsuit is a real engineering problem: capture every drop of sweat and breath through heat-exchange filtration. Herbert knew the numbers.", link:"https://www.cornellsun.com/article/2024/04/the-science-behind-arrakis-understanding-the-climate-and-ecosystem-of-dune" },
+    science: { label:"The Stillsuit",          name:"Herbert's water engineering", work:"evaporation thermodynamics",  why:"With Arrakis peak sand-surface temperatures reaching ~350 K (~77°C), water loss by evaporation is catastrophic. The stillsuit is a real engineering problem: capture every drop of sweat and breath through heat-exchange filtration. Herbert knew the numbers.", link:"/references/stillsuit/" },
     book:    { label:"The First Eco-Novel",    name:"Frank Herbert",            work:"Dune (1965)",                    why:"Published five years before the first Earth Day, Dune treated a planet's ecology as the load-bearing structure of civilization — the first major SF novel to do so.", link:"https://daily.jstor.org/the-ecological-prescience-of-dune/" },
-    artist:  { label:"The Stabilizers",        name:"US Soil Conservation Service", work:"Oregon Dunes, 1950s",       why:"Government researchers planting European beach grass to anchor shifting coastal dunes handed Herbert his central metaphor: humans engineering a landscape that fights back.", link:"https://www.opb.org/article/2021/10/23/florence-oregon-movies-dune-frank-herbert-science-fiction-novels/" },
+    artist:  { label:"The Stabilizers",        name:"US Soil Conservation Service", work:"Oregon Dunes, 1950s",       why:"Government researchers planting European beach grass to anchor shifting coastal dunes handed Herbert his central metaphor: humans engineering a landscape that fights back.", link:"/references/oregon-dunes/" },
     show:    { label:"Terraforming as Science", name:"NASA study, 1976",        work:"On the Habitability of Mars",    why:"The year Herbert published Children of Dune, NASA formally studied planetary ecosynthesis — the same problem Kynes and Leto II grapple with. Frontier science then, frontier science now. (Note: Mars terraforming remains theoretical.)", link:"https://en.wikipedia.org/wiki/Terraforming" }
   },
   {
@@ -355,7 +424,7 @@ logic to give Shai-Hulud its mythic weight.`,
     intro: "Dune week, Thursday — <em>the worm and the spice.</em> Shai-Hulud is not a monster. It is a closed ecological loop: sandtrout seal the planet's water underground, sandworms metabolize that pressure into melange, and melange makes interstellar civilization possible. Pull one thread and the universe unravels.",
     music:   { label:"The Sound of the Worm",  name:"Hans Zimmer",              work:"\"Ripple in the Sand\" (OST)",   why:"Low-frequency drones built from new synthesizer modules — you feel the worm before you see it. Physics as score: infrasound that moves through bodies the way a sandworm moves through dune.", link:"https://en.wikipedia.org/wiki/Music_of_Dune_(2021_film)" },
     film:    { label:"The Ring Segments",      name:"Patrice Vermette / VFX",   work:"sandworm design",               why:"The worm's body is arranged in ring segments — a nod to annelid biology — but its forward motion uses rectilinear locomotion closer to a legless lizard hunting by sand vibration.", link:"https://www.uc.edu/news/articles/2024/03/uc-biologist-sheds-light-on-biology-of-dunes-sandworms.html" },
-    science: { label:"The Lifecycle",         name:"Frank Herbert",             work:"sandtrout → sandworm ecology", why:"Sandtrout surround underground water, keeping the desert arid. They metamorphose into sandworms that produce spice as a metabolic byproduct. A fictional closed loop that mirrors real nutrient cycles — mole crickets and cyanobacteria have been offered as a loose real-world analog.", link:"https://zenodo.org/records/10521778" },
+    science: { label:"The Lifecycle",         name:"Frank Herbert",             work:"sandtrout → sandworm ecology", why:"Sandtrout surround underground water, keeping the desert arid. They metamorphose into sandworms that produce spice as a metabolic byproduct. A fictional closed loop that mirrors real nutrient cycles — mole crickets and cyanobacteria have been offered as a loose real-world analog.", link:"/references/shai-hulud/" },
     book:    { label:"The Oil Read",           name:"critics vs. Herbert",      work:"melange as resource metaphor", why:"Many readers see spice-as-oil — a scarce colonial resource extracted from a desert people. Herbert made the parallel explicit in Dune Genesis (1980): \"The scarce water of Dune is an exact analog of oil scarcity. CHOAM is OPEC.\" He built it in deliberately, from the start.", link:"https://daily.jstor.org/the-ecological-prescience-of-dune/" },
     artist:  { label:"The Dragon Lineage",    name:"Frank Herbert / Beowulf",   work:"the fire-drake archetype",     why:"European dragon mythology — armored, territorial, hoarding the planet's treasure — echoes beneath Shai-Hulud's ecological logic, giving the worm its mythic weight. (A reading critics draw; Herbert never spelled it out.)", link:"https://en.wikipedia.org/wiki/Sandworm_(Dune)" },
     show:    { label:"Riding the Worm",        name:"the Fremen technique",     work:"thumper and maker hooks",      why:"Hooking a ring segment open to expose flesh to abrasive sand, then surfing the turn: a fictional survival technique built on actual knowledge of how large animals respond to irritant pressure.", link:"https://dune.fandom.com/wiki/Sandworm" }
@@ -377,8 +446,8 @@ thesis.`,
     music:   { label:"The Score's Ambivalence", name:"Hans Zimmer",             work:"\"Paul's Dream\" (OST)",         why:"The track that introduces Paul's prescient visions is not triumphant — it's unsettled, built on female voices that sound like prophecy as pressure, not gift.", link:"https://en.wikipedia.org/wiki/Music_of_Dune_(2021_film)" },
     film:    { label:"The Villeneuve Shift",   name:"Dune: Part Two (2024)",     work:"Paul as unreliable center",     why:"Where Part One holds Paul as a possible hero, Part Two reframes: the camera watches Chani's doubt, not Paul's certainty. The film earns its place closer to Herbert's intent than any prior adaptation.", link:"https://nerdist.com/article/dune-part-two-paul-atreides-character-framing-portrayal-close-to-frank-herbert-novels-not-a-hero/" },
     science: { label:"The Charisma Problem",   name:"Herbert's warning label",   work:"Dune Messiah (1969)",           why:"\"I wrote the Dune series because I had this idea that charismatic leaders ought to come with a warning label on their forehead: 'May be dangerous to your health.'\" — Frank Herbert.", link:"https://christandpopculture.com/dune-and-disaster-or-why-charismatic-leaders-should-come-with-a-warning-label/" },
-    book:    { label:"The Villain Arc",       name:"Frank Herbert",              work:"Dune → Dune Messiah arc",       why:"Book one ends with Paul's military victory and the beginning of a galactic jihad. Herbert said that readers rooted for it — so he wrote the sequel to spell out what they had cheered for.", link:"https://en.wikipedia.org/wiki/Dune_Messiah" },
-    artist:  { label:"The Trapped Prescient", name:"Ibn Khaldun (1332–1406)",   work:"cyclical theory of government", why:"The 14th-century Arab historian mapped the cycle of desert tribes overthrowing decadent empires — Herbert had read him, and built Paul's arc on that wheel. The messiah who succeeds becomes the next tyrant.", link:"https://en.wikipedia.org/wiki/Ibn_Khaldun" },
+    book:    { label:"The Villain Arc",       name:"Frank Herbert",              work:"Dune → Dune Messiah arc",       why:"Book one ends with Paul's military victory and the beginning of a galactic jihad. Herbert said that readers rooted for it — so he wrote the sequel to spell out what they had cheered for.", link:"/references/the-warning/" },
+    artist:  { label:"The Trapped Prescient", name:"Ibn Khaldun (1332–1406)",   work:"cyclical theory of government", why:"The 14th-century Arab historian mapped the cycle of desert tribes overthrowing decadent empires — Herbert had read him, and built Paul's arc on that wheel. The messiah who succeeds becomes the next tyrant.", link:"/references/the-warning/" },
     show:    { label:"Cannot Transcend Transcendence", name:"Norman Spinrad",   work:"critical reading of Paul",      why:"Spinrad's formulation: Paul is trapped in his own myth and \"cannot achieve the grace of the Bodhisattva.\" He wants to stop the jihad. He cannot. That is the tragedy — not the loss.", link:"https://xenoswarm.wordpress.com/2015/12/22/dune-messiah-as-anti-hero/" }
   },
   {
@@ -397,7 +466,7 @@ scholarship a visual scale to match.`,
     intro: "Dune week, Saturday — <em>the foundations.</em> Herbert spent years reading the Qur'an and studying Arab history. The Fremen are not a single culture pasted on a desert — they are a structural synthesis of Bedouin, Sufi, and Zendiq traditions, built into the novel's bones.",
     music:   { label:"The Fremen Tongue",     name:"David Peterson",            work:"Chakobsa language (2021 film)", why:"The linguist who built Dothraki and High Valyrian for Game of Thrones rendered the Fremen's Chakobsa as a fully-fledged constructed language rooted in Herbert's Arabic-influenced vocabulary.", link:"https://winteriscoming.net/posts/the-guy-who-made-dothraki-for-game-of-thrones-crafted-the-fremen-language-for-dune-01hqrjezfkxf" },
     film:    { label:"The Photograph Never Taken", name:"Greig Fraser ASC ACS", work:"Dune: Part One (2021)",        why:"Fraser won the 2022 Oscar for Best Cinematography on Part One; Part Two was shot entirely FOR IMAX (1.43:1) on IMAX-certified ARRI ALEXA 65 digital cameras — large-format and spherical, not IMAX film.", link:"https://britishcinematographer.co.uk/greig-fraser-asc-acs-dune-part-two/" },
-    science: { label:"Muad'Dib, the Teacher", name:"Arabic etymology",          work:"the name Herbert chose",       why:"Paul's Fremen name is nearly identical to the Arabic mu'addib — 'educator,' 'he who teaches good manners.' Herbert, who studied Arabic and Islamic philosophy, chose it deliberately.", link:"https://baheyeldin.com/literature/arabic-and-islamic-themes-in-frank-herberts-dune.html" },
+    science: { label:"Muad'Dib, the Teacher", name:"Arabic etymology",          work:"the name Herbert chose",       why:"Paul's Fremen name is nearly identical to the Arabic mu'addib — 'educator,' 'he who teaches good manners.' Herbert, who studied Arabic and Islamic philosophy, chose it deliberately. The teacher's final lesson is a holy war.", link:"/references/the-warning/" },
     book:    { label:"The ZenSunni Faith",    name:"Frank Herbert",             work:"the Fremen religion",          why:"Herbert built the Fremen's ZenSunni faith as a synthesis of Zen Buddhism and Sunni Islam — not caricature, but a reasoned projection of what a people carrying those traditions across ten thousand years of diaspora might practice.", link:"https://en.wikipedia.org/wiki/Dune_(novel)" },
     artist:  { label:"Lawrence of Arabia",    name:"David Lean (1962)",          work:"cinematic source",            why:"David Lean's 1962 film has been widely identified as a likely influence — a Western outsider among desert people, adopted, mythologized, and ultimately an engine of violence he could not fully control. (Herbert cited T. E. Lawrence the man; critics drew the film parallel.) Paul's arc rhymes.", link:"https://en.wikipedia.org/wiki/Lawrence_of_Arabia_(film)" },
     show:    { label:"The Jihad as Anti-Gift", name:"Herbert on colonialism",    work:"the Fremen's stolen narrative", why:"The Fremen are the people with ancient knowledge of their planet. The outsider arrives, is adopted, becomes their messiah, and leads them into a war that serves his purposes. Herbert wanted you to notice that structure — and to be uncomfortable.", link:"https://www.slashfilm.com/638538/the-oil-must-flow-how-does-denis-villeneuves-dune-deal-with-the-books-middle-east-inspirations/" }
@@ -727,6 +796,12 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
   const SLOT_DISPLAY = { music:"Music", film:"Film", science:"Science",
                          book:"Book", artist:"Artist", show:"Show" };
 
+  /* Internal links (in-house Roots pages, "/…") open in the same tab so the
+     reader stays inside the journey; external works open in a new tab. */
+  const linkAttrs = href => /^\//.test(String(href || ""))
+    ? ``
+    : ` target="_blank" rel="noopener noreferrer"`;
+
   /* ── Shared: optional media slot (v2.1) ──────────────────────────────────
      Additive + backward-compatible: entries MAY carry img / imgAlt / imgCredit.
      Absent img → empty string → zero rendering change (degrade-gracefully contract).
@@ -745,7 +820,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
     const lbl  = e.label  || SLOT_DISPLAY[slot];
     const verb = SLOT_VERBS[slot] || "explore";
     const work = e.work ? ` — ${esc(e.work)}` : "";
-    return `<a class="card" href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">
+    return `<a class="card" href="${esc(e.link)}"${linkAttrs(e.link)}>
       <span class="chip">${esc(lbl)}</span>
       ${renderMedia(e)}
       <span class="k">${esc(e.name)}${work}</span>
@@ -783,7 +858,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
       .map(s => {
         const e = day[s];
         const n = e.label || SLOT_DISPLAY[s];
-        return `<a class="dly-also-chip" href="${esc(e.link)}" target="_blank" rel="noopener" title="${esc(e.why)}">${esc(n)}: ${esc(e.name)}</a>`;
+        return `<a class="dly-also-chip" href="${esc(e.link)}"${linkAttrs(e.link)} title="${esc(e.why)}">${esc(n)}: ${esc(e.name)}</a>`;
       }).join("");
 
     return `
@@ -792,7 +867,7 @@ in American broadcasting. The Vietnam War is his most contested subject and, arg
         <span class="dly-date">${esc(day.date)}</span>
       </div>
       ${day.intro ? `<p class="dly-intro">${day.intro}</p>` : ""}
-      <a class="dly-deepdive" href="${esc(spotSlot.link)}" target="_blank" rel="noopener noreferrer">
+      <a class="dly-deepdive" href="${esc(spotSlot.link)}"${linkAttrs(spotSlot.link)}>
         <span class="chip">${esc(lbl)}</span>
         ${renderMedia(spotSlot)}
         <span class="dly-dd-name">${esc(spotSlot.name)}${work}</span>
